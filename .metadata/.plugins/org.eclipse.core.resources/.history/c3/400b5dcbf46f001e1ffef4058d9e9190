@@ -1,0 +1,14 @@
+package testui;
+
+import javax.swing.JPanel;
+
+public class QuanLyBanHang extends JPanel {
+
+	/**
+	 * Create the panel.
+	 */
+	public QuanLyBanHang() {
+
+	}
+
+}
