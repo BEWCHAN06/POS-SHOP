@@ -458,7 +458,7 @@ public class uiChinh {
 		pnlListMenu.setLayout(gl_pnlListMenu);
 		pnlMenu.setLayout(gl_pnlMenu);
 		frame.getContentPane().setLayout(groupLayout);
-		frame.setBounds(100, 100, 1215, 730);
+		frame.setBounds(100, 100, 1203, 730);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }

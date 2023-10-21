@@ -90,7 +90,9 @@ public class uiChinh {
 					.addComponent(mainPanel, GroupLayout.PREFERRED_SIZE, 659, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap())
 				.addComponent(pnlMenu, GroupLayout.DEFAULT_SIZE, 691, Short.MAX_VALUE)
-				.addComponent(qlbh_1, GroupLayout.DEFAULT_SIZE, 691, Short.MAX_VALUE)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addComponent(qlbh_1, GroupLayout.DEFAULT_SIZE, 680, Short.MAX_VALUE)
+					.addContainerGap())
 		);
 		mainPanel.setLayout(new CardLayout(0, 0));
 		
