@@ -1,3 +1,7 @@
+### CÔNG NGHỆ
+LOADING
+### CONNECT DATABASE
+LOADING
 ### GD MANG HINH
 - GD LOGIN 
 <img src="POS SHOP/GD/HAGD/login.png" alt="">
