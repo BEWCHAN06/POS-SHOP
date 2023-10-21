@@ -1,0 +1,130 @@
+package testui;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.BorderLayout;
+import java.awt.Dialog.ModalExclusionType;
+import javax.swing.JPanel;
+import javax.swing.BoxLayout;
+import java.awt.CardLayout;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import java.awt.Color;
+import javax.swing.JButton;
+import java.awt.Button;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import java.awt.Font;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import javax.swing.ImageIcon;
+
+public class banhang {
+
+	private JFrame frame;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					banhang window = new banhang();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public banhang() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.getContentPane().setBackground(new Color(255, 255, 255));
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(153, 255, 153));
+		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 210, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(934, Short.MAX_VALUE))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 661, Short.MAX_VALUE)
+		);
+		
+		JPanel pnlListMenu = new JPanel();
+		pnlListMenu.setBackground(new Color(255, 255, 255));
+		GroupLayout gl_panel = new GroupLayout(panel);
+		gl_panel.setHorizontalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGap(5)
+					.addComponent(pnlListMenu, GroupLayout.PREFERRED_SIZE, 197, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
+		gl_panel.setVerticalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+					.addContainerGap(85, Short.MAX_VALUE)
+					.addComponent(pnlListMenu, GroupLayout.PREFERRED_SIZE, 560, GroupLayout.PREFERRED_SIZE)
+					.addGap(6))
+		);
+		
+		JPanel btnBanHang = new JPanel();
+		GroupLayout gl_pnlListMenu = new GroupLayout(pnlListMenu);
+		gl_pnlListMenu.setHorizontalGroup(
+			gl_pnlListMenu.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pnlListMenu.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(btnBanHang, GroupLayout.PREFERRED_SIZE, 181, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		gl_pnlListMenu.setVerticalGroup(
+			gl_pnlListMenu.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pnlListMenu.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(btnBanHang, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(485, Short.MAX_VALUE))
+		);
+		GridBagLayout gbl_btnBanHang = new GridBagLayout();
+		gbl_btnBanHang.columnWidths = new int[]{0, 0, 0, 0, 0};
+		gbl_btnBanHang.rowHeights = new int[]{0, 0, 0};
+		gbl_btnBanHang.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_btnBanHang.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		btnBanHang.setLayout(gbl_btnBanHang);
+		
+		JLabel lblBanHang = new JLabel("Bán Hàng");
+		GridBagConstraints gbc_lblBanHang = new GridBagConstraints();
+		gbc_lblBanHang.insets = new Insets(0, 0, 0, 5);
+		gbc_lblBanHang.gridx = 2;
+		gbc_lblBanHang.gridy = 1;
+		btnBanHang.add(lblBanHang, gbc_lblBanHang);
+		lblBanHang.setFont(new Font("Arial", Font.BOLD, 22));
+		pnlListMenu.setLayout(gl_pnlListMenu);
+		panel.setLayout(gl_panel);
+		frame.getContentPane().setLayout(groupLayout);
+		frame.setBounds(100, 100, 1160, 700);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+}
