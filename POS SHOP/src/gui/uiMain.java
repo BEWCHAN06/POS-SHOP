@@ -79,8 +79,8 @@ public class uiMain {
 				.addGroup(groupLayout.createSequentialGroup()
 					.addComponent(pnlMenu, GroupLayout.PREFERRED_SIZE, 243, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(qlbh_1, GroupLayout.PREFERRED_SIZE, 942, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
+//					.addComponent(qlbh_1, GroupLayout.PREFERRED_SIZE, 942, GroupLayout.PREFERRED_SIZE)
+//					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(mainPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addContainerGap())
 		);
@@ -90,7 +90,7 @@ public class uiMain {
 					.addComponent(mainPanel, GroupLayout.PREFERRED_SIZE, 659, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap())
 				.addComponent(pnlMenu, GroupLayout.DEFAULT_SIZE, 691, Short.MAX_VALUE)
-				.addComponent(qlbh_1, GroupLayout.DEFAULT_SIZE, 691, Short.MAX_VALUE)
+//				.addComponent(qlbh_1, GroupLayout.DEFAULT_SIZE, 691, Short.MAX_VALUE)
 		);
 		mainPanel.setLayout(new CardLayout(0, 0));
 		
@@ -143,7 +143,7 @@ public class uiMain {
 		);
         mainPanel.removeAll();
         mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
-		
+		///chuyển giao diện
 		JPanel btnBanHang = new JPanel();
 		btnBanHang.addMouseListener(new MouseAdapter() {
 			@Override
@@ -152,12 +152,23 @@ public class uiMain {
                 mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
                 mainPanel.add(qlbh, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
                 mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
+                
 			}
 		});
 		btnBanHang.setBackground(new Color(34, 139, 34));
 		
 		JPanel btnSanPham = new JPanel();
+		btnSanPham.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				QuanLySanPham qlsp = new QuanLySanPham();
+                mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
+                mainPanel.add(qlsp, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
+                mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
+			}
+		});
 		btnSanPham.setBackground(new Color(144, 238, 144));
+		
 		
 		JLabel lblSanPham = new JLabel("Sản Phẩm");
 		lblSanPham.setForeground(Color.WHITE);
@@ -188,6 +199,15 @@ public class uiMain {
 		btnSanPham.setLayout(gl_btnSanPham);
 		
 		JPanel btnHoaDon = new JPanel();
+		btnHoaDon.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				QuanLyHoaDon qlhd = new QuanLyHoaDon();
+				mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
+                mainPanel.add(qlhd, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
+                mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
+			}
+		});
 		btnHoaDon.setBackground(new Color(144, 238, 144));
 		
 		JLabel iconSanPham_1 = new JLabel("");
@@ -221,6 +241,15 @@ public class uiMain {
 		btnHoaDon.setLayout(gl_btnHoaDon);
 		
 		JPanel btnKhuyenMai = new JPanel();
+		btnKhuyenMai.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				QuanLyKhuyenMai qlkm = new QuanLyKhuyenMai();
+				mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
+                mainPanel.add(qlkm, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
+                mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
+			}
+		});
 		btnKhuyenMai.setBackground(new Color(144, 238, 144));
 		
 		JLabel iconSanPham_1_1 = new JLabel("");
@@ -256,6 +285,15 @@ public class uiMain {
 		btnKhuyenMai.setLayout(gl_btnKhuyenMai);
 		
 		JPanel btnNhanVien = new JPanel();
+		btnNhanVien.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				QuanLyNhanVien qlnv = new QuanLyNhanVien();
+				mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
+                mainPanel.add(qlnv, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
+                mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
+			}
+		});
 		btnNhanVien.setBackground(new Color(144, 238, 144));
 		
 		JLabel iconNhanVien = new JLabel("");
@@ -287,6 +325,15 @@ public class uiMain {
 		btnNhanVien.setLayout(gl_btnNhanVien);
 		
 		JPanel btnKhachHang = new JPanel();
+		btnKhachHang.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				QuanLyKhachHang qlkh = new QuanLyKhachHang();
+				mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
+                mainPanel.add(qlkh, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
+                mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
+			}
+		});
 		btnKhachHang.setBackground(new Color(144, 238, 144));
 		
 		JLabel iconKhachHang = new JLabel("");
@@ -318,6 +365,15 @@ public class uiMain {
 		btnKhachHang.setLayout(gl_btnKhachHang);
 		
 		JPanel btnThongKe = new JPanel();
+		btnThongKe.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				QuanLyThongKe qlsp = new QuanLyThongKe();
+				mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
+                mainPanel.add(qlsp, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
+                mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
+			}
+		});
 		btnThongKe.setBackground(new Color(144, 238, 144));
 		
 		JLabel iconThongKe = new JLabel("");
@@ -351,6 +407,12 @@ public class uiMain {
 		btnThongKe.setLayout(gl_btnThongKe);
 		
 		JPanel btnDangXuat = new JPanel();
+		btnDangXuat.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.exit(0);
+			}
+		});
 		btnDangXuat.setBackground(new Color(255, 0, 0));
 		
 		JLabel iconDangXuat = new JLabel("");
