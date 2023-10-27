@@ -13,6 +13,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
 
 public class BanHang extends JPanel {
 	public JPanel mainPanel = new JPanel();
@@ -32,12 +34,14 @@ public class BanHang extends JPanel {
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(mainPanel, GroupLayout.PREFERRED_SIZE, 662, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+				.addComponent(mainPanel, GroupLayout.PREFERRED_SIZE, 664, Short.MAX_VALUE)
 		);
 		setLayout(groupLayout);
 		QuanLyBanHang qlbh = new QuanLyBanHang();
+		qlbh.btnTraHang.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
         mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
         mainPanel.setLayout(new CardLayout(0, 0));
         mainPanel.add(qlbh, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
