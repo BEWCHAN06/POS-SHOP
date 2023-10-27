@@ -36,7 +36,7 @@ import javax.swing.border.LineBorder;
 public class uiMain {
 
 	private JFrame frame;
-
+	public JPanel mainPanel = new JPanel();
 	/**
 	 * Launch the application.
 	 */
@@ -148,7 +148,7 @@ public class uiMain {
 		btnBanHang.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				QuanLyBanHang qlbh = new QuanLyBanHang();
+				BanHang qlbh = new BanHang();
                 mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
                 mainPanel.add(qlbh, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
                 mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
@@ -161,7 +161,7 @@ public class uiMain {
 		btnSanPham.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				QuanLySanPham qlsp = new QuanLySanPham();
+				SanPham qlsp = new SanPham();
                 mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
                 mainPanel.add(qlsp, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
                 mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới

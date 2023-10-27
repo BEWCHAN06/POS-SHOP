@@ -2,4 +2,6 @@
 <qualifiedTypeNameHistroy>
     <fullyQualifiedTypeName name="java.awt.Dimension"/>
     <fullyQualifiedTypeName name="java.time.Period"/>
+    <fullyQualifiedTypeName name="gui.QuanLyTraHang"/>
+    <fullyQualifiedTypeName name="gui.QuanLySanPham"/>
 </qualifiedTypeNameHistroy>

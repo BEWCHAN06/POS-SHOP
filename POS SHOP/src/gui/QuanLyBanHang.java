@@ -22,12 +22,16 @@ import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JTextArea;
+
+import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.ScrollPane;
 import java.awt.CardLayout;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class QuanLyBanHang extends JPanel {
 	private JTextField txtTienKhachDua;
@@ -36,6 +40,7 @@ public class QuanLyBanHang extends JPanel {
 	private JTextField txtSoLuong;
 	private JTable tblDSSanPham;
 	private JTextField textField;
+	public JButton btnTraHang = new JButton("Trả Hàng");
 
 	/**
 	 * Create the panel.
@@ -61,11 +66,23 @@ public class QuanLyBanHang extends JPanel {
 		JPanel pnlDanhSachSanPham = new JPanel();
 		pnlDanhSachSanPham.setBorder(new CompoundBorder(new CompoundBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2), "Danh S\u00E1ch S\u1EA3n Ph\u1EA9m", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)), null), null));
 		
-		JButton btnNewButton_5 = new JButton("Trả Hàng");
-		btnNewButton_5.setIcon(new ImageIcon(QuanLyBanHang.class.getResource("/icon/doitra2.png")));
-		btnNewButton_5.setForeground(new Color(255, 255, 255));
-		btnNewButton_5.setBackground(new Color(50, 205, 50));
-		btnNewButton_5.setFont(new Font("Arial", Font.BOLD, 14));
+//		JButton btnTraHang = new JButton("Trả Hàng");
+		
+//		QuanLyTraHang qlth = new QuanLyTraHang();
+//		btnTraHang.addMouseListener(new MouseAdapter() {
+//			@Override
+//			public void mouseClicked(MouseEvent e) {
+//				BanHang bh = new BanHang();
+//				QuanLyTraHang qlth = new QuanLyTraHang();
+//				bh.mainPanel.removeAll();
+//				bh.mainPanel.add(qlth, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
+//				bh.mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
+//			}
+//		});
+		btnTraHang.setIcon(new ImageIcon(QuanLyBanHang.class.getResource("/icon/doitra2.png")));
+		btnTraHang.setForeground(new Color(255, 255, 255));
+		btnTraHang.setBackground(new Color(50, 205, 50));
+		btnTraHang.setFont(new Font("Arial", Font.BOLD, 14));
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -88,7 +105,7 @@ public class QuanLyBanHang extends JPanel {
 							.addContainerGap())
 						.addGroup(groupLayout.createSequentialGroup()
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnNewButton_5)
+							.addComponent(btnTraHang)
 							.addGap(18))))
 		);
 		groupLayout.setVerticalGroup(
@@ -105,7 +122,7 @@ public class QuanLyBanHang extends JPanel {
 							.addGap(4)
 							.addComponent(pnlDanhSachSanPham, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE))
 						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(btnNewButton_5)
+							.addComponent(btnTraHang)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(pnlHoaDon, GroupLayout.DEFAULT_SIZE, 616, Short.MAX_VALUE)))
 					.addContainerGap())

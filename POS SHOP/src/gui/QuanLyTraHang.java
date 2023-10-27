@@ -22,12 +22,16 @@ import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JTextArea;
+
+import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.ScrollPane;
 import java.awt.CardLayout;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class QuanLyTraHang extends JPanel {
 	private JTextField txtTienKhachDua;
@@ -39,7 +43,7 @@ public class QuanLyTraHang extends JPanel {
 	private JTable table;
 	private JTable tblHoaDonTra;
 	private JTextField textField_2;
-
+	public JButton btnBanHang = new JButton("Bán Hàng");
 	/**
 	 * Create the panel.
 	 */
@@ -63,16 +67,12 @@ public class QuanLyTraHang extends JPanel {
 		
 		JPanel pnlDanhSachSanPham = new JPanel();
 		pnlDanhSachSanPham.setBorder(new CompoundBorder(new CompoundBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2), "Danh S\u00E1ch S\u1EA3n Ph\u1EA9m", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)), null), null));
-		
-		JButton btnNewButton_5 = new JButton("Bán Hàng");
-		btnNewButton_5.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnNewButton_5.setIcon(new ImageIcon(QuanLyTraHang.class.getResource("/icon/banhang.png")));
-		btnNewButton_5.setForeground(new Color(255, 255, 255));
-		btnNewButton_5.setBackground(new Color(50, 205, 50));
-		btnNewButton_5.setFont(new Font("Arial", Font.BOLD, 14));
+
+
+		btnBanHang.setIcon(new ImageIcon(QuanLyTraHang.class.getResource("/icon/banhang.png")));
+		btnBanHang.setForeground(new Color(255, 255, 255));
+		btnBanHang.setBackground(new Color(50, 205, 50));
+		btnBanHang.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		JPanel pnlGioHang_1 = new JPanel();
 		pnlGioHang_1.setBorder(new CompoundBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2), "S\u1EA3n Ph\u1EA9m M\u1EDBi", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)), null));
@@ -104,14 +104,14 @@ public class QuanLyTraHang extends JPanel {
 				.addGroup(gl_pnlGioHang_1.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_pnlGioHang_1.createParallelGroup(Alignment.LEADING)
-						.addComponent(panel_2, GroupLayout.DEFAULT_SIZE, 539, Short.MAX_VALUE)
+						.addComponent(panel_2, GroupLayout.DEFAULT_SIZE, 548, Short.MAX_VALUE)
 						.addGroup(gl_pnlGioHang_1.createSequentialGroup()
-							.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE)
-							.addGap(4)
+							.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 66, GroupLayout.PREFERRED_SIZE)
-							.addGap(6)
-							.addComponent(btnNewButton_2_1, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-							.addGap(70)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnNewButton_2_1, GroupLayout.PREFERRED_SIZE, 58, GroupLayout.PREFERRED_SIZE)
+							.addGap(57)
 							.addComponent(btnNewButton_3_1, GroupLayout.PREFERRED_SIZE, 126, GroupLayout.PREFERRED_SIZE)))
 					.addContainerGap())
 		);
@@ -119,16 +119,13 @@ public class QuanLyTraHang extends JPanel {
 			gl_pnlGioHang_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_pnlGioHang_1.createSequentialGroup()
 					.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 149, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_pnlGioHang_1.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_pnlGioHang_1.createSequentialGroup()
-							.addGap(7)
+						.addGroup(gl_pnlGioHang_1.createParallelGroup(Alignment.BASELINE)
+							.addComponent(btnNewButton_2_1, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
+							.addComponent(btnNewButton_3_1, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
 							.addComponent(lblNewLabel_2))
-						.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_pnlGioHang_1.createSequentialGroup()
-							.addGap(3)
-							.addComponent(btnNewButton_2_1, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE))
-						.addComponent(btnNewButton_3_1, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+						.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap())
 		);
 		
@@ -173,7 +170,7 @@ public class QuanLyTraHang extends JPanel {
 							.addContainerGap())
 						.addGroup(groupLayout.createSequentialGroup()
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnNewButton_5)
+							.addComponent(btnBanHang)
 							.addGap(18))))
 		);
 		groupLayout.setVerticalGroup(
@@ -191,7 +188,7 @@ public class QuanLyTraHang extends JPanel {
 					.addComponent(pnlDanhSachSanPham, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
 					.addGap(9))
 				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(btnNewButton_5)
+					.addComponent(btnBanHang)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(pnlHoaDon, GroupLayout.DEFAULT_SIZE, 615, Short.MAX_VALUE)
 					.addContainerGap())
@@ -326,32 +323,32 @@ public class QuanLyTraHang extends JPanel {
 				.addGroup(gl_pnlGioHang.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_pnlGioHang.createParallelGroup(Alignment.LEADING)
-						.addComponent(panel, GroupLayout.DEFAULT_SIZE, 549, Short.MAX_VALUE)
+						.addComponent(panel, GroupLayout.DEFAULT_SIZE, 558, Short.MAX_VALUE)
 						.addGroup(gl_pnlGioHang.createSequentialGroup()
-							.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE)
-							.addGap(4)
+							.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 76, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(txtSoLuong, GroupLayout.PREFERRED_SIZE, 66, GroupLayout.PREFERRED_SIZE)
-							.addGap(6)
-							.addComponent(btnNewButton_2, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-							.addGap(70)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnNewButton_2, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
+							.addGap(60)
 							.addComponent(btnNewButton_3, GroupLayout.PREFERRED_SIZE, 126, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap(188, Short.MAX_VALUE))))
+							.addContainerGap(155, Short.MAX_VALUE))))
 		);
 		gl_pnlGioHang.setVerticalGroup(
 			gl_pnlGioHang.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_pnlGioHang.createSequentialGroup()
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_pnlGioHang.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_pnlGioHang.createSequentialGroup()
-							.addGap(7)
+							.addGap(13)
 							.addComponent(lblNewLabel))
-						.addComponent(txtSoLuong, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_pnlGioHang.createSequentialGroup()
-							.addGap(3)
-							.addComponent(btnNewButton_2, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE))
-						.addComponent(btnNewButton_3, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
-					.addGap(210))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(gl_pnlGioHang.createParallelGroup(Alignment.LEADING)
+								.addComponent(txtSoLuong, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnNewButton_3, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnNewButton_2, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE))))
+					.addGap(10))
 		);
 		pnlGioHang.setLayout(gl_pnlGioHang);
 		
@@ -629,8 +626,8 @@ public class QuanLyTraHang extends JPanel {
 									.addComponent(btnHuyHoaDon, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addComponent(btnHuyHoaDon_1, GroupLayout.PREFERRED_SIZE, 132, GroupLayout.PREFERRED_SIZE))
-								.addComponent(pnlGhiChu, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 281, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblTinKhcha_1_1_1, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE))
+								.addComponent(lblTinKhcha_1_1_1, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
+								.addComponent(pnlGhiChu, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 281, GroupLayout.PREFERRED_SIZE))
 							.addGap(3)))
 					.addContainerGap())
 		);
@@ -699,10 +696,10 @@ public class QuanLyTraHang extends JPanel {
 						.addComponent(lblTinThaTr, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblTienTraKhach)
 						.addComponent(lblTien_2_1_1_1_1_1))
-					.addPreferredGap(ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-					.addComponent(lblTinKhcha_1_1_1, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(pnlGhiChu, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
+					.addComponent(lblTinKhcha_1_1_1, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(pnlGhiChu, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnHuyHoaDon, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
