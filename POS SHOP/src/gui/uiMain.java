@@ -79,18 +79,15 @@ public class uiMain {
 				.addGroup(groupLayout.createSequentialGroup()
 					.addComponent(pnlMenu, GroupLayout.PREFERRED_SIZE, 243, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-//					.addComponent(qlbh_1, GroupLayout.PREFERRED_SIZE, 942, GroupLayout.PREFERRED_SIZE)
-//					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(mainPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(mainPanel, GroupLayout.DEFAULT_SIZE, 940, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(mainPanel, GroupLayout.PREFERRED_SIZE, 659, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
 				.addComponent(pnlMenu, GroupLayout.DEFAULT_SIZE, 691, Short.MAX_VALUE)
-//				.addComponent(qlbh_1, GroupLayout.DEFAULT_SIZE, 691, Short.MAX_VALUE)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addComponent(mainPanel, GroupLayout.DEFAULT_SIZE, 680, Short.MAX_VALUE)
+					.addContainerGap())
 		);
 		mainPanel.setLayout(new CardLayout(0, 0));
 		

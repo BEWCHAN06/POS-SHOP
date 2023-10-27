@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="btnKhuyenMai"/>
+		<item key="selection" value="btnTraHang"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="btnTraHang"/>
+			<item value="btnBanHang"/>
 			<item value="btnkhuyenmai"/>
 			<item value="btnkhuyemai"/>
 			<item value="qlbh_1"/>
-			<item value="btnBanHang"/>
 			<item value="mainPanel"/>
 			<item value="mainPanel.add"/>
 			<item value="qlbh"/>

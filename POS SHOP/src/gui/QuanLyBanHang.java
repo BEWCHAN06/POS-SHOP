@@ -46,7 +46,7 @@ public class QuanLyBanHang extends JPanel {
 	 * Create the panel.
 	 */
 	public QuanLyBanHang() {
-		setPreferredSize(new Dimension(947, 664));
+		setPreferredSize(new Dimension(934, 664));
 		setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		setBackground(new Color(255, 255, 255));
 		
@@ -95,25 +95,19 @@ public class QuanLyBanHang extends JPanel {
 								.addPreferredGap(ComponentPlacement.UNRELATED)
 								.addComponent(pnlCamera, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE))
 							.addComponent(pnlGioHang, 0, 0, Short.MAX_VALUE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(pnlDanhSachSanPham, 0, 0, Short.MAX_VALUE)
-							.addPreferredGap(ComponentPlacement.RELATED)))
+						.addComponent(pnlDanhSachSanPham, 0, 0, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(14)
-							.addComponent(pnlHoaDon, GroupLayout.PREFERRED_SIZE, 329, Short.MAX_VALUE)
-							.addContainerGap())
-						.addGroup(groupLayout.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnTraHang)
-							.addGap(18))))
+						.addComponent(pnlHoaDon, GroupLayout.PREFERRED_SIZE, 330, Short.MAX_VALUE)
+						.addComponent(btnTraHang))
+					.addContainerGap())
 		);
 		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+			groupLayout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 								.addComponent(pnlCamera, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE)
 								.addComponent(pnlHoaDonCho, GroupLayout.PREFERRED_SIZE, 126, GroupLayout.PREFERRED_SIZE))
@@ -122,9 +116,10 @@ public class QuanLyBanHang extends JPanel {
 							.addGap(4)
 							.addComponent(pnlDanhSachSanPham, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE))
 						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(5)
 							.addComponent(btnTraHang)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(pnlHoaDon, GroupLayout.DEFAULT_SIZE, 616, Short.MAX_VALUE)))
+							.addComponent(pnlHoaDon, GroupLayout.DEFAULT_SIZE, 613, Short.MAX_VALUE)))
 					.addContainerGap())
 		);
 		
