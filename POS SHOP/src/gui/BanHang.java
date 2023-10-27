@@ -24,7 +24,7 @@ public class BanHang extends JPanel {
 	public BanHang() {
 		
 		// Đặt kích thước mặc định cho JPanel QuanLySanPham
-		setPreferredSize(new Dimension(947, 664));
+		setPreferredSize(new Dimension(947, 703));
 		
 		JPanel mainPanel = new JPanel();
 		GroupLayout groupLayout = new GroupLayout(this);

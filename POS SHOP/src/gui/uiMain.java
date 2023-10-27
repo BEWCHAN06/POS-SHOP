@@ -7,6 +7,8 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
 import java.awt.Dialog.ModalExclusionType;
+import java.awt.Dimension;
+
 import javax.swing.JPanel;
 import javax.swing.BoxLayout;
 import java.awt.CardLayout;
@@ -68,6 +70,7 @@ public class uiMain {
 		frame.getContentPane().setBackground(new Color(255, 255, 255));
 		
 		JPanel pnlMenu = new JPanel();
+		pnlMenu.setPreferredSize(new Dimension(947, 703));
 		pnlMenu.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		pnlMenu.setBackground(new Color(152, 251, 152));
 		
@@ -84,16 +87,40 @@ public class uiMain {
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addComponent(pnlMenu, GroupLayout.DEFAULT_SIZE, 691, Short.MAX_VALUE)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addComponent(mainPanel, GroupLayout.DEFAULT_SIZE, 680, Short.MAX_VALUE)
 					.addContainerGap())
+				.addComponent(pnlMenu, GroupLayout.DEFAULT_SIZE, 691, Short.MAX_VALUE)
 		);
 		mainPanel.setLayout(new CardLayout(0, 0));
 		
 		JPanel pnlListMenu = new JPanel();
 		pnlListMenu.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		pnlListMenu.setBackground(new Color(255, 255, 255));
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(152, 251, 152));
+		GroupLayout gl_pnlMenu = new GroupLayout(pnlMenu);
+		gl_pnlMenu.setHorizontalGroup(
+			gl_pnlMenu.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_pnlMenu.createSequentialGroup()
+					.addGroup(gl_pnlMenu.createParallelGroup(Alignment.TRAILING)
+						.addGroup(Alignment.LEADING, gl_pnlMenu.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(pnlListMenu, GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE))
+						.addGroup(gl_pnlMenu.createSequentialGroup()
+							.addGap(5)
+							.addComponent(panel, GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)))
+					.addContainerGap())
+		);
+		gl_pnlMenu.setVerticalGroup(
+			gl_pnlMenu.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pnlMenu.createSequentialGroup()
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(pnlListMenu, GroupLayout.DEFAULT_SIZE, 576, Short.MAX_VALUE)
+					.addContainerGap())
+		);
 		
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon(uiMain.class.getResource("/icon/information-employee.png")));
@@ -103,41 +130,31 @@ public class uiMain {
 		
 		JLabel lblNewLabel_2 = new JLabel("Chức Vụ : Quản Lý");
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 11));
-		GroupLayout gl_pnlMenu = new GroupLayout(pnlMenu);
-		gl_pnlMenu.setHorizontalGroup(
-			gl_pnlMenu.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pnlMenu.createSequentialGroup()
-					.addGroup(gl_pnlMenu.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_pnlMenu.createSequentialGroup()
-							.addGap(5)
-							.addComponent(lblNewLabel)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_pnlMenu.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblNewLabel_2)
-								.addComponent(lblNewLabel_1)))
-						.addGroup(gl_pnlMenu.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(pnlListMenu, GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)))
-					.addContainerGap())
+		GroupLayout gl_panel = new GroupLayout(panel);
+		gl_panel.setHorizontalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGap(6)
+					.addComponent(lblNewLabel)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblNewLabel_1)
+						.addComponent(lblNewLabel_2))
+					.addContainerGap(29, Short.MAX_VALUE))
 		);
-		gl_pnlMenu.setVerticalGroup(
-			gl_pnlMenu.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_pnlMenu.createSequentialGroup()
-					.addGroup(gl_pnlMenu.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_pnlMenu.createSequentialGroup()
-							.addContainerGap(14, Short.MAX_VALUE)
-							.addComponent(lblNewLabel)
-							.addPreferredGap(ComponentPlacement.RELATED))
-						.addGroup(gl_pnlMenu.createSequentialGroup()
-							.addGap(29)
-							.addComponent(lblNewLabel_1)
-							.addPreferredGap(ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
-							.addComponent(lblNewLabel_2)
-							.addGap(18)))
-					.addGap(18)
-					.addComponent(pnlListMenu, GroupLayout.PREFERRED_SIZE, 560, GroupLayout.PREFERRED_SIZE)
-					.addGap(6))
+		gl_panel.setVerticalGroup(
+			gl_panel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lblNewLabel_1)
+					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(lblNewLabel_2)
+					.addGap(25))
+				.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
+					.addComponent(lblNewLabel)
+					.addContainerGap(22, Short.MAX_VALUE))
 		);
+		panel.setLayout(gl_panel);
         mainPanel.removeAll();
         mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
 		///chuyển giao diện
@@ -450,13 +467,13 @@ public class uiMain {
 							.addGroup(gl_pnlListMenu.createParallelGroup(Alignment.LEADING)
 								.addComponent(btnSanPham, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
 								.addComponent(btnBanHang, GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)))
-						.addGroup(gl_pnlListMenu.createSequentialGroup()
+						.addGroup(Alignment.TRAILING, gl_pnlListMenu.createSequentialGroup()
 							.addGap(12)
 							.addGroup(gl_pnlListMenu.createParallelGroup(Alignment.LEADING)
 								.addComponent(btnKhachHang, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 193, Short.MAX_VALUE)
 								.addComponent(btnNhanVien, GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
 								.addComponent(btnThongKe, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 193, Short.MAX_VALUE)))
-						.addGroup(gl_pnlListMenu.createSequentialGroup()
+						.addGroup(Alignment.TRAILING, gl_pnlListMenu.createSequentialGroup()
 							.addContainerGap()
 							.addGroup(gl_pnlListMenu.createParallelGroup(Alignment.LEADING)
 								.addComponent(btnKhuyenMai, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
@@ -483,9 +500,9 @@ public class uiMain {
 					.addComponent(btnKhachHang, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(btnThongKe, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+					.addGap(57)
 					.addComponent(btnDangXuat, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
+					.addContainerGap(59, Short.MAX_VALUE))
 		);
 		
 		JLabel lblIconBanHang = new JLabel("");
@@ -517,7 +534,7 @@ public class uiMain {
 		pnlListMenu.setLayout(gl_pnlListMenu);
 		pnlMenu.setLayout(gl_pnlMenu);
 		frame.getContentPane().setLayout(groupLayout);
-		frame.setBounds(100, 100, 1215, 730);
+		frame.setBounds(100, 100, 1215, 777);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }
