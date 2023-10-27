@@ -64,8 +64,12 @@ public class QuanLyTraHang extends JPanel {
 		JPanel pnlDanhSachSanPham = new JPanel();
 		pnlDanhSachSanPham.setBorder(new CompoundBorder(new CompoundBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2), "Danh S\u00E1ch S\u1EA3n Ph\u1EA9m", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)), null), null));
 		
-		JButton btnNewButton_5 = new JButton("Trả Hàng");
-		btnNewButton_5.setIcon(new ImageIcon(QuanLyTraHang.class.getResource("/icon/doitra2.png")));
+		JButton btnNewButton_5 = new JButton("Bán Hàng");
+		btnNewButton_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnNewButton_5.setIcon(new ImageIcon(QuanLyTraHang.class.getResource("/icon/banhang.png")));
 		btnNewButton_5.setForeground(new Color(255, 255, 255));
 		btnNewButton_5.setBackground(new Color(50, 205, 50));
 		btnNewButton_5.setFont(new Font("Arial", Font.BOLD, 14));
@@ -424,9 +428,9 @@ public class QuanLyTraHang extends JPanel {
 		
 		JLabel lblTongTienpush = new JLabel("0");
 		
-		JLabel lblGiamGiapush = new JLabel("0");
+		JLabel lblVAT = new JLabel("0");
 		
-		JLabel lblThuepush = new JLabel("0");
+		JLabel lblTongTienTra = new JLabel("0");
 		
 		JLabel lblTien = new JLabel("VNĐ");
 		lblTien.setHorizontalAlignment(SwingConstants.CENTER);
@@ -468,7 +472,7 @@ public class QuanLyTraHang extends JPanel {
 		JLabel lblY = new JLabel("Tiền trả : ");
 		lblY.setFont(new Font("Arial", Font.BOLD, 12));
 		
-		JLabel lblTongTienpush_1 = new JLabel("0");
+		JLabel lblTientra = new JLabel("0");
 		
 		JLabel lblTien_6 = new JLabel("VNĐ");
 		lblTien_6.setHorizontalAlignment(SwingConstants.CENTER);
@@ -484,7 +488,7 @@ public class QuanLyTraHang extends JPanel {
 		JLabel lblTng = new JLabel("Tổng tiền hàng : ");
 		lblTng.setFont(new Font("Arial", Font.BOLD, 12));
 		
-		JLabel lblThuepush_1 = new JLabel("0");
+		JLabel lblTongTienHang = new JLabel("0");
 		
 		JLabel lblTien_2_1 = new JLabel("VNĐ");
 		lblTien_2_1.setHorizontalAlignment(SwingConstants.CENTER);
@@ -492,7 +496,7 @@ public class QuanLyTraHang extends JPanel {
 		JLabel lblGimGi_1 = new JLabel("Giảm giá : ");
 		lblGimGi_1.setFont(new Font("Arial", Font.BOLD, 12));
 		
-		JLabel lblGiamGiapush_1_1 = new JLabel("0");
+		JLabel lblGiamGiaHoaDonMoi = new JLabel("0");
 		
 		JLabel lblTien_2_1_1 = new JLabel("VNĐ");
 		lblTien_2_1_1.setHorizontalAlignment(SwingConstants.CENTER);
@@ -500,7 +504,7 @@ public class QuanLyTraHang extends JPanel {
 		JLabel lblThuVat_1 = new JLabel("Thuế VAT : ");
 		lblThuVat_1.setFont(new Font("Arial", Font.BOLD, 12));
 		
-		JLabel lblGiamGiapush_2 = new JLabel("0");
+		JLabel lblThueVATmoi = new JLabel("0");
 		
 		JLabel lblTien_2_1_1_1 = new JLabel("VNĐ");
 		lblTien_2_1_1_1.setHorizontalAlignment(SwingConstants.CENTER);
@@ -511,7 +515,7 @@ public class QuanLyTraHang extends JPanel {
 		JLabel lblTien_2_1_1_1_1 = new JLabel("VNĐ");
 		lblTien_2_1_1_1_1.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JLabel lblGiamGiapush_2_1 = new JLabel("0");
+		JLabel lblTongTienMoi = new JLabel("0");
 		
 		JLabel lblTien_2_1_1_1_2 = new JLabel("VNĐ");
 		lblTien_2_1_1_1_2.setHorizontalAlignment(SwingConstants.CENTER);
@@ -523,7 +527,7 @@ public class QuanLyTraHang extends JPanel {
 		JLabel lblTinThaTr = new JLabel("Tiền thừa trả khách : ");
 		lblTinThaTr.setFont(new Font("Arial", Font.BOLD, 12));
 		
-		JLabel lblGiamGiapush_2_1_1 = new JLabel("0");
+		JLabel lblTienTraKhach = new JLabel("0");
 		
 		JLabel lblTien_2_1_1_1_1_1 = new JLabel("VNĐ");
 		lblTien_2_1_1_1_1_1.setHorizontalAlignment(SwingConstants.CENTER);
@@ -561,12 +565,12 @@ public class QuanLyTraHang extends JPanel {
 															.addGap(10)
 															.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.LEADING)
 																.addGroup(gl_pnlHoaDon.createSequentialGroup()
-																	.addComponent(lblGiamGiapush_1_1, GroupLayout.PREFERRED_SIZE, 132, GroupLayout.PREFERRED_SIZE)
+																	.addComponent(lblGiamGiaHoaDonMoi, GroupLayout.PREFERRED_SIZE, 132, GroupLayout.PREFERRED_SIZE)
 																	.addPreferredGap(ComponentPlacement.RELATED)
 																	.addComponent(lblTien_2_1_1, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE))
 																.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.LEADING)
 																	.addGroup(gl_pnlHoaDon.createSequentialGroup()
-																		.addComponent(lblThuepush_1, GroupLayout.PREFERRED_SIZE, 132, GroupLayout.PREFERRED_SIZE)
+																		.addComponent(lblTongTienHang, GroupLayout.PREFERRED_SIZE, 132, GroupLayout.PREFERRED_SIZE)
 																		.addPreferredGap(ComponentPlacement.RELATED)
 																		.addComponent(lblTien_2_1, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE))
 																	.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.LEADING)
@@ -575,7 +579,7 @@ public class QuanLyTraHang extends JPanel {
 																			.addPreferredGap(ComponentPlacement.RELATED)
 																			.addComponent(lblTien_1_1, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE))
 																		.addGroup(gl_pnlHoaDon.createSequentialGroup()
-																			.addComponent(lblGiamGiapush, GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
+																			.addComponent(lblVAT, GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
 																			.addPreferredGap(ComponentPlacement.RELATED)
 																			.addComponent(lblTien_1, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE))
 																		.addGroup(gl_pnlHoaDon.createSequentialGroup()
@@ -584,7 +588,7 @@ public class QuanLyTraHang extends JPanel {
 																		.addGroup(gl_pnlHoaDon.createSequentialGroup()
 																			.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.TRAILING)
 																				.addGroup(gl_pnlHoaDon.createSequentialGroup()
-																					.addComponent(lblTongTienpush_1, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE)
+																					.addComponent(lblTientra, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE)
 																					.addPreferredGap(ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
 																					.addComponent(lblTien_6, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE))
 																				.addGroup(gl_pnlHoaDon.createSequentialGroup()
@@ -593,7 +597,7 @@ public class QuanLyTraHang extends JPanel {
 																					.addComponent(lblTien, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)))
 																			.addPreferredGap(ComponentPlacement.RELATED))
 																		.addGroup(gl_pnlHoaDon.createSequentialGroup()
-																			.addComponent(lblThuepush, GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
+																			.addComponent(lblTongTienTra, GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
 																			.addPreferredGap(ComponentPlacement.RELATED)
 																			.addComponent(lblTien_2, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE))))))
 														.addGroup(gl_pnlHoaDon.createSequentialGroup()
@@ -602,7 +606,7 @@ public class QuanLyTraHang extends JPanel {
 																	.addComponent(txtTienKhachDua, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE)
 																	.addGap(30))
 																.addGroup(gl_pnlHoaDon.createSequentialGroup()
-																	.addComponent(lblGiamGiapush_2, GroupLayout.PREFERRED_SIZE, 132, GroupLayout.PREFERRED_SIZE)
+																	.addComponent(lblThueVATmoi, GroupLayout.PREFERRED_SIZE, 132, GroupLayout.PREFERRED_SIZE)
 																	.addPreferredGap(ComponentPlacement.RELATED)))
 															.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.LEADING)
 																.addComponent(lblTien_2_1_1_1_1, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
@@ -612,11 +616,11 @@ public class QuanLyTraHang extends JPanel {
 													.addGap(19))
 												.addGroup(gl_pnlHoaDon.createSequentialGroup()
 													.addGap(10)
-													.addComponent(lblGiamGiapush_2_1, GroupLayout.PREFERRED_SIZE, 142, GroupLayout.PREFERRED_SIZE))))
+													.addComponent(lblTongTienMoi, GroupLayout.PREFERRED_SIZE, 142, GroupLayout.PREFERRED_SIZE))))
 										.addGroup(gl_pnlHoaDon.createSequentialGroup()
 											.addComponent(lblTinThaTr)
 											.addPreferredGap(ComponentPlacement.RELATED)
-											.addComponent(lblGiamGiapush_2_1_1, GroupLayout.PREFERRED_SIZE, 142, GroupLayout.PREFERRED_SIZE))))))
+											.addComponent(lblTienTraKhach, GroupLayout.PREFERRED_SIZE, 142, GroupLayout.PREFERRED_SIZE))))))
 						.addGroup(gl_pnlHoaDon.createSequentialGroup()
 							.addGap(23)
 							.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.LEADING, false)
@@ -646,7 +650,7 @@ public class QuanLyTraHang extends JPanel {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblY, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblTongTienpush_1)
+						.addComponent(lblTientra)
 						.addComponent(lblTien_6))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.BASELINE)
@@ -655,35 +659,35 @@ public class QuanLyTraHang extends JPanel {
 						.addComponent(lblTien_1_1))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblGiamGiapush)
+						.addComponent(lblVAT)
 						.addComponent(lblTien_1)
 						.addComponent(lblThuVat))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblTien_2)
-						.addComponent(lblThuepush)
+						.addComponent(lblTongTienTra)
 						.addComponent(lblTngTinTr, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(lblT)
 					.addGap(13)
 					.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblTng, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblThuepush_1)
+						.addComponent(lblTongTienHang)
 						.addComponent(lblTien_2_1))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblGimGi_1, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblGiamGiapush_1_1)
+						.addComponent(lblGiamGiaHoaDonMoi)
 						.addComponent(lblTien_2_1_1))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblThuVat_1, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblGiamGiapush_2)
+						.addComponent(lblThueVATmoi)
 						.addComponent(lblTien_2_1_1_1))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblTngTinMua, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblGiamGiapush_2_1)
+						.addComponent(lblTongTienMoi)
 						.addComponent(lblTien_2_1_1_1_2))
 					.addGap(4)
 					.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.BASELINE)
@@ -693,7 +697,7 @@ public class QuanLyTraHang extends JPanel {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblTinThaTr, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblGiamGiapush_2_1_1)
+						.addComponent(lblTienTraKhach)
 						.addComponent(lblTien_2_1_1_1_1_1))
 					.addPreferredGap(ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
 					.addComponent(lblTinKhcha_1_1_1, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
