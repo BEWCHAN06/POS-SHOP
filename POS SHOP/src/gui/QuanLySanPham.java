@@ -15,8 +15,8 @@ public class QuanLySanPham extends JPanel {
 		setPreferredSize(new Dimension(947, 664));
 		setLayout(new CardLayout(0, 0));
 		
-		JLabel lblNewLabel = new JLabel("quản lý sản phẩm");
-		add(lblNewLabel, "name_45624352660600");
+		JPanel panel = new JPanel();
+		add(panel, "name_13998316339700");
 	}
 
 }
