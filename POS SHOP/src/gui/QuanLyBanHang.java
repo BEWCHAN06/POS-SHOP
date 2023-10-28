@@ -55,15 +55,18 @@ public class QuanLyBanHang extends JPanel {
 		pnlHoaDon.setBorder(new CompoundBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2), "\u0110\u01A1n H\u00E0ng", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)), null));
 		
 		JPanel pnlHoaDonCho = new JPanel();
+		pnlHoaDonCho.setBackground(new Color(255, 255, 255));
 		pnlHoaDonCho.setBorder(new CompoundBorder(new CompoundBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2), "H\u00F3a \u0110\u01A1n Ch\u1EDD", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)), null), null));
 		
 		JPanel pnlCamera = new JPanel();
 		pnlCamera.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		
 		JPanel pnlGioHang = new JPanel();
+		pnlGioHang.setBackground(new Color(255, 255, 255));
 		pnlGioHang.setBorder(new CompoundBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2), "Gi\u1ECF H\u00E0ng", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)), null));
 		
 		JPanel pnlDanhSachSanPham = new JPanel();
+		pnlDanhSachSanPham.setBackground(new Color(255, 255, 255));
 		pnlDanhSachSanPham.setBorder(new CompoundBorder(new CompoundBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2), "Danh S\u00E1ch S\u1EA3n Ph\u1EA9m", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)), null), null));
 		
 //		JButton btnTraHang = new JButton("Trả Hàng");
@@ -89,12 +92,12 @@ public class QuanLyBanHang extends JPanel {
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(pnlDanhSachSanPham, 0, 0, Short.MAX_VALUE)
 						.addComponent(pnlGioHang, 0, 0, Short.MAX_VALUE)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(pnlHoaDonCho, GroupLayout.PREFERRED_SIZE, 396, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(pnlCamera, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE))
-						.addComponent(pnlDanhSachSanPham, 0, 0, Short.MAX_VALUE))
+							.addComponent(pnlCamera, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE)))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 						.addComponent(pnlHoaDon, GroupLayout.PREFERRED_SIZE, 330, Short.MAX_VALUE)
@@ -105,18 +108,18 @@ public class QuanLyBanHang extends JPanel {
 			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(0)
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addGroup(groupLayout.createSequentialGroup()
 									.addGap(8)
 									.addComponent(pnlCamera, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE))
 								.addComponent(pnlHoaDonCho, GroupLayout.PREFERRED_SIZE, 126, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(pnlGioHang, GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(pnlDanhSachSanPham, GroupLayout.PREFERRED_SIZE, 133, GroupLayout.PREFERRED_SIZE))
-						.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+							.addComponent(pnlGioHang, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(pnlDanhSachSanPham, GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE))
+						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(12)
 							.addComponent(btnTraHang)
 							.addPreferredGap(ComponentPlacement.RELATED)
@@ -125,10 +128,12 @@ public class QuanLyBanHang extends JPanel {
 		);
 		
 		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(new Color(255, 255, 255));
 		
 		JLabel lblNewLabel_1 = new JLabel("Tìm kiêm sản phẩm : ");
 		
 		textField = new JTextField();
+		textField.setBorder(new LineBorder(new Color(0, 0, 0)));
 		textField.setColumns(10);
 		
 		JButton btnNewButton_4 = new JButton("Thêm Sản Phẩm");
@@ -160,10 +165,10 @@ public class QuanLyBanHang extends JPanel {
 				.addGroup(gl_pnlDanhSachSanPham.createSequentialGroup()
 					.addGroup(gl_pnlDanhSachSanPham.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblNewLabel_1)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(textField, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnNewButton_4))
 					.addGap(11)
-					.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE))
+					.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE))
 		);
 		panel_1.setLayout(new CardLayout(0, 0));
 		
@@ -189,11 +194,13 @@ public class QuanLyBanHang extends JPanel {
 		JPanel panel = new JPanel();
 		
 		txtSoLuong = new JTextField();
+		txtSoLuong.setBorder(new LineBorder(new Color(0, 0, 0)));
 		txtSoLuong.setColumns(10);
 		
 		JLabel lblNewLabel = new JLabel("Số Lượng      ");
 		
 		JButton btnNewButton_2 = new JButton("OK");
+		btnNewButton_2.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -203,6 +210,7 @@ public class QuanLyBanHang extends JPanel {
 		btnNewButton_2.setFont(new Font("Arial", Font.BOLD, 9));
 		
 		JButton btnNewButton_3 = new JButton("Xóa sản phẩm");
+		btnNewButton_3.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -213,6 +221,7 @@ public class QuanLyBanHang extends JPanel {
 		btnNewButton_3.setFont(new Font("Arial", Font.BOLD, 10));
 		
 		JButton btnNewButton_3_1 = new JButton("Xóa tất cả");
+		btnNewButton_3_1.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		btnNewButton_3_1.setIcon(new ImageIcon(QuanLyBanHang.class.getResource("/icon/xoaall.png")));
 		btnNewButton_3_1.setForeground(new Color(255, 255, 255));
 		btnNewButton_3_1.setBackground(new Color(255, 0, 0));
@@ -229,12 +238,12 @@ public class QuanLyBanHang extends JPanel {
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(txtSoLuong, GroupLayout.PREFERRED_SIZE, 66, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnNewButton_2)
-							.addGap(70)
+							.addComponent(btnNewButton_2, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+							.addGap(39)
 							.addComponent(btnNewButton_3, GroupLayout.PREFERRED_SIZE, 126, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 							.addComponent(btnNewButton_3_1, GroupLayout.PREFERRED_SIZE, 117, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(19, Short.MAX_VALUE))
+					.addContainerGap(29, Short.MAX_VALUE))
 		);
 		gl_pnlGioHang.setVerticalGroup(
 			gl_pnlGioHang.createParallelGroup(Alignment.LEADING)
@@ -310,9 +319,11 @@ public class QuanLyBanHang extends JPanel {
 		scrollPane.setViewportView(tblHoaDonCho);
 		
 		JPanel pnlKhachHang = new JPanel();
+		pnlKhachHang.setBackground(new Color(255, 255, 255));
 		pnlKhachHang.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		
 		JButton btnLuu = new JButton("Tạo HĐ");
+		btnLuu.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		btnLuu.setFont(new Font("Arial", Font.BOLD, 11));
 		btnLuu.setForeground(new Color(255, 255, 255));
 		btnLuu.setBackground(new Color(65, 105, 225));
@@ -385,6 +396,7 @@ public class QuanLyBanHang extends JPanel {
 		pnlGhiChu.setBorder(new LineBorder(new Color(0, 0, 0)));
 		
 		JButton btnHuyHoaDon = new JButton("Hủy Hóa Đơn");
+		btnHuyHoaDon.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		btnHuyHoaDon.setIcon(new ImageIcon(QuanLyBanHang.class.getResource("/icon/stop2.png")));
 		btnHuyHoaDon.setForeground(new Color(255, 255, 255));
 		btnHuyHoaDon.setBackground(new Color(255, 0, 0));
@@ -395,6 +407,7 @@ public class QuanLyBanHang extends JPanel {
 		});
 		
 		JButton btnNewButton = new JButton("Thanh Toán");
+		btnNewButton.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		btnNewButton.setForeground(new Color(255, 255, 255));
 		btnNewButton.setIcon(new ImageIcon(QuanLyBanHang.class.getResource("/icon/thanhtoan.png")));
 		btnNewButton.setBackground(new Color(50, 205, 50));
@@ -405,6 +418,7 @@ public class QuanLyBanHang extends JPanel {
 		btnNewButton.setFont(new Font("Arial", Font.BOLD, 22));
 		
 		JButton btnHuyHoaDon_1 = new JButton("Làm mới ");
+		btnHuyHoaDon_1.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		btnHuyHoaDon_1.setIcon(new ImageIcon(QuanLyBanHang.class.getResource("/icon/refesh.png")));
 		btnHuyHoaDon_1.setBackground(new Color(152, 251, 152));
 		btnHuyHoaDon_1.setFont(new Font("Arial", Font.BOLD, 12));
