@@ -36,12 +36,15 @@ public class QuanLyKhuyenMai extends JPanel {
 	 * Create the panel.
 	 */
 	public QuanLyKhuyenMai() {
+		setBackground(new Color(255, 255, 255));
 		setPreferredSize(new Dimension(934, 687));
 		
 		JPanel pnlKhuyenMai = new JPanel();
+		pnlKhuyenMai.setBackground(new Color(255, 255, 255));
 		pnlKhuyenMai.setBorder(new CompoundBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2), "Khuy\u1EBFn M\u00E3i", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)), null));
 		
 		JPanel panel_2 = new JPanel();
+		panel_2.setBackground(new Color(255, 255, 255));
 		panel_2.setBorder(new CompoundBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2), "Danh S\u00E1ch Khuy\u1EBFn M\u00E3i", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)), null));
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
@@ -109,9 +112,11 @@ public class QuanLyKhuyenMai extends JPanel {
 		panel_2.setLayout(gl_panel_2);
 		
 		JPanel panel = new JPanel();
+		panel.setBackground(new Color(255, 255, 255));
 		panel.setBorder(new CompoundBorder(new LineBorder(new Color(0, 0, 0), 2), null));
 		
 		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(new Color(255, 255, 255));
 		panel_1.setBorder(new CompoundBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2), "Th\u1EDDi Gian Khuy\u1EBFn M\u00E3i", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)), null));
 		GroupLayout gl_pnlKhuyenMai = new GroupLayout(pnlKhuyenMai);
 		gl_pnlKhuyenMai.setHorizontalGroup(
@@ -220,6 +225,7 @@ public class QuanLyKhuyenMai extends JPanel {
 		txtMucKhuyenMai.setColumns(10);
 		
 		JCheckBox checkBoxChonTatCa = new JCheckBox("Select All");
+		checkBoxChonTatCa.setBackground(new Color(255, 255, 255));
 		checkBoxChonTatCa.setFont(new Font("Arial", Font.BOLD, 12));
 		
 		JLabel lblPhanLoai = new JLabel("Phân loại :");
@@ -233,7 +239,7 @@ public class QuanLyKhuyenMai extends JPanel {
 		lblTimKiemSanPham.setFont(new Font("Arial", Font.BOLD, 12));
 		
 		txtTimKiemSanPham = new JTextField();
-		txtTimKiemSanPham.setFont(new Font("Arial", Font.PLAIN, 12));
+		txtTimKiemSanPham.setFont(new Font("Arial", Font.PLAIN, 13));
 		txtTimKiemSanPham.setColumns(10);
 		
 		JButton btnTimKiemSanPham = new JButton("Tìm");

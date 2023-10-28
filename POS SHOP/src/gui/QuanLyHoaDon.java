@@ -36,16 +36,20 @@ public class QuanLyHoaDon extends JPanel {
 	 * Create the panel.
 	 */
 	public QuanLyHoaDon() {
+		setBackground(new Color(255, 255, 255));
 		setLayout(new CardLayout(0, 0));
 		setPreferredSize(new Dimension(934, 687));
 		
 		JPanel pnlHoaDon = new JPanel();
+		pnlHoaDon.setBackground(new Color(255, 255, 255));
 		add(pnlHoaDon, "name_195669266279000");
 		
 		JPanel panel = new JPanel();
+		panel.setBackground(new Color(255, 255, 255));
 		panel.setBorder(new CompoundBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2), "H\u00F3a \u0110\u01A1n", TitledBorder.LEFT, TitledBorder.TOP, null, new Color(0, 0, 0)), null));
 		
 		JPanel panel_2 = new JPanel();
+		panel_2.setBackground(new Color(255, 255, 255));
 		panel_2.setBorder(new CompoundBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2), "Chi Ti\u1EBFt H\u00F3a \u0110\u01A1n", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)), null));
 		GroupLayout gl_pnlHoaDon = new GroupLayout(pnlHoaDon);
 		gl_pnlHoaDon.setHorizontalGroup(
@@ -119,9 +123,11 @@ public class QuanLyHoaDon extends JPanel {
 		btnTimKiemHoaDon.setBackground(new Color(192, 192, 192));
 		
 		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(new Color(255, 255, 255));
 		panel_1.setBorder(new CompoundBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2), "", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)), null));
 		
 		JPanel panel_1_1 = new JPanel();
+		panel_1_1.setBackground(new Color(255, 255, 255));
 		panel_1_1.setBorder(new CompoundBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2), "", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)), null));
 		
 		comboBoxThang = new JComboBox<>();
