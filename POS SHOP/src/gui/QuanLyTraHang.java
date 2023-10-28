@@ -48,7 +48,7 @@ public class QuanLyTraHang extends JPanel {
 	 * Create the panel.
 	 */
 	public QuanLyTraHang() {
-		setPreferredSize(new Dimension(934, 661));
+		setPreferredSize(new Dimension(934, 685));
 		setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		setBackground(new Color(255, 255, 255));
 		
@@ -186,8 +186,8 @@ public class QuanLyTraHang extends JPanel {
 							.addComponent(pnlDanhSachSanPham, GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(btnBanHang, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addComponent(pnlHoaDon, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(pnlHoaDon, GroupLayout.DEFAULT_SIZE, 624, Short.MAX_VALUE)))
 					.addContainerGap())
 		);
 		

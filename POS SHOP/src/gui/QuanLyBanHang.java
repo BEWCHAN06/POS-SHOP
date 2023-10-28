@@ -46,7 +46,7 @@ public class QuanLyBanHang extends JPanel {
 	 * Create the panel.
 	 */
 	public QuanLyBanHang() {
-		setPreferredSize(new Dimension(934, 664));
+		setPreferredSize(new Dimension(934, 701));
 		setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		setBackground(new Color(255, 255, 255));
 		
@@ -89,12 +89,11 @@ public class QuanLyBanHang extends JPanel {
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-							.addGroup(groupLayout.createSequentialGroup()
-								.addComponent(pnlHoaDonCho, GroupLayout.PREFERRED_SIZE, 396, GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.UNRELATED)
-								.addComponent(pnlCamera, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE))
-							.addComponent(pnlGioHang, 0, 0, Short.MAX_VALUE))
+						.addComponent(pnlGioHang, 0, 0, Short.MAX_VALUE)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(pnlHoaDonCho, GroupLayout.PREFERRED_SIZE, 396, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(pnlCamera, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE))
 						.addComponent(pnlDanhSachSanPham, 0, 0, Short.MAX_VALUE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
@@ -105,21 +104,23 @@ public class QuanLyBanHang extends JPanel {
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
+					.addGap(0)
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-								.addComponent(pnlCamera, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE)
+						.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGap(8)
+									.addComponent(pnlCamera, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE))
 								.addComponent(pnlHoaDonCho, GroupLayout.PREFERRED_SIZE, 126, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(pnlGioHang, GroupLayout.PREFERRED_SIZE, 381, GroupLayout.PREFERRED_SIZE)
-							.addGap(4)
-							.addComponent(pnlDanhSachSanPham, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(5)
+							.addComponent(pnlGioHang, GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(pnlDanhSachSanPham, GroupLayout.PREFERRED_SIZE, 133, GroupLayout.PREFERRED_SIZE))
+						.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+							.addGap(12)
 							.addComponent(btnTraHang)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(pnlHoaDon, GroupLayout.DEFAULT_SIZE, 613, Short.MAX_VALUE)))
+							.addComponent(pnlHoaDon, GroupLayout.DEFAULT_SIZE, 639, Short.MAX_VALUE)))
 					.addContainerGap())
 		);
 		

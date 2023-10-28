@@ -16,7 +16,7 @@ public class SanPham extends JPanel {
 	public SanPham() {
 
 		// Đặt kích thước mặc định cho JPanel QuanLySanPham
-		setPreferredSize(new Dimension(947, 664));
+		setPreferredSize(new Dimension(953, 667));
 		setLayout(new CardLayout(0, 0));
 		
 		JPanel mainPanel = new JPanel();
