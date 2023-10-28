@@ -24,12 +24,12 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.DropMode;
 import javax.swing.DefaultComboBoxModel;
+import com.toedter.calendar.JDateChooser;
 
 public class QuanLyKhuyenMai extends JPanel {
 	private JTextField txtMaKhuyenMai, txtTenKhuyenMai, txtMucKhuyenMai, txtTimKiemSanPham;
 	private JComboBox<String> comboBoxPhanLoai;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JDateChooser dateChooserThoiGianBatDauGiamGia, dateChooserThoiGianKetThucGiamGia;
 	private JTable tblSanPham,tblKhuyenMai;
 
 	/**
@@ -139,14 +139,8 @@ public class QuanLyKhuyenMai extends JPanel {
 		JLabel lblThoiGianBatDauKhuyenMai = new JLabel("Thời gian bắt đầu giảm giá :");
 		lblThoiGianBatDauKhuyenMai.setFont(new Font("Arial", Font.BOLD, 12));
 		
-		textField = new JTextField();
-		textField.setColumns(10);
-		
 		JLabel lblThoiGianKetThucKhuyenMai = new JLabel("Thời gian kết thúc giảm giá :");
 		lblThoiGianKetThucKhuyenMai.setFont(new Font("Arial", Font.BOLD, 12));
-		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
 		
 		JButton btnLuuKhuyenMai = new JButton("Lưu");
 		btnLuuKhuyenMai.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/luulienket.png")));
@@ -162,23 +156,26 @@ public class QuanLyKhuyenMai extends JPanel {
 		btnLamMoi.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/loading.png")));
 		btnLamMoi.setFont(new Font("Arial", Font.BOLD, 12));
 		btnLamMoi.setBackground(new Color(152, 251, 152));
+		
+		dateChooserThoiGianBatDauGiamGia = new JDateChooser();
+		dateChooserThoiGianKetThucGiamGia = new JDateChooser();
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_1.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+						.addComponent(dateChooserThoiGianKetThucGiamGia, GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)
 						.addComponent(lblThoiGianBatDauKhuyenMai)
-						.addComponent(textField_1, GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)
 						.addComponent(lblThoiGianKetThucKhuyenMai, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField, GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)
 						.addGroup(gl_panel_1.createSequentialGroup()
 							.addComponent(btnLuuKhuyenMai, GroupLayout.PREFERRED_SIZE, 105, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
 							.addComponent(btnKhuyenMai, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_panel_1.createSequentialGroup()
 							.addGap(58)
-							.addComponent(btnLamMoi, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE)))
+							.addComponent(btnLamMoi, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE))
+						.addComponent(dateChooserThoiGianBatDauGiamGia, GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		gl_panel_1.setVerticalGroup(
@@ -186,19 +183,19 @@ public class QuanLyKhuyenMai extends JPanel {
 				.addGroup(gl_panel_1.createSequentialGroup()
 					.addGap(18)
 					.addComponent(lblThoiGianBatDauKhuyenMai, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(dateChooserThoiGianBatDauGiamGia, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
 					.addComponent(lblThoiGianKetThucKhuyenMai, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
-					.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addComponent(dateChooserThoiGianKetThucGiamGia, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnLuuKhuyenMai, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnKhuyenMai, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
 					.addGap(27)
 					.addComponent(btnLamMoi, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(103, Short.MAX_VALUE))
+					.addContainerGap(92, Short.MAX_VALUE))
 		);
 		panel_1.setLayout(gl_panel_1);
 		
