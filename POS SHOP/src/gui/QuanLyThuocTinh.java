@@ -61,6 +61,7 @@ public class QuanLyThuocTinh extends JPanel {
 		setPreferredSize(new Dimension(932, 685));
 		setLayout(new CardLayout(0, 0));
 		
+		
 		JPanel mainPanel = new JPanel();
 		mainPanel.setBackground(new Color(255, 255, 255));
 		add(mainPanel, "name_115175246584900");
