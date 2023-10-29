@@ -176,10 +176,10 @@ public class QuanLySanPham extends JPanel {
 		tbllistSanPham = new JTable();
 		tbllistSanPham.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null, null, null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null, null, null, null, null, null},
 			},
 			new String[] {
-				"m\u00E3 s\u1EA3n ph\u1EA9m", "t\u00EAn s\u1EA3n ph\u1EA9m", "lo\u1EA1i", "gi\u00E1 g\u00F3c", "gi\u00E1 b\u00E1n", "k\u00EDch th\u01B0\u1EDBc", "s\u1ED1 l\u01B0\u1EE3ng", "m\u00E0u s\u1EAFc", "ch\u1EA5t li\u1EC7u", "t\u1ED3n kho", "nh\u00E0 cung c\u1EA5p"
+				"m\u00E3 s\u1EA3n ph\u1EA9m", "t\u00EAn s\u1EA3n ph\u1EA9m", "lo\u1EA1i", "gi\u00E1 g\u1ED1c", "l\u1EDDi", "khuy\u1EBFn m\u00E3i", "gi\u00E1 b\u00E1n", "k\u00EDch th\u01B0\u1EDBc", "s\u1ED1 l\u01B0\u1EE3ng", "m\u00E0u s\u1EAFc", "ch\u1EA5t li\u1EC7u", "t\u1ED3n kho", "nh\u00E0 cung c\u1EA5p"
 			}
 		));
 		scrollPane_1.setViewportView(tbllistSanPham);
