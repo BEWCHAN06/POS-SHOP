@@ -15,7 +15,7 @@ public class KetNoiSQL {
     }
     
      public void connect(){
-        String url = "jdbc:sqlserver://localhost:1433;database=QuanLyBanHang";
+        String url = "jdbc:sqlserver://localhost:1433;database=Postshop";
         String username = "sa";
         String password = "sapassword";
         try {

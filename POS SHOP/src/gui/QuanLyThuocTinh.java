@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import javax.swing.JPanel;
 import java.awt.CardLayout;
 import javax.swing.JLabel;
+import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.Color;
@@ -14,6 +15,8 @@ import javax.swing.border.LineBorder;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JRadioButton;
 import java.awt.Font;
+import java.util.ArrayList;
+
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
@@ -21,15 +24,38 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import ConnectDB.KetNoiSQL;
+import dao.MauSacDAO;
+import entity.MauSac;
+
 public class QuanLyThuocTinh extends JPanel {
 	private JTextField txtTenThuocTinh;
 	private JTextField textField;
 	private JTable tblThuocTinh;
-
+	private MauSacDAO mauSac_Dao = new MauSacDAO();
+	private ButtonGroup rd_group = new ButtonGroup();
 	/**
 	 * Create the panel.
 	 */
 	public QuanLyThuocTinh() {
+		KetNoiSQL.getInstance().connect();
+		initComponents();
+		tblDanhSachMauSac();
+	}
+    private void clearTable(){
+        DefaultTableModel dtm = (DefaultTableModel) tblThuocTinh.getModel();
+        dtm.setRowCount(0);
+    }
+	private void tblDanhSachMauSac(){
+        ArrayList<MauSac> listMauSac = mauSac_Dao.getAllMauSac();
+        clearTable();
+        DefaultTableModel dtm = (DefaultTableModel) tblThuocTinh.getModel();
+        for(MauSac ms : listMauSac) {
+        	Object[] rowData = {ms.getMaMauSac(), ms.getMauSac()};
+        	dtm.addRow(rowData);
+        }
+    }
+	private void initComponents() {
 		setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		setBackground(new Color(255, 255, 255));
 		setPreferredSize(new Dimension(932, 685));
@@ -204,45 +230,45 @@ public class QuanLyThuocTinh extends JPanel {
 					.addGap(36))
 		);
 		
-		JRadioButton rdbtnNewRadioButton = new JRadioButton("Màu sắc");
-		rdbtnNewRadioButton.setBackground(new Color(255, 255, 255));
-		rdbtnNewRadioButton.setFont(new Font("Arial", Font.PLAIN, 12));
+		JRadioButton rb_mauSac = new JRadioButton("Màu sắc");
+		rb_mauSac.setBackground(new Color(255, 255, 255));
+		rb_mauSac.setFont(new Font("Arial", Font.PLAIN, 12));
 		
-		JRadioButton rdbtnKchThc = new JRadioButton("Kích thước");
-		rdbtnKchThc.setBackground(new Color(255, 255, 255));
-		rdbtnKchThc.setFont(new Font("Arial", Font.PLAIN, 12));
+		JRadioButton rb_kichThuoc = new JRadioButton("Kích thước");
+		rb_kichThuoc.setBackground(new Color(255, 255, 255));
+		rb_kichThuoc.setFont(new Font("Arial", Font.PLAIN, 12));
 		
-		JRadioButton rdbtnNewRadioButton_1_1 = new JRadioButton("Chất liệu");
-		rdbtnNewRadioButton_1_1.setBackground(new Color(255, 255, 255));
-		rdbtnNewRadioButton_1_1.setFont(new Font("Arial", Font.PLAIN, 12));
+		JRadioButton rb_chatLieu = new JRadioButton("Chất liệu");
+		rb_chatLieu.setBackground(new Color(255, 255, 255));
+		rb_chatLieu.setFont(new Font("Arial", Font.PLAIN, 12));
 		
-		JRadioButton rdbtnKiuDng = new JRadioButton("kiểu dáng");
-		rdbtnKiuDng.setBackground(new Color(255, 255, 255));
-		rdbtnKiuDng.setFont(new Font("Arial", Font.PLAIN, 12));
+		JRadioButton rb_kieuDang = new JRadioButton("kiểu dáng");
+		rb_kieuDang.setBackground(new Color(255, 255, 255));
+		rb_kieuDang.setFont(new Font("Arial", Font.PLAIN, 12));
 		
-		JRadioButton rdbtnXutX = new JRadioButton("Xuất xứ");
-		rdbtnXutX.setBackground(new Color(255, 255, 255));
-		rdbtnXutX.setFont(new Font("Arial", Font.PLAIN, 12));
+		JRadioButton rb_xuatXu = new JRadioButton("Xuất xứ");
+		rb_xuatXu.setBackground(new Color(255, 255, 255));
+		rb_xuatXu.setFont(new Font("Arial", Font.PLAIN, 12));
 		
-		JRadioButton rdbtnNewRadioButton_1_1_1 = new JRadioButton("Loại sản phẩm");
-		rdbtnNewRadioButton_1_1_1.setBackground(new Color(255, 255, 255));
-		rdbtnNewRadioButton_1_1_1.setFont(new Font("Arial", Font.PLAIN, 12));
+		JRadioButton rb_loaiSanPham = new JRadioButton("Loại sản phẩm");
+		rb_loaiSanPham.setBackground(new Color(255, 255, 255));
+		rb_loaiSanPham.setFont(new Font("Arial", Font.PLAIN, 12));
 		GroupLayout gl_pnlListThuocTinh = new GroupLayout(pnlListThuocTinh);
 		gl_pnlListThuocTinh.setHorizontalGroup(
 			gl_pnlListThuocTinh.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_pnlListThuocTinh.createSequentialGroup()
 					.addGap(14)
 					.addGroup(gl_pnlListThuocTinh.createParallelGroup(Alignment.LEADING)
-						.addComponent(rdbtnNewRadioButton)
-						.addComponent(rdbtnKiuDng, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE))
+						.addComponent(rb_mauSac)
+						.addComponent(rb_kieuDang, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE))
 					.addGap(75)
 					.addGroup(gl_pnlListThuocTinh.createParallelGroup(Alignment.LEADING)
-						.addComponent(rdbtnXutX, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-						.addComponent(rdbtnKchThc, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
+						.addComponent(rb_xuatXu, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+						.addComponent(rb_kichThuoc, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
 					.addGroup(gl_pnlListThuocTinh.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(rdbtnNewRadioButton_1_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(rdbtnNewRadioButton_1_1_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+						.addComponent(rb_chatLieu, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(rb_loaiSanPham, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		gl_pnlListThuocTinh.setVerticalGroup(
@@ -250,18 +276,27 @@ public class QuanLyThuocTinh extends JPanel {
 				.addGroup(gl_pnlListThuocTinh.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_pnlListThuocTinh.createParallelGroup(Alignment.BASELINE)
-						.addComponent(rdbtnNewRadioButton)
-						.addComponent(rdbtnKchThc)
-						.addComponent(rdbtnNewRadioButton_1_1))
+						.addComponent(rb_mauSac)
+						.addComponent(rb_kichThuoc)
+						.addComponent(rb_chatLieu))
 					.addGap(18)
 					.addGroup(gl_pnlListThuocTinh.createParallelGroup(Alignment.BASELINE)
-						.addComponent(rdbtnKiuDng)
-						.addComponent(rdbtnXutX)
-						.addComponent(rdbtnNewRadioButton_1_1_1))
+						.addComponent(rb_kieuDang)
+						.addComponent(rb_xuatXu)
+						.addComponent(rb_loaiSanPham))
 					.addContainerGap(40, Short.MAX_VALUE))
 		);
 		pnlListThuocTinh.setLayout(gl_pnlListThuocTinh);
 		pnlThuocTinh.setLayout(gl_pnlThuocTinh);
 		mainPanel.setLayout(gl_mainPanel);
+		
+		rd_group.add(rb_mauSac);
+        rd_group.add(rb_chatLieu);
+        rd_group.add(rb_kichThuoc);
+        rd_group.add(rb_loaiSanPham);
+        rd_group.add(rb_kieuDang);
+        rd_group.add(rb_xuatXu);
+        rb_mauSac.setSelected(true);
 	}
+	
 }

@@ -14,7 +14,8 @@ public class SanPham {
     private XuatXu xuatXu;
     private PhanLoai phanLoai;
     private MauSac mauSac;
-
+    private int loiTheoPhanTram;
+    private String hinhAnh;
     public SanPham() {
         // Constructor mặc nhiên
     }
@@ -25,7 +26,7 @@ public class SanPham {
         this.maSP = maSP;
         this.tenSP = tenSP;
         this.giaNhap = giaNhap;
-        this.giaBan = giaNhap * 1.3; // GiaBan được tính dựa trên giá nhập (30% lợi nhuận)
+        this.giaBan = giaNhap; // GiaBan được tính dựa trên giá nhập (30% lợi nhuận)
         this.nhaCungCap = nhaCungCap;
         this.khuyenMai = khuyenMai;
         this.trangThai = trangThai;
