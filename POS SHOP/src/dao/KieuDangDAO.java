@@ -1,7 +1,6 @@
 package dao;
 
 import ConnectDB.KetNoiSQL;
-import entity.ChatLieu;
 import entity.KieuDang;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
