@@ -15,6 +15,8 @@ import javax.swing.border.LineBorder;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JRadioButton;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -25,15 +27,37 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import ConnectDB.KetNoiSQL;
+import dao.ChatLieuDAO;
+import dao.KichThuocDAO;
+import dao.KieuDangDAO;
 import dao.MauSacDAO;
+import dao.PhanLoaiDAO;
+import dao.XuatXuDAO;
+import entity.ChatLieu;
+import entity.KichThuoc;
+import entity.KieuDang;
 import entity.MauSac;
+import entity.PhanLoai;
+import entity.XuatXu;
 
-public class QuanLyThuocTinh extends JPanel {
+public class QuanLyThuocTinh extends JPanel implements ActionListener{
 	private JTextField txtTenThuocTinh;
 	private JTextField textField;
 	private JTable tblThuocTinh;
-	private MauSacDAO mauSac_Dao = new MauSacDAO();
 	private ButtonGroup rd_group = new ButtonGroup();
+    private javax.swing.JRadioButton rb_chatLieu;
+    private javax.swing.JRadioButton rb_kichThuoc;
+    private javax.swing.JRadioButton rb_kieuDang;
+    private javax.swing.JRadioButton rb_loaiSanPham;
+    private javax.swing.JRadioButton rb_mauSac;
+    private javax.swing.JRadioButton rb_xuatXu;
+    
+	private MauSacDAO mauSac_Dao = new MauSacDAO();
+	private KichThuocDAO kichThuoc_Dao = new KichThuocDAO();
+	private XuatXuDAO xuatXu_Dao = new XuatXuDAO();
+	private ChatLieuDAO chatLieu_Dao = new  ChatLieuDAO();
+	private PhanLoaiDAO phanLoai_Dao = new PhanLoaiDAO();
+	private KieuDangDAO kieuDang_Dao = new KieuDangDAO();
 	/**
 	 * Create the panel.
 	 */
@@ -42,19 +66,7 @@ public class QuanLyThuocTinh extends JPanel {
 		initComponents();
 		tblDanhSachMauSac();
 	}
-    private void clearTable(){
-        DefaultTableModel dtm = (DefaultTableModel) tblThuocTinh.getModel();
-        dtm.setRowCount(0);
-    }
-	private void tblDanhSachMauSac(){
-        ArrayList<MauSac> listMauSac = mauSac_Dao.getAllMauSac();
-        clearTable();
-        DefaultTableModel dtm = (DefaultTableModel) tblThuocTinh.getModel();
-        for(MauSac ms : listMauSac) {
-        	Object[] rowData = {ms.getMaMauSac(), ms.getMauSac()};
-        	dtm.addRow(rowData);
-        }
-    }
+    
 	private void initComponents() {
 		setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		setBackground(new Color(255, 255, 255));
@@ -298,6 +310,99 @@ public class QuanLyThuocTinh extends JPanel {
         rd_group.add(rb_kieuDang);
         rd_group.add(rb_xuatXu);
         rb_mauSac.setSelected(true);
+        
+        //addActionListener
+      rb_chatLieu.addActionListener(this);
+      rb_kichThuoc.addActionListener(this);
+      rb_loaiSanPham.addActionListener(this);
+      rb_mauSac.addActionListener(this);
+      rb_xuatXu.addActionListener(this);
+      rb_kieuDang.addActionListener(this);
+	}
+	
+	private void clearTable(){
+        DefaultTableModel dtm = (DefaultTableModel) tblThuocTinh.getModel();
+        dtm.setRowCount(0);
+    }
+	private void tblDanhSachMauSac(){
+        ArrayList<MauSac> listMauSac = mauSac_Dao.getAllMauSac();
+        clearTable();
+        DefaultTableModel dtm = (DefaultTableModel) tblThuocTinh.getModel();
+        for(MauSac ms : listMauSac) {
+        	Object[] rowData = {ms.getMaMauSac(), ms.getMauSac()};
+        	dtm.addRow(rowData);
+        }
+    }
+	private void tblDanhSachKichThuoc(){
+        ArrayList<KichThuoc> listPhanLoai = kichThuoc_Dao.getAllKichThuoc();
+        clearTable();
+        DefaultTableModel dtm = (DefaultTableModel) tblThuocTinh.getModel();
+        for(KichThuoc kt : listPhanLoai){
+            Object[] rowData = {kt.getMaKichThuoc(), kt.getKichThuoc()};
+            dtm.addRow(rowData);
+        }
+    }
+	private void tblDanhSachXuatXu() {
+		ArrayList<XuatXu> listXuatXu = xuatXu_Dao.getAllXuatXu();
+		clearTable();
+		DefaultTableModel dtm = (DefaultTableModel) tblThuocTinh.getModel();
+		for(XuatXu xx : listXuatXu) {
+			Object[] rowData = {xx.getMaXuatXu(), xx.getXuatXu()};
+            dtm.addRow(rowData);
+		}
+	}
+	private void tblDanhSachChatLieu() {
+		ArrayList<ChatLieu> listChatLieu = chatLieu_Dao.getAllChatLieu();
+		clearTable();
+		DefaultTableModel dtm = (DefaultTableModel) tblThuocTinh.getModel();
+		for(ChatLieu cl : listChatLieu) {
+			Object[] rowData = {cl.getMaChatLieu(), cl.getChatLieu()};
+            dtm.addRow(rowData);
+		}
+	}
+	private void tblDanhSachPhanLoai() {
+		ArrayList<PhanLoai> listPhanLoai = phanLoai_Dao.getAllPhanLoai();
+		clearTable();
+		DefaultTableModel dtm = (DefaultTableModel) tblThuocTinh.getModel();
+		for(PhanLoai pl : listPhanLoai) {
+			Object[] rowData = {pl.getMaPhanLoai(), pl.getPhanLoai()};
+            dtm.addRow(rowData);
+		}
+	}
+	private void tblDanhSachKieuDang() {
+		ArrayList<KieuDang> list = kieuDang_Dao.getAllKieuDang();
+		clearTable();
+		DefaultTableModel dtm = (DefaultTableModel) tblThuocTinh.getModel();
+		for(KieuDang kd : list) {
+			Object[] rowData = {kd.getMaKieuDang(), kd.getKieuDang()};
+            dtm.addRow(rowData);
+		}
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		String event = e.getActionCommand();
+		if(event.equalsIgnoreCase("Kích thước")){
+            tblDanhSachKichThuoc();
+        }
+
+        else if(event.equalsIgnoreCase("Màu sắc")){
+            tblDanhSachMauSac();
+        }
+
+        else if(event.equalsIgnoreCase("Chất liệu")){
+            tblDanhSachChatLieu();
+        }
+
+        else if(event.equalsIgnoreCase("Loại sản phẩm")){
+            tblDanhSachPhanLoai();
+        }
+        else if(event.equalsIgnoreCase("Kiểu dáng")){
+            tblDanhSachKieuDang();
+        }
+        else if(event.equalsIgnoreCase("Xuất xứ")){
+            tblDanhSachXuatXu();
+        } 
 	}
 	
 }

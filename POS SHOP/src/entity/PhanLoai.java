@@ -23,8 +23,7 @@ public class PhanLoai {
     }
 
     public void setMaPhanLoai(String maPhanLoai) {
-        // Kiểm tra và xử lý logic tạo mã PhanLoai theo quy luật
-        // Phát sinh tự động
+        this.maPhanLoai = maPhanLoai;
     }
 
     public String getPhanLoai() {
@@ -32,11 +31,7 @@ public class PhanLoai {
     }
 
     public void setPhanLoai(String phanLoai) {
-        if (phanLoai != null && phanLoai.matches("^[A-Z][a-zA-Z ]+$")) {
-            this.phanLoai = phanLoai;
-        } else {
-            throw new IllegalArgumentException("Phân loại không được rỗng nếu tham số phanLoai không hợp lệ");
-        }
+        this.phanLoai = phanLoai;
     }
 
     @Override

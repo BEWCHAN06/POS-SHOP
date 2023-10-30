@@ -23,8 +23,7 @@ public class KieuDang {
     }
 
     public void setMaKieuDang(String maKieuDang) {
-        // Kiểm tra và xử lý logic tạo mã KieuDang theo quy luật
-        // Phát sinh tự động
+        this.maKieuDang = maKieuDang;
     }
 
     public String getKieuDang() {
@@ -32,11 +31,7 @@ public class KieuDang {
     }
 
     public void setKieuDang(String kieuDang) {
-        if (kieuDang != null && !kieuDang.isEmpty()) {
-            this.kieuDang = kieuDang;
-        } else {
-            throw new IllegalArgumentException("Kiểu dáng không được rỗng");
-        }
+        this.kieuDang = kieuDang;
     }
 
     @Override

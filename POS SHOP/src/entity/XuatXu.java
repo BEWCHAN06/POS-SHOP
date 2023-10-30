@@ -23,20 +23,15 @@ public class XuatXu {
     }
 
     public void setMaXuatXu(String maXuatXu) {
-        // Kiểm tra và xử lý logic tạo mã XuatXu theo quy luật
-        // Phát sinh tự động
+        this.maXuatXu = maXuatXu;
     }
-
+    
     public String getXuatXu() {
         return xuatXu;
     }
 
     public void setXuatXu(String xuatXu) {
-        if (xuatXu != null && xuatXu.matches("^[A-Z][a-zA-Z ]+$")) {
-            this.xuatXu = xuatXu;
-        } else {
-            throw new IllegalArgumentException("Xuất xứ không được rỗng nếu tham số xuatXu không hợp lệ");
-        }
+        this.xuatXu = xuatXu;
     }
 
     @Override

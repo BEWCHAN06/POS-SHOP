@@ -23,8 +23,7 @@ public class KichThuoc {
     }
 
     public void setMaKichThuoc(String maKichThuoc) {
-        // Kiểm tra và xử lý logic tạo mã KichThuoc theo quy luật
-        // Phát sinh tự động
+        this.maKichThuoc  = maKichThuoc;
     }
 
     public String getKichThuoc() {
