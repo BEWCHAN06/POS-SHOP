@@ -38,8 +38,8 @@ public class KetNoiSQL {
 
 }
 ```
-- create database link <a href="POS SHOP/data/testdata part1.sql"></a>
-- import data for database <a href="POS SHOP/data/testdata part1 data.sql"></a>
+- create database link <a href="POS SHOP/data/testdata part1.sql">here</a>
+- import data for database <a href="POS SHOP/data/testdata part1 data.sql">here</a>
 ### GD MANG HINH
 - GD LOGIN 
 <img src="POS SHOP/GD/HAGD/login.png" alt="">
