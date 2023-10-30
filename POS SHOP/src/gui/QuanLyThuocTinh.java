@@ -70,6 +70,7 @@ public class QuanLyThuocTinh extends JPanel implements ActionListener{
 	private JButton btnThem;
 	private JButton btnHuy;
 	private DefaultTableModel dtm;
+	private JButton btnLamMoi;
 	/**
 	 * Create the panel.
 	 */
@@ -254,7 +255,7 @@ public class QuanLyThuocTinh extends JPanel implements ActionListener{
 		btnLuu.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		btnLuu.setBackground(new Color(255, 165, 0));
 		
-		JButton btnLamMoi = new JButton("Làm mới");
+		btnLamMoi = new JButton("Làm mới");
 		btnLamMoi.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -265,6 +266,7 @@ public class QuanLyThuocTinh extends JPanel implements ActionListener{
 				btnLuu.setEnabled(true);
 				btnHuy.setEnabled(false);
 				btnLuu.setEnabled(false);
+				txtTimKiem.setEnabled(false);
 			}
 		});
 		btnLamMoi.setIcon(new ImageIcon(QuanLyThuocTinh.class.getResource("/icon/refesh.png")));
