@@ -7,12 +7,14 @@ public class MauSac {
     public MauSac() {
         // Constructor mặc nhiên
     }
-
+    
     public MauSac(String maMauSac, String mauSac) {
         setMaMauSac(maMauSac);
         setMauSac(mauSac);
     }
-
+    public void setMaMauSac(String maMauSac) {
+        this.maMauSac = maMauSac;
+    }
     // Copy constructor
     public MauSac(MauSac other) {
         this(other.maMauSac, other.mauSac);
@@ -20,11 +22,6 @@ public class MauSac {
 
     public String getMaMauSac() {
         return maMauSac;
-    }
-
-    public void setMaMauSac(String maMauSac) {
-        // Kiểm tra và xử lý logic tạo mã MauSac theo quy luật
-        // Phát sinh tự động
     }
 
     public String getMauSac() {

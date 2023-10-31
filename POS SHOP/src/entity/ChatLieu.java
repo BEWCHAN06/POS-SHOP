@@ -23,8 +23,7 @@ public class ChatLieu {
     }
 
     public void setMaChatLieu(String maChatLieu) {
-        // Kiểm tra và xử lý logic tạo mã ChatLieu theo quy luật
-        // Phát sinh tự động
+        this.maChatLieu = maChatLieu;
     }
 
     public String getChatLieu() {
@@ -32,11 +31,7 @@ public class ChatLieu {
     }
 
     public void setChatLieu(String chatLieu) {
-        if (chatLieu != null && !chatLieu.isEmpty()) {
-            this.chatLieu = chatLieu;
-        } else {
-            throw new IllegalArgumentException("Chất liệu không được rỗng");
-        }
+        this.chatLieu = chatLieu;
     }
 
     @Override
