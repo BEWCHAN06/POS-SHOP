@@ -20,13 +20,13 @@ public class SanPham {
         // Constructor mặc nhiên
     }
 
-    public SanPham(String maSP, String tenSP, double giaNhap, NhaCungCap nhaCungCap, KhuyenMai khuyenMai,
+    public SanPham(String maSP, String tenSP, double giaNhap, double giaBan,NhaCungCap nhaCungCap, KhuyenMai khuyenMai,
                    int trangThai, ChatLieu chatLieu, KieuDang kieuDang, KichThuoc kichThuoc, XuatXu xuatXu,
-                   PhanLoai phanLoai, MauSac mauSac) {
+                   PhanLoai phanLoai, MauSac mauSac, int loiTheoPhanTram) { // Gia Huy Thêm giaBan, loiTheoPhanTram
         this.maSP = maSP;
         this.tenSP = tenSP;
         this.giaNhap = giaNhap;
-        this.giaBan = giaNhap; // GiaBan được tính dựa trên giá nhập (30% lợi nhuận)
+        this.giaBan = giaBan; // GiaBan được tính dựa trên giá nhập (30% lợi nhuận)
         this.nhaCungCap = nhaCungCap;
         this.khuyenMai = khuyenMai;
         this.trangThai = trangThai;
@@ -36,6 +36,7 @@ public class SanPham {
         this.xuatXu = xuatXu;
         this.phanLoai = phanLoai;
         this.mauSac = mauSac;
+        this.loiTheoPhanTram = loiTheoPhanTram;
     }
 
     public String getMaSP() {
