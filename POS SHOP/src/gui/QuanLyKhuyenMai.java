@@ -10,10 +10,15 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
+import java.awt.Component;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -26,25 +31,31 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.DropMode;
+import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
 import com.toedter.calendar.JDateChooser;
 
 import ConnectDB.KetNoiSQL;
 import dao.KhuyenMaiDAO;
+import dao.PhanLoaiDAO;
 import dao.SanPhamDAO;
 import entity.KhuyenMai;
+import entity.PhanLoai;
 import entity.SanPham;
 
 public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 	private JTextField txtMaKhuyenMai, txtTenKhuyenMai, txtMucKhuyenMai, txtTimKiemSanPham;
+	private JCheckBox checkBoxChonTatCa;
 	private JComboBox<String> comboBoxPhanLoai;
 	private JDateChooser dateChooserThoiGianBatDauGiamGia, dateChooserThoiGianKetThucGiamGia;
+	private JButton btnLuuKhuyenMai, btnSuaKhuyenMai, btnLamMoi;
 	private JTable tblSanPham, tblKhuyenMai;
 	private DefaultTableModel modelKhuyenMai, modelSanPham;
 	private KhuyenMaiDAO dskm = new KhuyenMaiDAO();
 	private SanPhamDAO dssp = new SanPhamDAO();
-
+	private PhanLoaiDAO dspl = new PhanLoaiDAO();
 	/**
 	 * Create the panel.
 	 */
@@ -130,17 +141,17 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 		JLabel lblThoiGianKetThucKhuyenMai = new JLabel("Thời gian kết thúc giảm giá :");
 		lblThoiGianKetThucKhuyenMai.setFont(new Font("Arial", Font.BOLD, 12));
 
-		JButton btnLuuKhuyenMai = new JButton("Lưu");
+		btnLuuKhuyenMai = new JButton("Lưu");
 		btnLuuKhuyenMai.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/luulienket.png")));
 		btnLuuKhuyenMai.setFont(new Font("Arial", Font.BOLD, 12));
 		btnLuuKhuyenMai.setBackground(new Color(210, 105, 30));
 
-		JButton btnKhuyenMai = new JButton("Sửa");
-		btnKhuyenMai.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/sua.png")));
-		btnKhuyenMai.setFont(new Font("Arial", Font.BOLD, 12));
-		btnKhuyenMai.setBackground(new Color(255, 255, 0));
+		btnSuaKhuyenMai = new JButton("Sửa");
+		btnSuaKhuyenMai.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/sua.png")));
+		btnSuaKhuyenMai.setFont(new Font("Arial", Font.BOLD, 12));
+		btnSuaKhuyenMai.setBackground(new Color(255, 255, 0));
 
-		JButton btnLamMoi = new JButton("Làm mới ");
+		btnLamMoi = new JButton("Làm mới ");
 		btnLamMoi.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/loading.png")));
 		btnLamMoi.setFont(new Font("Arial", Font.BOLD, 12));
 		btnLamMoi.setBackground(new Color(152, 251, 152));
@@ -159,7 +170,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 								.addComponent(btnLuuKhuyenMai, GroupLayout.PREFERRED_SIZE, 105,
 										GroupLayout.PREFERRED_SIZE)
 								.addPreferredGap(ComponentPlacement.RELATED, 26, Short.MAX_VALUE).addComponent(
-										btnKhuyenMai, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE))
+										btnSuaKhuyenMai, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_panel_1.createSequentialGroup().addGap(58).addComponent(btnLamMoi,
 								GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE))
 						.addComponent(dateChooserThoiGianBatDauGiamGia, GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE))
@@ -178,7 +189,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 				.addGap(18)
 				.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnLuuKhuyenMai, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnKhuyenMai, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
+						.addComponent(btnSuaKhuyenMai, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
 				.addGap(27).addComponent(btnLamMoi, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
 				.addContainerGap(92, Short.MAX_VALUE)));
 		panel_1.setLayout(gl_panel_1);
@@ -205,7 +216,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 		txtMucKhuyenMai.setFont(new Font("Arial", Font.PLAIN, 12));
 		txtMucKhuyenMai.setColumns(10);
 
-		JCheckBox checkBoxChonTatCa = new JCheckBox("Select All");
+		checkBoxChonTatCa = new JCheckBox("Select All");
 		checkBoxChonTatCa.setBackground(new Color(255, 255, 255));
 		checkBoxChonTatCa.setFont(new Font("Arial", Font.BOLD, 12));
 
@@ -214,7 +225,6 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 
 		comboBoxPhanLoai = new JComboBox<>();
 		comboBoxPhanLoai.setFont(new Font("Arial", Font.BOLD, 11));
-		comboBoxPhanLoai.setModel(new DefaultComboBoxModel(new String[] { "Áo", "Quần", "Nón", "Thắt lưng" }));
 
 		JLabel lblTimKiemSanPham = new JLabel("Tìm kiếm sản phẩm :");
 		lblTimKiemSanPham.setFont(new Font("Arial", Font.BOLD, 12));
@@ -283,15 +293,39 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 						.addComponent(btnTimKiemSanPham, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE))
 				.addPreferredGap(ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
 				.addComponent(scrollPane_SanPham, GroupLayout.PREFERRED_SIZE, 155, GroupLayout.PREFERRED_SIZE)));
-
-		tblSanPham = new JTable();
-		tblSanPham.setModel(modelSanPham = new DefaultTableModel(new Object[][] {
-
+		
+		
+		modelSanPham = new DefaultTableModel(new Object[][] {
 		}, new String[] { "Select", "M\u00E3 s\u1EA3n ph\u1EA9m", "T\u00EAn s\u1EA3n ph\u1EA9m",
-				"\u0110\u01A1n gi\u00E1" }));
-		tblSanPham.getColumnModel().getColumn(0).setPreferredWidth(30);
-		tblSanPham.getColumnModel().getColumn(0).setMinWidth(10);
-		tblSanPham.getColumnModel().getColumn(2).setPreferredWidth(120);
+				"\u0110\u01A1n gi\u00E1" });
+		tblSanPham = new JTable(modelSanPham) {
+			@Override
+            public Class getColumnClass(int column) { //Class<?> là kiểu trả về cho phương thức getColumnClass để xác định kiểu dữ liệu của từng cột. 													
+				if(column == 0) //Nếu là cột đầu tiên 
+					return Boolean.class; // Trả về kiểu dữ liệu cụ thể là Boolean.class (cho checkbox).
+                return Object.class; // Ngược lại trả về kiểu dữ liệu Object.class cho các cột khác (dữ liệu văn bản).
+            }
+		};
+		
+		// Sử dụng checkbox trong ô kiểm
+        TableCellRenderer checkBoxRenderer = new TableCellRenderer() {
+            JCheckBox checkBox = new JCheckBox(); 
+            {
+            	checkBox.setHorizontalAlignment(JLabel.CENTER); // Đặt căn giữa cho ô kiểm trong cột table
+            }
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                if (value != null) {
+                    checkBox.setSelected((Boolean) value);
+                }
+                return checkBox;
+            }
+        };
+        tblSanPham.getColumnModel().getColumn(0).setCellRenderer(checkBoxRenderer);
+        tblSanPham.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(new JCheckBox()));
+        
+//		tblSanPham.getColumnModel().getColumn(0).setPreferredWidth(30);
+//		tblSanPham.getColumnModel().getColumn(0).setMinWidth(10);
+//		tblSanPham.getColumnModel().getColumn(2).setPreferredWidth(120);
 		scrollPane_SanPham.setViewportView(tblSanPham);
 		panel.setLayout(gl_panel);
 		pnlKhuyenMai.setLayout(gl_pnlKhuyenMai);
@@ -300,18 +334,91 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 		/*
 		 * ==== EVENT ====
 		 */
-		// Chương trình chạy , lấy dữ liệu đưa vào table
+		checkBoxChonTatCa.addActionListener(this);
+		btnLamMoi.addActionListener(this);
+		// Chương trình chạy , lấy dữ liệu đưa vào table, comBoBox
 		updateTableKhuyenMai();
 		updateTableSanPham();
+		updateComboBox();
+		
+		// Sự kiện Click getValueAt
+		tblKhuyenMai.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				int row = tblKhuyenMai.getSelectedRow();
+				txtMaKhuyenMai.setText(modelKhuyenMai.getValueAt(row, 0).toString());
+				txtTenKhuyenMai.setText(modelKhuyenMai.getValueAt(row, 1).toString());
+				txtMucKhuyenMai.setText(modelKhuyenMai.getValueAt(row, 2).toString());
+				Date nbd = (Date) modelKhuyenMai.getValueAt(row, 3);
+				dateChooserThoiGianBatDauGiamGia.setDate(nbd);
+				Date nkt = (Date) modelKhuyenMai.getValueAt(row, 4);
+				dateChooserThoiGianKetThucGiamGia.setDate(nkt);
+			}
+		});
 	}
-
-	//
-
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-
+		Object o = e.getSource();
+		if(o.equals(checkBoxChonTatCa)) {
+			boolean selected = checkBoxChonTatCa.isSelected();
+	        // Duyệt qua tất cả các hàng và đặt giá trị của cột "Select" cho từng hàng
+	        for (int row = 0; row < modelSanPham.getRowCount(); row++) {
+	            modelSanPham.setValueAt(selected, row, 0);
+	        }
+		} else if(o.equals(btnLamMoi)) {
+			xoaRong();
+		}
 	}
+	
+	private void xoaRong() {
+		txtMaKhuyenMai.setText("");
+		txtTenKhuyenMai.setText("");
+		txtMucKhuyenMai.setText("");
+		dateChooserThoiGianBatDauGiamGia.setDate(null);
+		dateChooserThoiGianKetThucGiamGia.setDate(null);
+		checkBoxChonTatCa.setSelected(false);
+		for (int row = 0; row < modelSanPham.getRowCount(); row++) {
+			modelSanPham.setValueAt(false, row, 0);
+        }	
+		txtTenKhuyenMai.requestFocus();
+	}
+	
+	// Đưa dữ liệu vào ComboBox
+		private void updateComboBox() {
+			comboBoxPhanLoai.removeAllItems(); // Xóa tất cả các item cũ để cập nhật lại sau khi(Thêm, Xóa)
+			PhanLoaiDAO ds = new PhanLoaiDAO();
+			List<PhanLoai> list = ds.getAllPhanLoai();
+			for (PhanLoai pl : list) {
+				comboBoxPhanLoai.addItem(pl.getPhanLoai());
+			}
+		}
 
 	// Đưa dữ liệu vào table KhuyenMAi
 	private void updateTableKhuyenMai() {
