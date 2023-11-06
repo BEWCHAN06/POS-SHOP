@@ -55,7 +55,6 @@ INSERT INTO NhaCungCap VALUES
 ('NCC03', N'Công ty C', '0903345678', 'ncc3@gmail.com', N'TP. Hồ Chí Minh')
 
 --Insert data for table KhuyenMai
-drop table KhuyenMai
 INSERT INTO KhuyenMai VALUES
 ('KM01', 10, N'Giảm 10%', '2023-10-29', '2024-12-31'),
 ('KM02', 15, N'Giảm 15%', '2023-11-29', '2024-02-28'),
@@ -87,5 +86,5 @@ INSERT INTO ChiTietHoaDon VALUES
 
 --Insert data for table HoaDonTraHang
 INSERT INTO HoaDonTraHang VALUES
-('TH01',1,'SP01','HD01'),
-('TH02',2,'SP02','HD02')
+('TH01','2022-01-06',1,'SP01','HD01'),
+('TH02','2022-02-15',2,'SP02','HD02')
