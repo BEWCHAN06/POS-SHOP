@@ -239,6 +239,15 @@ public class QuanLyThuocTinh extends JPanel implements ActionListener{
 		btnSua.setBackground(Color.YELLOW);
 		
 		btnLuu = new JButton("Lưu");
+		btnLuu.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				String thuoctinh = txtTenThuocTinh.getText();
+				if(rb_mauSac.isSelected()) {
+//					themMauXac(thuoctinh);
+				}
+			}
+		});
 		btnLuu.setEnabled(false);
 		btnLuu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -532,6 +541,15 @@ public class QuanLyThuocTinh extends JPanel implements ActionListener{
 
         return true;
     }
+	///them thuoc tinh
+	
+	private void themMauSac(String thuocTinh) {
+		MauSacDAO listms = new MauSacDAO();
+//		String s1 = "MS00" +(listms)
+		
+//		MauSac ms = new MauSac(thuocTinh, thuocTinh);
+		
+	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub

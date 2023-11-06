@@ -3,42 +3,30 @@ package entity;
 public class MauSac {
     private String maMauSac;
     private String mauSac;
-
-    public MauSac() {
-        // Constructor mặc nhiên
-    }
-    
-    public MauSac(String maMauSac, String mauSac) {
-        setMaMauSac(maMauSac);
-        setMauSac(mauSac);
-    }
-    public void setMaMauSac(String maMauSac) {
-        this.maMauSac = maMauSac;
-    }
-    // Copy constructor
-    public MauSac(MauSac other) {
-        this(other.maMauSac, other.mauSac);
-    }
-
-    public String getMaMauSac() {
-        return maMauSac;
-    }
-
-    public String getMauSac() {
-        return mauSac;
-    }
-
-    public void setMauSac(String mauSac) {
-        if (mauSac != null && !mauSac.isEmpty()) {
-            this.mauSac = mauSac;
-        } else {
-            throw new IllegalArgumentException("Màu sắc không được rỗng nếu tham số mauSac không hợp lệ");
-        }
-    }
-
-    @Override
-    public String toString() {
-        return "MauSac [maMauSac=" + maMauSac + ", mauSac=" + mauSac + "]";
-    }
+   
+	public MauSac(String maMauSac, String mauSac) {
+		super();
+		this.maMauSac = maMauSac;
+		this.mauSac = mauSac;
+	}
+	public MauSac() {
+		
+	}
+	public String getMaMauSac() {
+		return maMauSac;
+	}
+	public void setMaMauSac(String maMauSac) {
+		this.maMauSac = maMauSac;
+	}
+	public String getMauSac() {
+		return mauSac;
+	}
+	public void setMauSac(String mauSac) {
+		this.mauSac = mauSac;
+	}
+	@Override
+	public String toString() {
+		return "MauSac [maMauSac=" + maMauSac + ", mauSac=" + mauSac + "]";
+	}
 }
 
