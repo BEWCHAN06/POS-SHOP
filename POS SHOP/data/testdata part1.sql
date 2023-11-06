@@ -13,7 +13,7 @@ gioiTinh bit NOT NULL,
 diaChi nvarchar(50) NOT NULL,
 chucVu int NOT NULL CHECK (chucVu = 1 or chucVu = 2),
 trangThai int NOT NULL CHECK (trangThai = 1 or trangThai = 2 or trangThai = 3),
-luong float CHECK (luong > 0)
+luong double precision CHECK (luong > 0)
 )
 
 -- Tạo bảng KhachHang
@@ -84,7 +84,7 @@ diaChi nvarchar(50) NOT NULL
 CREATE TABLE KhuyenMai
 (
 maKM varchar(7) PRIMARY KEY,
-phanTramKhuyenMai float CHECK (phanTramKhuyenMai > 0),
+phanTramKhuyenMai double precision CHECK (phanTramKhuyenMai > 0),
 tenKhuyenMai nvarchar(50),
 ngayBatDau date ,
 ngayKetThuc date 
@@ -95,7 +95,7 @@ CREATE TABLE SanPham
 (
 maSP varchar(7) PRIMARY KEY,
 tenSP nvarchar(50) NOT NULL,
-giaNhap float CHECK (giaNhap > 0),
+giaNhap double precision CHECK (giaNhap > 0),
 maNCC varchar(7) FOREIGN KEY REFERENCES NhaCungCap(maNCC),
 maKM varchar(7) FOREIGN KEY REFERENCES KhuyenMai(maKM),
 trangThai int CHECK (trangThai = 1 or trangThai = 2 or trangThai = 3),
@@ -106,7 +106,7 @@ maMS varchar(7) FOREIGN KEY REFERENCES MauSac(maMS),
 maXX varchar(7) FOREIGN KEY REFERENCES XuatXu(maXX),
 maPL varchar(7) FOREIGN KEY REFERENCES PhanLoai(maPL),
 loiTheoPhanTram int CHECK (loiTheoPhanTram > 0),
-giaBan float 
+giaBan double precision 
 )
 
 -- Tạo bảng TaiKhoan
@@ -142,6 +142,7 @@ FOREIGN KEY (maHD) REFERENCES HoaDon(maHD)
 CREATE TABLE HoaDonTraHang
 (
 maTH varchar(7) PRIMARY KEY,
+ngayTra date DEFAULT GETDATE(),
 soLuong int CHECK (soLuong > 0),
 maSP varchar(7) FOREIGN KEY REFERENCES SanPham(maSP),
 maHD varchar(7) FOREIGN KEY REFERENCES HoaDon(maHD)
