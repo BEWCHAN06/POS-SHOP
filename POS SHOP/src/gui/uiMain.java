@@ -175,7 +175,7 @@ public class uiMain {
 		btnSanPham.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				SanPham qlsp = new SanPham();
+				uiSanPham qlsp = new uiSanPham();
                 mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
                 mainPanel.add(qlsp, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
                 mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới

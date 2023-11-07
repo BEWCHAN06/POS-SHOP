@@ -106,7 +106,8 @@ maMS varchar(7) FOREIGN KEY REFERENCES MauSac(maMS),
 maXX varchar(7) FOREIGN KEY REFERENCES XuatXu(maXX),
 maPL varchar(7) FOREIGN KEY REFERENCES PhanLoai(maPL),
 loiTheoPhanTram int CHECK (loiTheoPhanTram > 0),
-giaBan double precision 
+giaBan double precision,
+hinhAnh varchar(50)
 )
 
 -- Tạo bảng TaiKhoan

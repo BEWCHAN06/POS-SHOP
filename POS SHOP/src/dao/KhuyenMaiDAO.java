@@ -2,15 +2,20 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import ConnectDB.KetNoiSQL;
 import entity.KhuyenMai;
+import entity.PhanLoai;
 public class KhuyenMaiDAO {
 	ArrayList<KhuyenMai> dskm;
 	KhuyenMai km;
@@ -44,6 +49,30 @@ public class KhuyenMaiDAO {
 		}
 		return dskm;
 	}
+	public KhuyenMai getKhuyenMai(String id) {
+		KetNoiSQL.getInstance();
+        Connection conn = KetNoiSQL.getConnection();
+        try {
+            String sql = "select * from KhuyenMai where maKM = ?";
+            PreparedStatement stmt = conn.prepareCall(sql);
+            stmt.setString(1, id);
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+                String makm = rs.getString(1);
+                int ptkm = rs.getInt(2);
+                String tenkm = rs.getString(3);
+                Date ngayBD = rs.getDate(4);
+                Date ngayKT = rs.getDate(5);
+                KhuyenMai km = new KhuyenMai(makm, tenkm, ptkm, ngayBD, ngayKT);
+                return km;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(XuatXuDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+		
+	}
+	
 }
 
 

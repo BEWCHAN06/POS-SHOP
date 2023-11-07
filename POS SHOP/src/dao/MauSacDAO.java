@@ -41,7 +41,7 @@ public class MauSacDAO {
         Connection conn = KetNoiSQL.getConnection();
         
         try {
-            String sql = "select * from MauSac where maMauSac = ?";
+            String sql = "select * from MauSac where maMS = ?";
             PreparedStatement stmt = conn.prepareCall(sql);
             stmt.setString(1, id);
             ResultSet rs = stmt.executeQuery();

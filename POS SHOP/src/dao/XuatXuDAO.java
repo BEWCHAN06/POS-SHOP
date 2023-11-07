@@ -42,7 +42,7 @@ public class XuatXuDAO {
         Connection conn = KetNoiSQL.getConnection();
         
         try {
-        String sql = "select * from XuatXu where maXuatXu = ?";
+        String sql = "select * from XuatXu where maXX = ?";
         PreparedStatement stmt = conn.prepareCall(sql);
         stmt.setString(1, id);
         ResultSet rs = stmt.executeQuery();

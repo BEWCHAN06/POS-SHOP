@@ -28,6 +28,16 @@ public class KetNoiSQL {
         }
     }
     
+    public void disconect() {
+    	if(conn != null) {
+    		try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
+    }
     public static Connection getConnection(){
         return conn;
     }

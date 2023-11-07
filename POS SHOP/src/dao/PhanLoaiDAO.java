@@ -31,9 +31,10 @@ public class PhanLoaiDAO {
                 listPhanLoai.add(pl);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(MauSacDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XuatXuDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return listPhanLoai;
+        
     }
     
     public PhanLoai getPhanLoai(String id){
@@ -41,7 +42,7 @@ public class PhanLoaiDAO {
         Connection conn = KetNoiSQL.getConnection();
         
         try {
-            String sql = "select * from PhanLoai where maPhanLoai = ?";
+            String sql = "select * from PhanLoai where maPL = ?";
             PreparedStatement stmt = conn.prepareCall(sql);
             stmt.setString(1, id);
             ResultSet rs = stmt.executeQuery();

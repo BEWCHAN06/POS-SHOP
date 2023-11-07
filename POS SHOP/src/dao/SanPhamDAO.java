@@ -10,46 +10,71 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ConnectDB.KetNoiSQL;
+import entity.ChatLieu;
 import entity.KhuyenMai;
+import entity.KichThuoc;
+import entity.MauSac;
+import entity.NhaCungCap;
+import entity.PhanLoai;
 import entity.SanPham;
 
 public class SanPhamDAO {
 	ArrayList<SanPham> dssp;
 	SanPham sp;
+	ChatLieuDAO chatLieuDao = new ChatLieuDAO();
+    KieuDangDAO kieuDangDao = new KieuDangDAO();
+    KichThuocDAO kichThuocDao = new KichThuocDAO();
+    MauSacDAO mauSacDAO = new MauSacDAO();
+    XuatXuDAO xuatXuDAO = new XuatXuDAO();
+    PhanLoaiDAO phanLoaiDAO = new PhanLoaiDAO();
+    NhaCungCapDAO nhaCungCapDao = new NhaCungCapDAO();
+    KhuyenMaiDAO khuyenMaiDao = new KhuyenMaiDAO();
 	
 	public SanPhamDAO() {
+		
 		KetNoiSQL.getInstance();
 		dssp = new ArrayList<SanPham>();
 	}
 	
+	
 	public List<SanPham> doTuBang() {
-		try {
-			Connection con = KetNoiSQL.getInstance().getConnection();
-			String sql = "Select * from SanPham";
-			Statement statement = con.createStatement(); // Thực thi câu lệnh SQL trả về ResulSet.
-			ResultSet rs = statement.executeQuery(sql);
-			// Duyệt kết quả trả về
-			while (rs.next()) { // Di chuyển con trỏ xuống bản ghi kế tiếp
-				String ma = rs.getString(1);
-				String ten = rs.getString(2);
-				Double giaNhap = rs.getDouble(3);
-				String NCC = rs.getString(4);
-				String KM = rs.getString(5);
-				int trangThai = rs.getInt(6);
-				String CL = rs.getString(7);
-				String KD = rs.getString(8);
-				String KT = rs.getString(9);
-				String MS = rs.getString(10);
-				String XX = rs.getString(11);
-				String PL = rs.getString(12);
-				int loi = rs.getInt(13);
-				Double giaBan = rs.getDouble(14);
-				SanPham sp = new SanPham(ma, ten, giaNhap, giaBan, null, null, trangThai, null, null, null, null, null, null, loi);
-				dssp.add(sp);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return dssp;
-	}
+        try {
+            Connection con = KetNoiSQL.getInstance().getConnection();
+            String sql = "select sp.maSP, tenSP, maPL, giaNhap,loiTheoPhanTram, maKM, giaBan, maKT,soLuong,maMS, maCL, maNCC, hinhAnh  from SanPham sp join ChiTietHoaDon cthd on sp.maSP = cthd.maSP";
+            Statement statement = con.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
+
+            while (rs.next()) {
+                String masp = rs.getString("maSP");
+                String ten = rs.getString("tenSP");
+                String maloai = rs.getString("maPL");
+                float giaNhap = rs.getFloat("giaNhap");
+                int loi = rs.getInt("loiTheoPhanTram");
+                String maKm = rs.getString("maKM");
+                float giaBan = rs.getFloat("giaBan");
+                String makt = rs.getString("maKT");
+                int sl = rs.getInt("soLuong");
+                String mams = rs.getString("maMS");
+                String macl = rs.getString("maCL");
+                String mancc = rs.getString("maNCC");
+                String hinhAnh = rs.getString("hinhAnh");
+
+                PhanLoai phanloai = phanLoaiDAO.getPhanLoai(maloai);
+                KhuyenMai khuyenmai = khuyenMaiDao.getKhuyenMai(maKm);
+                KichThuoc kt = kichThuocDao.getKichThuoc(makt);
+                MauSac ms = mauSacDAO.getMauSac(mams);
+                ChatLieu cl = chatLieuDao.getChatLieu(macl);
+                NhaCungCap ncc = nhaCungCapDao.getNhaCungCap(mancc);
+
+                SanPham sp = new SanPham(masp, ten, phanloai, giaNhap, loi, khuyenmai, giaBan, kt, sl, ms, cl, ncc, hinhAnh);
+                dssp.add(sp);
+            }
+
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return dssp;
+    }
 }

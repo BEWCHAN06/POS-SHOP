@@ -41,7 +41,7 @@ public class KichThuocDAO {
         Connection conn = KetNoiSQL.getConnection();
         
         try {
-            String sql = "select * from KichThuoc where maKichThuoc = ?";
+            String sql = "select * from KichThuoc where maKT = ?";
             PreparedStatement stmt = conn.prepareCall(sql);
             stmt.setString(1, id);
             ResultSet rs = stmt.executeQuery();

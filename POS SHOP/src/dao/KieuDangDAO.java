@@ -41,7 +41,7 @@ public class KieuDangDAO {
         Connection conn = KetNoiSQL.getConnection();
         
         try {
-            String sql = "select * from KieuDang where maKieuDang = ?";
+            String sql = "select * from KieuDang where maKD = ?";
             PreparedStatement stmt = conn.prepareCall(sql);
             stmt.setString(1, id);
             ResultSet rs = stmt.executeQuery();

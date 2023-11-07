@@ -10,12 +10,12 @@ import javax.swing.JTabbedPane;
 import java.awt.Color;
 import javax.swing.border.LineBorder;
 
-public class SanPham extends JPanel {
+public class uiSanPham extends JPanel {
 
 	/**
 	 * Create the panel.
 	 */
-	public SanPham() {
+	public uiSanPham() {
 		setBackground(new Color(255, 255, 255));
 
 		// Đặt kích thước mặc định cho JPanel QuanLySanPham

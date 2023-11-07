@@ -19,9 +19,30 @@ import javax.swing.JCheckBox;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import ConnectDB.KetNoiSQL;
+import dao.ChatLieuDAO;
+import dao.KhuyenMaiDAO;
+import dao.KichThuocDAO;
+import dao.KieuDangDAO;
+import dao.MauSacDAO;
+import dao.NhaCungCapDAO;
+import dao.PhanLoaiDAO;
+import dao.SanPhamDAO;
+import dao.XuatXuDAO;
+import entity.ChatLieu;
+import entity.KichThuoc;
+import entity.KieuDang;
+import entity.MauSac;
+import entity.PhanLoai;
+import entity.SanPham;
+import entity.XuatXu;
+
 import java.awt.Font;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
 
@@ -33,11 +54,80 @@ public class QuanLySanPham extends JPanel {
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTable tbllistSanPham;
-
+	private SanPhamDAO sanPhamDAO;
+    private MauSacDAO mauSacDAO;
+    private KichThuocDAO kichThuocDAO;
+    private KieuDangDAO kieuDangDAO;
+    private ChatLieuDAO chatLieuDAO;
+    private PhanLoaiDAO phanLoaiDAO;
+    private XuatXuDAO xuatXuDAO;
+    private NhaCungCapDAO nhaCungCapDAO;
+    private KhuyenMaiDAO khuyenMaiDAO;
+	private JComboBox cboMauSac;
+	private JComboBox cboLoaiSanPham;
+	private JComboBox cboChatLieu;
+	private JComboBox cboKieuDang;
+	private JComboBox cboxuatXu;
+	private JComboBox cboKichThuocBatDau;
+	private JComboBox cboGiaLoi;
+	private JComboBox cboNCC;
+	private JComboBox cboKichThuocKetThuc;
 	/**
 	 * Create the panel.
 	 */
 	public QuanLySanPham() {
+
+		KetNoiSQL.getInstance().connect();
+		uiSanPhan();
+		tblDanhSachSanPham();
+//		loadComboBoxThuocTinh();
+	}
+	private void loadComboBoxThuocTinh() {
+        mauSacDAO = new MauSacDAO();
+        ArrayList<MauSac> listMauSac = mauSacDAO.getAllMauSac();
+        listMauSac.forEach(mauSac -> cboMauSac.addItem(mauSac.getMauSac()));
+
+        kichThuocDAO = new KichThuocDAO();
+        ArrayList<KichThuoc> listKichThuoc = kichThuocDAO.getAllKichThuoc();
+        listKichThuoc.forEach(kichThuoc -> cboKichThuocBatDau.addItem(kichThuoc.getKichThuoc()));
+
+        kieuDangDAO = new KieuDangDAO();
+        ArrayList<KieuDang> listKieuDang = kieuDangDAO.getAllKieuDang();
+        listKieuDang.forEach(kieuDang -> cboKieuDang.addItem(kieuDang.getKieuDang()));
+
+        chatLieuDAO = new ChatLieuDAO();
+        ArrayList<ChatLieu> listChatLieu = chatLieuDAO.getAllChatLieu();
+        listChatLieu.forEach(chatLieu -> cboChatLieu.addItem(chatLieu.getChatLieu()));
+
+        phanLoaiDAO = new PhanLoaiDAO();
+        ArrayList<PhanLoai> listPhanLoai = phanLoaiDAO.getAllPhanLoai();
+        listPhanLoai.forEach(phanLoai -> cboLoaiSanPham.addItem(phanLoai.getPhanLoai()));
+
+        xuatXuDAO = new XuatXuDAO();
+        ArrayList<XuatXu> listXuatXu = xuatXuDAO.getAllXuatXu();
+        listXuatXu.forEach(xuatXu -> cboxuatXu.addItem(xuatXu.getXuatXu()));
+
+//        nhaCungCapDAO = new NhaCungCapDAO();
+//        ArrayList<> listNhaCungCap = nhaCungCapDAO.getAllNhaCungCap();
+//        listNhaCungCap.forEach(nhaCungCap -> cb_nhaCungCap.addItem(nhaCungCap.getTenNhaCungCap()));
+
+    }
+    private void clearTable() {
+        DefaultTableModel dtm = (DefaultTableModel) tbllistSanPham.getModel();
+        dtm.setRowCount(0);
+    }
+	private void tblDanhSachSanPham() {
+		sanPhamDAO = new SanPhamDAO();
+		clearTable();
+		DefaultTableModel dtm = (DefaultTableModel) tbllistSanPham.getModel();
+		List<SanPham> listsp = sanPhamDAO.doTuBang();
+		for(SanPham sp : listsp) {
+			Object[] rowdata = {sp.getMaSP(), sp.getTenSP(),sp.getPl().getPhanLoai(),sp.getGiaNhap(),sp.getLoi(), (sp.getKhuyenMai() != null) ? sp.getKhuyenMai().getPhanTramKhuyenMai(): "",
+					sp.getGiaBan(),sp.getKichThuoc().getKichThuoc(),sp.getSoLuong(), sp.getMauSac().getMauSac(),sp.getChatLieu().getChatLieu(),sp.getNhaCungCap().getTenNCC(),sp.getHinhAnh()};
+			dtm.addRow(rowdata);
+		}
+	}
+	private void uiSanPhan() {
 		setBackground(new Color(255, 255, 255));
 		setPreferredSize(new Dimension(934, 687));
 		setLayout(new CardLayout(0, 0));
@@ -176,10 +266,10 @@ public class QuanLySanPham extends JPanel {
 		tbllistSanPham = new JTable();
 		tbllistSanPham.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null, null, null, null, null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null, null, null, null, null},
 			},
 			new String[] {
-				"m\u00E3 s\u1EA3n ph\u1EA9m", "t\u00EAn s\u1EA3n ph\u1EA9m", "lo\u1EA1i", "gi\u00E1 g\u1ED1c", "l\u1EDDi", "khuy\u1EBFn m\u00E3i", "gi\u00E1 b\u00E1n", "k\u00EDch th\u01B0\u1EDBc", "s\u1ED1 l\u01B0\u1EE3ng", "m\u00E0u s\u1EAFc", "ch\u1EA5t li\u1EC7u", "t\u1ED3n kho", "nh\u00E0 cung c\u1EA5p"
+				"m\u00E3 s\u1EA3n ph\u1EA9m", "t\u00EAn s\u1EA3n ph\u1EA9m", "lo\u1EA1i", "gi\u00E1 g\u1ED1c", "l\u1EDDi %", "khuy\u1EBFn m\u00E3i", "gi\u00E1 b\u00E1n", "k\u00EDch th\u01B0\u1EDBc", "t\u1ED3n kho", "m\u00E0u s\u1EAFc", "ch\u1EA5t li\u1EC7u", "nh\u00E0 cung c\u1EA5p"
 			}
 		));
 		scrollPane_1.setViewportView(tbllistSanPham);
@@ -295,33 +385,33 @@ public class QuanLySanPham extends JPanel {
 		
 		JLabel lblNewLabel_1_1 = new JLabel("Màu sắc :");
 		
-		JComboBox cboMauSac = new JComboBox();
+		cboMauSac = new JComboBox();
 		cboMauSac.setBorder(new LineBorder(new Color(0, 0, 0)));
 		cboMauSac.setBackground(new Color(255, 255, 255));
 		
 		JLabel lblNewLabel_1_1_1 = new JLabel("Loại sản phẩm :");
 		
-		JComboBox cboLoaiSanPham = new JComboBox();
+		cboLoaiSanPham = new JComboBox();
 		cboLoaiSanPham.setBorder(new LineBorder(new Color(0, 0, 0)));
 		cboLoaiSanPham.setBackground(new Color(255, 255, 255));
 		
 		JLabel lblNewLabel_1_1_1_1 = new JLabel("Chất liệu : ");
 		
-		JComboBox cboChatLieu = new JComboBox();
+		cboChatLieu = new JComboBox();
 		cboChatLieu.setBorder(new LineBorder(new Color(0, 0, 0)));
 		cboChatLieu.setBackground(new Color(255, 255, 255));
 		
 		JLabel lblNewLabel_1_1_1_2 = new JLabel("Kiểu dáng :");
 		
-		JComboBox cboKieuDang = new JComboBox();
+		cboKieuDang = new JComboBox();
 		cboKieuDang.setBorder(new LineBorder(new Color(0, 0, 0)));
 		cboKieuDang.setBackground(new Color(255, 255, 255));
 		
 		JLabel lblNewLabel_1_1_1_1_1 = new JLabel("Xuất Xứ : ");
 		
-		JComboBox cboChatLieu_1 = new JComboBox();
-		cboChatLieu_1.setBorder(new LineBorder(new Color(0, 0, 0)));
-		cboChatLieu_1.setBackground(new Color(255, 255, 255));
+		cboxuatXu = new JComboBox();
+		cboxuatXu.setBorder(new LineBorder(new Color(0, 0, 0)));
+		cboxuatXu.setBackground(new Color(255, 255, 255));
 		
 		JButton btnHinhAnh = new JButton("Chọn");
 		btnHinhAnh.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -329,9 +419,9 @@ public class QuanLySanPham extends JPanel {
 		
 		JLabel lblNewLabel_1_1_1_2_1 = new JLabel("Nhà Cung Cấp :");
 		
-		JComboBox cboKieuDang_1 = new JComboBox();
-		cboKieuDang_1.setBorder(new LineBorder(new Color(0, 0, 0)));
-		cboKieuDang_1.setBackground(new Color(255, 255, 255));
+		cboNCC = new JComboBox();
+		cboNCC.setBorder(new LineBorder(new Color(0, 0, 0)));
+		cboNCC.setBackground(new Color(255, 255, 255));
 		
 		JLabel lblGiNhp = new JLabel("Giá Nhập : ");
 		
@@ -341,7 +431,7 @@ public class QuanLySanPham extends JPanel {
 		
 		JLabel lblNewLabel_1_1_1_2_2 = new JLabel("Lời Theo :");
 		
-		JComboBox cboGiaLoi = new JComboBox();
+		cboGiaLoi = new JComboBox();
 		cboGiaLoi.setBorder(new LineBorder(new Color(0, 0, 0)));
 		cboGiaLoi.setBackground(new Color(255, 255, 255));
 		
@@ -350,15 +440,15 @@ public class QuanLySanPham extends JPanel {
 		
 		JLabel lblNewLabel_1_1_1_2_3 = new JLabel("Kích thước :");
 		
-		JComboBox cboKichThuocBatDau = new JComboBox();
+		cboKichThuocBatDau = new JComboBox();
 		cboKichThuocBatDau.setBorder(new LineBorder(new Color(0, 0, 0)));
 		cboKichThuocBatDau.setBackground(new Color(255, 255, 255));
 		
 		JLabel lblNewLabel_1_1_1_2_3_1 = new JLabel("Đến :");
 		
-		JComboBox cboKichThuocBatDau_1 = new JComboBox();
-		cboKichThuocBatDau_1.setBorder(new LineBorder(new Color(0, 0, 0)));
-		cboKichThuocBatDau_1.setBackground(new Color(255, 255, 255));
+		cboKichThuocKetThuc = new JComboBox();
+		cboKichThuocKetThuc.setBorder(new LineBorder(new Color(0, 0, 0)));
+		cboKichThuocKetThuc.setBackground(new Color(255, 255, 255));
 		
 		JButton btnXemTruoc = new JButton("Xem Trước");
 		btnXemTruoc.setBorder(new LineBorder(new Color(0, 0, 0), 2));
@@ -378,7 +468,7 @@ public class QuanLySanPham extends JPanel {
 							.addGap(18)
 							.addComponent(lblNewLabel_1_1_1_2_3_1, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(cboKichThuocBatDau_1, GroupLayout.PREFERRED_SIZE, 76, GroupLayout.PREFERRED_SIZE)
+							.addComponent(cboKichThuocKetThuc, GroupLayout.PREFERRED_SIZE, 76, GroupLayout.PREFERRED_SIZE)
 							.addGap(158))
 						.addGroup(gl_pnlXemTruoc.createSequentialGroup()
 							.addGroup(gl_pnlXemTruoc.createParallelGroup(Alignment.LEADING)
@@ -394,7 +484,7 @@ public class QuanLySanPham extends JPanel {
 												.addGroup(gl_pnlXemTruoc.createSequentialGroup()
 													.addComponent(cboKieuDang, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE)
 													.addPreferredGap(ComponentPlacement.UNRELATED)
-													.addComponent(cboChatLieu_1, 0, 111, Short.MAX_VALUE)))
+													.addComponent(cboxuatXu, 0, 111, Short.MAX_VALUE)))
 											.addPreferredGap(ComponentPlacement.RELATED))
 										.addGroup(gl_pnlXemTruoc.createSequentialGroup()
 											.addContainerGap()
@@ -425,7 +515,7 @@ public class QuanLySanPham extends JPanel {
 									.addComponent(lblNewLabel_1_1_1_2_1, GroupLayout.PREFERRED_SIZE, 189, GroupLayout.PREFERRED_SIZE))
 								.addGroup(gl_pnlXemTruoc.createSequentialGroup()
 									.addContainerGap()
-									.addComponent(cboKieuDang_1, GroupLayout.PREFERRED_SIZE, 250, GroupLayout.PREFERRED_SIZE))
+									.addComponent(cboNCC, GroupLayout.PREFERRED_SIZE, 250, GroupLayout.PREFERRED_SIZE))
 								.addGroup(gl_pnlXemTruoc.createSequentialGroup()
 									.addContainerGap()
 									.addComponent(chckbxNewCheckBox)))
@@ -495,11 +585,11 @@ public class QuanLySanPham extends JPanel {
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_pnlXemTruoc.createParallelGroup(Alignment.BASELINE)
 								.addComponent(cboKieuDang, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(cboChatLieu_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addComponent(cboxuatXu, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(lblNewLabel_1_1_1_2_1)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(cboKieuDang_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addComponent(cboNCC, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(chckbxNewCheckBox)
 							.addPreferredGap(ComponentPlacement.RELATED)
@@ -507,7 +597,7 @@ public class QuanLySanPham extends JPanel {
 								.addComponent(lblNewLabel_1_1_1_2_3)
 								.addComponent(cboKichThuocBatDau, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblNewLabel_1_1_1_2_3_1)
-								.addComponent(cboKichThuocBatDau_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+								.addComponent(cboKichThuocKetThuc, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
 					.addContainerGap(24, Short.MAX_VALUE))
 		);
 		pnlXemTruoc.setLayout(gl_pnlXemTruoc);

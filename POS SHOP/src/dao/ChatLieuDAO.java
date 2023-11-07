@@ -41,7 +41,7 @@ public class ChatLieuDAO {
         Connection conn = KetNoiSQL.getConnection();
         
         try {
-            String sql = "select * from ChatLieu where maChatLieu = ?";
+            String sql = "select * from ChatLieu where maCL = ?";
             PreparedStatement stmt = conn.prepareCall(sql);
             stmt.setString(1, id);
             ResultSet rs = stmt.executeQuery();
