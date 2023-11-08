@@ -14,10 +14,12 @@ import ConnectDB.KetNoiSQL;
 import entity.ChatLieu;
 import entity.KhuyenMai;
 import entity.KichThuoc;
+import entity.KieuDang;
 import entity.MauSac;
 import entity.NhaCungCap;
 import entity.PhanLoai;
 import entity.SanPham;
+import entity.XuatXu;
 
 public class SanPhamDAO {
 	ArrayList<SanPham> dssp;
@@ -121,5 +123,51 @@ public class SanPhamDAO {
 			e.printStackTrace();
 		}
 		return dssp;
+	}
+	public SanPham getSanPhanTheoId(String id) {
+		try {
+			Connection con = KetNoiSQL.getInstance().getConnection();
+			String sql = "select sp.maSP, tenSP, maPL, giaNhap,loiTheoPhanTram, maKM, giaBan, maKT,soLuong,maMS, maCL, maNCC,maKD,maXX, hinhAnh\r\n"
+					+ "from SanPham sp join ChiTietHoaDon cthd on sp.maSP = cthd.maSP \r\n"
+					+ "where sp.maSP like (?)";
+			PreparedStatement stmt = con.prepareCall(sql);
+            stmt.setString(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				String masp = rs.getString("maSP");
+				String ten = rs.getString("tenSP");
+				String maloai = rs.getString("maPL");
+				float giaNhap = rs.getFloat("giaNhap");
+				int loi = rs.getInt("loiTheoPhanTram");
+				String maKm = rs.getString("maKM");
+				float giaBan = rs.getFloat("giaBan");
+				String makt = rs.getString("maKT");
+				int sl = rs.getInt("soLuong");
+				String mams = rs.getString("maMS");
+				String macl = rs.getString("maCL");
+				String mancc = rs.getString("maNCC");
+				String makd = rs.getString("maKD");
+				String maxx = rs.getString("maXX");
+				String hinhAnh = rs.getString("hinhAnh");
+
+				PhanLoai phanloai = phanLoaiDAO.getPhanLoai(maloai);
+				KhuyenMai khuyenmai = khuyenMaiDao.getKhuyenMai(maKm);
+				KichThuoc kt = kichThuocDao.getKichThuoc(makt);
+				MauSac ms = mauSacDAO.getMauSac(mams);
+				ChatLieu cl = chatLieuDao.getChatLieu(macl);
+				NhaCungCap ncc = nhaCungCapDao.getNhaCungCap(mancc);
+				KieuDang kd = kieuDangDao.getKieuDang(makd);
+				XuatXu xx = xuatXuDAO.getXuatXu(maxx);
+
+				SanPham sp = new SanPham(masp, ten, phanloai, giaNhap, loi, khuyenmai, giaBan, kt, loi, ms, cl, ncc, kd, xx, hinhAnh, sl);
+				return sp;
+			}
+
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }
