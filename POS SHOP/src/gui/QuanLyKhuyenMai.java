@@ -13,11 +13,19 @@ import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -51,7 +59,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 	private JCheckBox checkBoxChonTatCa;
 	private JComboBox<String> comboBoxPhanLoai;
 	private JDateChooser dateChooserThoiGianBatDauGiamGia, dateChooserThoiGianKetThucGiamGia;
-	private JButton btnLuuKhuyenMai, btnSuaKhuyenMai, btnLamMoi;
+	private JButton btnThemKhuyenMai, btnSuaKhuyenMai, btnLamMoi;
 	private JTable tblSanPham, tblKhuyenMai;
 	private DefaultTableModel modelKhuyenMai, modelSanPham;
 	private KhuyenMaiDAO dskm = new KhuyenMaiDAO();
@@ -143,10 +151,25 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 		JLabel lblThoiGianKetThucKhuyenMai = new JLabel("Thời gian kết thúc giảm giá :");
 		lblThoiGianKetThucKhuyenMai.setFont(new Font("Arial", Font.BOLD, 12));
 
-		btnLuuKhuyenMai = new JButton("Lưu");
-		btnLuuKhuyenMai.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/luulienket.png")));
-		btnLuuKhuyenMai.setFont(new Font("Arial", Font.BOLD, 12));
-		btnLuuKhuyenMai.setBackground(new Color(210, 105, 30));
+		btnThemKhuyenMai = new JButton("Thêm");
+		btnThemKhuyenMai.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (btnThemKhuyenMai.getText().equals("Thêm")) {
+					btnThemKhuyenMai.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/luulienket.png")));
+					btnThemKhuyenMai.setText("Lưu");
+					btnLamMoi.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/x.png")));
+					btnLamMoi.setText("Hủy");
+				} else {
+					btnThemKhuyenMai.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/add.png")));
+					btnThemKhuyenMai.setText("Thêm");
+					btnLamMoi.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/loading.png")));
+					btnLamMoi.setText("Làm mới");
+				}
+			}
+		});
+		btnThemKhuyenMai.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/add.png")));
+		btnThemKhuyenMai.setFont(new Font("Arial", Font.BOLD, 12));
+		btnThemKhuyenMai.setBackground(new Color(210, 105, 30));
 
 		btnSuaKhuyenMai = new JButton("Sửa");
 		btnSuaKhuyenMai.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/sua.png")));
@@ -154,6 +177,17 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 		btnSuaKhuyenMai.setBackground(new Color(255, 255, 0));
 
 		btnLamMoi = new JButton("Làm mới ");
+		btnLamMoi.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (btnLamMoi.getText().equals("Hủy")) {
+					btnLamMoi.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/loading.png")));
+					btnLamMoi.setText("Làm mới");
+					btnThemKhuyenMai.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/add.png")));
+					btnThemKhuyenMai.setText("Thêm");
+				}
+			}
+		});
 		btnLamMoi.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/loading.png")));
 		btnLamMoi.setFont(new Font("Arial", Font.BOLD, 12));
 		btnLamMoi.setBackground(new Color(152, 251, 152));
@@ -169,7 +203,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 						.addComponent(lblThoiGianKetThucKhuyenMai, GroupLayout.PREFERRED_SIZE, 170,
 								GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_panel_1.createSequentialGroup()
-								.addComponent(btnLuuKhuyenMai, GroupLayout.PREFERRED_SIZE, 105,
+								.addComponent(btnThemKhuyenMai, GroupLayout.PREFERRED_SIZE, 105,
 										GroupLayout.PREFERRED_SIZE)
 								.addPreferredGap(ComponentPlacement.RELATED, 26, Short.MAX_VALUE).addComponent(
 										btnSuaKhuyenMai, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE))
@@ -190,7 +224,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 						GroupLayout.PREFERRED_SIZE)
 				.addGap(18)
 				.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnLuuKhuyenMai, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnThemKhuyenMai, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnSuaKhuyenMai, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
 				.addGap(27).addComponent(btnLamMoi, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
 				.addContainerGap(92, Short.MAX_VALUE)));
@@ -326,10 +360,6 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 		};
 		tblSanPham.getColumnModel().getColumn(0).setCellRenderer(checkBoxRenderer);
 		tblSanPham.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(new JCheckBox()));
-
-//		tblSanPham.getColumnModel().getColumn(0).setPreferredWidth(30);
-//		tblSanPham.getColumnModel().getColumn(0).setMinWidth(10);
-//		tblSanPham.getColumnModel().getColumn(2).setPreferredWidth(120);
 		scrollPane_SanPham.setViewportView(tblSanPham);
 		panel.setLayout(gl_panel);
 		pnlKhuyenMai.setLayout(gl_pnlKhuyenMai);
@@ -341,6 +371,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 		checkBoxChonTatCa.addActionListener(this);
 		comboBoxPhanLoai.addActionListener(this);
 		btnLamMoi.addActionListener(this);
+		btnThemKhuyenMai.addActionListener(this);
 		// Chương trình chạy , lấy dữ liệu đưa vào table, comBoBox
 		updateTableKhuyenMai();
 		updateTableSanPham();
@@ -384,6 +415,19 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 				dateChooserThoiGianBatDauGiamGia.setDate(nbd);
 				Date nkt = (Date) modelKhuyenMai.getValueAt(row, 4);
 				dateChooserThoiGianKetThucGiamGia.setDate(nkt);
+
+				// Sự kiện click chuột vào bảng KhuyenMai thì hiển thị SanPham được khuyến mãi
+				if (row != -1) {
+					SanPhamDAO ds = new SanPhamDAO();
+					String selectedMaKM = (String) tblKhuyenMai.getValueAt(row, 0);
+					List<SanPham> list = ds.getSanPhanTheoMaKM(selectedMaKM);
+					modelSanPham.getDataVector().removeAllElements();
+					for (SanPham sp : list) {
+						Object data[] = { Boolean.TRUE, sp.getMaSP(), sp.getTenSP(), sp.getGiaBan() };
+						modelSanPham.addRow(data);
+					}
+					tblSanPham.setModel(modelSanPham);
+				}
 			}
 		});
 	}
@@ -412,8 +456,56 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 				tblSanPham.setModel(modelSanPham);
 			}
 
+		} else if (o.equals(btnThemKhuyenMai)) {
+			if (btnThemKhuyenMai.getText().equalsIgnoreCase("Lưu")) {
+				if (validData()) {
+					KhuyenMai km = reverSPFfromTextFile(); // Lấy dữ liệu từ JtexFiled thêm vào danh sách khuyến mãi
+					if (dskm.createKhuyenMai(km)) { // Thêm khuyến mãi vào SQL
+						// Thêm khuyến mãi vào table
+						JOptionPane.showMessageDialog(null, "Thêm Thành Công !");
+						updateTableKhuyenMai();
+
+						// Cập nhật, thêm khuyến mãi cho sản phẩm
+						List<String> selectedSanPham = new ArrayList<>();
+						for (int row = 0; row < tblSanPham.getRowCount(); row++) {
+							boolean isChecked = (boolean) tblSanPham.getValueAt(row, 0); //
+							if (isChecked) { // Nếu ô kiểm đã được check
+								String maSP = (String) tblSanPham.getValueAt(row, 1); // Lấy ra mã sản phẩm
+								String maKM = txtMaKhuyenMai.getText().toString();
+								dssp.updateMaKMChoSanPHam(maSP, maKM);
+							}
+						}
+						xoaRong();
+					}
+				}
+			} else {
+				txtTenKhuyenMai.requestFocus();
+				KetNoiSQL.getInstance().connect();
+				Connection con = KetNoiSQL.getInstance().getConnection();
+				PreparedStatement stmt = null;
+				try {
+					String sql = "Select maKM from KhuyenMai where maKM = (Select MAX(maKM) From KhuyenMai)";
+					Statement statement = con.createStatement(); // Thực thi câu lệnh SQL trả về ResulSet.
+					ResultSet rs = statement.executeQuery(sql);
+					String maxID = null;
+					if (rs.next()) {
+						maxID = rs.getString(1); // Lấy ra mã khuyến mãi lớn nhất cuối cùng
+					}
+					if (Integer.parseInt(maxID.substring(2)) <= 10) {
+						maxID = "KM0" + (String.valueOf(Integer.parseInt(maxID.substring(2)) + 1));
+						txtMaKhuyenMai.setText(maxID);
+					} else {
+						maxID = "KM" + (String.valueOf(Integer.parseInt(maxID.substring(2)) + 1));
+						txtMaKhuyenMai.setText(maxID);
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}		
+			}
 		} else if (o.equals(btnLamMoi)) {
 			xoaRong();
+			updateTableSanPham();
 		}
 	}
 
@@ -424,10 +516,27 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 		dateChooserThoiGianBatDauGiamGia.setDate(null);
 		dateChooserThoiGianKetThucGiamGia.setDate(null);
 		checkBoxChonTatCa.setSelected(false);
+		comboBoxPhanLoai.setSelectedIndex(0);
 		for (int row = 0; row < modelSanPham.getRowCount(); row++) {
 			modelSanPham.setValueAt(false, row, 0);
 		}
-		txtTenKhuyenMai.requestFocus();
+	}
+
+	// Kiểm tra Regex
+	private boolean validData() {
+		return true;
+	}
+
+	// Lấy dữ liệu từ JtexField khi nhập vào
+	private KhuyenMai reverSPFfromTextFile() {
+		String maKM = txtMaKhuyenMai.getText().toString();
+		String tenKM = txtTenKhuyenMai.getText().toString();
+		Double mucKM = Double.parseDouble(txtMucKhuyenMai.getText().toString());
+		Date  nbd = dateChooserThoiGianBatDauGiamGia.getDate();
+		java.sql.Date ngayBatDau = new java.sql.Date(nbd.getTime());
+		Date nkt = dateChooserThoiGianKetThucGiamGia.getDate();
+		java.sql.Date ngayKetThuc = new java.sql.Date(nkt.getTime());
+		return new KhuyenMai(maKM, tenKM, mucKM, ngayBatDau, ngayKetThuc);
 	}
 
 	// Đưa dữ liệu vào ComboBox
@@ -443,6 +552,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 
 	// Đưa dữ liệu vào table KhuyenMAi
 	private void updateTableKhuyenMai() {
+		modelKhuyenMai.getDataVector().removeAllElements();
 		KhuyenMaiDAO ds = new KhuyenMaiDAO();
 		List<KhuyenMai> list = ds.doTuBang();
 		for (KhuyenMai km : list) {
@@ -453,7 +563,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 		tblKhuyenMai.setModel(modelKhuyenMai);
 	}
 
-	// Đưa dữ liệu vào table KhuyenMAi
+	// Đưa dữ liệu vào table SanPham
 	private void updateTableSanPham() {
 		modelSanPham.getDataVector().removeAllElements();
 		SanPhamDAO ds = new SanPhamDAO();
