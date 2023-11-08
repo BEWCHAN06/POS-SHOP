@@ -17,7 +17,7 @@ public class MauSacDAO {
     }
     public ArrayList<MauSac> getAllMauSac(){
         ArrayList<MauSac>listMauSac = new ArrayList<>();
-        KetNoiSQL.getInstance();
+        KetNoiSQL.getInstance().connect();
             Connection conn = KetNoiSQL.getConnection(); 
         try {
             String sql = "Select * from MauSac";

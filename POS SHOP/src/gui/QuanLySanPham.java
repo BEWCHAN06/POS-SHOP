@@ -34,6 +34,7 @@ import entity.ChatLieu;
 import entity.KichThuoc;
 import entity.KieuDang;
 import entity.MauSac;
+import entity.NhaCungCap;
 import entity.PhanLoai;
 import entity.SanPham;
 import entity.XuatXu;
@@ -46,7 +47,7 @@ import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
 
-public class QuanLySanPham extends JPanel {
+public class QuanLySanPham extends JPanel implements ActionListener{
 	private JTextField txtTenSP;
 	private JTextField txtSoLuongSP;
 	private JTextField txtGiaNhap;
@@ -72,6 +73,12 @@ public class QuanLySanPham extends JPanel {
 	private JComboBox cboGiaLoi;
 	private JComboBox cboNCC;
 	private JComboBox cboKichThuocKetThuc;
+	private JButton btnThem;
+	private JButton btnSua;
+	private JButton btnLuu;
+	private JButton btnLamMoi;
+	private JButton btnHy;
+	private JButton btnXemTruoc;
 	/**
 	 * Create the panel.
 	 */
@@ -80,7 +87,7 @@ public class QuanLySanPham extends JPanel {
 		KetNoiSQL.getInstance().connect();
 		uiSanPhan();
 		tblDanhSachSanPham();
-//		loadComboBoxThuocTinh();
+		loadComboBoxThuocTinh();
 	}
 	private void loadComboBoxThuocTinh() {
         mauSacDAO = new MauSacDAO();
@@ -90,6 +97,7 @@ public class QuanLySanPham extends JPanel {
         kichThuocDAO = new KichThuocDAO();
         ArrayList<KichThuoc> listKichThuoc = kichThuocDAO.getAllKichThuoc();
         listKichThuoc.forEach(kichThuoc -> cboKichThuocBatDau.addItem(kichThuoc.getKichThuoc()));
+        listKichThuoc.forEach(kichThuoc -> cboKichThuocKetThuc.addItem(kichThuoc.getKichThuoc()));
 
         kieuDangDAO = new KieuDangDAO();
         ArrayList<KieuDang> listKieuDang = kieuDangDAO.getAllKieuDang();
@@ -107,9 +115,9 @@ public class QuanLySanPham extends JPanel {
         ArrayList<XuatXu> listXuatXu = xuatXuDAO.getAllXuatXu();
         listXuatXu.forEach(xuatXu -> cboxuatXu.addItem(xuatXu.getXuatXu()));
 
-//        nhaCungCapDAO = new NhaCungCapDAO();
-//        ArrayList<> listNhaCungCap = nhaCungCapDAO.getAllNhaCungCap();
-//        listNhaCungCap.forEach(nhaCungCap -> cb_nhaCungCap.addItem(nhaCungCap.getTenNhaCungCap()));
+        nhaCungCapDAO = new NhaCungCapDAO();
+        ArrayList<NhaCungCap> listNhaCungCap = nhaCungCapDAO.getAllNhaCungCap();
+        listNhaCungCap.forEach(nhaCungCap -> cboNCC.addItem(nhaCungCap.getTenNCC()));
 
     }
     private void clearTable() {
@@ -149,26 +157,26 @@ public class QuanLySanPham extends JPanel {
 		pnlSanPham.setBackground(new Color(255, 255, 255));
 		pnlSanPham.setBorder(new CompoundBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2), "Danh s\u00E1ch s\u1EA3n ph\u1EA9m", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)), null));
 		
-		JButton btnThem = new JButton("thêm");
+		btnThem = new JButton("thêm");
 		btnThem.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		btnThem.setBackground(new Color(65, 105, 225));
 		btnThem.setForeground(new Color(255, 255, 255));
 		btnThem.setIcon(new ImageIcon(QuanLySanPham.class.getResource("/icon/add.png")));
 		btnThem.setFont(new Font("Arial", Font.BOLD, 12));
 		
-		JButton btnSua = new JButton("Sửa");
+		btnSua = new JButton("Sửa");
 		btnSua.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		btnSua.setBackground(new Color(255, 255, 0));
 		btnSua.setIcon(new ImageIcon(QuanLySanPham.class.getResource("/icon/sua.png")));
 		btnSua.setFont(new Font("Arial", Font.BOLD, 12));
 		
-		JButton btnLuu = new JButton("Lưu");
+		btnLuu = new JButton("Lưu");
 		btnLuu.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		btnLuu.setBackground(new Color(255, 165, 0));
 		btnLuu.setIcon(new ImageIcon(QuanLySanPham.class.getResource("/icon/luulienket.png")));
 		btnLuu.setFont(new Font("Arial", Font.BOLD, 12));
 		
-		JButton btnLamMoi = new JButton("Làm mới");
+		btnLamMoi = new JButton("Làm mới");
 		btnLamMoi.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		btnLamMoi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -178,7 +186,7 @@ public class QuanLySanPham extends JPanel {
 		btnLamMoi.setIcon(new ImageIcon(QuanLySanPham.class.getResource("/icon/refesh.png")));
 		btnLamMoi.setFont(new Font("Arial", Font.BOLD, 12));
 		
-		JButton btnHy = new JButton("Hủy");
+		btnHy = new JButton("Hủy");
 		btnHy.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		btnHy.setIcon(new ImageIcon(QuanLySanPham.class.getResource("/icon/x.png")));
 		btnHy.setForeground(new Color(255, 255, 255));
@@ -450,7 +458,7 @@ public class QuanLySanPham extends JPanel {
 		cboKichThuocKetThuc.setBorder(new LineBorder(new Color(0, 0, 0)));
 		cboKichThuocKetThuc.setBackground(new Color(255, 255, 255));
 		
-		JButton btnXemTruoc = new JButton("Xem Trước");
+		btnXemTruoc = new JButton("Xem Trước");
 		btnXemTruoc.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		btnXemTruoc.setForeground(new Color(0, 0, 0));
 		btnXemTruoc.setBackground(new Color(192, 192, 192));
@@ -602,5 +610,10 @@ public class QuanLySanPham extends JPanel {
 		);
 		pnlXemTruoc.setLayout(gl_pnlXemTruoc);
 		mainPanel.setLayout(gl_mainPanel);
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

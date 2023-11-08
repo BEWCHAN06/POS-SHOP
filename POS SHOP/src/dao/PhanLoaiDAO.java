@@ -18,8 +18,8 @@ public class PhanLoaiDAO {
     
     public ArrayList<PhanLoai> getAllPhanLoai(){
         ArrayList<PhanLoai>listPhanLoai = new ArrayList<>();
-        KetNoiSQL.getInstance();
-            Connection conn = KetNoiSQL.getConnection(); 
+        KetNoiSQL.getInstance().connect();
+            Connection conn = KetNoiSQL.getInstance().getConnection(); 
         try {
             String sql = "Select * from PhanLoai";
             Statement stmt = conn.createStatement();
