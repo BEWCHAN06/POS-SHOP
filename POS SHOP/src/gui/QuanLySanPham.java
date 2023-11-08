@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import javax.swing.JPanel;
 import java.awt.CardLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.crypto.MacSpi;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -31,6 +33,7 @@ import dao.PhanLoaiDAO;
 import dao.SanPhamDAO;
 import dao.XuatXuDAO;
 import entity.ChatLieu;
+import entity.KhuyenMai;
 import entity.KichThuoc;
 import entity.KieuDang;
 import entity.MauSac;
@@ -42,12 +45,14 @@ import entity.XuatXu;
 import java.awt.Font;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
 
-public class QuanLySanPham extends JPanel implements ActionListener{
+public class QuanLySanPham extends JPanel implements ActionListener, MouseListener{
 	private JTextField txtTenSP;
 	private JTextField txtSoLuongSP;
 	private JTextField txtGiaNhap;
@@ -77,8 +82,9 @@ public class QuanLySanPham extends JPanel implements ActionListener{
 	private JButton btnSua;
 	private JButton btnLuu;
 	private JButton btnLamMoi;
-	private JButton btnHy;
+	private JButton btnHuy;
 	private JButton btnXemTruoc;
+	private SanPhamDAO listSP;
 	/**
 	 * Create the panel.
 	 */
@@ -89,6 +95,7 @@ public class QuanLySanPham extends JPanel implements ActionListener{
 		tblDanhSachSanPham();
 		loadComboBoxThuocTinh();
 	}
+	///
 	private void loadComboBoxThuocTinh() {
         mauSacDAO = new MauSacDAO();
         ArrayList<MauSac> listMauSac = mauSacDAO.getAllMauSac();
@@ -186,12 +193,12 @@ public class QuanLySanPham extends JPanel implements ActionListener{
 		btnLamMoi.setIcon(new ImageIcon(QuanLySanPham.class.getResource("/icon/refesh.png")));
 		btnLamMoi.setFont(new Font("Arial", Font.BOLD, 12));
 		
-		btnHy = new JButton("Hủy");
-		btnHy.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-		btnHy.setIcon(new ImageIcon(QuanLySanPham.class.getResource("/icon/x.png")));
-		btnHy.setForeground(new Color(255, 255, 255));
-		btnHy.setBackground(new Color(255, 0, 0));
-		btnHy.setFont(new Font("Arial", Font.BOLD, 12));
+		btnHuy = new JButton("Hủy");
+		btnHuy.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		btnHuy.setIcon(new ImageIcon(QuanLySanPham.class.getResource("/icon/x.png")));
+		btnHuy.setForeground(new Color(255, 255, 255));
+		btnHuy.setBackground(new Color(255, 0, 0));
+		btnHuy.setFont(new Font("Arial", Font.BOLD, 12));
 		GroupLayout gl_mainPanel = new GroupLayout(mainPanel);
 		gl_mainPanel.setHorizontalGroup(
 			gl_mainPanel.createParallelGroup(Alignment.TRAILING)
@@ -210,7 +217,7 @@ public class QuanLySanPham extends JPanel implements ActionListener{
 							.addGap(47)
 							.addComponent(btnLamMoi, GroupLayout.PREFERRED_SIZE, 137, GroupLayout.PREFERRED_SIZE)
 							.addGap(45)
-							.addComponent(btnHy, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE))
+							.addComponent(btnHuy, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_mainPanel.createSequentialGroup()
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(pnlThongTinSanPham, GroupLayout.PREFERRED_SIZE, 445, GroupLayout.PREFERRED_SIZE)))
@@ -228,7 +235,7 @@ public class QuanLySanPham extends JPanel implements ActionListener{
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_mainPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnLamMoi, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnHy, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnHuy, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnLuu, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnThem, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnSua, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
@@ -610,9 +617,130 @@ public class QuanLySanPham extends JPanel implements ActionListener{
 		);
 		pnlXemTruoc.setLayout(gl_pnlXemTruoc);
 		mainPanel.setLayout(gl_mainPanel);
+		cboGiaLoi.addItem("10");
+		cboGiaLoi.addItem("20");
+		//them su kien cho nut 
+		btnLuu.setEnabled(false);
+		btnHuy.setEnabled(false);
+		//su kien button
+		btnThem.addActionListener(this);
+		btnSua.addActionListener(this);
+		btnLuu.addActionListener(this);
+		btnLamMoi.addActionListener(this);
+		btnHuy.addActionListener(this);
+		//su kien click table
+		tbllistSanPham.addMouseListener(this);
+	}
+	
+	private SanPham themDoiTuong() {
+		// TODO Auto-generated method stub
+		SanPham sp = new SanPham();
+		String masp = sp.getAutoID();
+		String tensp = txtTenSP.getText().toString();
+		PhanLoai phanLoai = phanLoaiDAO.getPhanLoaiByName(cboLoaiSanPham.getSelectedItem().toString());
+		double gianhap = Double.parseDouble(txtGiaNhap.getText());
+		int loi = Integer.parseInt(cboGiaLoi.getSelectedItem().toString());
+		KhuyenMai khuyenMai = khuyenMaiDAO.getKhuyenMaiByPhanTram(0);
+		double giaban = sp.getGiaBan();
+		KichThuoc kichThuoc = kichThuocDAO.getKichThuocByName(cboKichThuocBatDau.getSelectedItem().toString());
+		return null;
+	}
+	// su kien các nút
+	private void xoaRongTextField() {
+		// TODO Auto-generated method stub
+		txtTenSP.setText("");
+		txtSoLuongSP.setText("");
+		txtGiaNhap.setText("");
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		Object o = e.getSource();
+		if(o.equals(btnThem)) {
+			btnThem.setEnabled(false);
+			btnSua.setEnabled(false);
+			btnLuu.setEnabled(true);
+			btnHuy.setEnabled(true);
+			xoaRongTextField();
+			
+		}else if(o.equals(btnSua)) {
+			btnThem.setEnabled(false);
+			btnSua.setEnabled(false);
+			btnLuu.setEnabled(true);
+			btnHuy.setEnabled(true);
+			
+		}else if(o.equals(btnLuu)) {
+			btnThem.setEnabled(true);
+			btnSua.setEnabled(true);
+			btnLuu.setEnabled(false);
+			btnHuy.setEnabled(false);
+			boolean check = true;
+			String tenspString =  txtTenSP.getText();
+			if(tenspString.trim().isEmpty()) {
+				JOptionPane.showMessageDialog(null, "vui lòng điền tên");
+				check = false;
+			}
+			String soLuongSP = txtSoLuongSP.getText();
+			if(soLuongSP.trim().isEmpty()) {
+				JOptionPane.showMessageDialog(null, "vui long điền số lượng");
+				check = false;
+			}
+			if(check) {
+				
+			}
+			
+		}else if(o.equals(btnLamMoi)) {
+			
+		}else if(o.equals(btnHuy)) {
+			btnThem.setEnabled(true);
+			btnSua.setEnabled(true);
+			btnLuu.setEnabled(false);
+			btnHuy.setEnabled(false);
+		}
+		
+	}
+	
+	// sư kiện click vào bảng
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		int row = tbllistSanPham.getSelectedRow();
+		String masp = tbllistSanPham.getValueAt(row, 0).toString();
+		txtTenSP.setText(tbllistSanPham.getValueAt(row, 1).toString());
+		cboLoaiSanPham.setSelectedItem(tbllistSanPham.getValueAt(row, 2));
+		txtGiaNhap.setText(tbllistSanPham.getValueAt(row, 3).toString());
+		cboGiaLoi.setSelectedItem(tbllistSanPham.getValueAt(row, 4));
+		//khuyen mai 5
+		//gia ban 6
+		cboKichThuocBatDau.setSelectedItem(tbllistSanPham.getValueAt(row, 7));
+		txtSoLuongSP.setText(tbllistSanPham.getValueAt(row, 8).toString());
+		cboMauSac.setSelectedItem(tbllistSanPham.getValueAt(row, 9));
+		cboChatLieu.setSelectedItem(tbllistSanPham.getValueAt(row, 10));
+		cboNCC.setSelectedItem(tbllistSanPham.getValueAt(row, 11));
+		
+		//tbl chua co kieu dang de lay
+		sanPhamDAO = new SanPhamDAO();
+		SanPham sp = sanPhamDAO.getSanPhanTheoId(masp);
+		cboKieuDang.setSelectedItem(sp.getKieuDang().getKieuDang());
+		cboxuatXu.setSelectedItem(sp.getXuatXu().getXuatXu());
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}

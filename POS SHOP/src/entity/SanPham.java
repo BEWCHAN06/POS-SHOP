@@ -1,5 +1,7 @@
 package entity;
 
+import dao.SanPhamDAO;
+
 public class SanPham {
     private String maSP;
     private String tenSP;
@@ -13,9 +15,13 @@ public class SanPham {
     private MauSac mauSac; 
     private ChatLieu chatLieu;
     private NhaCungCap nhaCungCap;
+    private KieuDang kieuDang; 
+    private XuatXu xuatXu;
     private String hinhAnh;
     private int TrangThai;
     
+	public SanPham() {
+	}
 	public SanPham(String maSP, String tenSP, PhanLoai pl, double giaNhap, int loi, KhuyenMai khuyenMai, double giaBan,
 			KichThuoc kichThuoc, int soLuong, MauSac mauSac, ChatLieu chatLieu, NhaCungCap nhaCungCap, String hinhAnh,
 			int trangThai) {
@@ -51,6 +57,28 @@ public class SanPham {
 		this.chatLieu = chatLieu;
 		this.nhaCungCap = nhaCungCap;
 		this.hinhAnh = hinhAnh;
+	}
+	
+	public SanPham(String maSP, String tenSP, PhanLoai pl, double giaNhap, int loi, KhuyenMai khuyenMai, double giaBan,
+			KichThuoc kichThuoc, int soLuong, MauSac mauSac, ChatLieu chatLieu, NhaCungCap nhaCungCap,
+			KieuDang kieuDang, XuatXu xuatXu, String hinhAnh, int trangThai) {
+		super();
+		this.maSP = maSP;
+		this.tenSP = tenSP;
+		this.pl = pl;
+		this.giaNhap = giaNhap;
+		this.loi = loi;
+		this.khuyenMai = khuyenMai;
+		this.giaBan = giaBan;
+		this.kichThuoc = kichThuoc;
+		this.soLuong = soLuong;
+		this.mauSac = mauSac;
+		this.chatLieu = chatLieu;
+		this.nhaCungCap = nhaCungCap;
+		this.kieuDang = kieuDang;
+		this.xuatXu = xuatXu;
+		this.hinhAnh = hinhAnh;
+		TrangThai = trangThai;
 	}
 	public String getMaSP() {
 		return maSP;
@@ -89,9 +117,10 @@ public class SanPham {
 		this.khuyenMai = khuyenMai;
 	}
 	public double getGiaBan() {
-		return giaBan;
+		return giaNhap = giaNhap +  giaNhap*(loi/100);
 	}
 	public void setGiaBan(double giaBan) {
+		
 		this.giaBan = giaBan;
 	}
 	public KichThuoc getKichThuoc() {
@@ -137,12 +166,39 @@ public class SanPham {
 	public void setTrangThai(int trangThai) {
 		TrangThai = trangThai;
 	}
+	
+	public KieuDang getKieuDang() {
+		return kieuDang;
+	}
+	public void setKieuDang(KieuDang kieuDang) {
+		this.kieuDang = kieuDang;
+	}
+	public XuatXu getXuatXu() {
+		return xuatXu;
+	}
+	public void setXuatXu(XuatXu xuatXu) {
+		this.xuatXu = xuatXu;
+	}
+	public String getAutoID(){
+		SanPhamDAO listsp = new SanPhamDAO();
+		String id1 = "SP0";
+		String id2 = "SP";
+		String tempid;
+		if(listsp.doTuBang().size() < 9) {
+			tempid = id1 + (listsp.doTuBang().size() +1 );
+			return tempid;
+		}else {
+			tempid = id2 + (listsp.doTuBang().size() +1 );
+			return tempid;
+		}
+	}
 	@Override
 	public String toString() {
 		return "SanPham [maSP=" + maSP + ", tenSP=" + tenSP + ", pl=" + pl + ", giaNhap=" + giaNhap + ", loi=" + loi
 				+ ", khuyenMai=" + khuyenMai + ", giaBan=" + giaBan + ", kichThuoc=" + kichThuoc + ", soLuong="
 				+ soLuong + ", mauSac=" + mauSac + ", chatLieu=" + chatLieu + ", nhaCungCap=" + nhaCungCap
-				+ ", hinhAnh=" + hinhAnh + "]";
+				+ ", kieuDang=" + kieuDang + ", xuatXu=" + xuatXu + ", hinhAnh=" + hinhAnh + ", TrangThai=" + TrangThai
+				+ "]";
 	}
     
 }

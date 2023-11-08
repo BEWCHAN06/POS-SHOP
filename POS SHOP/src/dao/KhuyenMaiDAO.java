@@ -96,5 +96,32 @@ public class KhuyenMaiDAO {
 		return null;
 
 	}
+<<<<<<< HEAD
 
+=======
+	public KhuyenMai getKhuyenMaiByPhanTram(int phanTram) {
+        KetNoiSQL.getInstance();
+        Connection conn = KetNoiSQL.getConnection();
+
+        try {
+            String sql = "select * from khuyenmai where phanTramKhuyenMai = ?";
+            PreparedStatement stmt = conn.prepareCall(sql);
+            stmt.setInt(1, phanTram);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                KhuyenMai khuyenMai = new KhuyenMai();
+                khuyenMai.setMaKM(rs.getString(1));
+                khuyenMai.setPhanTramKhuyenMai(rs.getInt(2));
+                khuyenMai.setTenKhuyenMai(rs.getString(3));
+                khuyenMai.setNgayBatDau(rs.getDate(4));
+                khuyenMai.setNgayKetThuc(rs.getDate(5));
+
+                return khuyenMai;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(XuatXuDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+>>>>>>> 9ef33824eb6c1a015d6922310a3c59da9673dba8
 }
