@@ -9,7 +9,7 @@ public class test {
     public static void main(String[] args) {
     	KetNoiSQL.getInstance().connect();
         SanPhamDAO sanPhamDAO = new SanPhamDAO();
-        List<SanPham> danhSachSanPham = sanPhamDAO.doTuBang();
+        List<SanPham> danhSachSanPham = sanPhamDAO.getSanPhanTheoPhanLoai("Áo thun");
 
         if (danhSachSanPham != null) {
             System.out.println("Danh sách sản phẩm:");

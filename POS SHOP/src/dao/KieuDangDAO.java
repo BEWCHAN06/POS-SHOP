@@ -18,7 +18,7 @@ public class KieuDangDAO {
     
     public ArrayList<KieuDang> getAllKieuDang(){
         ArrayList<KieuDang>listKieuDang = new ArrayList<>();
-        KetNoiSQL.getInstance();
+        KetNoiSQL.getInstance().connect();
             Connection conn = KetNoiSQL.getConnection(); 
         try {
             String sql = "Select * from KieuDang";

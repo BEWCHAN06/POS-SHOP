@@ -18,7 +18,7 @@ public class NhaCungCapDAO {
     
     public ArrayList<NhaCungCap> getAllNhaCungCap(){
         ArrayList<NhaCungCap>listNhaCungCap = new ArrayList<>();
-        KetNoiSQL.getInstance();
+        KetNoiSQL.getInstance().connect();
             Connection conn = KetNoiSQL.getConnection(); 
         try {
             String sql = "Select * from NhaCungCap";

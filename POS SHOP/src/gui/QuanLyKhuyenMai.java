@@ -18,6 +18,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -56,6 +57,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 	private KhuyenMaiDAO dskm = new KhuyenMaiDAO();
 	private SanPhamDAO dssp = new SanPhamDAO();
 	private PhanLoaiDAO dspl = new PhanLoaiDAO();
+
 	/**
 	 * Create the panel.
 	 */
@@ -293,36 +295,38 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 						.addComponent(btnTimKiemSanPham, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE))
 				.addPreferredGap(ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
 				.addComponent(scrollPane_SanPham, GroupLayout.PREFERRED_SIZE, 155, GroupLayout.PREFERRED_SIZE)));
-		
-		
-		modelSanPham = new DefaultTableModel(new Object[][] {
-		}, new String[] { "Select", "M\u00E3 s\u1EA3n ph\u1EA9m", "T\u00EAn s\u1EA3n ph\u1EA9m",
-				"\u0110\u01A1n gi\u00E1" });
+
+		modelSanPham = new DefaultTableModel(new Object[][] {}, new String[] { "Select", "M\u00E3 s\u1EA3n ph\u1EA9m",
+				"T\u00EAn s\u1EA3n ph\u1EA9m", "\u0110\u01A1n gi\u00E1" });
 		tblSanPham = new JTable(modelSanPham) {
 			@Override
-            public Class getColumnClass(int column) { //Class<?> là kiểu trả về cho phương thức getColumnClass để xác định kiểu dữ liệu của từng cột. 													
-				if(column == 0) //Nếu là cột đầu tiên 
+			public Class getColumnClass(int column) { // Class<?> là kiểu trả về cho phương thức getColumnClass để xác
+														// định kiểu dữ liệu của từng cột.
+				if (column == 0) // Nếu là cột đầu tiên
 					return Boolean.class; // Trả về kiểu dữ liệu cụ thể là Boolean.class (cho checkbox).
-                return Object.class; // Ngược lại trả về kiểu dữ liệu Object.class cho các cột khác (dữ liệu văn bản).
-            }
+				return Object.class; // Ngược lại trả về kiểu dữ liệu Object.class cho các cột khác (dữ liệu văn
+										// bản).
+			}
 		};
-		
+
 		// Sử dụng checkbox trong ô kiểm
-        TableCellRenderer checkBoxRenderer = new TableCellRenderer() {
-            JCheckBox checkBox = new JCheckBox(); 
-            {
-            	checkBox.setHorizontalAlignment(JLabel.CENTER); // Đặt căn giữa cho ô kiểm trong cột table
-            }
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                if (value != null) {
-                    checkBox.setSelected((Boolean) value);
-                }
-                return checkBox;
-            }
-        };
-        tblSanPham.getColumnModel().getColumn(0).setCellRenderer(checkBoxRenderer);
-        tblSanPham.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(new JCheckBox()));
-        
+		TableCellRenderer checkBoxRenderer = new TableCellRenderer() {
+			JCheckBox checkBox = new JCheckBox();
+			{
+				checkBox.setHorizontalAlignment(JLabel.CENTER); // Đặt căn giữa cho ô kiểm trong cột table
+			}
+
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+					boolean hasFocus, int row, int column) {
+				if (value != null) {
+					checkBox.setSelected((Boolean) value);
+				}
+				return checkBox;
+			}
+		};
+		tblSanPham.getColumnModel().getColumn(0).setCellRenderer(checkBoxRenderer);
+		tblSanPham.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(new JCheckBox()));
+
 //		tblSanPham.getColumnModel().getColumn(0).setPreferredWidth(30);
 //		tblSanPham.getColumnModel().getColumn(0).setMinWidth(10);
 //		tblSanPham.getColumnModel().getColumn(2).setPreferredWidth(120);
@@ -335,39 +339,40 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 		 * ==== EVENT ====
 		 */
 		checkBoxChonTatCa.addActionListener(this);
+		comboBoxPhanLoai.addActionListener(this);
 		btnLamMoi.addActionListener(this);
 		// Chương trình chạy , lấy dữ liệu đưa vào table, comBoBox
 		updateTableKhuyenMai();
 		updateTableSanPham();
 		updateComboBox();
-		
+
 		// Sự kiện Click getValueAt
 		tblKhuyenMai.addMouseListener(new MouseListener() {
-			
+
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mousePressed(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
@@ -382,21 +387,36 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 			}
 		});
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
-		if(o.equals(checkBoxChonTatCa)) {
+		if (o.equals(checkBoxChonTatCa)) {
 			boolean selected = checkBoxChonTatCa.isSelected();
-	        // Duyệt qua tất cả các hàng và đặt giá trị của cột "Select" cho từng hàng
-	        for (int row = 0; row < modelSanPham.getRowCount(); row++) {
-	            modelSanPham.setValueAt(selected, row, 0);
-	        }
-		} else if(o.equals(btnLamMoi)) {
+			// Duyệt qua tất cả các hàng và đặt giá trị của cột "Select" cho từng hàng
+			for (int row = 0; row < modelSanPham.getRowCount(); row++) {
+				modelSanPham.setValueAt(selected, row, 0);
+			}
+		} else if (o.equals(comboBoxPhanLoai)) {
+			SanPhamDAO ds = new SanPhamDAO();
+			String phanLoai = (String) comboBoxPhanLoai.getSelectedItem();
+			List<SanPham> list = ds.getSanPhanTheoPhanLoai(phanLoai);
+			if (phanLoai == "All") {
+				updateTableSanPham();
+			} else {
+				modelSanPham.getDataVector().removeAllElements();
+				for (SanPham sp : list) {
+					Object data[] = { Boolean.FALSE, sp.getMaSP(), sp.getTenSP(), sp.getGiaBan() };
+					modelSanPham.addRow(data);
+				}
+				tblSanPham.setModel(modelSanPham);
+			}
+
+		} else if (o.equals(btnLamMoi)) {
 			xoaRong();
 		}
 	}
-	
+
 	private void xoaRong() {
 		txtMaKhuyenMai.setText("");
 		txtTenKhuyenMai.setText("");
@@ -406,19 +426,20 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 		checkBoxChonTatCa.setSelected(false);
 		for (int row = 0; row < modelSanPham.getRowCount(); row++) {
 			modelSanPham.setValueAt(false, row, 0);
-        }	
+		}
 		txtTenKhuyenMai.requestFocus();
 	}
-	
+
 	// Đưa dữ liệu vào ComboBox
-		private void updateComboBox() {
-			comboBoxPhanLoai.removeAllItems(); // Xóa tất cả các item cũ để cập nhật lại sau khi(Thêm, Xóa)
-			PhanLoaiDAO ds = new PhanLoaiDAO();
-			List<PhanLoai> list = ds.getAllPhanLoai();
-			for (PhanLoai pl : list) {
-				comboBoxPhanLoai.addItem(pl.getPhanLoai());
-			}
+	private void updateComboBox() {
+		comboBoxPhanLoai.removeAllItems(); // Xóa tất cả các item cũ để cập nhật lại sau khi(Thêm, Xóa)
+		PhanLoaiDAO ds = new PhanLoaiDAO();
+		List<PhanLoai> list = ds.getAllPhanLoai();
+		comboBoxPhanLoai.addItem("All");
+		for (PhanLoai pl : list) {
+			comboBoxPhanLoai.addItem(pl.getPhanLoai());
 		}
+	}
 
 	// Đưa dữ liệu vào table KhuyenMAi
 	private void updateTableKhuyenMai() {
@@ -431,15 +452,16 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 		}
 		tblKhuyenMai.setModel(modelKhuyenMai);
 	}
-	
+
 	// Đưa dữ liệu vào table KhuyenMAi
-		private void updateTableSanPham() {
-			SanPhamDAO ds = new SanPhamDAO();
-			List<SanPham> list = ds.doTuBang();
-			for (SanPham sp : list) {
-				Object data[] = {Boolean.FALSE, sp.getMaSP(), sp.getTenSP(), sp.getGiaBan()};
-				modelSanPham.addRow(data);
-			}
-			tblSanPham.setModel(modelSanPham);
+	private void updateTableSanPham() {
+		modelSanPham.getDataVector().removeAllElements();
+		SanPhamDAO ds = new SanPhamDAO();
+		List<SanPham> list = ds.doTuBang();
+		for (SanPham sp : list) {
+			Object data[] = { Boolean.FALSE, sp.getMaSP(), sp.getTenSP(), sp.getGiaBan() };
+			modelSanPham.addRow(data);
 		}
+		tblSanPham.setModel(modelSanPham);
+	}
 }

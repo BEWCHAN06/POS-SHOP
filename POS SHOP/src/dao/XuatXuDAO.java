@@ -18,7 +18,7 @@ public class XuatXuDAO {
     
     public ArrayList<XuatXu>getAllXuatXu(){
         ArrayList<XuatXu>listXuatXu = new ArrayList<>();
-        KetNoiSQL.getInstance();
+        KetNoiSQL.getInstance().connect();
         Connection conn = KetNoiSQL.getConnection();
         
         try {
