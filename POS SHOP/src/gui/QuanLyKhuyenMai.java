@@ -501,7 +501,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
-				}		
+				}
 			}
 		} else if (o.equals(btnLamMoi)) {
 			xoaRong();
@@ -532,7 +532,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 		String maKM = txtMaKhuyenMai.getText().toString();
 		String tenKM = txtTenKhuyenMai.getText().toString();
 		Double mucKM = Double.parseDouble(txtMucKhuyenMai.getText().toString());
-		Date  nbd = dateChooserThoiGianBatDauGiamGia.getDate();
+		Date nbd = dateChooserThoiGianBatDauGiamGia.getDate();
 		java.sql.Date ngayBatDau = new java.sql.Date(nbd.getTime());
 		Date nkt = dateChooserThoiGianKetThucGiamGia.getDate();
 		java.sql.Date ngayKetThuc = new java.sql.Date(nkt.getTime());

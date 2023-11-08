@@ -35,7 +35,8 @@ public class SanPhamDAO {
 
 	public SanPhamDAO() {
 
-		KetNoiSQL.getInstance().connect();;
+		KetNoiSQL.getInstance().connect();
+		;
 		dssp = new ArrayList<SanPham>();
 	}
 
@@ -88,8 +89,8 @@ public class SanPhamDAO {
 					+ "from SanPham sp join ChiTietHoaDon cthd on sp.maSP = cthd.maSP \r\n"
 					+ "where maPL = (select maPL from PhanLoai where phanLoai = (?))";
 			PreparedStatement stmt = con.prepareCall(sql);
-            stmt.setString(1, name);
-            ResultSet rs = stmt.executeQuery();
+			stmt.setString(1, name);
+			ResultSet rs = stmt.executeQuery();
 
 			while (rs.next()) {
 				String masp = rs.getString("maSP");
@@ -124,15 +125,15 @@ public class SanPhamDAO {
 		}
 		return dssp;
 	}
+
 	public SanPham getSanPhanTheoId(String id) {
 		try {
 			Connection con = KetNoiSQL.getInstance().getConnection();
 			String sql = "select sp.maSP, tenSP, maPL, giaNhap,loiTheoPhanTram, maKM, giaBan, maKT,soLuong,maMS, maCL, maNCC,maKD,maXX, hinhAnh\r\n"
-					+ "from SanPham sp join ChiTietHoaDon cthd on sp.maSP = cthd.maSP \r\n"
-					+ "where sp.maSP like (?)";
+					+ "from SanPham sp join ChiTietHoaDon cthd on sp.maSP = cthd.maSP \r\n" + "where sp.maSP like (?)";
 			PreparedStatement stmt = con.prepareCall(sql);
-            stmt.setString(1, id);
-            ResultSet rs = stmt.executeQuery();
+			stmt.setString(1, id);
+			ResultSet rs = stmt.executeQuery();
 
 			while (rs.next()) {
 				String masp = rs.getString("maSP");
@@ -160,7 +161,8 @@ public class SanPhamDAO {
 				KieuDang kd = kieuDangDao.getKieuDang(makd);
 				XuatXu xx = xuatXuDAO.getXuatXu(maxx);
 
-				SanPham sp = new SanPham(masp, ten, phanloai, giaNhap, loi, khuyenmai, giaBan, kt, loi, ms, cl, ncc, kd, xx, hinhAnh, sl);
+				SanPham sp = new SanPham(masp, ten, phanloai, giaNhap, loi, khuyenmai, giaBan, kt, loi, ms, cl, ncc, kd,
+						xx, hinhAnh, sl);
 				return sp;
 			}
 
@@ -169,5 +171,45 @@ public class SanPhamDAO {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	// Tìm sản phẩm theo mã khuyến mãi
+	public List<SanPham> getSanPhanTheoMaKM(String maKM) {
+		try {
+			Connection con = KetNoiSQL.getInstance().getConnection();
+			String sql = "select *from SanPham where maKM = (?)";
+			PreparedStatement stmt = con.prepareCall(sql);
+			stmt.setString(1, maKM);
+			ResultSet rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				String masp = rs.getString("maSP");
+				String ten = rs.getString("tenSP");
+				Double giaBan = rs.getDouble("giaBan");
+				SanPham sp = new SanPham(masp, ten, null, 0, 0, null, giaBan, null, 0, null, null, null, null);
+				dssp.add(sp);
+			}
+
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dssp;
+	}
+
+	// Cập nhật mã khuyến mãi cho sản phẩm
+	public boolean updateMaKMChoSanPHam(String maSP, String maKM) {
+		Connection con = KetNoiSQL.getInstance().getConnection();
+		PreparedStatement stmt = null;
+		int n = 0;
+		try {
+			stmt = con.prepareStatement("update SanPham set maKM = ? where maSP = ?");
+			stmt.setString(1, maKM);
+			stmt.setString(2, maSP);
+			n = stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return n > 0;
 	}
 }
