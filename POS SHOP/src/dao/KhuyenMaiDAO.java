@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,15 +17,16 @@ import java.util.logging.Logger;
 import ConnectDB.KetNoiSQL;
 import entity.KhuyenMai;
 import entity.PhanLoai;
+
 public class KhuyenMaiDAO {
 	ArrayList<KhuyenMai> dskm;
 	KhuyenMai km;
-	
+
 	public KhuyenMaiDAO() {
 		KetNoiSQL.getInstance().connect();
 		dskm = new ArrayList<KhuyenMai>();
 	}
-	
+
 	public List<KhuyenMai> doTuBang() {
 		try {
 			Connection con = KetNoiSQL.getInstance().getConnection();
@@ -37,7 +39,8 @@ public class KhuyenMaiDAO {
 				Double phanTram = rs.getDouble(2);
 				String ten = rs.getString(3);
 				Date nbd = rs.getDate(4);
-				SimpleDateFormat dataFormat = new SimpleDateFormat("dd-MM-yyyy"); // Chuyển định dang yyyy-MM-dd sang dd-MM-yyyy
+				SimpleDateFormat dataFormat = new SimpleDateFormat("dd-MM-yyyy"); // Chuyển định dang yyyy-MM-dd sang
+																					// dd-MM-yyyy
 				String ngayBatDau = dataFormat.format(nbd);
 				Date nkt = rs.getDate(5);
 				String ngayKetThuc = dataFormat.format(nkt); // Chuyển định dang yyyy-MM-dd sang dd-MM-yyyy
@@ -49,38 +52,49 @@ public class KhuyenMaiDAO {
 		}
 		return dskm;
 	}
+
+	// Thêm khuyến mãi
+	public boolean createKhuyenMai(KhuyenMai km) {
+		Connection con = KetNoiSQL.getInstance().getConnection();
+		PreparedStatement stmt = null;
+		int n = 0;
+		try {
+			Statement statement = con.createStatement(); // Thực thi câu lệnh SQL trả về ResulSet.
+			stmt = con.prepareStatement("insert into KhuyenMai values(?, ?, ?, ?, ?)");
+			stmt.setString(1, km.getMaKM());
+			stmt.setDouble(2, km.getPhanTramKhuyenMai());
+			stmt.setString(3, km.getTenKhuyenMai());
+			stmt.setDate(4,  (Date) km.getNgayBatDau());
+			stmt.setDate(5,  (Date) km.getNgayKetThuc());
+			n = stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return n > 0;
+	}
+
 	public KhuyenMai getKhuyenMai(String id) {
 		KetNoiSQL.getInstance();
-        Connection conn = KetNoiSQL.getConnection();
-        try {
-            String sql = "select * from KhuyenMai where maKM = ?";
-            PreparedStatement stmt = conn.prepareCall(sql);
-            stmt.setString(1, id);
-            ResultSet rs = stmt.executeQuery();
-            while(rs.next()){
-                String makm = rs.getString(1);
-                int ptkm = rs.getInt(2);
-                String tenkm = rs.getString(3);
-                Date ngayBD = rs.getDate(4);
-                Date ngayKT = rs.getDate(5);
-                KhuyenMai km = new KhuyenMai(makm, tenkm, ptkm, ngayBD, ngayKT);
-                return km;
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(XuatXuDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-		
+		Connection conn = KetNoiSQL.getConnection();
+		try {
+			String sql = "select * from KhuyenMai where maKM = ?";
+			PreparedStatement stmt = conn.prepareCall(sql);
+			stmt.setString(1, id);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				String makm = rs.getString(1);
+				int ptkm = rs.getInt(2);
+				String tenkm = rs.getString(3);
+				Date ngayBD = rs.getDate(4);
+				Date ngayKT = rs.getDate(5);
+				KhuyenMai km = new KhuyenMai(makm, tenkm, ptkm, ngayBD, ngayKT);
+				return km;
+			}
+		} catch (SQLException ex) {
+			Logger.getLogger(XuatXuDAO.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		return null;
+
 	}
-	
+
 }
-
-
-
-
-
-
-
-
-
-
