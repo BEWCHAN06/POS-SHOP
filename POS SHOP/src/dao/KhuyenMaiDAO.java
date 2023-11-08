@@ -21,7 +21,7 @@ public class KhuyenMaiDAO {
 	KhuyenMai km;
 	
 	public KhuyenMaiDAO() {
-		KetNoiSQL.getInstance();
+		KetNoiSQL.getInstance().connect();
 		dskm = new ArrayList<KhuyenMai>();
 	}
 	

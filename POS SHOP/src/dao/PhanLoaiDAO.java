@@ -63,7 +63,7 @@ public class PhanLoaiDAO {
         Connection conn = KetNoiSQL.getConnection();
         
         try {
-            String sql = "update PhanLoai set loaiSP = (?) where maPhanLoai = ?";
+            String sql = "update PhanLoai set phanLoai = (?) where maPL = ?";
             PreparedStatement stmt = conn.prepareCall(sql);
             stmt.setString(1, phanLoai.getPhanLoai());
             stmt.setString(2, phanLoai.getMaPhanLoai());
@@ -78,7 +78,7 @@ public class PhanLoaiDAO {
         KetNoiSQL.getInstance();
         Connection conn = KetNoiSQL.getConnection();    
         try {
-            String sql = "insert into PhanLoai(maPhanLoai, loaiSP) values (?, ?)";
+            String sql = "insert into PhanLoai(maPL, phanLoai) values (?, ?)";
             PreparedStatement stmt = conn.prepareCall(sql);
             stmt.setString(1, phanLoai.getMaPhanLoai());
             stmt.setString(2, phanLoai.getPhanLoai());
@@ -94,7 +94,7 @@ public class PhanLoaiDAO {
         Connection conn = KetNoiSQL.getConnection();
         
         try {
-            String sql = "select * from PhanLoai where loaiSP = ?";
+            String sql = "select * from PhanLoai where phanLoai = ?";
             PreparedStatement stmt = conn.prepareCall(sql);
             stmt.setString(1, name);
             ResultSet rs = stmt.executeQuery();
