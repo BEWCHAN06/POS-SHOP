@@ -62,9 +62,9 @@ INSERT INTO KhuyenMai VALUES
 
 --Insert data for table SanPham
 INSERT INTO SanPham VALUES
-('SP01', N'Áo thun đỏ S', 100000, 'NCC01', 'KM01', 1, 'CL01', 'KD01', 'KT01', 'MC01', 'XX01', 'PL01', 5, 150000,''),
-('SP02', N'Áo thun xanh M', 110000, 'NCC01','KM02', 1, 'CL01', 'KD02', 'KT02', 'MC02', 'XX01', 'PL01', 7, 160000,''),
-('SP03', N'Quần jean L', 300000, 'NCC02', NULL, 1, 'CL02', 'KD03', 'KT03', 'MC03', 'XX02', 'PL02', 10, 350000,'')
+('SP01', N'Áo thun đỏ S', 100000, 500,'NCC01', 'KM01', 1, 'CL01', 'KD01', 'KT01', 'MC01', 'XX01', 'PL01', 5, 150000,''),
+('SP02', N'Áo thun xanh M', 110000, 550,'NCC01','KM02', 1, 'CL01', 'KD02', 'KT02', 'MC02', 'XX01', 'PL01', 7, 160000,''),
+('SP03', N'Quần jean L', 300000, 600,'NCC02', NULL, 1, 'CL02', 'KD03', 'KT03', 'MC03', 'XX02', 'PL02', 10, 350000,'')
 
 --Insert data for table TaiKhoan
 INSERT INTO TaiKhoan VALUES
