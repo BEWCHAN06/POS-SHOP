@@ -8,12 +8,13 @@ CREATE TABLE NhanVien
 maNV varchar(7) PRIMARY KEY,
 tenNV nvarchar(50) NOT NULL,
 ngaySinh date CHECK (ngaySinh >='1900-01-01'),
+SDT varchar (10) NOT NULL,
 email varchar(50) NOT NULL,
+CMND varchar(12) NOT NULL,
 gioiTinh bit NOT NULL,
 diaChi nvarchar(50) NOT NULL,
-chucVu int NOT NULL CHECK (chucVu = 1 or chucVu = 2),
+chucVu bit NOT NULL,
 trangThai int NOT NULL CHECK (trangThai = 1 or trangThai = 2 or trangThai = 3),
-luong double precision CHECK (luong > 0)
 )
 
 -- Tạo bảng KhachHang
