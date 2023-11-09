@@ -1,12 +1,13 @@
 package entity;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.Period;
 
 public class NhanVien {
     private String maNV;
     private String tenNV;
-    private LocalDate ngaySinh;
+    private Date ngaySinh;
     private String SDT;
     private String email;
     private String CMND;
@@ -14,176 +15,89 @@ public class NhanVien {
     private String diaChi;
     private boolean chucVu;
     private int trangThai;
-    private double luong;
-
-    public NhanVien() {
-        // Constructor mặc nhiên
-    }
-
-    public NhanVien(String maNV, String tenNV, LocalDate ngaySinh, String SDT, String email, String CMND, boolean gioiTinh, String diaChi, boolean chucVu, int trangThai, double luong) {
-        setMaNV(maNV);
-        setTenNV(tenNV);
-        setNgaySinh(ngaySinh);
-        setSDT(SDT);
-        setEmail(email);
-        setCMND(CMND);
-        setGioiTinh(gioiTinh);
-        setDiaChi(diaChi);
-        setChucVu(chucVu);
-        setTrangThai(trangThai);
-        setLuong(luong);
-    }
-
-    // Copy constructor
-    public NhanVien(NhanVien other) {
-        this(other.maNV, other.tenNV, other.ngaySinh, other.SDT, other.email, other.CMND, other.gioiTinh, other.diaChi, other.chucVu, other.trangThai, other.luong);
-    }
-
-    public String getMaNV() {
-        return maNV;
-    }
-
-    public void setMaNV(String maNV) {
-        // Kiểm tra và xử lý logic tạo mã NV theo quy luật
-        // Phát sinh tự động
-    }
-
-    public String getTenNV() {
-        return tenNV;
-    }
-
-    public void setTenNV(String tenNV) {
-        if (tenNV != null && tenNV.matches("^[A-Z][a-zA-Z ]{2,}$")) {
-            this.tenNV = tenNV;
-        } else {
-            throw new IllegalArgumentException("Họ tên không hợp lệ");
-        }
-    }
-
-    public LocalDate getNgaySinh() {
-        return ngaySinh;
-    }
-
-    public void setNgaySinh(LocalDate ngaySinh) {
-        LocalDate currentDate = LocalDate.now();
-        int age = Period.between(ngaySinh, currentDate).getYears();
-
-        if (age >= 18) {
-            this.ngaySinh = ngaySinh;
-        } else {
-            throw new IllegalArgumentException("Nhân viên phải >= 18 tuổi");
-        }
-    }
-
-    public String getSDT() {
-        return SDT;
-    }
-
-    public void setSDT(String SDT) {
-        if (SDT != null && SDT.matches("0[0-9]{9}")) {
-            this.SDT = SDT;
-        } else {
-            throw new IllegalArgumentException("Số điện thoại không hợp lệ");
-        }
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        if (isValidEmail(email)) {
-            this.email = email;
-        } else {
-            throw new IllegalArgumentException("Email không hợp lệ");
-        }
-    }
-
-    private boolean isValidEmail(String email) {
-        // Kiểm tra địa chỉ email theo yêu cầu
-        if (email != null && email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
-            return true;
-        }
-        return false;
-    }
-
-    public String getCMND() {
-        return CMND;
-    }
-
-    public void setCMND(String CMND) {
-        if (isValidCMND(CMND)) {
-            this.CMND = CMND;
-        } else {
-            throw new IllegalArgumentException("CMND không hợp lệ");
-        }
-    }
-
-    private boolean isValidCMND(String CMND) {
-        if (CMND != null && (CMND.length() == 9 || CMND.length() == 12) && CMND.matches("\\d+")) {
-            return true;
-        }
-        return false;
-    }
-
-    public boolean isGioiTinh() {
-        return gioiTinh;
-    }
-
-    public void setGioiTinh(boolean gioiTinh) {
-        if (gioiTinh != true) {
-            this.gioiTinh = gioiTinh;
-        } else {
-            throw new IllegalArgumentException("Nếu gioiTinh = true thì trả về Nam, ngược lại trả về Nữ");
-        }
-    }
-
-    public String getDiaChi() {
-        return diaChi;
-    }
-
-    public void setDiaChi(String diaChi) {
-        if (diaChi != null) {
-            this.diaChi = diaChi;
-        } else {
-            throw new IllegalArgumentException("Địa chỉ không được rỗng");
-        }
-    }
-
-    public boolean isChucVu() {
-        return chucVu;
-    }
-
-    public void setChucVu(boolean chucVu) {
-        if (chucVu != true) {
-            this.chucVu = chucVu;
-        } else {
-            throw new IllegalArgumentException("Nếu chucVu = true thì trả về Nhân viên, ngược lại trả về Quản lý");
-        }
-    }
-
-    public int getTrangThai() {
-        return trangThai;
-    }
-
-    public void setTrangThai(int trangThai) {
-    	this.trangThai = trangThai;
-    }
-
-    public double getLuong() {
-        return luong;
-    }
-
-    public void setLuong(double luong) {
-        if (luong > 0) {
-            this.luong = luong;
-        } else {
-            throw new IllegalArgumentException("Lương nhân viên phải lớn hơn 0");
-        }
-    }
-
-    @Override
-    public String toString() {
-        return "NhanVien [maNV=" + maNV + ", tenNV=" + tenNV + ", ngaySinh=" + ngaySinh + ", SDT=" + SDT + ", email=" + email + ", CMND=" + CMND + ", gioiTinh=" + gioiTinh + ", diaChi=" + diaChi + ", chucVu=" + chucVu + ", trangThai=" + trangThai + ", luong=" + luong + "]";
-    }
+    
+	public NhanVien(String maNV, String tenNV, Date ngaySinh, String sDT, String email, String cMND, boolean gioiTinh,
+			String diaChi, boolean chucVu, int trangThai) {
+		super();
+		this.maNV = maNV;
+		this.tenNV = tenNV;
+		this.ngaySinh = ngaySinh;
+		this.SDT = sDT;
+		this.email = email;
+		this.CMND = cMND;
+		this.gioiTinh = gioiTinh;
+		this.diaChi = diaChi;
+		this.chucVu = chucVu;
+		this.trangThai = trangThai;
+	}
+	public NhanVien() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public String getMaNV() {
+		return maNV;
+	}
+	public void setMaNV(String maNV) {
+		this.maNV = maNV;
+	}
+	public String getTenNV() {
+		return tenNV;
+	}
+	public void setTenNV(String tenNV) {
+		this.tenNV = tenNV;
+	}
+	public Date getNgaySinh() {
+		return ngaySinh;
+	}
+	public void setNgaySinh(Date ngaySinh) {
+		this.ngaySinh = ngaySinh;
+	}
+	public String getSDT() {
+		return SDT;
+	}
+	public void setSDT(String sDT) {
+		this.SDT = sDT;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getCMND() {
+		return CMND;
+	}
+	public void setCMND(String cMND) {
+		this.CMND = cMND;
+	}
+	public boolean isGioiTinh() {
+		return gioiTinh;
+	}
+	public void setGioiTinh(boolean gioiTinh) {
+		this.gioiTinh = gioiTinh;
+	}
+	public String getDiaChi() {
+		return diaChi;
+	}
+	public void setDiaChi(String diaChi) {
+		this.diaChi = diaChi;
+	}
+	public boolean isChucVu() {
+		return chucVu;
+	}
+	public void setChucVu(boolean chucVu) {
+		this.chucVu = chucVu;
+	}
+	public int getTrangThai() {
+		return trangThai;
+	}
+	public void setTrangThai(int trangThai) {
+		this.trangThai = trangThai;
+	}
+	@Override
+	public String toString() {
+		return "NhanVien [maNV=" + maNV + ", tenNV=" + tenNV + ", ngaySinh=" + ngaySinh + ", SDT=" + SDT + ", email="
+				+ email + ", CMND=" + CMND + ", gioiTinh=" + gioiTinh + ", diaChi=" + diaChi + ", chucVu=" + chucVu
+				+ ", trangThai=" + trangThai + "]";
+	}
 }
