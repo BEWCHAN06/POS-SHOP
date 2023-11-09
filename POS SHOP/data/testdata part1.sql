@@ -97,6 +97,7 @@ CREATE TABLE SanPham
 maSP varchar(7) PRIMARY KEY,
 tenSP nvarchar(50) NOT NULL,
 giaNhap double precision CHECK (giaNhap > 0),
+soLuong int NOT NULL,
 maNCC varchar(7) FOREIGN KEY REFERENCES NhaCungCap(maNCC),
 maKM varchar(7) FOREIGN KEY REFERENCES KhuyenMai(maKM),
 trangThai int CHECK (trangThai = 1 or trangThai = 2 or trangThai = 3),

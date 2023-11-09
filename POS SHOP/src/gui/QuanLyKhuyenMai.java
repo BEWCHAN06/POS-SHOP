@@ -59,7 +59,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 	private JCheckBox checkBoxChonTatCa;
 	private JComboBox<String> comboBoxPhanLoai;
 	private JDateChooser dateChooserThoiGianBatDauGiamGia, dateChooserThoiGianKetThucGiamGia;
-	private JButton btnThemKhuyenMai, btnSuaKhuyenMai, btnLamMoi;
+	private JButton btnTimKiemSanPham, btnThemKhuyenMai, btnSuaKhuyenMai, btnLamMoi;
 	private JTable tblSanPham, tblKhuyenMai;
 	private DefaultTableModel modelKhuyenMai, modelSanPham;
 	private KhuyenMaiDAO dskm = new KhuyenMaiDAO();
@@ -155,23 +155,39 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 		btnThemKhuyenMai.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (btnThemKhuyenMai.getText().equals("Thêm")) {
-					btnThemKhuyenMai.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/luulienket.png")));
 					btnThemKhuyenMai.setText("Lưu");
-					btnLamMoi.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/x.png")));
+					btnThemKhuyenMai.setForeground(new Color(0, 0, 0));
+					btnThemKhuyenMai.setBackground(new Color(210, 105, 30));
+					btnThemKhuyenMai.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/luulienket.png")));
+					txtTenKhuyenMai.setEditable(true);
+					txtMucKhuyenMai.setEditable(true);
+					dateChooserThoiGianBatDauGiamGia.setEnabled(true);
+					dateChooserThoiGianKetThucGiamGia.setEnabled(true);
+					
 					btnLamMoi.setText("Hủy");
+					btnLamMoi.setForeground(new Color(0, 0, 0));
+					btnLamMoi.setBackground(new Color(255, 0, 0));
+					btnLamMoi.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/x.png")));
 				} else {
-					btnThemKhuyenMai.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/add.png")));
 					btnThemKhuyenMai.setText("Thêm");
-					btnLamMoi.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/loading.png")));
+					btnThemKhuyenMai.setForeground(new Color(255, 255, 255));
+					btnThemKhuyenMai.setBackground(new Color(65, 105, 255));
+					btnThemKhuyenMai.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/add.png")));
+					
 					btnLamMoi.setText("Làm mới");
+					btnLamMoi.setBackground(new Color(152, 251, 152));
+					btnLamMoi.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/loading.png")));
 				}
 			}
 		});
+		btnThemKhuyenMai.setForeground(new Color(255, 255, 255));
+		btnThemKhuyenMai.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		btnThemKhuyenMai.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/add.png")));
 		btnThemKhuyenMai.setFont(new Font("Arial", Font.BOLD, 12));
-		btnThemKhuyenMai.setBackground(new Color(210, 105, 30));
+		btnThemKhuyenMai.setBackground(new Color(65, 105, 255));
 
 		btnSuaKhuyenMai = new JButton("Sửa");
+		btnSuaKhuyenMai.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		btnSuaKhuyenMai.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/sua.png")));
 		btnSuaKhuyenMai.setFont(new Font("Arial", Font.BOLD, 12));
 		btnSuaKhuyenMai.setBackground(new Color(255, 255, 0));
@@ -181,19 +197,30 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (btnLamMoi.getText().equals("Hủy")) {
-					btnLamMoi.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/loading.png")));
 					btnLamMoi.setText("Làm mới");
-					btnThemKhuyenMai.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/add.png")));
+					btnLamMoi.setBackground(new Color(152, 251, 152));
+					btnLamMoi.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/loading.png")));
+					
 					btnThemKhuyenMai.setText("Thêm");
+					btnThemKhuyenMai.setForeground(new Color(255, 255, 255));
+					btnThemKhuyenMai.setBackground(new Color(65, 105, 255));
+					btnThemKhuyenMai.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/add.png")));
+					txtTenKhuyenMai.setEditable(false);
+					txtMucKhuyenMai.setEditable(false);
+					dateChooserThoiGianBatDauGiamGia.setEnabled(false);
+					dateChooserThoiGianKetThucGiamGia.setEnabled(false);
 				}
 			}
 		});
+		btnLamMoi.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		btnLamMoi.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/loading.png")));
 		btnLamMoi.setFont(new Font("Arial", Font.BOLD, 12));
 		btnLamMoi.setBackground(new Color(152, 251, 152));
 
 		dateChooserThoiGianBatDauGiamGia = new JDateChooser();
+		dateChooserThoiGianBatDauGiamGia.setEnabled(false);
 		dateChooserThoiGianKetThucGiamGia = new JDateChooser();
+		dateChooserThoiGianKetThucGiamGia.setEnabled(false);
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(gl_panel_1.createParallelGroup(Alignment.LEADING).addGroup(gl_panel_1
 				.createSequentialGroup().addContainerGap()
@@ -242,6 +269,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 		lblTenKhuyenMai.setFont(new Font("Arial", Font.BOLD, 12));
 
 		txtTenKhuyenMai = new JTextField();
+		txtTenKhuyenMai.setEditable(false);
 		txtTenKhuyenMai.setFont(new Font("Arial", Font.PLAIN, 12));
 		txtTenKhuyenMai.setColumns(10);
 
@@ -249,6 +277,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 		lblMucKhuyenMai.setFont(new Font("Arial", Font.BOLD, 12));
 
 		txtMucKhuyenMai = new JTextField();
+		txtMucKhuyenMai.setEditable(false);
 		txtMucKhuyenMai.setFont(new Font("Arial", Font.PLAIN, 12));
 		txtMucKhuyenMai.setColumns(10);
 
@@ -269,7 +298,8 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 		txtTimKiemSanPham.setFont(new Font("Arial", Font.PLAIN, 13));
 		txtTimKiemSanPham.setColumns(10);
 
-		JButton btnTimKiemSanPham = new JButton("Tìm");
+		btnTimKiemSanPham = new JButton("Tìm");
+		btnTimKiemSanPham.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		btnTimKiemSanPham.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/search.png")));
 		btnTimKiemSanPham.setFont(new Font("Arial", Font.BOLD, 11));
 		btnTimKiemSanPham.setBackground(Color.LIGHT_GRAY);
@@ -416,7 +446,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 				Date nkt = (Date) modelKhuyenMai.getValueAt(row, 4);
 				dateChooserThoiGianKetThucGiamGia.setDate(nkt);
 
-				// Sự kiện click chuột vào bảng KhuyenMai thì hiển thị SanPham được khuyến mãi
+				// Sự kiện click chuột vào bảng KhuyenMai thì hiển thị danh sách SanPham được khuyến mãi
 				if (row != -1) {
 					SanPhamDAO ds = new SanPhamDAO();
 					String selectedMaKM = (String) tblKhuyenMai.getValueAt(row, 0);
@@ -444,10 +474,10 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 		} else if (o.equals(comboBoxPhanLoai)) {
 			SanPhamDAO ds = new SanPhamDAO();
 			String phanLoai = (String) comboBoxPhanLoai.getSelectedItem();
-			List<SanPham> list = ds.getSanPhanTheoPhanLoai(phanLoai);
-			if (phanLoai == "All") {
+			List<SanPham> list = ds.getSanPhanTheoPhanLoai(phanLoai); // Lấy danh sách sản phẩm thêm tên phân loại
+			if (phanLoai == "All") { // Nếu comBoBox phân loại là All thì hiển thị tất cả danh sách sản phẩm
 				updateTableSanPham();
-			} else {
+			} else { // Ngược lại thì tìm kiếm các sản phẩm phân loại tương ứng
 				modelSanPham.getDataVector().removeAllElements();
 				for (SanPham sp : list) {
 					Object data[] = { Boolean.FALSE, sp.getMaSP(), sp.getTenSP(), sp.getGiaBan() };
@@ -457,51 +487,37 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 			}
 
 		} else if (o.equals(btnThemKhuyenMai)) {
-			if (btnThemKhuyenMai.getText().equalsIgnoreCase("Lưu")) {
+			if (btnThemKhuyenMai.getText().equalsIgnoreCase("Lưu")) { // Nếu là button lưu thì thực hiện thêm khuyến mãi
 				if (validData()) {
-					KhuyenMai km = reverSPFfromTextFile(); // Lấy dữ liệu từ JtexFiled thêm vào danh sách khuyến mãi
+					KhuyenMai km = reverSPFfromTextFile(); // Lấy dữ liệu từ JtexFiled, JDateChooser thêm vào danh sách khuyến mãi
 					if (dskm.createKhuyenMai(km)) { // Thêm khuyến mãi vào SQL
 						// Thêm khuyến mãi vào table
 						JOptionPane.showMessageDialog(null, "Thêm Thành Công !");
 						updateTableKhuyenMai();
+						txtTenKhuyenMai.setEditable(false);
+						txtMucKhuyenMai.setEditable(false);
+						dateChooserThoiGianBatDauGiamGia.setEnabled(false);
+						dateChooserThoiGianKetThucGiamGia.setEnabled(false);
 
-						// Cập nhật, thêm khuyến mãi cho sản phẩm
-						List<String> selectedSanPham = new ArrayList<>();
-						for (int row = 0; row < tblSanPham.getRowCount(); row++) {
-							boolean isChecked = (boolean) tblSanPham.getValueAt(row, 0); //
-							if (isChecked) { // Nếu ô kiểm đã được check
-								String maSP = (String) tblSanPham.getValueAt(row, 1); // Lấy ra mã sản phẩm
+						// Cập nhật, thêm mã khuyến mãi cho sản phẩm được chọn
+//						List<String> selectedSanPham = new ArrayList<>(); 
+						for (int row = 0; row < tblSanPham.getRowCount(); row++) { 
+							boolean isChecked = (boolean) tblSanPham.getValueAt(row, 0); // Kiểm tra cột 0 hàng hiện tại có được tick vào ô kiểm hay không
+							if (isChecked) { // Nếu ô kiểm đã được tick
+								String maSP = (String) tblSanPham.getValueAt(row, 1); // Lấy ra mã sản phẩm ở ô kiểm đã được tick
 								String maKM = txtMaKhuyenMai.getText().toString();
 								dssp.updateMaKMChoSanPHam(maSP, maKM);
 							}
 						}
 						xoaRong();
-					}
-				}
-			} else {
-				txtTenKhuyenMai.requestFocus();
-				KetNoiSQL.getInstance().connect();
-				Connection con = KetNoiSQL.getInstance().getConnection();
-				PreparedStatement stmt = null;
-				try {
-					String sql = "Select maKM from KhuyenMai where maKM = (Select MAX(maKM) From KhuyenMai)";
-					Statement statement = con.createStatement(); // Thực thi câu lệnh SQL trả về ResulSet.
-					ResultSet rs = statement.executeQuery(sql);
-					String maxID = null;
-					if (rs.next()) {
-						maxID = rs.getString(1); // Lấy ra mã khuyến mãi lớn nhất cuối cùng
-					}
-					if (Integer.parseInt(maxID.substring(2)) <= 10) {
-						maxID = "KM0" + (String.valueOf(Integer.parseInt(maxID.substring(2)) + 1));
-						txtMaKhuyenMai.setText(maxID);
 					} else {
-						maxID = "KM" + (String.valueOf(Integer.parseInt(maxID.substring(2)) + 1));
-						txtMaKhuyenMai.setText(maxID);
+						JOptionPane.showMessageDialog(null, "Không thể thêm do trùng mã !");
 					}
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
 				}
+			} else { // Ngược lại khi nhấn vào nút thêm
+				xoaRong();
+				txtTenKhuyenMai.requestFocus();
+				txtMaKhuyenMai.setText(dskm.getAuToID()); // Khi nhấn nút thêm thì tự động phát sinh maKM
 			}
 		} else if (o.equals(btnLamMoi)) {
 			xoaRong();
@@ -524,6 +540,9 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 
 	// Kiểm tra Regex
 	private boolean validData() {
+		String maKM = txtMaKhuyenMai.getText().trim(); // .trim() bỏ khoảng trắng đầu và cuối
+		String tenKM = txtTenKhuyenMai.getText().trim();
+		Date nbd = dateChooserThoiGianBatDauGiamGia.getDate();
 		return true;
 	}
 

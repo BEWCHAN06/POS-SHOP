@@ -27,6 +27,7 @@ public class KhuyenMaiDAO {
 		dskm = new ArrayList<KhuyenMai>();
 	}
 
+	// Lấy danh sách Khuyến Mãi từ SQL
 	public List<KhuyenMai> doTuBang() {
 		try {
 			Connection con = KetNoiSQL.getInstance().getConnection();
@@ -71,6 +72,32 @@ public class KhuyenMaiDAO {
 			e.printStackTrace();
 		}
 		return n > 0;
+	}
+
+	// Phát sinh maKM tự động
+	public String getAuToID() {
+		KetNoiSQL.getInstance().connect();
+		Connection con = KetNoiSQL.getInstance().getConnection();
+		PreparedStatement stmt = null;
+		String maxID = null;
+		try {
+			String sql = "Select maKM from KhuyenMai where maKM = (Select MAX(maKM) From KhuyenMai)";
+			Statement statement = con.createStatement(); // Thực thi câu lệnh SQL trả về ResulSet.
+			ResultSet rs = statement.executeQuery(sql);
+
+			if (rs.next()) {
+				maxID = rs.getString(1); // Lấy ra mã khuyến mãi lớn nhất cuối cùng
+			}
+			if (Integer.parseInt(maxID.substring(2)) < 9) {
+				maxID = "KM0" + (String.valueOf(Integer.parseInt(maxID.substring(2)) + 1));
+			} else {
+				maxID = "KM" + (String.valueOf(Integer.parseInt(maxID.substring(2)) + 1));
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		return maxID;
 	}
 
 	public KhuyenMai getKhuyenMai(String id) {
