@@ -632,7 +632,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		tbllistSanPham.addMouseListener(this);
 	}
 	
-	private SanPham themDoiTuong() {
+	private SanPham addObject() {
 		// TODO Auto-generated method stub
 		SanPham sp = new SanPham();
 		String masp = sp.getAutoID();
@@ -643,7 +643,19 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		KhuyenMai khuyenMai = khuyenMaiDAO.getKhuyenMaiByPhanTram(0);
 		double giaban = sp.getGiaBan();
 		KichThuoc kichThuoc = kichThuocDAO.getKichThuocByName(cboKichThuocBatDau.getSelectedItem().toString());
-		return null;
+		int sl = Integer.parseInt(txtSoLuongSP.getText());
+		MauSac mauSac = mauSacDAO.getMauSacByName(cboMauSac.getSelectedItem().toString());
+		ChatLieu chatLieu = chatLieuDAO.getChatLieuByName(cboChatLieu.getSelectedItem().toString());
+		NhaCungCap nhaCungCap = nhaCungCapDAO.getNhaCungCapByName(cboNCC.getSelectedItem().toString());
+		KieuDang kieuDang = kieuDangDAO.getKieuDangByName(cboKieuDang.getSelectedItem().toString());
+		XuatXu xuatXu = xuatXuDAO.getXuatXuByName(cboKieuDang.getSelectedItem().toString());
+		String hinhanh = "";
+		int trangthai = 0; 
+		if(sl > 0) {
+			trangthai = 1;
+		}
+		SanPham sanPham = new SanPham(masp, tensp, phanLoai, gianhap, loi, khuyenMai, giaban, kichThuoc, sl, mauSac, chatLieu, nhaCungCap, kieuDang, xuatXu, hinhanh, trangthai);
+		return sanPham;
 	}
 	// su kien các nút
 	private void xoaRongTextField() {
@@ -670,10 +682,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 			btnHuy.setEnabled(true);
 			
 		}else if(o.equals(btnLuu)) {
-			btnThem.setEnabled(true);
-			btnSua.setEnabled(true);
-			btnLuu.setEnabled(false);
-			btnHuy.setEnabled(false);
+			
 			boolean check = true;
 			String tenspString =  txtTenSP.getText();
 			if(tenspString.trim().isEmpty()) {
@@ -685,8 +694,18 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 				JOptionPane.showMessageDialog(null, "vui long điền số lượng");
 				check = false;
 			}
+			String giaNhap = txtGiaNhap.getText();
+			if(giaNhap.trim().isEmpty()) {
+				JOptionPane.showMessageDialog(null, "vui long điền giá nhập");
+				check = false;
+			}
 			if(check) {
-				
+				sanPhamDAO.addSanPham(addObject());
+				tblDanhSachSanPham();
+				btnThem.setEnabled(true);
+				btnSua.setEnabled(true);
+				btnLuu.setEnabled(false);
+				btnHuy.setEnabled(false);
 			}
 			
 		}else if(o.equals(btnLamMoi)) {

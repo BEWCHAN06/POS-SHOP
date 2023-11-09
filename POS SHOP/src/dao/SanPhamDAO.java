@@ -41,6 +41,7 @@ public class SanPhamDAO {
 	}
 
 	public List<SanPham> doTuBang() {
+		KetNoiSQL.getInstance().connect();
 		try {
 			Connection con = KetNoiSQL.getInstance().getConnection();
 			String sql = "select sp.maSP, tenSP, maPL, giaNhap,loiTheoPhanTram, maKM, giaBan, maKT,soLuong,maMS, maCL, maNCC, hinhAnh  from SanPham sp join ChiTietHoaDon cthd on sp.maSP = cthd.maSP";
@@ -212,4 +213,33 @@ public class SanPhamDAO {
 		}
 		return n > 0;
 	}
+	public int addSanPham(SanPham sanPham) {
+			KetNoiSQL.getInstance().connect();
+        try {
+        	Connection con = KetNoiSQL.getInstance().getConnection();
+            String sql = "Insert into sanpham values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            PreparedStatement ps = con.prepareStatement(sql);
+            
+            ps.setString(1, sanPham.getMaSP());
+            ps.setString(2, sanPham.getTenSP());
+            ps.setDouble(3, sanPham.getGiaNhap());
+            ps.setString(4, sanPham.getNhaCungCap().getMaNCC());
+            ps.setString(5, " ");
+            ps.setInt(6, sanPham.getSoLuong());
+            ps.setString(7, sanPham.getChatLieu().getMaChatLieu());
+            ps.setString(8, sanPham.getKieuDang().getMaKieuDang());
+            ps.setString(9, sanPham.getKichThuoc().getMaKichThuoc());
+            ps.setString(10, sanPham.getMauSac().getMaMauSac());
+            ps.setString(11, sanPham.getXuatXu().getMaXuatXu());
+            ps.setString(12, sanPham.getPl().getMaPhanLoai());
+            ps.setInt(13, sanPham.getLoi());
+            ps.setDouble(14, sanPham.getGiaBan());
+            ps.setString(15, sanPham.getHinhAnh());
+
+            return ps.executeUpdate();
+        } catch (SQLException ex) {
+        	ex.printStackTrace();
+        }
+        return -1;
+    }
 }

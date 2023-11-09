@@ -90,7 +90,7 @@ public class PhanLoaiDAO {
     }
      
     public PhanLoai getPhanLoaiByName(String name){
-        KetNoiSQL.getInstance();
+        KetNoiSQL.getInstance().connect();;
         Connection conn = KetNoiSQL.getConnection();
         
         try {
