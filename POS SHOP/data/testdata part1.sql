@@ -135,6 +135,7 @@ CREATE TABLE ChiTietHoaDon
 (
 maSP varchar(7),
 maHD varchar(7),
+phanTramKhuyenMai double precision,
 soLuong int CHECK (soLuong > 0),
 PRIMARY KEY (maSP, maHD),
 FOREIGN KEY (maSP) REFERENCES SanPham (maSP),

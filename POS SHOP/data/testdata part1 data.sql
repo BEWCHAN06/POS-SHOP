@@ -1,4 +1,4 @@
-﻿﻿use Postshop
+﻿use Postshop
 
 --Insert data for table NhanVien
 INSERT INTO NhanVien VALUES
@@ -80,9 +80,9 @@ INSERT INTO HoaDon VALUES
 
 --Insert data for table ChiTietHoaDon
 INSERT INTO ChiTietHoaDon VALUES
-('SP01','HD01',3),
-('SP02','HD02',2),
-('SP03','HD03',1)
+('SP01','HD01',3, 10),
+('SP02','HD02',2, 15),
+('SP03','HD03',1, NULL)
 
 --Insert data for table HoaDonTraHang
 INSERT INTO HoaDonTraHang VALUES
