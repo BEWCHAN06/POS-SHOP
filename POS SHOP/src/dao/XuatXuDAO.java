@@ -100,7 +100,7 @@ public class XuatXuDAO {
         while(rs.next()){
             XuatXu xuatXu = new XuatXu();
             xuatXu.setMaXuatXu(rs.getString(1));
-            xuatXu.setMaXuatXu(rs.getString(2));
+            xuatXu.setXuatXu(rs.getString(2));
             return xuatXu;
         }
         } catch (SQLException ex) {

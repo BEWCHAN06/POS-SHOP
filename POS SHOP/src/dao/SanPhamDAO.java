@@ -85,10 +85,10 @@ public class SanPhamDAO {
 	// Tìm sản phẩm theo phân loại
 	public List<SanPham> getSanPhanTheoPhanLoai(String name) {
 		try {
+			KetNoiSQL.getInstance().connect();
 			Connection con = KetNoiSQL.getInstance().getConnection();
-			String sql = "select sp.maSP, tenSP, maPL, giaNhap,loiTheoPhanTram, maKM, giaBan, maKT,soLuong,maMS, maCL, maNCC, hinhAnh \r\n"
-					+ "from SanPham sp join ChiTietHoaDon cthd on sp.maSP = cthd.maSP \r\n"
-					+ "where maPL = (select maPL from PhanLoai where phanLoai = (?))";
+			String sql = "select maSP, tenSP, maPL, giaNhap,loiTheoPhanTram, maKM, giaBan, maKT,soLuong,maMS, maCL, maNCC, hinhAnh \r\n"
+					+ "from SanPham where maPL = (select maPL from PhanLoai where phanLoai = (?))";
 			PreparedStatement stmt = con.prepareCall(sql);
 			stmt.setString(1, name);
 			ResultSet rs = stmt.executeQuery();
@@ -217,26 +217,60 @@ public class SanPhamDAO {
 			KetNoiSQL.getInstance().connect();
         try {
         	Connection con = KetNoiSQL.getInstance().getConnection();
-            String sql = "Insert into sanpham values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            String sql = "Insert into sanpham values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement ps = con.prepareStatement(sql);
             
             ps.setString(1, sanPham.getMaSP());
             ps.setString(2, sanPham.getTenSP());
             ps.setDouble(3, sanPham.getGiaNhap());
-            ps.setString(4, sanPham.getNhaCungCap().getMaNCC());
-            ps.setString(5, " ");
-            ps.setInt(6, sanPham.getSoLuong());
-            ps.setString(7, sanPham.getChatLieu().getMaChatLieu());
-            ps.setString(8, sanPham.getKieuDang().getMaKieuDang());
-            ps.setString(9, sanPham.getKichThuoc().getMaKichThuoc());
-            ps.setString(10, sanPham.getMauSac().getMaMauSac());
-            ps.setString(11, sanPham.getXuatXu().getMaXuatXu());
-            ps.setString(12, sanPham.getPl().getMaPhanLoai());
-            ps.setInt(13, sanPham.getLoi());
-            ps.setDouble(14, sanPham.getGiaBan());
-            ps.setString(15, sanPham.getHinhAnh());
+            ps.setInt(4, sanPham.getSoLuong());
+            ps.setString(5, sanPham.getNhaCungCap().getMaNCC());
+            ps.setString(6, null);
+            ps.setInt(7, sanPham.getTrangThai());
+            ps.setString(8, sanPham.getChatLieu().getMaChatLieu());
+            ps.setString(9, sanPham.getKieuDang().getMaKieuDang());
+            ps.setString(10, sanPham.getKichThuoc().getMaKichThuoc());
+            ps.setString(11, sanPham.getMauSac().getMaMauSac());
+            ps.setString(12, sanPham.getXuatXu().getMaXuatXu());
+            ps.setString(13, sanPham.getPl().getMaPhanLoai());
+            ps.setInt(14, sanPham.getLoi());
+            ps.setDouble(15, sanPham.getGiaBan());
+            ps.setString(16, sanPham.getHinhAnh());
 
             return ps.executeUpdate();
+        } catch (SQLException ex) {
+        	ex.printStackTrace();
+        }
+        return -1;
+    }
+	public int updateSanPham(SanPham sanPham) {
+        KetNoiSQL.getInstance();
+        Connection conn = KetNoiSQL.getConnection();
+
+        try {
+            String sql = "update SanPham set tenSP = ?, giaNhap = ?,soLuong=?,maNCC = ?,\r\n"
+            		+ "maKM =?, trangThai = ?, maCL = ?,maKD = ?, maMS = ?, maXX = ?,maPL= ?, \r\n"
+            		+ "loiTheoPhanTram = ?, giaBan= ?,hinhAnh = ? \r\n"
+            		+ "where maSP = ?";
+
+            PreparedStatement stmt = conn.prepareCall(sql);
+            stmt.setString(1, sanPham.getTenSP());
+            stmt.setDouble(2, sanPham.getGiaBan());
+            stmt.setInt(3, sanPham.getSoLuong());
+            stmt.setString(4, sanPham.getNhaCungCap().getMaNCC());
+            stmt.setString(5, null);
+            stmt.setInt(6, sanPham.getTrangThai());
+            stmt.setString(7, sanPham.getChatLieu().getMaChatLieu());
+            stmt.setString(8, sanPham.getKieuDang().getMaKieuDang());
+            stmt.setString(9, sanPham.getMauSac().getMaMauSac());
+            stmt.setString(10, sanPham.getXuatXu().getMaXuatXu());
+            stmt.setString(11, sanPham.getPl().getMaPhanLoai());
+            stmt.setInt(12, sanPham.getLoi());
+            stmt.setDouble(13, sanPham.getGiaBan());
+            stmt.setString(14, sanPham.getHinhAnh());
+            stmt.setString(15, sanPham.getMaSP());
+
+            return stmt.executeUpdate();
         } catch (SQLException ex) {
         	ex.printStackTrace();
         }

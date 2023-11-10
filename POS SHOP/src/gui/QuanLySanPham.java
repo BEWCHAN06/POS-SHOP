@@ -16,6 +16,7 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JScrollPane;
@@ -85,6 +86,9 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 	private JButton btnHuy;
 	private JButton btnXemTruoc;
 	private SanPhamDAO listSP;
+	private JTextField txtMaSP;
+	private int btn;
+	private JCheckBox checkbox_xuatKichThuocTuDong;
 	/**
 	 * Create the panel.
 	 */
@@ -251,6 +255,13 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		textField_1 = new JTextField();
 		textField_1.setBorder(new LineBorder(new Color(0, 0, 0)));
 		textField_1.setColumns(10);
+		
+		txtMaSP = new JTextField();
+		txtMaSP.setEditable(false);
+		txtMaSP.setColumns(10);
+		
+		JLabel lblNewLabel_4 = new JLabel("Mã Sản Phẩm: ");
+		lblNewLabel_4.setFont(new Font("Arial", Font.BOLD, 11));
 		GroupLayout gl_pnlSanPham = new GroupLayout(pnlSanPham);
 		gl_pnlSanPham.setHorizontalGroup(
 			gl_pnlSanPham.createParallelGroup(Alignment.LEADING)
@@ -260,17 +271,29 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 					.addComponent(lblNewLabel_3)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 263, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(538, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED, 235, Short.MAX_VALUE)
+					.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(txtMaSP, GroupLayout.PREFERRED_SIZE, 133, GroupLayout.PREFERRED_SIZE)
+					.addGap(65))
 		);
 		gl_pnlSanPham.setVerticalGroup(
 			gl_pnlSanPham.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_pnlSanPham.createSequentialGroup()
-					.addGap(8)
-					.addGroup(gl_pnlSanPham.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblNewLabel_3)
-						.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
+					.addGroup(gl_pnlSanPham.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_pnlSanPham.createSequentialGroup()
+							.addGap(8)
+							.addGroup(gl_pnlSanPham.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblNewLabel_3)
+								.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(gl_pnlSanPham.createSequentialGroup()
+							.addGap(3)
+							.addComponent(txtMaSP, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_pnlSanPham.createSequentialGroup()
+							.addGap(7)
+							.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 13, GroupLayout.PREFERRED_SIZE)))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE))
+					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE))
 		);
 		panel.setLayout(new CardLayout(0, 0));
 		
@@ -450,8 +473,8 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		cboGiaLoi.setBorder(new LineBorder(new Color(0, 0, 0)));
 		cboGiaLoi.setBackground(new Color(255, 255, 255));
 		
-		JCheckBox chckbxNewCheckBox = new JCheckBox("Xuất kích thước tự động");
-		chckbxNewCheckBox.setBackground(new Color(255, 255, 255));
+		checkbox_xuatKichThuocTuDong = new JCheckBox("Xuất kích thước tự động");
+		checkbox_xuatKichThuocTuDong.setBackground(new Color(255, 255, 255));
 		
 		JLabel lblNewLabel_1_1_1_2_3 = new JLabel("Kích thước :");
 		
@@ -462,10 +485,12 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		JLabel lblNewLabel_1_1_1_2_3_1 = new JLabel("Đến :");
 		
 		cboKichThuocKetThuc = new JComboBox();
+		cboKichThuocKetThuc.setEnabled(false);
 		cboKichThuocKetThuc.setBorder(new LineBorder(new Color(0, 0, 0)));
 		cboKichThuocKetThuc.setBackground(new Color(255, 255, 255));
 		
 		btnXemTruoc = new JButton("Xem Trước");
+		btnXemTruoc.setEnabled(false);
 		btnXemTruoc.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		btnXemTruoc.setForeground(new Color(0, 0, 0));
 		btnXemTruoc.setBackground(new Color(192, 192, 192));
@@ -479,7 +504,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 							.addContainerGap()
 							.addComponent(lblNewLabel_1_1_1_2_3, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(cboKichThuocBatDau, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addComponent(cboKichThuocBatDau, 0, 85, Short.MAX_VALUE)
 							.addGap(18)
 							.addComponent(lblNewLabel_1_1_1_2_3_1, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
@@ -523,8 +548,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 									.addGap(18))
 								.addGroup(gl_pnlXemTruoc.createSequentialGroup()
 									.addContainerGap()
-									.addComponent(lblNewLabel)
-									.addGap(171))
+									.addComponent(lblNewLabel))
 								.addGroup(gl_pnlXemTruoc.createSequentialGroup()
 									.addContainerGap()
 									.addComponent(lblNewLabel_1_1_1_2_1, GroupLayout.PREFERRED_SIZE, 189, GroupLayout.PREFERRED_SIZE))
@@ -533,18 +557,18 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 									.addComponent(cboNCC, GroupLayout.PREFERRED_SIZE, 250, GroupLayout.PREFERRED_SIZE))
 								.addGroup(gl_pnlXemTruoc.createSequentialGroup()
 									.addContainerGap()
-									.addComponent(chckbxNewCheckBox)))
+									.addComponent(checkbox_xuatKichThuocTuDong)))
 							.addGap(18)
-							.addGroup(gl_pnlXemTruoc.createParallelGroup(Alignment.TRAILING, false)
+							.addGroup(gl_pnlXemTruoc.createParallelGroup(Alignment.LEADING, false)
 								.addGroup(gl_pnlXemTruoc.createSequentialGroup()
 									.addComponent(lblHnhA, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 									.addComponent(btnHinhAnh, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE))
-								.addComponent(lblGiNhp, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 77, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblNewLabel_1_1_1_2_2, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE)
-								.addComponent(txtGiaNhap, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
-								.addComponent(pnlHinhAnh, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addGroup(Alignment.LEADING, gl_pnlXemTruoc.createParallelGroup(Alignment.TRAILING)
+								.addComponent(lblGiNhp, GroupLayout.PREFERRED_SIZE, 77, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblNewLabel_1_1_1_2_2, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtGiaNhap, GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
+								.addComponent(pnlHinhAnh, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addGroup(gl_pnlXemTruoc.createParallelGroup(Alignment.TRAILING)
 									.addComponent(btnXemTruoc, GroupLayout.PREFERRED_SIZE, 96, GroupLayout.PREFERRED_SIZE)
 									.addComponent(cboGiaLoi, GroupLayout.PREFERRED_SIZE, 136, GroupLayout.PREFERRED_SIZE)))
 							.addGap(19)))
@@ -553,7 +577,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		gl_pnlXemTruoc.setVerticalGroup(
 			gl_pnlXemTruoc.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_pnlXemTruoc.createSequentialGroup()
-					.addContainerGap()
+					.addGap(9)
 					.addGroup(gl_pnlXemTruoc.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_pnlXemTruoc.createSequentialGroup()
 							.addGroup(gl_pnlXemTruoc.createParallelGroup(Alignment.BASELINE)
@@ -574,8 +598,9 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 							.addGap(27)
 							.addComponent(btnXemTruoc, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_pnlXemTruoc.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(lblNewLabel)
-							.addGap(3)
+							.addGap(10)
 							.addComponent(txtTenSP, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addGap(8)
 							.addGroup(gl_pnlXemTruoc.createParallelGroup(Alignment.BASELINE)
@@ -606,14 +631,14 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(cboNCC, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(chckbxNewCheckBox)
+							.addComponent(checkbox_xuatKichThuocTuDong)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_pnlXemTruoc.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblNewLabel_1_1_1_2_3)
 								.addComponent(cboKichThuocBatDau, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblNewLabel_1_1_1_2_3_1)
 								.addComponent(cboKichThuocKetThuc, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
-					.addContainerGap(24, Short.MAX_VALUE))
+					.addGap(24))
 		);
 		pnlXemTruoc.setLayout(gl_pnlXemTruoc);
 		mainPanel.setLayout(gl_mainPanel);
@@ -628,6 +653,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		btnLuu.addActionListener(this);
 		btnLamMoi.addActionListener(this);
 		btnHuy.addActionListener(this);
+		checkbox_xuatKichThuocTuDong.addActionListener(this);
 		//su kien click table
 		tbllistSanPham.addMouseListener(this);
 	}
@@ -635,12 +661,12 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 	private SanPham addObject() {
 		// TODO Auto-generated method stub
 		SanPham sp = new SanPham();
-		String masp = sp.getAutoID();
+		
 		String tensp = txtTenSP.getText().toString();
 		PhanLoai phanLoai = phanLoaiDAO.getPhanLoaiByName(cboLoaiSanPham.getSelectedItem().toString());
 		double gianhap = Double.parseDouble(txtGiaNhap.getText());
 		int loi = Integer.parseInt(cboGiaLoi.getSelectedItem().toString());
-//		KhuyenMai khuyenMai = khuyenMaiDAO.getKhuyenMaiByPhanTram(10);
+//		KhuyenMai khuyenMai = khuyenMaiDAO.getKhuyenMaiByPhanTram(0);
 		double giaban = sp.getGiaBan();
 		KichThuoc kichThuoc = kichThuocDAO.getKichThuocByName(cboKichThuocBatDau.getSelectedItem().toString());
 		int sl = Integer.parseInt(txtSoLuongSP.getText());
@@ -648,13 +674,40 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		ChatLieu chatLieu = chatLieuDAO.getChatLieuByName(cboChatLieu.getSelectedItem().toString());
 		NhaCungCap nhaCungCap = nhaCungCapDAO.getNhaCungCapByName(cboNCC.getSelectedItem().toString());
 		KieuDang kieuDang = kieuDangDAO.getKieuDangByName(cboKieuDang.getSelectedItem().toString());
-//		XuatXu xuatXu = xuatXuDAO.getXuatXuByName(cboKieuDang.getSelectedItem().toString());
+		XuatXu xuatXu = xuatXuDAO.getXuatXuByName(cboxuatXu.getSelectedItem().toString());
+		System.out.println(cboxuatXu.getSelectedItem().toString());
 		String hinhanh = "";
 		int trangthai = 0; 
 		if(sl > 0) {
 			trangthai = 1;
 		}
-		SanPham sanPham = new SanPham(masp, tensp, phanLoai, gianhap, loi, null, giaban, kichThuoc, sl, mauSac, chatLieu, nhaCungCap, kieuDang, null, hinhanh, trangthai);
+		SanPham sanPham = new SanPham(tensp, phanLoai, gianhap, loi, null, giaban, kichThuoc, sl, mauSac, chatLieu, nhaCungCap, kieuDang, xuatXu, hinhanh, trangthai);
+		return sanPham;
+	}
+	private SanPham editObject() {
+		// TODO Auto-generated method stub
+		SanPham sp = new SanPham();
+		String masp = txtMaSP.getText().toString();
+		String tensp = txtTenSP.getText().toString();
+		PhanLoai phanLoai = phanLoaiDAO.getPhanLoaiByName(cboLoaiSanPham.getSelectedItem().toString());
+		double gianhap = Double.parseDouble(txtGiaNhap.getText());
+		int loi = Integer.parseInt(cboGiaLoi.getSelectedItem().toString());
+//		KhuyenMai khuyenMai = khuyenMaiDAO.getKhuyenMaiByPhanTram(0);
+		double giaban = sp.getGiaBan();
+		KichThuoc kichThuoc = kichThuocDAO.getKichThuocByName(cboKichThuocBatDau.getSelectedItem().toString());
+		int sl = Integer.parseInt(txtSoLuongSP.getText());
+		MauSac mauSac = mauSacDAO.getMauSacByName(cboMauSac.getSelectedItem().toString());
+		ChatLieu chatLieu = chatLieuDAO.getChatLieuByName(cboChatLieu.getSelectedItem().toString());
+		NhaCungCap nhaCungCap = nhaCungCapDAO.getNhaCungCapByName(cboNCC.getSelectedItem().toString());
+		KieuDang kieuDang = kieuDangDAO.getKieuDangByName(cboKieuDang.getSelectedItem().toString());
+		XuatXu xuatXu = xuatXuDAO.getXuatXuByName(cboxuatXu.getSelectedItem().toString());
+		System.out.println(cboxuatXu.getSelectedItem().toString());
+		String hinhanh = "";
+		int trangthai = 0; 
+		if(sl > 0) {
+			trangthai = 1;
+		}
+		SanPham sanPham = new SanPham(masp, tensp, phanLoai, gianhap, loi, null, giaban, kichThuoc, sl, mauSac, chatLieu, nhaCungCap, kieuDang, xuatXu, hinhanh, trangthai);
 		return sanPham;
 	}
 	// su kien các nút
@@ -668,14 +721,19 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		Object o = e.getSource();
+		
 		if(o.equals(btnThem)) {
+			btn = 1; //chuyen trang thai cua nut luu
 			btnThem.setEnabled(false);
 			btnSua.setEnabled(false);
 			btnLuu.setEnabled(true);
 			btnHuy.setEnabled(true);
 			xoaRongTextField();
+			SanPham sp = new SanPham();
+			txtMaSP.setText(sp.getAutoID());
 			
 		}else if(o.equals(btnSua)) {
+			btn = 2; //chuyen trang thai cua nut luu
 			btnThem.setEnabled(false);
 			btnSua.setEnabled(false);
 			btnLuu.setEnabled(true);
@@ -699,15 +757,25 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 				JOptionPane.showMessageDialog(null, "vui long điền giá nhập");
 				check = false;
 			}
-			if(check) {
-				sanPhamDAO.addSanPham(addObject());
-				tblDanhSachSanPham();
-				btnThem.setEnabled(true);
-				btnSua.setEnabled(true);
-				btnLuu.setEnabled(false);
-				btnHuy.setEnabled(false);
+			if (btn == 1) {
+			    if (check) {
+			        sanPhamDAO.addSanPham(addObject());
+			        tblDanhSachSanPham();
+			        btnThem.setEnabled(true);
+			        btnSua.setEnabled(true);
+			        btnLuu.setEnabled(false);
+			        btnHuy.setEnabled(false);
+			    }
+			} else if (btn == 2) { // Sửa ở đây
+			    if (check) {
+			        sanPhamDAO.updateSanPham(editObject());
+			        tblDanhSachSanPham();
+			        btnThem.setEnabled(true);
+			        btnSua.setEnabled(true);
+			        btnLuu.setEnabled(false);
+			        btnHuy.setEnabled(false);
+			    }
 			}
-			
 		}else if(o.equals(btnLamMoi)) {
 			
 		}else if(o.equals(btnHuy)) {
@@ -715,6 +783,9 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 			btnSua.setEnabled(true);
 			btnLuu.setEnabled(false);
 			btnHuy.setEnabled(false);
+		}else if(o.equals(checkbox_xuatKichThuocTuDong)) {
+			btnXemTruoc.setEnabled(checkbox_xuatKichThuocTuDong.isSelected());
+			cboKichThuocKetThuc.setEnabled(checkbox_xuatKichThuocTuDong.isSelected());
 		}
 		
 	}
@@ -725,6 +796,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		// TODO Auto-generated method stub
 		int row = tbllistSanPham.getSelectedRow();
 		String masp = tbllistSanPham.getValueAt(row, 0).toString();
+		txtMaSP.setText(masp);
 		txtTenSP.setText(tbllistSanPham.getValueAt(row, 1).toString());
 		cboLoaiSanPham.setSelectedItem(tbllistSanPham.getValueAt(row, 2));
 		txtGiaNhap.setText(tbllistSanPham.getValueAt(row, 3).toString());

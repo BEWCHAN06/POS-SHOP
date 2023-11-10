@@ -80,6 +80,28 @@ public class SanPham {
 		this.hinhAnh = hinhAnh;
 		TrangThai = trangThai;
 	}
+	
+	public SanPham(String tenSP, PhanLoai pl, double giaNhap, int loi, KhuyenMai khuyenMai, double giaBan,
+			KichThuoc kichThuoc, int soLuong, MauSac mauSac, ChatLieu chatLieu, NhaCungCap nhaCungCap,
+			KieuDang kieuDang, XuatXu xuatXu, String hinhAnh, int trangThai) {
+		super();
+		this.maSP = getAutoID();
+		this.tenSP = tenSP;
+		this.pl = pl;
+		this.giaNhap = giaNhap;
+		this.loi = loi;
+		this.khuyenMai = khuyenMai;
+		this.giaBan = giaBan;
+		this.kichThuoc = kichThuoc;
+		this.soLuong = soLuong;
+		this.mauSac = mauSac;
+		this.chatLieu = chatLieu;
+		this.nhaCungCap = nhaCungCap;
+		this.kieuDang = kieuDang;
+		this.xuatXu = xuatXu;
+		this.hinhAnh = hinhAnh;
+		TrangThai = trangThai;
+	}
 	public String getMaSP() {
 		return maSP;
 	}
@@ -180,17 +202,11 @@ public class SanPham {
 		this.xuatXu = xuatXu;
 	}
 	public String getAutoID(){
-		SanPhamDAO listsp = new SanPhamDAO();
-		String id1 = "SP0";
-		String id2 = "SP";
-		String tempid;
-		if(listsp.doTuBang().size() < 9) {
-			tempid = id1 + (listsp.doTuBang().size() +1 );
-			return tempid;
-		}else {
-			tempid = id2 + (listsp.doTuBang().size() +1 );
-			return tempid;
-		}
+		SanPhamDAO sanPham_DAO = new SanPhamDAO();
+        String idPrefix = "SP";
+       int length = sanPham_DAO.doTuBang().size();
+       String finalId = idPrefix + String.format("%02d", length + 1);
+       return finalId;
 	}
 	@Override
 	public String toString() {

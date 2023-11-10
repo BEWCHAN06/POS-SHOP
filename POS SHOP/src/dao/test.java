@@ -19,6 +19,6 @@ public class test {
 //        } else {
 //            System.out.println("Không có sản phẩm nào trong danh sách.");
 //        }
-        System.out.println(sanPhamDAO.getSanPhanTheoId("SP01"));
+        System.out.println(sanPhamDAO.doTuBang().size());
     }
 }
