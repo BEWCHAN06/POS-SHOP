@@ -44,7 +44,7 @@ public class SanPhamDAO {
 		KetNoiSQL.getInstance().connect();
 		try {
 			Connection con = KetNoiSQL.getInstance().getConnection();
-			String sql = "select sp.maSP, tenSP, maPL, giaNhap,loiTheoPhanTram, maKM, giaBan, maKT,soLuong,maMS, maCL, maNCC, hinhAnh  from SanPham sp join ChiTietHoaDon cthd on sp.maSP = cthd.maSP";
+			String sql = "select maSP, tenSP, maPL, giaNhap,loiTheoPhanTram, maKM, giaBan, maKT,soLuong,maMS, maCL, maNCC, hinhAnh  from SanPham ";
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 
@@ -130,8 +130,8 @@ public class SanPhamDAO {
 	public SanPham getSanPhanTheoId(String id) {
 		try {
 			Connection con = KetNoiSQL.getInstance().getConnection();
-			String sql = "select sp.maSP, tenSP, maPL, giaNhap,loiTheoPhanTram, maKM, giaBan, maKT,soLuong,maMS, maCL, maNCC,maKD,maXX, hinhAnh\r\n"
-					+ "from SanPham sp join ChiTietHoaDon cthd on sp.maSP = cthd.maSP \r\n" + "where sp.maSP like (?)";
+			String sql = "select maSP, tenSP, maPL, giaNhap,loiTheoPhanTram, maKM, giaBan, maKT,soLuong,maMS, maCL, maNCC,maKD,maXX, hinhAnh\r\n"
+					+ "from SanPham where maSP like (?)";
 			PreparedStatement stmt = con.prepareCall(sql);
 			stmt.setString(1, id);
 			ResultSet rs = stmt.executeQuery();
