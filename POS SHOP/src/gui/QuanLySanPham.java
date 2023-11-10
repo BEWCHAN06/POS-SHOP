@@ -640,7 +640,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		PhanLoai phanLoai = phanLoaiDAO.getPhanLoaiByName(cboLoaiSanPham.getSelectedItem().toString());
 		double gianhap = Double.parseDouble(txtGiaNhap.getText());
 		int loi = Integer.parseInt(cboGiaLoi.getSelectedItem().toString());
-		KhuyenMai khuyenMai = khuyenMaiDAO.getKhuyenMaiByPhanTram(0);
+//		KhuyenMai khuyenMai = khuyenMaiDAO.getKhuyenMaiByPhanTram(10);
 		double giaban = sp.getGiaBan();
 		KichThuoc kichThuoc = kichThuocDAO.getKichThuocByName(cboKichThuocBatDau.getSelectedItem().toString());
 		int sl = Integer.parseInt(txtSoLuongSP.getText());
@@ -648,13 +648,13 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		ChatLieu chatLieu = chatLieuDAO.getChatLieuByName(cboChatLieu.getSelectedItem().toString());
 		NhaCungCap nhaCungCap = nhaCungCapDAO.getNhaCungCapByName(cboNCC.getSelectedItem().toString());
 		KieuDang kieuDang = kieuDangDAO.getKieuDangByName(cboKieuDang.getSelectedItem().toString());
-		XuatXu xuatXu = xuatXuDAO.getXuatXuByName(cboKieuDang.getSelectedItem().toString());
+//		XuatXu xuatXu = xuatXuDAO.getXuatXuByName(cboKieuDang.getSelectedItem().toString());
 		String hinhanh = "";
 		int trangthai = 0; 
 		if(sl > 0) {
 			trangthai = 1;
 		}
-		SanPham sanPham = new SanPham(masp, tensp, phanLoai, gianhap, loi, khuyenMai, giaban, kichThuoc, sl, mauSac, chatLieu, nhaCungCap, kieuDang, xuatXu, hinhanh, trangthai);
+		SanPham sanPham = new SanPham(masp, tensp, phanLoai, gianhap, loi, null, giaban, kichThuoc, sl, mauSac, chatLieu, nhaCungCap, kieuDang, null, hinhanh, trangthai);
 		return sanPham;
 	}
 	// su kien các nút

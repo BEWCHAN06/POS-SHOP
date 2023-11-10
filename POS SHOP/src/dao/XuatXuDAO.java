@@ -42,7 +42,7 @@ public class XuatXuDAO {
         Connection conn = KetNoiSQL.getConnection();
         
         try {
-        String sql = "select * from XuatXu where maXX = ?";
+        String sql = "select * from XuatXu where maXX = (?)";
         PreparedStatement stmt = conn.prepareCall(sql);
         stmt.setString(1, id);
         ResultSet rs = stmt.executeQuery();
@@ -89,11 +89,11 @@ public class XuatXuDAO {
         return -1;
     }
         public XuatXu getXuatXuByName(String name){
-        KetNoiSQL.getInstance();
+        KetNoiSQL.getInstance().connect();
         Connection conn = KetNoiSQL.getConnection();
         
         try {
-        String sql = "select * from XuatXu where noiXuatXu = ?";
+        String sql = "select * from XuatXu where xuatXu = ?";
         PreparedStatement stmt = conn.prepareCall(sql);
         stmt.setString(1, name);
         ResultSet rs = stmt.executeQuery();
