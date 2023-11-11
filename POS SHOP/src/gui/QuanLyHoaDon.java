@@ -495,10 +495,10 @@ public class QuanLyHoaDon extends JPanel implements ActionListener {
 				if (row != -1) {
 					String selectedMaHD = (String) tblHoaDon.getValueAt(row, 0);
 					List<ChiTietHoaDon> list = dscthd.getChiTietHoaDonTheoMaHD(selectedMaHD);
+					modelChiTietHoaDon.getDataVector().removeAllElements();
 					for (ChiTietHoaDon cthd : list) {
 						Double thanhTien = cthd.thanhTien();
 						Double giaSauKhuyenMai = cthd.tinhGiaSauKhuyenMai(thanhTien);
-						modelChiTietHoaDon.getDataVector().removeAllElements();
 						Object data[] = { cthd.getSanPham().getMaSP(), cthd.getSanPham().getTenSP(),
 								cthd.getSanPham().getPl().getPhanLoai(), cthd.getSanPham().getGiaBan(),
 								cthd.getSoLuong(), cthd.getPhanTramKhuyenMai()+"%",

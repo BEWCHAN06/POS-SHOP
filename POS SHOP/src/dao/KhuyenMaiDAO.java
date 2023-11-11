@@ -31,7 +31,7 @@ public class KhuyenMaiDAO {
 	public List<KhuyenMai> doTuBang() {
 		try {
 			KetNoiSQL.getInstance().connect();
-			Connection con = KetNoiSQL.getInstance().getConnection();
+			Connection con = KetNoiSQL.getConnection();
 			String sql = "Select * from KhuyenMai";
 			Statement statement = con.createStatement(); // Thực thi câu lệnh SQL trả về ResulSet.
 			ResultSet rs = statement.executeQuery(sql);
@@ -58,7 +58,7 @@ public class KhuyenMaiDAO {
 	// Thêm khuyến mãi
 	public boolean createKhuyenMai(KhuyenMai km) {
 		KetNoiSQL.getInstance().connect();
-		Connection con = KetNoiSQL.getInstance().getConnection();
+		Connection con = KetNoiSQL.getConnection();
 		PreparedStatement stmt = null;
 		int n = 0;
 		try {
@@ -79,7 +79,7 @@ public class KhuyenMaiDAO {
 	// Phát sinh maKM tự động
 	public String getAuToID() {
 		KetNoiSQL.getInstance().connect();
-		Connection con = KetNoiSQL.getInstance().getConnection();
+		Connection con = KetNoiSQL.getConnection();
 		String maxID = null;
 		try {
 			String sql = "Select maKM from KhuyenMai where maKM = (Select MAX(maKM) From KhuyenMai)";
