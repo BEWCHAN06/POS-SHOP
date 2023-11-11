@@ -25,11 +25,6 @@ import entity.SanPham;
 public class ChiTietHoaDonDAO {
 	ArrayList<ChiTietHoaDon> dscthd;
 	ChiTietHoaDon cthd;
-//	ChatLieuDAO cld = new ChatLieuDAO();
-//	KichThuocDAO ktd = new KichThuocDAO();
-//	PhanLoaiDAO pld = new PhanLoaiDAO();
-//	MauSacDAO msd = new MauSacDAO();
-//	KieuDangDAO kdd = new KieuDangDAO();
 
 	public ChiTietHoaDonDAO() {
 		KetNoiSQL.getInstance().connect();
@@ -41,7 +36,7 @@ public class ChiTietHoaDonDAO {
 		try {
 			Connection con = KetNoiSQL.getInstance().getConnection();
 			PreparedStatement stmt = null;
-			String sql = "Select chd.maSP,sp.tenSP,sp.giaBan,chd.soLuong,chd.phanTramKhuyenmai,cl.chatLieu,kd.kieuDang,kt.kichThuoc,ms.mauSac,pl.phanLoai\r\n"
+			String sql = "Select chd.maSP,sp.tenSP,sp.giaNhap,sp.loiTheoPhanTram,chd.soLuong,chd.phanTramKhuyenmai,cl.chatLieu,kd.kieuDang,kt.kichThuoc,ms.mauSac,pl.phanLoai\r\n"
 					+ "from ChiTietHoaDon chd join sanPham sp on chd.maSP = sp.maSP left join KhuyenMai km on sp.maKM = km.maKM\r\n"
 					+ "join ChatLieu cl on sp.maCL = cl.maCL join KieuDang kd on sp.maKD = kd.maKD join KichThuoc kt on sp.maKT = kt.maKT\r\n"
 					+ "join MauSac ms on sp.maMS = ms.maMS join PhanLoai pl on sp.maPL = pl.maPL where chd.maHD = ?";
@@ -51,23 +46,17 @@ public class ChiTietHoaDonDAO {
 			while (rs.next()) {
 				String maSP = rs.getString(1);
 				String tenSP = rs.getString(2);
-				Double giaBan = rs.getDouble(3);
-				int soLuong = rs.getInt(4);
-				Double phanTramKhuyenMai = rs.getDouble(5);
-				String chatLieu = rs.getString(6);
-				String kieuDang = rs.getString(7);
-				String kichThuoc = rs.getString(8);
-				String mauSac = rs.getString(9);
-				String phanLoai = rs.getString(10);
-
-//				ChatLieu cl = cld.getChatLieu(chatLieu);
-//				KieuDang kd = kdd.getKieuDang(kieuDang);
-//				KichThuoc kt = ktd.getKichThuoc(phanLoai);
-//				MauSac ms = msd.getMauSac(mauSac);
-//				PhanLoai pl = pld.getPhanLoai(phanLoai);
-
+				Double giaNhap = rs.getDouble(3);
+				int loi = rs.getInt(4);
+				int soLuong = rs.getInt(5);
+				Double phanTramKhuyenMai = rs.getDouble(6);
+				String chatLieu = rs.getString(7);
+				String kieuDang = rs.getString(8);
+				String kichThuoc = rs.getString(9);
+				String mauSac = rs.getString(10);
+				String phanLoai = rs.getString(11);
 				ChiTietHoaDon cthd = new ChiTietHoaDon(
-						new SanPham(maSP, tenSP, new PhanLoai(null, phanLoai), 0, 0, null, giaBan,
+						new SanPham(maSP, tenSP, new PhanLoai(null, phanLoai), giaNhap, loi, null, 0,
 								new KichThuoc(null, kichThuoc), 0, new MauSac(null, mauSac),
 								new ChatLieu(null, chatLieu), null, new KieuDang(null, kieuDang), null, null, 0),
 						null, phanTramKhuyenMai, soLuong);
