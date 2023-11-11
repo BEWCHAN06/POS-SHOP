@@ -629,8 +629,8 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 				check = false;
 			}
 			if(check) {
-				NhanVienDAO.addNhanVien(add());
-				tblDSTK();
+//				NhanVienDAO.addNhanVien(add());
+//				tblDSTK();
 				btnThem.setEnabled(true);
 				btnSua.setEnabled(true);
 				btnLuu.setEnabled(false);

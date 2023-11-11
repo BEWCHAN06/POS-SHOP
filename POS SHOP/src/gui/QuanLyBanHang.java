@@ -1,11 +1,14 @@
 package gui;
 
 import javax.swing.JPanel;
+import javax.swing.AbstractButton;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTextPane;
 import javax.swing.JEditorPane;
+import javax.swing.JFrame;
 import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -58,6 +61,7 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 	private int soluong;
 	private JButton btnTaoHD;
 	private JButton btnTim;
+	private JPanel contentPane;
 
 	/**
 	 * Create the panel.
@@ -559,13 +563,33 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 		JLabel lblTenKH = new JLabel("Tên khách hàng : ");
 		lblTenKH.setFont(new Font("Arial", Font.BOLD, 12));
 		
-		JLabel lblKh = new JLabel(" ");
-		lblKh.setForeground(new Color(255, 0, 0));
+		JLabel lblmakh = new JLabel(" ");
+		lblmakh.setForeground(new Color(255, 0, 0));
 		
-		JLabel lblTrn = new JLabel(" ");
-		lblTrn.setForeground(Color.RED);
+		JLabel lbltenkh = new JLabel(" ");
+		lbltenkh.setForeground(Color.RED);
 		
 		btnTim = new JButton("Tìm");
+		
+		//===================================
+		///them jframe để tìm khách hàng
+		btnTim.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				UiTimKhachHang timKhachHangUI = new UiTimKhachHang();
+		        timKhachHangUI.setKhachHangSelectedListener(new UiTimKhachHang.KhachHangSelectedListener() {
+		            @Override
+		            public void onKhachHangSelected(String makh, String tenkh) {
+		                lblmakh.setText(makh);
+		                lbltenkh.setText(tenkh);
+		            }
+		        });
+		        timKhachHangUI.setVisible(true);
+		        disable();
+			}
+		});
+		//===================================
+		//===================================
 		btnTim.setBackground(new Color(192, 192, 192));
 		btnTim.setIcon(new ImageIcon(QuanLyBanHang.class.getResource("/icon/search.png")));
 		btnTim.setFont(new Font("Arial", Font.BOLD, 11));
@@ -578,11 +602,11 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 						.addGroup(gl_pnlKhachHang.createSequentialGroup()
 							.addComponent(lblTenKH, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(lblTrn, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE))
+							.addComponent(lbltenkh, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_pnlKhachHang.createSequentialGroup()
 							.addComponent(lblMaKH)
 							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addComponent(lblKh, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
+							.addComponent(lblmakh, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
 							.addGap(26)
 							.addComponent(btnTim, GroupLayout.PREFERRED_SIZE, 83, GroupLayout.PREFERRED_SIZE)
 							.addGap(50)))
@@ -594,12 +618,12 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addGroup(gl_pnlKhachHang.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblMaKH)
-						.addComponent(lblKh)
+						.addComponent(lblmakh)
 						.addComponent(btnTim, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_pnlKhachHang.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblTenKH)
-						.addComponent(lblTrn))
+						.addComponent(lbltenkh))
 					.addContainerGap())
 		);
 		pnlKhachHang.setLayout(gl_pnlKhachHang);
