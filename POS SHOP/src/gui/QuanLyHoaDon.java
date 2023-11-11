@@ -498,13 +498,14 @@ public class QuanLyHoaDon extends JPanel implements ActionListener {
 					modelChiTietHoaDon.getDataVector().removeAllElements();
 					for (ChiTietHoaDon cthd : list) {
 						Double thanhTien = cthd.thanhTien();
+						Double giaSauKhuyenMai = cthd.tinhGiaSauKhuyenMai(thanhTien);
 						Object data[] = { cthd.getSanPham().getMaSP(), cthd.getSanPham().getTenSP(),
 								cthd.getSanPham().getPl().getPhanLoai(), cthd.getSanPham().getGiaBan(),
-								cthd.getSanPham().getSoLuong(), cthd.getPhanTramKhuyenMai(),
+								cthd.getSoLuong(), cthd.getPhanTramKhuyenMai()+"%",
 								cthd.getSanPham().getChatLieu().getChatLieu(),
 								cthd.getSanPham().getKieuDang().getKieuDang(),
 								cthd.getSanPham().getMauSac().getMauSac(),
-								cthd.getSanPham().getKichThuoc().getKichThuoc(), thanhTien };
+								cthd.getSanPham().getKichThuoc().getKichThuoc(), giaSauKhuyenMai };
 						modelChiTietHoaDon.addRow(data);
 					}
 					tblChiTietHoaDon.setModel(modelChiTietHoaDon);

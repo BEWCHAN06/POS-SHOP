@@ -58,6 +58,16 @@ public class ChiTietHoaDon {
 			throw new IllegalArgumentException("Sản phẩm không được null");
 		}
 	}
+	
+	public Double tinhGiaSauKhuyenMai(Double giaBanGoc) {
+        if (phanTramKhuyenMai == 0) {
+            // Nếu không có khuyến mãi, giá sau khuyến mãi bằng giá gốc
+            return giaBanGoc;
+        } else {
+            // Tính giá sau khuyến mãi
+            return giaBanGoc * (1 - phanTramKhuyenMai / 100);
+        }
+    }
 
 	@Override
 	public String toString() {
