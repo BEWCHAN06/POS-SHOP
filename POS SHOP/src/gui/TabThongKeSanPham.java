@@ -18,6 +18,7 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
@@ -36,6 +37,7 @@ public class TabThongKeSanPham extends javax.swing.JPanel {
     private KichThuocDAO kichThuoc_DAO = new KichThuocDAO();
     private MauSacDAO mauSac_DAO = new MauSacDAO();
     private PhanLoaiDAO phanLoai_DAO = new PhanLoaiDAO();
+	private SanPhamDAO sanPhamDAO;
    
     public TabThongKeSanPham() {
         initComponents();
@@ -91,16 +93,17 @@ public class TabThongKeSanPham extends javax.swing.JPanel {
         String kichThuoc = cb_KichThuoc.getSelectedItem().toString();
         if(cb_KichThuoc.getSelectedItem().toString().equals("Tất cả")) kichThuoc = "";
         
-//        ArrayList<SanPham> listSanPham = cthd_DAO.thongKeDanhSachSanPhamVoiSoLuongBanDuoc(mauSac, phanLoai, kichThuoc);
-//        ArrayList<SanPham> listSanPham = sanPham_DAO.getAllSanPham("", "", phanLoai, mauSac, kichThuoc);
-//        DefaultTableModel dtm = (DefaultTableModel) tbl_DanhSachSanPham.getModel();
-//
-//        for(SanPham sp : listSanPham){
-//
-//            Object[] rowData = {sp.getMaSP(), sp.getTenSP(), sp.getPl().getPhanLoai(), sp.getKichThuoc().getKichThuoc(),
-//                                sp.getMauSac().getMauSac(), sp.getSoLuong(), NumberFormat.getInstance().format( sp.getGiaNhap()) };
-//            dtm.addRow(rowData);
-//        }
+        sanPhamDAO = new SanPhamDAO();
+		clearTable();
+		DefaultTableModel dtm = (DefaultTableModel) tbl_DanhSachSanPham.getModel();
+		List<SanPham> listsp = sanPhamDAO.doTuBang();
+
+        for(SanPham sp : listsp){
+
+            Object[] rowData = {sp.getMaSP(), sp.getTenSP(), sp.getPl().getPhanLoai(), sp.getKichThuoc().getKichThuoc(),
+                                sp.getMauSac().getMauSac(), sp.getSoLuong(), NumberFormat.getInstance().format( sp.getGiaNhap()) };
+            dtm.addRow(rowData);
+        }
         
    
     }
