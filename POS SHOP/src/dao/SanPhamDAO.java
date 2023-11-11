@@ -129,6 +129,7 @@ public class SanPhamDAO {
 
 	public SanPham getSanPhanTheoId(String id) {
 		try {
+			KetNoiSQL.getInstance().connect();
 			Connection con = KetNoiSQL.getInstance().getConnection();
 			String sql = "select maSP, tenSP, maPL, giaNhap,loiTheoPhanTram, maKM, giaBan, maKT,soLuong,maMS, maCL, maNCC,maKD,maXX, hinhAnh\r\n"
 					+ "from SanPham where maSP like (?)";
@@ -177,6 +178,7 @@ public class SanPhamDAO {
 	// Tìm sản phẩm theo mã khuyến mãi
 	public List<SanPham> getSanPhanTheoMaKM(String maKM) {
 		try {
+			KetNoiSQL.getInstance().connect();
 			Connection con = KetNoiSQL.getInstance().getConnection();
 			String sql = "select *from SanPham where maKM = (?)";
 			PreparedStatement stmt = con.prepareCall(sql);
@@ -244,7 +246,7 @@ public class SanPhamDAO {
         return -1;
     }
 	public int updateSanPham(SanPham sanPham) {
-        KetNoiSQL.getInstance();
+        KetNoiSQL.getInstance().connect();;
         Connection conn = KetNoiSQL.getConnection();
 
         try {
