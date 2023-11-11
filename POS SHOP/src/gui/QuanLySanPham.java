@@ -64,7 +64,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 	private JTextField txtSoLuongSP;
 	private JTextField txtGiaNhap;
 	private JTable tblXemTruoc;
-	private JTextField textField;
+	private JTextField txtThayDoiSoLuong;
 	private JTextField textField_1;
 	private JTable tbllistSanPham;
 	private SanPhamDAO sanPhamDAO;
@@ -84,7 +84,6 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 	private JComboBox cboKichThuocBatDau;
 	private JComboBox cboGiaLoi;
 	private JComboBox cboNCC;
-	private JComboBox cboKichThuocKetThuc;
 	private JButton btnThem;
 	private JButton btnSua;
 	private JButton btnLuu;
@@ -99,6 +98,9 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 	private File file;
 	private JPanel pnlHinhAnh;
 	private JLabel lblHinhAnh;
+	private JButton btnXoaSPXemTruoc;
+	private JButton btnOk;
+	private JButton btnLuuTatCa;
 	/**
 	 * Create the panel.
 	 */
@@ -118,7 +120,6 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
         kichThuocDAO = new KichThuocDAO();
         ArrayList<KichThuoc> listKichThuoc = kichThuocDAO.getAllKichThuoc();
         listKichThuoc.forEach(kichThuoc -> cboKichThuocBatDau.addItem(kichThuoc.getKichThuoc()));
-        listKichThuoc.forEach(kichThuoc -> cboKichThuocKetThuc.addItem(kichThuoc.getKichThuoc()));
 
         kieuDangDAO = new KieuDangDAO();
         ArrayList<KieuDang> listKieuDang = kieuDangDAO.getAllKieuDang();
@@ -349,24 +350,25 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		
 		JLabel lblNewLabel_2 = new JLabel("Thay đổi số lượng : ");
 		
-		textField = new JTextField();
-		textField.setBorder(new LineBorder(new Color(0, 0, 0)));
-		textField.setColumns(10);
+		txtThayDoiSoLuong = new JTextField();
+		txtThayDoiSoLuong.setEditable(false);
+		txtThayDoiSoLuong.setBorder(new LineBorder(new Color(0, 0, 0)));
+		txtThayDoiSoLuong.setColumns(10);
 		
-		JButton btnNewButton_1 = new JButton("OK");
-		btnNewButton_1.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-		btnNewButton_1.setBackground(new Color(144, 238, 144));
-		btnNewButton_1.setFont(new Font("Arial", Font.BOLD, 12));
+		btnOk = new JButton("OK");
+		btnOk.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		btnOk.setBackground(new Color(144, 238, 144));
+		btnOk.setFont(new Font("Arial", Font.BOLD, 12));
 		
-		JButton btnNewButton_2 = new JButton("Xóa");
-		btnNewButton_2.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-		btnNewButton_2.setIcon(new ImageIcon(QuanLySanPham.class.getResource("/icon/xoaall.png")));
-		btnNewButton_2.setBackground(new Color(255, 0, 0));
-		btnNewButton_2.setForeground(new Color(255, 255, 255));
-		btnNewButton_2.setFont(new Font("Arial", Font.BOLD, 12));
+		btnXoaSPXemTruoc = new JButton("Xóa");
+		btnXoaSPXemTruoc.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		btnXoaSPXemTruoc.setIcon(new ImageIcon(QuanLySanPham.class.getResource("/icon/xoaall.png")));
+		btnXoaSPXemTruoc.setBackground(new Color(255, 0, 0));
+		btnXoaSPXemTruoc.setForeground(new Color(255, 255, 255));
+		btnXoaSPXemTruoc.setFont(new Font("Arial", Font.BOLD, 12));
 		
-		JButton btnNewButton_3 = new JButton("Thêm Tất Cả Sản Phẩm");
-		btnNewButton_3.addActionListener(new ActionListener() {
+		btnLuuTatCa = new JButton("Thêm Tất Cả Sản Phẩm");
+		btnLuuTatCa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel model = (DefaultTableModel) tblXemTruoc.getModel();
 				int rowCount = model.getRowCount();
@@ -382,26 +384,26 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 				clearTableXemTruoc();
 			}
 		});
-		btnNewButton_3.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-		btnNewButton_3.setBackground(new Color(65, 105, 225));
-		btnNewButton_3.setForeground(new Color(255, 255, 255));
-		btnNewButton_3.setIcon(new ImageIcon(QuanLySanPham.class.getResource("/icon/save.png")));
-		btnNewButton_3.setFont(new Font("Arial", Font.BOLD, 12));
+		btnLuuTatCa.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		btnLuuTatCa.setBackground(new Color(65, 105, 225));
+		btnLuuTatCa.setForeground(new Color(255, 255, 255));
+		btnLuuTatCa.setIcon(new ImageIcon(QuanLySanPham.class.getResource("/icon/save.png")));
+		btnLuuTatCa.setFont(new Font("Arial", Font.BOLD, 12));
 		GroupLayout gl_pnlThongTinSanPham = new GroupLayout(pnlThongTinSanPham);
 		gl_pnlThongTinSanPham.setHorizontalGroup(
 			gl_pnlThongTinSanPham.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_pnlThongTinSanPham.createSequentialGroup()
 					.addContainerGap(141, Short.MAX_VALUE)
-					.addComponent(btnNewButton_3, GroupLayout.PREFERRED_SIZE, 205, GroupLayout.PREFERRED_SIZE)
+					.addComponent(btnLuuTatCa, GroupLayout.PREFERRED_SIZE, 205, GroupLayout.PREFERRED_SIZE)
 					.addGap(96))
 				.addGroup(Alignment.LEADING, gl_pnlThongTinSanPham.createSequentialGroup()
 					.addComponent(lblNewLabel_2)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(textField, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
+					.addComponent(txtThayDoiSoLuong, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
+					.addComponent(btnOk, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED, 136, Short.MAX_VALUE)
-					.addComponent(btnNewButton_2, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE)
+					.addComponent(btnXoaSPXemTruoc, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap())
 				.addGroup(Alignment.LEADING, gl_pnlThongTinSanPham.createSequentialGroup()
 					.addComponent(pnlBangXemTruoc, GroupLayout.PREFERRED_SIZE, 432, GroupLayout.PREFERRED_SIZE)
@@ -414,11 +416,11 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_pnlThongTinSanPham.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblNewLabel_2)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnNewButton_2, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE))
+						.addComponent(txtThayDoiSoLuong, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnOk, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnXoaSPXemTruoc, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnNewButton_3, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
+					.addComponent(btnLuuTatCa, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
 		);
 		pnlBangXemTruoc.setLayout(new CardLayout(0, 0));
 		
@@ -519,13 +521,6 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		cboKichThuocBatDau.setBorder(new LineBorder(new Color(0, 0, 0)));
 		cboKichThuocBatDau.setBackground(new Color(255, 255, 255));
 		
-		JLabel lblNewLabel_1_1_1_2_3_1 = new JLabel("Đến :");
-		
-		cboKichThuocKetThuc = new JComboBox();
-		cboKichThuocKetThuc.setEnabled(false);
-		cboKichThuocKetThuc.setBorder(new LineBorder(new Color(0, 0, 0)));
-		cboKichThuocKetThuc.setBackground(new Color(255, 255, 255));
-		
 		btnXemTruoc = new JButton("Xem Trước");
 		btnXemTruoc.setEnabled(false);
 		btnXemTruoc.setBorder(new LineBorder(new Color(0, 0, 0), 2));
@@ -542,11 +537,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 							.addComponent(lblNewLabel_1_1_1_2_3, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(cboKichThuocBatDau, 0, 85, Short.MAX_VALUE)
-							.addGap(18)
-							.addComponent(lblNewLabel_1_1_1_2_3_1, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(cboKichThuocKetThuc, GroupLayout.PREFERRED_SIZE, 76, GroupLayout.PREFERRED_SIZE)
-							.addGap(158))
+							.addGap(295))
 						.addGroup(gl_pnlXemTruoc.createSequentialGroup()
 							.addGroup(gl_pnlXemTruoc.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_pnlXemTruoc.createSequentialGroup()
@@ -671,9 +662,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_pnlXemTruoc.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblNewLabel_1_1_1_2_3)
-								.addComponent(cboKichThuocBatDau, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblNewLabel_1_1_1_2_3_1)
-								.addComponent(cboKichThuocKetThuc, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+								.addComponent(cboKichThuocBatDau, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
 					.addGap(24))
 		);
 		pnlHinhAnh.setLayout(null);
@@ -701,6 +690,12 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		
 		//su kien click table
 		tbllistSanPham.addMouseListener(this);
+		
+		tblXemTruoc.setEnabled(checkbox_xuatAllKichThuoc.isSelected());
+		txtThayDoiSoLuong.setEnabled(checkbox_xuatAllKichThuoc.isSelected());
+		btnOk.setEnabled(checkbox_xuatAllKichThuoc.isSelected());
+		btnXoaSPXemTruoc.setEnabled(checkbox_xuatAllKichThuoc.isSelected());
+		btnLuuTatCa.setEnabled(checkbox_xuatAllKichThuoc.isSelected());
 	}
     public ImageIcon ResizeImage(String imgPath) {
         ImageIcon myImage = new ImageIcon(imgPath);
@@ -925,8 +920,14 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 			
 		}else if(o.equals(checkbox_xuatAllKichThuoc)) {
 			btnXemTruoc.setEnabled(checkbox_xuatAllKichThuoc.isSelected());
-			cboKichThuocKetThuc.setEnabled(!checkbox_xuatAllKichThuoc.isSelected());
 			cboKichThuocBatDau.setEnabled(!checkbox_xuatAllKichThuoc.isSelected());
+			tblXemTruoc.setEnabled(checkbox_xuatAllKichThuoc.isSelected());
+			txtThayDoiSoLuong.setEnabled(checkbox_xuatAllKichThuoc.isSelected());
+			txtThayDoiSoLuong.setEditable(checkbox_xuatAllKichThuoc.isSelected());
+			btnOk.setEnabled(checkbox_xuatAllKichThuoc.isSelected());
+			btnXoaSPXemTruoc.setEnabled(checkbox_xuatAllKichThuoc.isSelected());
+			btnLuuTatCa.setEnabled(checkbox_xuatAllKichThuoc.isSelected());
+			
 		}
 		if(o.equals(btnHinhAnh)) {
 			chonHinhAnh();
@@ -944,7 +945,6 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		cboLoaiSanPham.setSelectedItem(0);
 		cboGiaLoi.setSelectedItem(0);
 		cboKichThuocBatDau.setSelectedItem(0);
-		cboKichThuocKetThuc.setSelectedIndex(0);
 		cboMauSac.setSelectedIndex(0);
 		cboChatLieu.setSelectedIndex(0);
 		cboNCC.setSelectedIndex(0);

@@ -7,6 +7,8 @@ import javax.swing.JTextPane;
 import javax.swing.JEditorPane;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.border.EtchedBorder;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -29,23 +31,56 @@ import java.awt.ScrollPane;
 import java.awt.CardLayout;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import dao.SanPhamDAO;
+import entity.HoaDon;
+import entity.SanPham;
+
 import javax.swing.JScrollPane;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.List;
 
-public class QuanLyBanHang extends JPanel {
+public class QuanLyBanHang extends JPanel implements ActionListener, MouseListener{
 	private JTextField txtTienKhachDua;
 	private JTable tblHoaDonCho;
 	private JTable tblGioHang;
 	private JTextField txtSoLuong;
 	private JTable tblDSSanPham;
-	private JTextField textField;
+	private JTextField txtTimKiemSP;
 	public JButton btnTraHang = new JButton("Trả Hàng");
+	private SanPhamDAO sanPhamDAO;
+	private JButton btnThemVaoGio;
+	private String masp;
+	private int soluong;
+	private JButton btnTaoHD;
+	private JButton btnTim;
 
 	/**
 	 * Create the panel.
 	 */
 	public QuanLyBanHang() {
+		UiBanHang();
+		tblDanhSachSanPham();
+	}
+    private void clearTableDSSP() {
+        DefaultTableModel dtm = (DefaultTableModel) tblDSSanPham.getModel();
+        dtm.setRowCount(0);
+    }
+	private void tblDanhSachSanPham() {
+		sanPhamDAO = new SanPhamDAO();
+		clearTableDSSP();
+		DefaultTableModel dtm = (DefaultTableModel) tblDSSanPham.getModel();
+		List<SanPham> listsp = sanPhamDAO.doTuBang();
+		for(SanPham sp : listsp) {
+			Object[] rowdata = {sp.getMaSP(),sp.getTenSP(),sp.getPl().getPhanLoai(),sp.getKichThuoc(),sp.getGiaBan(),sp.getSoLuong(),sp.getMauSac().getMauSac(),sp.getKichThuoc().getKichThuoc()};
+			dtm.addRow(rowdata);
+		}
+	}
+	private void UiBanHang() {
 		setPreferredSize(new Dimension(934, 701));
 		setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		setBackground(new Color(255, 255, 255));
@@ -68,20 +103,7 @@ public class QuanLyBanHang extends JPanel {
 		JPanel pnlDanhSachSanPham = new JPanel();
 		pnlDanhSachSanPham.setBackground(new Color(255, 255, 255));
 		pnlDanhSachSanPham.setBorder(new CompoundBorder(new CompoundBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2), "Danh S\u00E1ch S\u1EA3n Ph\u1EA9m", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)), null), null));
-		
-//		JButton btnTraHang = new JButton("Trả Hàng");
-		
-//		QuanLyTraHang qlth = new QuanLyTraHang();
-//		btnTraHang.addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mouseClicked(MouseEvent e) {
-//				BanHang bh = new BanHang();
-//				QuanLyTraHang qlth = new QuanLyTraHang();
-//				bh.mainPanel.removeAll();
-//				bh.mainPanel.add(qlth, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
-//				bh.mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
-//			}
-//		});
+
 		btnTraHang.setIcon(new ImageIcon(QuanLyBanHang.class.getResource("/icon/doitra2.png")));
 		btnTraHang.setForeground(new Color(255, 255, 255));
 		btnTraHang.setBackground(new Color(50, 205, 50));
@@ -92,8 +114,8 @@ public class QuanLyBanHang extends JPanel {
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(pnlDanhSachSanPham, 0, 0, Short.MAX_VALUE)
 						.addComponent(pnlGioHang, 0, 0, Short.MAX_VALUE)
+						.addComponent(pnlDanhSachSanPham, 0, 0, Short.MAX_VALUE)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(pnlHoaDonCho, GroupLayout.PREFERRED_SIZE, 396, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
@@ -116,9 +138,9 @@ public class QuanLyBanHang extends JPanel {
 									.addComponent(pnlCamera, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE))
 								.addComponent(pnlHoaDonCho, GroupLayout.PREFERRED_SIZE, 126, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(pnlGioHang, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addComponent(pnlGioHang, GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(pnlDanhSachSanPham, GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE))
+							.addComponent(pnlDanhSachSanPham, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(12)
 							.addComponent(btnTraHang)
@@ -132,16 +154,16 @@ public class QuanLyBanHang extends JPanel {
 		
 		JLabel lblNewLabel_1 = new JLabel("Tìm kiêm sản phẩm : ");
 		
-		textField = new JTextField();
-		textField.setBorder(new LineBorder(new Color(0, 0, 0)));
-		textField.setColumns(10);
+		txtTimKiemSP = new JTextField();
+		txtTimKiemSP.setBorder(new LineBorder(new Color(0, 0, 0)));
+		txtTimKiemSP.setColumns(10);
 		
-		JButton btnNewButton_4 = new JButton("Thêm Sản Phẩm");
-		btnNewButton_4.setIcon(new ImageIcon(QuanLyBanHang.class.getResource("/icon/add.png")));
-		btnNewButton_4.setForeground(new Color(255, 255, 255));
-		btnNewButton_4.setFont(new Font("Arial", Font.BOLD, 11));
-		btnNewButton_4.setBackground(new Color(65, 105, 225));
-		btnNewButton_4.addActionListener(new ActionListener() {
+		btnThemVaoGio = new JButton("Thêm Sản Phẩm");
+		btnThemVaoGio.setIcon(new ImageIcon(QuanLyBanHang.class.getResource("/icon/add.png")));
+		btnThemVaoGio.setForeground(new Color(255, 255, 255));
+		btnThemVaoGio.setFont(new Font("Arial", Font.BOLD, 11));
+		btnThemVaoGio.setBackground(new Color(65, 105, 225));
+		btnThemVaoGio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
@@ -152,9 +174,9 @@ public class QuanLyBanHang extends JPanel {
 					.addContainerGap()
 					.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 121, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(textField, GroupLayout.PREFERRED_SIZE, 191, GroupLayout.PREFERRED_SIZE)
+					.addComponent(txtTimKiemSP, GroupLayout.PREFERRED_SIZE, 191, GroupLayout.PREFERRED_SIZE)
 					.addGap(33)
-					.addComponent(btnNewButton_4, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(btnThemVaoGio, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addGap(88))
 				.addGroup(gl_pnlDanhSachSanPham.createSequentialGroup()
 					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 572, GroupLayout.PREFERRED_SIZE)
@@ -165,8 +187,8 @@ public class QuanLyBanHang extends JPanel {
 				.addGroup(gl_pnlDanhSachSanPham.createSequentialGroup()
 					.addGroup(gl_pnlDanhSachSanPham.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblNewLabel_1)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnNewButton_4))
+						.addComponent(txtTimKiemSP, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnThemVaoGio))
 					.addGap(11)
 					.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE))
 		);
@@ -178,16 +200,16 @@ public class QuanLyBanHang extends JPanel {
 		tblDSSanPham = new JTable();
 		tblDSSanPham.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
 			},
 			new String[] {
-				"M\u00E3 s\u1EA3n ph\u1EA9m", "T\u00EAn s\u1EA3n ph\u1EA9m", "lo\u1EA1i", "K\u00EDch th\u01B0\u1EDBc", "\u0110\u01A1n gi\u00E1", "S\u1ED1 l\u01B0\u1EE3ng", "M\u00E0u s\u1EAFc", "Ch\u1EA5t li\u1EC7u", "k\u00EDch th\u01B0\u1EDBc"
+				"M\u00E3 s\u1EA3n ph\u1EA9m", "T\u00EAn s\u1EA3n ph\u1EA9m", "Ph\u00E2n lo\u1EA1i", "K\u00EDch th\u01B0\u1EDBc", "\u0110\u01A1n gi\u00E1", "S\u1ED1 l\u01B0\u1EE3ng", "M\u00E0u s\u1EAFc", "k\u00EDch th\u01B0\u1EDBc"
 			}
 		));
-		tblDSSanPham.getColumnModel().getColumn(0).setPreferredWidth(93);
-		tblDSSanPham.getColumnModel().getColumn(1).setPreferredWidth(94);
-		tblDSSanPham.getColumnModel().getColumn(2).setPreferredWidth(40);
+		tblDSSanPham.getColumnModel().getColumn(0).setPreferredWidth(87);
+		tblDSSanPham.getColumnModel().getColumn(1).setPreferredWidth(116);
+		tblDSSanPham.getColumnModel().getColumn(2).setPreferredWidth(89);
 		scrollPane_1.setViewportView(tblDSSanPham);
 		pnlDanhSachSanPham.setLayout(gl_pnlDanhSachSanPham);
 		
@@ -199,33 +221,33 @@ public class QuanLyBanHang extends JPanel {
 		
 		JLabel lblNewLabel = new JLabel("Số Lượng      ");
 		
-		JButton btnNewButton_2 = new JButton("OK");
-		btnNewButton_2.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-		btnNewButton_2.addActionListener(new ActionListener() {
+		JButton btnOk = new JButton("OK");
+		btnOk.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		btnOk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnNewButton_2.setForeground(new Color(255, 255, 255));
-		btnNewButton_2.setBackground(new Color(144, 238, 144));
-		btnNewButton_2.setFont(new Font("Arial", Font.BOLD, 9));
+		btnOk.setForeground(new Color(255, 255, 255));
+		btnOk.setBackground(new Color(144, 238, 144));
+		btnOk.setFont(new Font("Arial", Font.BOLD, 9));
 		
-		JButton btnNewButton_3 = new JButton("Xóa sản phẩm");
-		btnNewButton_3.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-		btnNewButton_3.addActionListener(new ActionListener() {
+		JButton btnXoaSanPham = new JButton("Xóa sản phẩm");
+		btnXoaSanPham.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		btnXoaSanPham.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnNewButton_3.setIcon(new ImageIcon(QuanLyBanHang.class.getResource("/icon/xoa1sp.png")));
-		btnNewButton_3.setForeground(new Color(255, 255, 255));
-		btnNewButton_3.setBackground(new Color(210, 105, 30));
-		btnNewButton_3.setFont(new Font("Arial", Font.BOLD, 10));
+		btnXoaSanPham.setIcon(new ImageIcon(QuanLyBanHang.class.getResource("/icon/xoa1sp.png")));
+		btnXoaSanPham.setForeground(new Color(255, 255, 255));
+		btnXoaSanPham.setBackground(new Color(210, 105, 30));
+		btnXoaSanPham.setFont(new Font("Arial", Font.BOLD, 10));
 		
-		JButton btnNewButton_3_1 = new JButton("Xóa tất cả");
-		btnNewButton_3_1.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-		btnNewButton_3_1.setIcon(new ImageIcon(QuanLyBanHang.class.getResource("/icon/xoaall.png")));
-		btnNewButton_3_1.setForeground(new Color(255, 255, 255));
-		btnNewButton_3_1.setBackground(new Color(255, 0, 0));
-		btnNewButton_3_1.setFont(new Font("Arial", Font.BOLD, 10));
+		JButton btnXoaTatCaSP = new JButton("Xóa tất cả");
+		btnXoaTatCaSP.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		btnXoaTatCaSP.setIcon(new ImageIcon(QuanLyBanHang.class.getResource("/icon/xoaall.png")));
+		btnXoaTatCaSP.setForeground(new Color(255, 255, 255));
+		btnXoaTatCaSP.setBackground(new Color(255, 0, 0));
+		btnXoaTatCaSP.setFont(new Font("Arial", Font.BOLD, 10));
 		GroupLayout gl_pnlGioHang = new GroupLayout(pnlGioHang);
 		gl_pnlGioHang.setHorizontalGroup(
 			gl_pnlGioHang.createParallelGroup(Alignment.LEADING)
@@ -235,28 +257,27 @@ public class QuanLyBanHang extends JPanel {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(txtSoLuong, GroupLayout.PREFERRED_SIZE, 66, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnNewButton_2, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+					.addComponent(btnOk, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
 					.addGap(39)
-					.addComponent(btnNewButton_3, GroupLayout.PREFERRED_SIZE, 126, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addComponent(btnNewButton_3_1, GroupLayout.PREFERRED_SIZE, 117, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(29, Short.MAX_VALUE))
+					.addComponent(btnXoaSanPham, GroupLayout.PREFERRED_SIZE, 126, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+					.addComponent(btnXoaTatCaSP, GroupLayout.PREFERRED_SIZE, 117, GroupLayout.PREFERRED_SIZE)
+					.addGap(55))
 				.addComponent(panel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 568, Short.MAX_VALUE)
 		);
 		gl_pnlGioHang.setVerticalGroup(
 			gl_pnlGioHang.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pnlGioHang.createSequentialGroup()
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 317, GroupLayout.PREFERRED_SIZE)
+				.addGroup(Alignment.TRAILING, gl_pnlGioHang.createSequentialGroup()
+					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_pnlGioHang.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_pnlGioHang.createParallelGroup(Alignment.BASELINE)
 							.addComponent(lblNewLabel)
 							.addComponent(txtSoLuong, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_pnlGioHang.createParallelGroup(Alignment.BASELINE)
-							.addComponent(btnNewButton_2, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
-							.addComponent(btnNewButton_3, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
-						.addComponent(btnNewButton_3_1, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE))
-					.addGap(11))
+							.addComponent(btnOk, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
+							.addComponent(btnXoaSanPham, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+						.addComponent(btnXoaTatCaSP, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)))
 		);
 		panel.setLayout(new CardLayout(0, 0));
 		
@@ -266,24 +287,6 @@ public class QuanLyBanHang extends JPanel {
 		tblGioHang = new JTable();
 		tblGioHang.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
 			},
 			new String[] {
 				"M\u00E3 S\u1EA3n Ph\u1EA9m", "T\u00EAn S\u1EA3n Ph\u1EA9m", "K\u00EDch Th\u01B0\u1EDBc", "Khuy\u1EBFn m\u00E3i", "\u0110\u01A1n Gi\u00E1", "s\u1ED1 l\u01B0\u1EE3ng", "Th\u00E0nh ti\u1EC1n"
@@ -303,10 +306,6 @@ public class QuanLyBanHang extends JPanel {
 		tblHoaDonCho = new JTable();
 		tblHoaDonCho.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
 			},
 			new String[] {
 				"M\u00E3 H\u00F3a \u0110\u01A1n", "Ng\u00E0y T\u1EA1o", "T\u00EAn Nh\u00E2n Vi\u00EAn", "Kh\u00E1ch H\u00E0ng"
@@ -320,13 +319,13 @@ public class QuanLyBanHang extends JPanel {
 		pnlKhachHang.setBackground(new Color(255, 255, 255));
 		pnlKhachHang.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		
-		JButton btnLuu = new JButton("Tạo HĐ");
-		btnLuu.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-		btnLuu.setFont(new Font("Arial", Font.BOLD, 11));
-		btnLuu.setForeground(new Color(255, 255, 255));
-		btnLuu.setBackground(new Color(65, 105, 225));
-		btnLuu.setIcon(new ImageIcon(QuanLyBanHang.class.getResource("/icon/save.png")));
-		btnLuu.addActionListener(new ActionListener() {
+		btnTaoHD = new JButton("Tạo HĐ");
+		btnTaoHD.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		btnTaoHD.setFont(new Font("Arial", Font.BOLD, 11));
+		btnTaoHD.setForeground(new Color(255, 255, 255));
+		btnTaoHD.setBackground(new Color(65, 105, 225));
+		btnTaoHD.setIcon(new ImageIcon(QuanLyBanHang.class.getResource("/icon/save.png")));
+		btnTaoHD.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
@@ -471,7 +470,7 @@ public class QuanLyBanHang extends JPanel {
 												.addGroup(gl_pnlHoaDon.createSequentialGroup()
 													.addComponent(lblMaHDpush, GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
 													.addGap(18)
-													.addComponent(btnLuu, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
+													.addComponent(btnTaoHD, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
 													.addGap(18))
 												.addGroup(gl_pnlHoaDon.createSequentialGroup()
 													.addComponent(lblThanhToanpush, GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
@@ -500,7 +499,7 @@ public class QuanLyBanHang extends JPanel {
 						.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.BASELINE)
 							.addComponent(lblMaHD)
 							.addComponent(lblMaHDpush))
-						.addComponent(btnLuu, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE))
+						.addComponent(btnTaoHD, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
 					.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblTngTin)
@@ -560,16 +559,16 @@ public class QuanLyBanHang extends JPanel {
 		JLabel lblTenKH = new JLabel("Tên khách hàng : ");
 		lblTenKH.setFont(new Font("Arial", Font.BOLD, 12));
 		
-		JLabel lblKh = new JLabel("KH001");
+		JLabel lblKh = new JLabel(" ");
 		lblKh.setForeground(new Color(255, 0, 0));
 		
-		JLabel lblTrn = new JLabel("Trần Văn Bình");
+		JLabel lblTrn = new JLabel(" ");
 		lblTrn.setForeground(Color.RED);
 		
-		JButton btnNewButton_1 = new JButton("Tìm");
-		btnNewButton_1.setBackground(new Color(192, 192, 192));
-		btnNewButton_1.setIcon(new ImageIcon(QuanLyBanHang.class.getResource("/icon/search.png")));
-		btnNewButton_1.setFont(new Font("Arial", Font.BOLD, 11));
+		btnTim = new JButton("Tìm");
+		btnTim.setBackground(new Color(192, 192, 192));
+		btnTim.setIcon(new ImageIcon(QuanLyBanHang.class.getResource("/icon/search.png")));
+		btnTim.setFont(new Font("Arial", Font.BOLD, 11));
 		GroupLayout gl_pnlKhachHang = new GroupLayout(pnlKhachHang);
 		gl_pnlKhachHang.setHorizontalGroup(
 			gl_pnlKhachHang.createParallelGroup(Alignment.LEADING)
@@ -585,7 +584,7 @@ public class QuanLyBanHang extends JPanel {
 							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 							.addComponent(lblKh, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
 							.addGap(26)
-							.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 83, GroupLayout.PREFERRED_SIZE)
+							.addComponent(btnTim, GroupLayout.PREFERRED_SIZE, 83, GroupLayout.PREFERRED_SIZE)
 							.addGap(50)))
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
@@ -596,7 +595,7 @@ public class QuanLyBanHang extends JPanel {
 					.addGroup(gl_pnlKhachHang.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblMaKH)
 						.addComponent(lblKh)
-						.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE))
+						.addComponent(btnTim, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_pnlKhachHang.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblTenKH)
@@ -606,6 +605,107 @@ public class QuanLyBanHang extends JPanel {
 		pnlKhachHang.setLayout(gl_pnlKhachHang);
 		pnlHoaDon.setLayout(gl_pnlHoaDon);
 		setLayout(groupLayout);
+		//su kien hoa don cho va san pham
+		///su kien tim kiếm liên tục (auto find load table)
+		txtTimKiemSP.getDocument().addDocumentListener(new DocumentListener() {
+			
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				updateTableTimKiemSP();
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				updateTableTimKiemSP();
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				updateTableTimKiemSP();
+			}
+		});
+		
+		
+		//them sư kiện
+		btnThemVaoGio.addActionListener(this);
+		tblDSSanPham.addMouseListener(this);
+		btnTaoHD.addActionListener(this);
+		
+	}
+	private void updateTableGioHang(){
+		SanPham sp = sanPhamDAO.getSanPhanTheoId(masp);
+		DefaultTableModel dtm = (DefaultTableModel) tblGioHang.getModel();
+		soluong = 1;
+		double khuyenmai = 0.0;
+		if(sp.getKhuyenMai() == null) {
+			khuyenmai = 0.0;
+		}else {
+			khuyenmai = sp.getKhuyenMai().getPhanTramKhuyenMai();
+		}
+		Object[] rowdata = {sp.getMaSP(),sp.getTenSP(),sp.getKichThuoc().getKichThuoc(),khuyenmai,sp.getGiaBan(),soluong,sp.getGiaBan()*soluong};
+		dtm.addRow(rowdata);
+	}
+	private void updateTableHoaDonCho() {
+		HoaDon hd = new HoaDon();
+		DefaultTableModel dtm = (DefaultTableModel) tblHoaDonCho.getModel();
+		LocalDate ngayhientai = LocalDate.now();
+		Object[] rowdata = {hd.getAutoID(),ngayhientai.toString(),"Trần Chí Bảo","Trần Văn Bình"};
+		dtm.addRow(rowdata);
+	}
+	private void updateTableTimKiemSP(){
+		String masp = txtTimKiemSP.getText();
+		sanPhamDAO = new SanPhamDAO();
+		clearTableDSSP();
+		DefaultTableModel dtm = (DefaultTableModel) tblDSSanPham.getModel();
+		List<SanPham> listsp = sanPhamDAO.getDSSPTheoMaSP(masp);
+		for(SanPham sp : listsp) {
+			Object[] rowdata = {};
+			dtm.addRow(rowdata);
+		}
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		Object o = e.getSource();
+		if(o.equals(btnThemVaoGio)) {
+			updateTableGioHang();
+		}
+		if(o.equals(btnTaoHD)) {
+			updateTableHoaDonCho();
+		}
+		if(o.equals(btnTim)) {
+			
+		}
 
 	}
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		int row = tblDSSanPham.getSelectedRow();
+		masp = tblDSSanPham.getValueAt(row, 0).toString();
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }

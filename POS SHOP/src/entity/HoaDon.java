@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import dao.HoaDonDAO;
+import dao.SanPhamDAO;
+
 public class HoaDon {
 	private String maHoaDon;
 	private Date ngayLap;
@@ -77,7 +80,14 @@ public class HoaDon {
 		}
 		return tongTien;
 	}
-
+	public String getAutoID(){
+		
+		HoaDonDAO hoaDon_DAO = new HoaDonDAO();
+        String idPrefix = "HD";
+       int length = hoaDon_DAO.doTuBang().size();
+       String finalId = idPrefix + String.format("%02d", length + 1);
+       return finalId;
+	}
 	@Override
 	public String toString() {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
