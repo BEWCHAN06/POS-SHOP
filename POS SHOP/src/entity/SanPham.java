@@ -139,7 +139,7 @@ public class SanPham {
 		this.khuyenMai = khuyenMai;
 	}
 	public double getGiaBan() {
-		return giaNhap = giaNhap +  giaNhap*(loi/100);
+		return giaNhap + giaNhap * loi / 100;
 	}
 	public void setGiaBan(double giaBan) {
 		
