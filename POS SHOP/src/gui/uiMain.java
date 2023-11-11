@@ -39,6 +39,7 @@ public class uiMain {
 
 	private JFrame frame;
 	public JPanel mainPanel = new JPanel();
+	private JPanel btnSanPham;
 	/**
 	 * Launch the application.
 	 */
@@ -167,11 +168,14 @@ public class uiMain {
                 mainPanel.add(qlbh, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
                 mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
                 
+                btnBanHang.setBackground(new Color(34, 139, 34));
+                
 			}
 		});
-		btnBanHang.setBackground(new Color(34, 139, 34));
+		btnBanHang.setBackground(new Color(144, 238, 144));
+//		btnBanHang.setBackground(new Color(34, 139, 34));
 		
-		JPanel btnSanPham = new JPanel();
+		btnSanPham = new JPanel();
 		btnSanPham.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {

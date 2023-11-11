@@ -7,6 +7,7 @@ import java.awt.CardLayout;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.crypto.MacSpi;
+import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -14,9 +15,11 @@ import javax.swing.border.LineBorder;
 import java.awt.Color;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JFileChooser;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JScrollPane;
@@ -44,10 +47,13 @@ import entity.SanPham;
 import entity.XuatXu;
 
 import java.awt.Font;
+import java.awt.Image;
+
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
@@ -89,6 +95,10 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 	private JTextField txtMaSP;
 	private int btn;
 	private JCheckBox checkbox_xuatKichThuocTuDong;
+	private JButton btnHinhAnh;
+	private File file;
+	private JPanel pnlHinhAnh;
+	private JLabel lblHinhAnh;
 	/**
 	 * Create the panel.
 	 */
@@ -411,7 +421,8 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		
 		JLabel lblHnhA = new JLabel("Hình ảnh:");
 		
-		JPanel pnlHinhAnh = new JPanel();
+		pnlHinhAnh = new JPanel();
+		pnlHinhAnh.setSize(new Dimension(159,108));
 		pnlHinhAnh.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		
 		JLabel lblNewLabel_1 = new JLabel("Số Lượng : ");
@@ -451,7 +462,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		cboxuatXu.setBorder(new LineBorder(new Color(0, 0, 0)));
 		cboxuatXu.setBackground(new Color(255, 255, 255));
 		
-		JButton btnHinhAnh = new JButton("Chọn");
+		btnHinhAnh = new JButton("Chọn");
 		btnHinhAnh.setBorder(new LineBorder(new Color(0, 0, 0)));
 		btnHinhAnh.setBackground(new Color(144, 238, 144));
 		
@@ -567,7 +578,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 								.addComponent(lblGiNhp, GroupLayout.PREFERRED_SIZE, 77, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblNewLabel_1_1_1_2_2, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE)
 								.addComponent(txtGiaNhap, GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
-								.addComponent(pnlHinhAnh, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(pnlHinhAnh, GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
 								.addGroup(gl_pnlXemTruoc.createParallelGroup(Alignment.TRAILING)
 									.addComponent(btnXemTruoc, GroupLayout.PREFERRED_SIZE, 96, GroupLayout.PREFERRED_SIZE)
 									.addComponent(cboGiaLoi, GroupLayout.PREFERRED_SIZE, 136, GroupLayout.PREFERRED_SIZE)))
@@ -598,7 +609,6 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 							.addGap(27)
 							.addComponent(btnXemTruoc, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_pnlXemTruoc.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(lblNewLabel)
 							.addGap(10)
 							.addComponent(txtTenSP, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -640,6 +650,12 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 								.addComponent(cboKichThuocKetThuc, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
 					.addGap(24))
 		);
+		pnlHinhAnh.setLayout(null);
+		
+		lblHinhAnh = new JLabel("");
+		lblHinhAnh.setLocation(2, 2);
+		lblHinhAnh.setSize(new Dimension(155, 104));
+		pnlHinhAnh.add(lblHinhAnh);
 		pnlXemTruoc.setLayout(gl_pnlXemTruoc);
 		mainPanel.setLayout(gl_mainPanel);
 		cboGiaLoi.addItem("10");
@@ -653,11 +669,69 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		btnLuu.addActionListener(this);
 		btnLamMoi.addActionListener(this);
 		btnHuy.addActionListener(this);
+		btnHinhAnh.addActionListener(this);
 		checkbox_xuatKichThuocTuDong.addActionListener(this);
+		
 		//su kien click table
 		tbllistSanPham.addMouseListener(this);
 	}
-	
+    public ImageIcon ResizeImage(String imgPath) {
+        ImageIcon myImage = new ImageIcon(imgPath);
+        Image img = myImage.getImage();
+        Image newImg = img.getScaledInstance(pnlHinhAnh.getWidth(), pnlHinhAnh.getHeight(), Image.SCALE_SMOOTH);
+        ImageIcon image = new ImageIcon(newImg);
+
+        return image;
+    }
+    class ImagePreviewAccessory extends JPanel {
+        private JLabel imageLabel;
+
+        public ImagePreviewAccessory(JFileChooser fileChooser) {
+            setPreferredSize(new Dimension(200, 200));
+            setBorder(BorderFactory.createEtchedBorder());
+            setLayout(null);
+
+            imageLabel = new JLabel();
+            imageLabel.setBounds(0, 0, 200, 200);
+            imageLabel.setHorizontalAlignment(JLabel.CENTER);
+            add(imageLabel);
+
+            fileChooser.addPropertyChangeListener(evt -> {
+                if (JFileChooser.SELECTED_FILE_CHANGED_PROPERTY.equals(evt.getPropertyName())) {
+                    File selectedFile = (File) evt.getNewValue();
+                    if (selectedFile != null && isImageFile(selectedFile)) {
+                        ImageIcon icon = new ImageIcon(selectedFile.getPath());
+                        Image image = icon.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+                        imageLabel.setIcon(new ImageIcon(image));
+                    }
+                }
+            });
+        }
+
+        private boolean isImageFile(File file) {
+            String name = file.getName().toLowerCase();
+            return name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(".gif") || name.endsWith(".png");
+        }
+    }
+//
+//
+    public void chonHinhAnh() {
+        JFileChooser fileChooser = new JFileChooser("data/hinhAnhSP");
+        FileNameExtensionFilter imageFilter = new FileNameExtensionFilter("Hình ảnh", "jpg", "jpeg", "gif", "png");
+        fileChooser.setFileFilter(imageFilter);
+        fileChooser.setMultiSelectionEnabled(false);
+
+        ImagePreviewAccessory accessory = new ImagePreviewAccessory(fileChooser);
+        fileChooser.setAccessory(accessory);
+
+        int x = fileChooser.showDialog(this, "Chọn Ảnh");
+        if (x == JFileChooser.APPROVE_OPTION) {
+        	file = fileChooser.getSelectedFile();
+            lblHinhAnh.setText("");
+            lblHinhAnh.setIcon(ResizeImage(file.getAbsolutePath()));
+        }
+    }
+
 	private SanPham addObject() {
 		// TODO Auto-generated method stub
 		SanPham sp = new SanPham();
@@ -676,12 +750,16 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		KieuDang kieuDang = kieuDangDAO.getKieuDangByName(cboKieuDang.getSelectedItem().toString());
 		XuatXu xuatXu = xuatXuDAO.getXuatXuByName(cboxuatXu.getSelectedItem().toString());
 		System.out.println(cboxuatXu.getSelectedItem().toString());
-		String hinhanh = "";
+		String hinhAnh = "";
+        if (file != null) {
+            hinhAnh = file.getName();
+        }
+        System.out.println(lblHinhAnh.getText());
 		int trangthai = 0; 
 		if(sl > 0) {
 			trangthai = 1;
 		}
-		SanPham sanPham = new SanPham(tensp, phanLoai, gianhap, loi, null, giaban, kichThuoc, sl, mauSac, chatLieu, nhaCungCap, kieuDang, xuatXu, hinhanh, trangthai);
+		SanPham sanPham = new SanPham(tensp, phanLoai, gianhap, loi, null, giaban, kichThuoc, sl, mauSac, chatLieu, nhaCungCap, kieuDang, xuatXu, hinhAnh, trangthai);
 		return sanPham;
 	}
 	private SanPham editObject() {
@@ -702,12 +780,16 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		KieuDang kieuDang = kieuDangDAO.getKieuDangByName(cboKieuDang.getSelectedItem().toString());
 		XuatXu xuatXu = xuatXuDAO.getXuatXuByName(cboxuatXu.getSelectedItem().toString());
 		System.out.println(cboxuatXu.getSelectedItem().toString());
-		String hinhanh = "";
+		String hinhAnh = "";
+        if (file != null) {
+            hinhAnh = file.getName();
+        }
+        System.out.println(hinhAnh);
 		int trangthai = 0; 
 		if(sl > 0) {
 			trangthai = 1;
 		}
-		SanPham sanPham = new SanPham(masp, tensp, phanLoai, gianhap, loi, null, giaban, kichThuoc, sl, mauSac, chatLieu, nhaCungCap, kieuDang, xuatXu, hinhanh, trangthai);
+		SanPham sanPham = new SanPham(masp, tensp, phanLoai, gianhap, loi, null, giaban, kichThuoc, sl, mauSac, chatLieu, nhaCungCap, kieuDang, xuatXu, hinhAnh, trangthai);
 		return sanPham;
 	}
 	// su kien các nút
@@ -777,22 +859,49 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 			    }
 			}
 		}else if(o.equals(btnLamMoi)) {
-			
+			resetGui();
 		}else if(o.equals(btnHuy)) {
 			btnThem.setEnabled(true);
 			btnSua.setEnabled(true);
 			btnLuu.setEnabled(false);
 			btnHuy.setEnabled(false);
+			
 		}else if(o.equals(checkbox_xuatKichThuocTuDong)) {
 			btnXemTruoc.setEnabled(checkbox_xuatKichThuocTuDong.isSelected());
 			cboKichThuocKetThuc.setEnabled(checkbox_xuatKichThuocTuDong.isSelected());
 		}
-		
+		if(o.equals(btnHinhAnh)) {
+			chonHinhAnh();
+		}
 	}
-	
+	private void resetGui() {
+		txtMaSP.setText("");
+		txtTenSP.setText("");
+		txtGiaNhap.setText("");
+		txtSoLuongSP.setText("");
+		cboxuatXu.setSelectedIndex(0);
+		cboLoaiSanPham.setSelectedItem(0);
+		cboGiaLoi.setSelectedItem(0);
+		cboKichThuocBatDau.setSelectedItem(0);
+		cboKichThuocKetThuc.setSelectedIndex(0);
+		cboMauSac.setSelectedIndex(0);
+		cboChatLieu.setSelectedIndex(0);
+		cboNCC.setSelectedIndex(0);
+		cboKieuDang.setSelectedIndex(0);
+		cboxuatXu.setSelectedIndex(0);
+		lblHinhAnh.setIcon(new ImageIcon());
+		
+		//set lại nút button
+		btnThem.setEnabled(true);
+		btnSua.setEnabled(true);
+		btnLuu.setEnabled(false);
+		btnHuy.setEnabled(false);
+	}
 	// sư kiện click vào bảng
 	@Override
 	public void mouseClicked(MouseEvent e) {
+        File file = new File("");
+        String path= file.getAbsolutePath();
 		// TODO Auto-generated method stub
 		int row = tbllistSanPham.getSelectedRow();
 		String masp = tbllistSanPham.getValueAt(row, 0).toString();
@@ -808,12 +917,15 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		cboMauSac.setSelectedItem(tbllistSanPham.getValueAt(row, 9));
 		cboChatLieu.setSelectedItem(tbllistSanPham.getValueAt(row, 10));
 		cboNCC.setSelectedItem(tbllistSanPham.getValueAt(row, 11));
-		
+
 		//tbl chua co kieu dang de lay
 		sanPhamDAO = new SanPhamDAO();
 		SanPham sp = sanPhamDAO.getSanPhanTheoId(masp);
 		cboKieuDang.setSelectedItem(sp.getKieuDang().getKieuDang());
 		cboxuatXu.setSelectedItem(sp.getXuatXu().getXuatXu());
+		lblHinhAnh.setIcon(new ImageIcon());
+		lblHinhAnh.setSize(new Dimension(159,108));
+		lblHinhAnh.setIcon(ResizeImage(path + "/data/hinhAnhSP/"+sp.getHinhAnh()));
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {
