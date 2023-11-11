@@ -1,83 +1,78 @@
 package entity;
 
+import java.util.Date;
+
 public class KhachHang {
-    private String maKH;
-    private String tenKH;
-    private String SDT;
-    private boolean gioiTinh;
+	private String maKH, tenKH;
+	private Date ngaySinh;
+	private String email;
+	private String SDT;
+	private boolean gioiTinh;
 
-    public KhachHang() {
-        // Constructor mặc nhiên
-    }
+	public KhachHang() {
+		// Constructor mặc nhiên
+	}
 
-    public KhachHang(String maKH, String tenKH, String SDT, String email, boolean gioiTinh) {
-        setMaKH(maKH);
-        setTenKH(tenKH);
-        setSDT(SDT);
-        setGioiTinh(gioiTinh);
-    }
+	public String getMaKH() {
+		return maKH;
+	}
 
-    // Copy constructor
-    public KhachHang(KhachHang other) {
-        this(other.maKH, other.tenKH, other.SDT, other.gioiTinh);
-    }
-
-    public String getMaKH() {
-        return maKH;
-    }
-
-    public KhachHang(String maKH, String tenKH, String sDT, boolean gioiTinh) {
+	public KhachHang(String maKH, String tenKH, Date ngaySinh, String email, String sDT, boolean gioiTinh) {
 		super();
 		this.maKH = maKH;
 		this.tenKH = tenKH;
-		this.SDT = sDT;
+		this.ngaySinh = ngaySinh;
+		this.email = email;
+		SDT = sDT;
+		this.gioiTinh = gioiTinh;
+	}
+
+	public String getTenKH() {
+		return tenKH;
+	}
+
+	public void setTenKH(String tenKH) {
+		this.tenKH = tenKH;
+	}
+
+	public Date getNgaySinh() {
+		return ngaySinh;
+	}
+
+	public void setNgaySinh(Date ngaySinh) {
+		this.ngaySinh = ngaySinh;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getSDT() {
+		return SDT;
+	}
+
+	public void setSDT(String sDT) {
+		SDT = sDT;
+	}
+
+	public boolean isGioiTinh() {
+		return gioiTinh;
+	}
+
+	public void setGioiTinh(boolean gioiTinh) {
 		this.gioiTinh = gioiTinh;
 	}
 
 	public void setMaKH(String maKH) {
-        // Kiểm tra và xử lý logic tạo mã KH theo quy luật
-        // Phát sinh tự động
-    }
+		this.maKH = maKH;
+	}
 
-    public String getTenKH() {
-        return tenKH;
-    }
-
-    public void setTenKH(String tenKH) {
-        if (tenKH != null && tenKH.matches("^[A-Z][a-zA-Z ]+$")) {
-            this.tenKH = tenKH;
-        } else {
-            throw new IllegalArgumentException("Họ tên không hợp lệ");
-        }
-    }
-
-    public String getSDT() {
-        return SDT;
-    }
-
-    public void setSDT(String SDT) {
-        if (SDT != null && SDT.matches("0[0-9]{9}")) {
-            this.SDT = SDT;
-        } else {
-            throw new IllegalArgumentException("Số điện thoại không hợp lệ");
-        }
-    }
-
-
-    public boolean isGioiTinh() {
-        return gioiTinh;
-    }
-
-    public void setGioiTinh(boolean gioiTinh) {
-        if (gioiTinh != true) {
-            this.gioiTinh = gioiTinh;
-        } else {
-            throw new IllegalArgumentException("Nếu gioiTinh = true thì trả về Nam, ngược lại trả về Nữ");
-        }
-    }
-
-    @Override
-    public String toString() {
-        return "KhachHang [maKH=" + maKH + ", tenKH=" + tenKH + ", SDT=" + SDT + ", gioiTinh=" + gioiTinh + "]";
-    }
+	@Override
+	public String toString() {
+		return "KhachHang [maKH=" + maKH + ", tenKH=" + tenKH + ", SDT=" + SDT + ", gioiTinh=" + gioiTinh + "]";
+	}
 }
