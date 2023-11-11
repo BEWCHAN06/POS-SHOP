@@ -145,6 +145,10 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
         DefaultTableModel dtm = (DefaultTableModel) tbllistSanPham.getModel();
         dtm.setRowCount(0);
     }
+    private void clearTableXemTruoc() {
+        DefaultTableModel dtm = (DefaultTableModel) tblXemTruoc.getModel();
+        dtm.setRowCount(0);
+    }
     private void tblXemTruocSanPham() {
     	DefaultTableModel dtmxemtruoc = (DefaultTableModel) tblXemTruoc.getModel();
     	List<KichThuoc> listkt = kichThuocDAO.getAllKichThuoc();
@@ -155,7 +159,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		int cnt = 1;
     	double dongia = Double.parseDouble(txtGiaNhap.getText()) + Double.parseDouble(txtGiaNhap.getText())*Integer.parseInt(cboGiaLoi.getSelectedItem().toString()) /100;
     	for(KichThuoc kt : listkt) {
-    		Object[] rowdata = {idPrefix + String.format("%02d", length + cnt),txtTenSP.getText().toString(), kt.getKichThuoc(),dongia,""};
+    		Object[] rowdata = {idPrefix + String.format("%02d", length + cnt),txtTenSP.getText().toString(), kt.getKichThuoc(),dongia,txtSoLuongSP.getText()};
     		cnt++;
 //    		Object[] rowdata = {sp.getAutoID(),txtTenSP, kt.getKichThuoc(),dongia,txtSoLuongSP};
     		dtmxemtruoc.addRow(rowdata);
@@ -362,6 +366,22 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		btnNewButton_2.setFont(new Font("Arial", Font.BOLD, 12));
 		
 		JButton btnNewButton_3 = new JButton("Thêm Tất Cả Sản Phẩm");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DefaultTableModel model = (DefaultTableModel) tblXemTruoc.getModel();
+				int rowCount = model.getRowCount();
+				
+				for (int i = 0; i < rowCount; i++) {
+				    String kichThuoc = model.getValueAt(i, 2).toString(); // Lấy giá trị từ cột kích thước (index 2)
+				    String soLuong = model.getValueAt(i, 4).toString(); // Lấy giá trị từ cột số lượng (index 4)
+				    // Sử dụng kết quả lấy được ở đây (ví dụ: in ra hoặc xử lý tiếp)
+				    sanPhamDAO.addSanPham(addListOjbect(kichThuoc, Integer.parseInt(soLuong)));
+				    System.out.println("Kích thước: " + kichThuoc + ", Số lượng: " + soLuong);
+				    tblDanhSachSanPham();
+				}
+				clearTableXemTruoc();
+			}
+		});
 		btnNewButton_3.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		btnNewButton_3.setBackground(new Color(65, 105, 225));
 		btnNewButton_3.setForeground(new Color(255, 255, 255));
@@ -751,6 +771,36 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		double giaban = sp.getGiaBan();
 		KichThuoc kichThuoc = kichThuocDAO.getKichThuocByName(cboKichThuocBatDau.getSelectedItem().toString());
 		int sl = Integer.parseInt(txtSoLuongSP.getText());
+		MauSac mauSac = mauSacDAO.getMauSacByName(cboMauSac.getSelectedItem().toString());
+		ChatLieu chatLieu = chatLieuDAO.getChatLieuByName(cboChatLieu.getSelectedItem().toString());
+		NhaCungCap nhaCungCap = nhaCungCapDAO.getNhaCungCapByName(cboNCC.getSelectedItem().toString());
+		KieuDang kieuDang = kieuDangDAO.getKieuDangByName(cboKieuDang.getSelectedItem().toString());
+		XuatXu xuatXu = xuatXuDAO.getXuatXuByName(cboxuatXu.getSelectedItem().toString());
+		System.out.println(cboxuatXu.getSelectedItem().toString());
+		String hinhAnh = "";
+        if (file != null) {
+            hinhAnh = file.getName();
+        }
+        System.out.println(lblHinhAnh.getText());
+		int trangthai = 0; 
+		if(sl > 0) {
+			trangthai = 1;
+		}
+		SanPham sanPham = new SanPham(tensp, phanLoai, gianhap, loi, null, giaban, kichThuoc, sl, mauSac, chatLieu, nhaCungCap, kieuDang, xuatXu, hinhAnh, trangthai);
+		return sanPham;
+	}
+	private SanPham addListOjbect(String kichthuoc, int soluong) {
+		// TODO Auto-generated method stub
+		SanPham sp = new SanPham();
+		
+		String tensp = txtTenSP.getText().toString();
+		PhanLoai phanLoai = phanLoaiDAO.getPhanLoaiByName(cboLoaiSanPham.getSelectedItem().toString());
+		double gianhap = Double.parseDouble(txtGiaNhap.getText());
+		int loi = Integer.parseInt(cboGiaLoi.getSelectedItem().toString());
+//		KhuyenMai khuyenMai = khuyenMaiDAO.getKhuyenMaiByPhanTram(0);
+		double giaban = sp.getGiaBan();
+		KichThuoc kichThuoc = kichThuocDAO.getKichThuocByName(kichthuoc);
+		int sl = soluong;
 		MauSac mauSac = mauSacDAO.getMauSacByName(cboMauSac.getSelectedItem().toString());
 		ChatLieu chatLieu = chatLieuDAO.getChatLieuByName(cboChatLieu.getSelectedItem().toString());
 		NhaCungCap nhaCungCap = nhaCungCapDAO.getNhaCungCapByName(cboNCC.getSelectedItem().toString());
