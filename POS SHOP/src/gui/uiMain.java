@@ -39,6 +39,13 @@ public class uiMain {
 
 	private JFrame frame;
 	public JPanel mainPanel = new JPanel();
+	private JPanel btnSanPham;
+	private JPanel btnHoaDon;
+	private JPanel btnKhuyenMai;
+	private JPanel btnNhanVien;
+	private JPanel btnKhachHang;
+	private JPanel btnThongKe;
+	private JPanel btnBanHang;
 	/**
 	 * Launch the application.
 	 */
@@ -158,7 +165,7 @@ public class uiMain {
         mainPanel.removeAll();
         mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
 		///chuyển giao diện
-		JPanel btnBanHang = new JPanel();
+		btnBanHang = new JPanel();
 		btnBanHang.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -167,11 +174,19 @@ public class uiMain {
                 mainPanel.add(qlbh, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
                 mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
                 
+                btnBanHang.setBackground(new Color(34, 139, 34));
+                btnSanPham.setBackground(new Color(144, 238, 144));
+                btnHoaDon.setBackground(new Color(144, 238, 144));
+                btnKhuyenMai.setBackground(new Color(144, 238, 144));
+                btnNhanVien.setBackground(new Color(144, 238, 144));
+                btnKhachHang.setBackground(new Color(144, 238, 144));
+                btnThongKe.setBackground(new Color(144, 238, 144));
 			}
 		});
-		btnBanHang.setBackground(new Color(34, 139, 34));
+		btnBanHang.setBackground(new Color(144, 238, 144));
+//		btnBanHang.setBackground(new Color(34, 139, 34));
 		
-		JPanel btnSanPham = new JPanel();
+		btnSanPham = new JPanel();
 		btnSanPham.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -179,6 +194,14 @@ public class uiMain {
                 mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
                 mainPanel.add(qlsp, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
                 mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
+                
+                btnBanHang.setBackground(new Color(144, 238, 144));
+                btnSanPham.setBackground(new Color(34, 139, 34));
+                btnHoaDon.setBackground(new Color(144, 238, 144));
+                btnKhuyenMai.setBackground(new Color(144, 238, 144));
+                btnNhanVien.setBackground(new Color(144, 238, 144));
+                btnKhachHang.setBackground(new Color(144, 238, 144));
+                btnThongKe.setBackground(new Color(144, 238, 144));
 			}
 		});
 		btnSanPham.setBackground(new Color(144, 238, 144));
@@ -212,7 +235,7 @@ public class uiMain {
 		);
 		btnSanPham.setLayout(gl_btnSanPham);
 		
-		JPanel btnHoaDon = new JPanel();
+		btnHoaDon = new JPanel();
 		btnHoaDon.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -220,6 +243,14 @@ public class uiMain {
 				mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
                 mainPanel.add(qlhd, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
                 mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
+                
+                btnBanHang.setBackground(new Color(144, 238, 144));
+                btnSanPham.setBackground(new Color(144, 238, 144));
+                btnHoaDon.setBackground(new Color(34, 139, 34));
+                btnKhuyenMai.setBackground(new Color(144, 238, 144));
+                btnNhanVien.setBackground(new Color(144, 238, 144));
+                btnKhachHang.setBackground(new Color(144, 238, 144));
+                btnThongKe.setBackground(new Color(144, 238, 144));
 			}
 		});
 		btnHoaDon.setBackground(new Color(144, 238, 144));
@@ -254,7 +285,7 @@ public class uiMain {
 		);
 		btnHoaDon.setLayout(gl_btnHoaDon);
 		
-		JPanel btnKhuyenMai = new JPanel();
+		btnKhuyenMai = new JPanel();
 		btnKhuyenMai.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -262,6 +293,14 @@ public class uiMain {
 				mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
                 mainPanel.add(qlkm, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
                 mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
+                
+                btnBanHang.setBackground(new Color(144, 238, 144));
+                btnSanPham.setBackground(new Color(144, 238, 144));
+                btnHoaDon.setBackground(new Color(144, 238, 144));
+                btnKhuyenMai.setBackground(new Color(34, 139, 34));
+                btnNhanVien.setBackground(new Color(144, 238, 144));
+                btnKhachHang.setBackground(new Color(144, 238, 144));
+                btnThongKe.setBackground(new Color(144, 238, 144));
 			}
 		});
 		btnKhuyenMai.setBackground(new Color(144, 238, 144));
@@ -298,7 +337,7 @@ public class uiMain {
 		);
 		btnKhuyenMai.setLayout(gl_btnKhuyenMai);
 		
-		JPanel btnNhanVien = new JPanel();
+		btnNhanVien = new JPanel();
 		btnNhanVien.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -306,6 +345,14 @@ public class uiMain {
 				mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
                 mainPanel.add(qlnv, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
                 mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
+                
+                btnBanHang.setBackground(new Color(144, 238, 144));
+                btnSanPham.setBackground(new Color(144, 238, 144));
+                btnHoaDon.setBackground(new Color(144, 238, 144));
+                btnKhuyenMai.setBackground(new Color(144, 238, 144));
+                btnNhanVien.setBackground(new Color(34, 139, 34));
+                btnKhachHang.setBackground(new Color(144, 238, 144));
+                btnThongKe.setBackground(new Color(144, 238, 144));
 			}
 		});
 		btnNhanVien.setBackground(new Color(144, 238, 144));
@@ -338,7 +385,7 @@ public class uiMain {
 		);
 		btnNhanVien.setLayout(gl_btnNhanVien);
 		
-		JPanel btnKhachHang = new JPanel();
+		btnKhachHang = new JPanel();
 		btnKhachHang.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -346,6 +393,14 @@ public class uiMain {
 				mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
                 mainPanel.add(qlkh, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
                 mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
+                
+                btnBanHang.setBackground(new Color(144, 238, 144));
+                btnSanPham.setBackground(new Color(144, 238, 144));
+                btnHoaDon.setBackground(new Color(144, 238, 144));
+                btnKhuyenMai.setBackground(new Color(144, 238, 144));
+                btnNhanVien.setBackground(new Color(144, 238, 144));
+                btnKhachHang.setBackground(new Color(34, 139, 34));
+                btnThongKe.setBackground(new Color(144, 238, 144));
 			}
 		});
 		btnKhachHang.setBackground(new Color(144, 238, 144));
@@ -378,7 +433,7 @@ public class uiMain {
 		);
 		btnKhachHang.setLayout(gl_btnKhachHang);
 		
-		JPanel btnThongKe = new JPanel();
+		btnThongKe = new JPanel();
 		btnThongKe.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -386,6 +441,14 @@ public class uiMain {
 				mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
                 mainPanel.add(qlsp, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
                 mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
+                
+                btnBanHang.setBackground(new Color(144, 238, 144));
+                btnSanPham.setBackground(new Color(144, 238, 144));
+                btnHoaDon.setBackground(new Color(144, 238, 144));
+                btnKhuyenMai.setBackground(new Color(144, 238, 144));
+                btnNhanVien.setBackground(new Color(144, 238, 144));
+                btnKhachHang.setBackground(new Color(144, 238, 144));
+                btnThongKe.setBackground(new Color(34, 139, 34));
 			}
 		});
 		btnThongKe.setBackground(new Color(144, 238, 144));

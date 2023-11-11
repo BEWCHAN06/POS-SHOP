@@ -7,6 +7,7 @@ import java.awt.CardLayout;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.crypto.MacSpi;
+import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -14,8 +15,11 @@ import javax.swing.border.LineBorder;
 import java.awt.Color;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JFileChooser;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JScrollPane;
@@ -43,10 +47,13 @@ import entity.SanPham;
 import entity.XuatXu;
 
 import java.awt.Font;
+import java.awt.Image;
+
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
@@ -85,6 +92,13 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 	private JButton btnHuy;
 	private JButton btnXemTruoc;
 	private SanPhamDAO listSP;
+	private JTextField txtMaSP;
+	private int btn;
+	private JCheckBox checkbox_xuatAllKichThuoc;
+	private JButton btnHinhAnh;
+	private File file;
+	private JPanel pnlHinhAnh;
+	private JLabel lblHinhAnh;
 	/**
 	 * Create the panel.
 	 */
@@ -130,6 +144,26 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
     private void clearTable() {
         DefaultTableModel dtm = (DefaultTableModel) tbllistSanPham.getModel();
         dtm.setRowCount(0);
+    }
+    private void clearTableXemTruoc() {
+        DefaultTableModel dtm = (DefaultTableModel) tblXemTruoc.getModel();
+        dtm.setRowCount(0);
+    }
+    private void tblXemTruocSanPham() {
+    	DefaultTableModel dtmxemtruoc = (DefaultTableModel) tblXemTruoc.getModel();
+    	List<KichThuoc> listkt = kichThuocDAO.getAllKichThuoc();
+    	SanPham sp = new SanPham();
+    	SanPhamDAO sanPham_DAO = new SanPhamDAO();
+        String idPrefix = "SP";
+       int length = sanPham_DAO.doTuBang().size();
+		int cnt = 1;
+    	double dongia = Double.parseDouble(txtGiaNhap.getText()) + Double.parseDouble(txtGiaNhap.getText())*Integer.parseInt(cboGiaLoi.getSelectedItem().toString()) /100;
+    	for(KichThuoc kt : listkt) {
+    		Object[] rowdata = {idPrefix + String.format("%02d", length + cnt),txtTenSP.getText().toString(), kt.getKichThuoc(),dongia,txtSoLuongSP.getText()};
+    		cnt++;
+//    		Object[] rowdata = {sp.getAutoID(),txtTenSP, kt.getKichThuoc(),dongia,txtSoLuongSP};
+    		dtmxemtruoc.addRow(rowdata);
+    	}
     }
 	private void tblDanhSachSanPham() {
 		sanPhamDAO = new SanPhamDAO();
@@ -251,6 +285,13 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		textField_1 = new JTextField();
 		textField_1.setBorder(new LineBorder(new Color(0, 0, 0)));
 		textField_1.setColumns(10);
+		
+		txtMaSP = new JTextField();
+		txtMaSP.setEditable(false);
+		txtMaSP.setColumns(10);
+		
+		JLabel lblNewLabel_4 = new JLabel("Mã Sản Phẩm: ");
+		lblNewLabel_4.setFont(new Font("Arial", Font.BOLD, 11));
 		GroupLayout gl_pnlSanPham = new GroupLayout(pnlSanPham);
 		gl_pnlSanPham.setHorizontalGroup(
 			gl_pnlSanPham.createParallelGroup(Alignment.LEADING)
@@ -260,17 +301,29 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 					.addComponent(lblNewLabel_3)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 263, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(538, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED, 235, Short.MAX_VALUE)
+					.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(txtMaSP, GroupLayout.PREFERRED_SIZE, 133, GroupLayout.PREFERRED_SIZE)
+					.addGap(65))
 		);
 		gl_pnlSanPham.setVerticalGroup(
 			gl_pnlSanPham.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_pnlSanPham.createSequentialGroup()
-					.addGap(8)
-					.addGroup(gl_pnlSanPham.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblNewLabel_3)
-						.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
+					.addGroup(gl_pnlSanPham.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_pnlSanPham.createSequentialGroup()
+							.addGap(8)
+							.addGroup(gl_pnlSanPham.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblNewLabel_3)
+								.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(gl_pnlSanPham.createSequentialGroup()
+							.addGap(3)
+							.addComponent(txtMaSP, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_pnlSanPham.createSequentialGroup()
+							.addGap(7)
+							.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 13, GroupLayout.PREFERRED_SIZE)))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE))
+					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE))
 		);
 		panel.setLayout(new CardLayout(0, 0));
 		
@@ -291,6 +344,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		pnlSanPham.setLayout(gl_pnlSanPham);
 		
 		JPanel pnlBangXemTruoc = new JPanel();
+		pnlBangXemTruoc.setBackground(new Color(255, 255, 255));
 		pnlBangXemTruoc.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		
 		JLabel lblNewLabel_2 = new JLabel("Thay đổi số lượng : ");
@@ -312,6 +366,22 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		btnNewButton_2.setFont(new Font("Arial", Font.BOLD, 12));
 		
 		JButton btnNewButton_3 = new JButton("Thêm Tất Cả Sản Phẩm");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DefaultTableModel model = (DefaultTableModel) tblXemTruoc.getModel();
+				int rowCount = model.getRowCount();
+				
+				for (int i = 0; i < rowCount; i++) {
+				    String kichThuoc = model.getValueAt(i, 2).toString(); // Lấy giá trị từ cột kích thước (index 2)
+				    String soLuong = model.getValueAt(i, 4).toString(); // Lấy giá trị từ cột số lượng (index 4)
+				    // Sử dụng kết quả lấy được ở đây (ví dụ: in ra hoặc xử lý tiếp)
+				    sanPhamDAO.addSanPham(addListOjbect(kichThuoc, Integer.parseInt(soLuong)));
+				    System.out.println("Kích thước: " + kichThuoc + ", Số lượng: " + soLuong);
+				    tblDanhSachSanPham();
+				}
+				clearTableXemTruoc();
+			}
+		});
 		btnNewButton_3.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		btnNewButton_3.setBackground(new Color(65, 105, 225));
 		btnNewButton_3.setForeground(new Color(255, 255, 255));
@@ -356,20 +426,9 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		pnlBangXemTruoc.add(scrollPane, "name_17081090334300");
 		
 		tblXemTruoc = new JTable();
+		tblXemTruoc.setBackground(new Color(255, 255, 255));
 		tblXemTruoc.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
 			},
 			new String[] {
 				"M\u00E3 s\u1EA3n ph\u1EA9m", "T\u00EAn s\u1EA3n ph\u1EA9m", "K\u00EDch Th\u01B0\u1EDBc", "\u0110\u01A1n gi\u00E1", "S\u1ED1 l\u01B0\u1EE3ng"
@@ -388,7 +447,8 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		
 		JLabel lblHnhA = new JLabel("Hình ảnh:");
 		
-		JPanel pnlHinhAnh = new JPanel();
+		pnlHinhAnh = new JPanel();
+		pnlHinhAnh.setSize(new Dimension(159,108));
 		pnlHinhAnh.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		
 		JLabel lblNewLabel_1 = new JLabel("Số Lượng : ");
@@ -428,7 +488,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		cboxuatXu.setBorder(new LineBorder(new Color(0, 0, 0)));
 		cboxuatXu.setBackground(new Color(255, 255, 255));
 		
-		JButton btnHinhAnh = new JButton("Chọn");
+		btnHinhAnh = new JButton("Chọn");
 		btnHinhAnh.setBorder(new LineBorder(new Color(0, 0, 0)));
 		btnHinhAnh.setBackground(new Color(144, 238, 144));
 		
@@ -450,8 +510,8 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		cboGiaLoi.setBorder(new LineBorder(new Color(0, 0, 0)));
 		cboGiaLoi.setBackground(new Color(255, 255, 255));
 		
-		JCheckBox chckbxNewCheckBox = new JCheckBox("Xuất kích thước tự động");
-		chckbxNewCheckBox.setBackground(new Color(255, 255, 255));
+		checkbox_xuatAllKichThuoc = new JCheckBox("Xuất tất cả kích thước");
+		checkbox_xuatAllKichThuoc.setBackground(new Color(255, 255, 255));
 		
 		JLabel lblNewLabel_1_1_1_2_3 = new JLabel("Kích thước :");
 		
@@ -462,10 +522,12 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		JLabel lblNewLabel_1_1_1_2_3_1 = new JLabel("Đến :");
 		
 		cboKichThuocKetThuc = new JComboBox();
+		cboKichThuocKetThuc.setEnabled(false);
 		cboKichThuocKetThuc.setBorder(new LineBorder(new Color(0, 0, 0)));
 		cboKichThuocKetThuc.setBackground(new Color(255, 255, 255));
 		
 		btnXemTruoc = new JButton("Xem Trước");
+		btnXemTruoc.setEnabled(false);
 		btnXemTruoc.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		btnXemTruoc.setForeground(new Color(0, 0, 0));
 		btnXemTruoc.setBackground(new Color(192, 192, 192));
@@ -479,7 +541,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 							.addContainerGap()
 							.addComponent(lblNewLabel_1_1_1_2_3, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(cboKichThuocBatDau, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addComponent(cboKichThuocBatDau, 0, 85, Short.MAX_VALUE)
 							.addGap(18)
 							.addComponent(lblNewLabel_1_1_1_2_3_1, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
@@ -523,8 +585,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 									.addGap(18))
 								.addGroup(gl_pnlXemTruoc.createSequentialGroup()
 									.addContainerGap()
-									.addComponent(lblNewLabel)
-									.addGap(171))
+									.addComponent(lblNewLabel))
 								.addGroup(gl_pnlXemTruoc.createSequentialGroup()
 									.addContainerGap()
 									.addComponent(lblNewLabel_1_1_1_2_1, GroupLayout.PREFERRED_SIZE, 189, GroupLayout.PREFERRED_SIZE))
@@ -533,18 +594,18 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 									.addComponent(cboNCC, GroupLayout.PREFERRED_SIZE, 250, GroupLayout.PREFERRED_SIZE))
 								.addGroup(gl_pnlXemTruoc.createSequentialGroup()
 									.addContainerGap()
-									.addComponent(chckbxNewCheckBox)))
+									.addComponent(checkbox_xuatAllKichThuoc)))
 							.addGap(18)
-							.addGroup(gl_pnlXemTruoc.createParallelGroup(Alignment.TRAILING, false)
+							.addGroup(gl_pnlXemTruoc.createParallelGroup(Alignment.LEADING, false)
 								.addGroup(gl_pnlXemTruoc.createSequentialGroup()
 									.addComponent(lblHnhA, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 									.addComponent(btnHinhAnh, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE))
-								.addComponent(lblGiNhp, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 77, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblNewLabel_1_1_1_2_2, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE)
-								.addComponent(txtGiaNhap, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
-								.addComponent(pnlHinhAnh, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addGroup(Alignment.LEADING, gl_pnlXemTruoc.createParallelGroup(Alignment.TRAILING)
+								.addComponent(lblGiNhp, GroupLayout.PREFERRED_SIZE, 77, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblNewLabel_1_1_1_2_2, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtGiaNhap, GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
+								.addComponent(pnlHinhAnh, GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
+								.addGroup(gl_pnlXemTruoc.createParallelGroup(Alignment.TRAILING)
 									.addComponent(btnXemTruoc, GroupLayout.PREFERRED_SIZE, 96, GroupLayout.PREFERRED_SIZE)
 									.addComponent(cboGiaLoi, GroupLayout.PREFERRED_SIZE, 136, GroupLayout.PREFERRED_SIZE)))
 							.addGap(19)))
@@ -553,7 +614,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		gl_pnlXemTruoc.setVerticalGroup(
 			gl_pnlXemTruoc.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_pnlXemTruoc.createSequentialGroup()
-					.addContainerGap()
+					.addGap(9)
 					.addGroup(gl_pnlXemTruoc.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_pnlXemTruoc.createSequentialGroup()
 							.addGroup(gl_pnlXemTruoc.createParallelGroup(Alignment.BASELINE)
@@ -575,7 +636,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 							.addComponent(btnXemTruoc, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_pnlXemTruoc.createSequentialGroup()
 							.addComponent(lblNewLabel)
-							.addGap(3)
+							.addGap(10)
 							.addComponent(txtTenSP, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addGap(8)
 							.addGroup(gl_pnlXemTruoc.createParallelGroup(Alignment.BASELINE)
@@ -606,15 +667,21 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(cboNCC, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(chckbxNewCheckBox)
+							.addComponent(checkbox_xuatAllKichThuoc)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_pnlXemTruoc.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblNewLabel_1_1_1_2_3)
 								.addComponent(cboKichThuocBatDau, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblNewLabel_1_1_1_2_3_1)
 								.addComponent(cboKichThuocKetThuc, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
-					.addContainerGap(24, Short.MAX_VALUE))
+					.addGap(24))
 		);
+		pnlHinhAnh.setLayout(null);
+		
+		lblHinhAnh = new JLabel("");
+		lblHinhAnh.setLocation(2, 2);
+		lblHinhAnh.setSize(new Dimension(155, 104));
+		pnlHinhAnh.add(lblHinhAnh);
 		pnlXemTruoc.setLayout(gl_pnlXemTruoc);
 		mainPanel.setLayout(gl_mainPanel);
 		cboGiaLoi.addItem("10");
@@ -628,19 +695,79 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		btnLuu.addActionListener(this);
 		btnLamMoi.addActionListener(this);
 		btnHuy.addActionListener(this);
+		btnHinhAnh.addActionListener(this);
+		checkbox_xuatAllKichThuoc.addActionListener(this);
+		btnXemTruoc.addActionListener(this);
+		
 		//su kien click table
 		tbllistSanPham.addMouseListener(this);
 	}
-	
+    public ImageIcon ResizeImage(String imgPath) {
+        ImageIcon myImage = new ImageIcon(imgPath);
+        Image img = myImage.getImage();
+        Image newImg = img.getScaledInstance(pnlHinhAnh.getWidth(), pnlHinhAnh.getHeight(), Image.SCALE_SMOOTH);
+        ImageIcon image = new ImageIcon(newImg);
+
+        return image;
+    }
+    class ImagePreviewAccessory extends JPanel {
+        private JLabel imageLabel;
+
+        public ImagePreviewAccessory(JFileChooser fileChooser) {
+            setPreferredSize(new Dimension(200, 200));
+            setBorder(BorderFactory.createEtchedBorder());
+            setLayout(null);
+
+            imageLabel = new JLabel();
+            imageLabel.setBounds(0, 0, 200, 200);
+            imageLabel.setHorizontalAlignment(JLabel.CENTER);
+            add(imageLabel);
+
+            fileChooser.addPropertyChangeListener(evt -> {
+                if (JFileChooser.SELECTED_FILE_CHANGED_PROPERTY.equals(evt.getPropertyName())) {
+                    File selectedFile = (File) evt.getNewValue();
+                    if (selectedFile != null && isImageFile(selectedFile)) {
+                        ImageIcon icon = new ImageIcon(selectedFile.getPath());
+                        Image image = icon.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+                        imageLabel.setIcon(new ImageIcon(image));
+                    }
+                }
+            });
+        }
+
+        private boolean isImageFile(File file) {
+            String name = file.getName().toLowerCase();
+            return name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(".gif") || name.endsWith(".png");
+        }
+    }
+//
+//
+    public void chonHinhAnh() {
+        JFileChooser fileChooser = new JFileChooser("data/hinhAnhSP");
+        FileNameExtensionFilter imageFilter = new FileNameExtensionFilter("Hình ảnh", "jpg", "jpeg", "gif", "png");
+        fileChooser.setFileFilter(imageFilter);
+        fileChooser.setMultiSelectionEnabled(false);
+
+        ImagePreviewAccessory accessory = new ImagePreviewAccessory(fileChooser);
+        fileChooser.setAccessory(accessory);
+
+        int x = fileChooser.showDialog(this, "Chọn Ảnh");
+        if (x == JFileChooser.APPROVE_OPTION) {
+        	file = fileChooser.getSelectedFile();
+            lblHinhAnh.setText("");
+            lblHinhAnh.setIcon(ResizeImage(file.getAbsolutePath()));
+        }
+    }
+
 	private SanPham addObject() {
 		// TODO Auto-generated method stub
 		SanPham sp = new SanPham();
-		String masp = sp.getAutoID();
+		
 		String tensp = txtTenSP.getText().toString();
 		PhanLoai phanLoai = phanLoaiDAO.getPhanLoaiByName(cboLoaiSanPham.getSelectedItem().toString());
 		double gianhap = Double.parseDouble(txtGiaNhap.getText());
 		int loi = Integer.parseInt(cboGiaLoi.getSelectedItem().toString());
-//		KhuyenMai khuyenMai = khuyenMaiDAO.getKhuyenMaiByPhanTram(10);
+//		KhuyenMai khuyenMai = khuyenMaiDAO.getKhuyenMaiByPhanTram(0);
 		double giaban = sp.getGiaBan();
 		KichThuoc kichThuoc = kichThuocDAO.getKichThuocByName(cboKichThuocBatDau.getSelectedItem().toString());
 		int sl = Integer.parseInt(txtSoLuongSP.getText());
@@ -648,13 +775,78 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		ChatLieu chatLieu = chatLieuDAO.getChatLieuByName(cboChatLieu.getSelectedItem().toString());
 		NhaCungCap nhaCungCap = nhaCungCapDAO.getNhaCungCapByName(cboNCC.getSelectedItem().toString());
 		KieuDang kieuDang = kieuDangDAO.getKieuDangByName(cboKieuDang.getSelectedItem().toString());
-//		XuatXu xuatXu = xuatXuDAO.getXuatXuByName(cboKieuDang.getSelectedItem().toString());
-		String hinhanh = "";
+		XuatXu xuatXu = xuatXuDAO.getXuatXuByName(cboxuatXu.getSelectedItem().toString());
+		System.out.println(cboxuatXu.getSelectedItem().toString());
+		String hinhAnh = "";
+        if (file != null) {
+            hinhAnh = file.getName();
+        }
+        System.out.println(lblHinhAnh.getText());
 		int trangthai = 0; 
 		if(sl > 0) {
 			trangthai = 1;
 		}
-		SanPham sanPham = new SanPham(masp, tensp, phanLoai, gianhap, loi, null, giaban, kichThuoc, sl, mauSac, chatLieu, nhaCungCap, kieuDang, null, hinhanh, trangthai);
+		SanPham sanPham = new SanPham(tensp, phanLoai, gianhap, loi, null, giaban, kichThuoc, sl, mauSac, chatLieu, nhaCungCap, kieuDang, xuatXu, hinhAnh, trangthai);
+		return sanPham;
+	}
+	private SanPham addListOjbect(String kichthuoc, int soluong) {
+		// TODO Auto-generated method stub
+		SanPham sp = new SanPham();
+		
+		String tensp = txtTenSP.getText().toString();
+		PhanLoai phanLoai = phanLoaiDAO.getPhanLoaiByName(cboLoaiSanPham.getSelectedItem().toString());
+		double gianhap = Double.parseDouble(txtGiaNhap.getText());
+		int loi = Integer.parseInt(cboGiaLoi.getSelectedItem().toString());
+//		KhuyenMai khuyenMai = khuyenMaiDAO.getKhuyenMaiByPhanTram(0);
+		double giaban = sp.getGiaBan();
+		KichThuoc kichThuoc = kichThuocDAO.getKichThuocByName(kichthuoc);
+		int sl = soluong;
+		MauSac mauSac = mauSacDAO.getMauSacByName(cboMauSac.getSelectedItem().toString());
+		ChatLieu chatLieu = chatLieuDAO.getChatLieuByName(cboChatLieu.getSelectedItem().toString());
+		NhaCungCap nhaCungCap = nhaCungCapDAO.getNhaCungCapByName(cboNCC.getSelectedItem().toString());
+		KieuDang kieuDang = kieuDangDAO.getKieuDangByName(cboKieuDang.getSelectedItem().toString());
+		XuatXu xuatXu = xuatXuDAO.getXuatXuByName(cboxuatXu.getSelectedItem().toString());
+		System.out.println(cboxuatXu.getSelectedItem().toString());
+		String hinhAnh = "";
+        if (file != null) {
+            hinhAnh = file.getName();
+        }
+        System.out.println(lblHinhAnh.getText());
+		int trangthai = 0; 
+		if(sl > 0) {
+			trangthai = 1;
+		}
+		SanPham sanPham = new SanPham(tensp, phanLoai, gianhap, loi, null, giaban, kichThuoc, sl, mauSac, chatLieu, nhaCungCap, kieuDang, xuatXu, hinhAnh, trangthai);
+		return sanPham;
+	}
+	private SanPham editObject() {
+		// TODO Auto-generated method stub
+		SanPham sp = new SanPham();
+		String masp = txtMaSP.getText().toString();
+		String tensp = txtTenSP.getText().toString();
+		PhanLoai phanLoai = phanLoaiDAO.getPhanLoaiByName(cboLoaiSanPham.getSelectedItem().toString());
+		double gianhap = Double.parseDouble(txtGiaNhap.getText());
+		int loi = Integer.parseInt(cboGiaLoi.getSelectedItem().toString());
+//		KhuyenMai khuyenMai = khuyenMaiDAO.getKhuyenMaiByPhanTram(0);
+		double giaban = sp.getGiaBan();
+		KichThuoc kichThuoc = kichThuocDAO.getKichThuocByName(cboKichThuocBatDau.getSelectedItem().toString());
+		int sl = Integer.parseInt(txtSoLuongSP.getText());
+		MauSac mauSac = mauSacDAO.getMauSacByName(cboMauSac.getSelectedItem().toString());
+		ChatLieu chatLieu = chatLieuDAO.getChatLieuByName(cboChatLieu.getSelectedItem().toString());
+		NhaCungCap nhaCungCap = nhaCungCapDAO.getNhaCungCapByName(cboNCC.getSelectedItem().toString());
+		KieuDang kieuDang = kieuDangDAO.getKieuDangByName(cboKieuDang.getSelectedItem().toString());
+		XuatXu xuatXu = xuatXuDAO.getXuatXuByName(cboxuatXu.getSelectedItem().toString());
+		System.out.println(cboxuatXu.getSelectedItem().toString());
+		String hinhAnh = "";
+        if (file != null) {
+            hinhAnh = file.getName();
+        }
+        System.out.println(hinhAnh);
+		int trangthai = 0; 
+		if(sl > 0) {
+			trangthai = 1;
+		}
+		SanPham sanPham = new SanPham(masp, tensp, phanLoai, gianhap, loi, null, giaban, kichThuoc, sl, mauSac, chatLieu, nhaCungCap, kieuDang, xuatXu, hinhAnh, trangthai);
 		return sanPham;
 	}
 	// su kien các nút
@@ -668,14 +860,19 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		Object o = e.getSource();
+		
 		if(o.equals(btnThem)) {
+			btn = 1; //chuyen trang thai cua nut luu
 			btnThem.setEnabled(false);
 			btnSua.setEnabled(false);
 			btnLuu.setEnabled(true);
 			btnHuy.setEnabled(true);
 			xoaRongTextField();
+			SanPham sp = new SanPham();
+			txtMaSP.setText(sp.getAutoID());
 			
 		}else if(o.equals(btnSua)) {
+			btn = 2; //chuyen trang thai cua nut luu
 			btnThem.setEnabled(false);
 			btnSua.setEnabled(false);
 			btnLuu.setEnabled(true);
@@ -699,32 +896,77 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 				JOptionPane.showMessageDialog(null, "vui long điền giá nhập");
 				check = false;
 			}
-			if(check) {
-				sanPhamDAO.addSanPham(addObject());
-				tblDanhSachSanPham();
-				btnThem.setEnabled(true);
-				btnSua.setEnabled(true);
-				btnLuu.setEnabled(false);
-				btnHuy.setEnabled(false);
+			if (btn == 1) {
+			    if (check) {
+			        sanPhamDAO.addSanPham(addObject());
+			        tblDanhSachSanPham();
+			        btnThem.setEnabled(true);
+			        btnSua.setEnabled(true);
+			        btnLuu.setEnabled(false);
+			        btnHuy.setEnabled(false);
+			    }
+			} else if (btn == 2) { // Sửa ở đây
+			    if (check) {
+			        sanPhamDAO.updateSanPham(editObject());
+			        tblDanhSachSanPham();
+			        btnThem.setEnabled(true);
+			        btnSua.setEnabled(true);
+			        btnLuu.setEnabled(false);
+			        btnHuy.setEnabled(false);
+			    }
 			}
-			
 		}else if(o.equals(btnLamMoi)) {
-			
+			resetGui();
 		}else if(o.equals(btnHuy)) {
 			btnThem.setEnabled(true);
 			btnSua.setEnabled(true);
 			btnLuu.setEnabled(false);
 			btnHuy.setEnabled(false);
+			
+		}else if(o.equals(checkbox_xuatAllKichThuoc)) {
+			btnXemTruoc.setEnabled(checkbox_xuatAllKichThuoc.isSelected());
+			cboKichThuocKetThuc.setEnabled(!checkbox_xuatAllKichThuoc.isSelected());
+			cboKichThuocBatDau.setEnabled(!checkbox_xuatAllKichThuoc.isSelected());
 		}
-		
+		if(o.equals(btnHinhAnh)) {
+			chonHinhAnh();
+		}
+		if(o.equals(btnXemTruoc)) {
+			tblXemTruocSanPham();
+		}
 	}
-	
+	private void resetGui() {
+		txtMaSP.setText("");
+		txtTenSP.setText("");
+		txtGiaNhap.setText("");
+		txtSoLuongSP.setText("");
+		cboxuatXu.setSelectedIndex(0);
+		cboLoaiSanPham.setSelectedItem(0);
+		cboGiaLoi.setSelectedItem(0);
+		cboKichThuocBatDau.setSelectedItem(0);
+		cboKichThuocKetThuc.setSelectedIndex(0);
+		cboMauSac.setSelectedIndex(0);
+		cboChatLieu.setSelectedIndex(0);
+		cboNCC.setSelectedIndex(0);
+		cboKieuDang.setSelectedIndex(0);
+		cboxuatXu.setSelectedIndex(0);
+		lblHinhAnh.setIcon(new ImageIcon());
+		
+		//set lại nút button
+		btnThem.setEnabled(true);
+		btnSua.setEnabled(true);
+		btnLuu.setEnabled(false);
+		btnHuy.setEnabled(false);
+	}
 	// sư kiện click vào bảng
 	@Override
 	public void mouseClicked(MouseEvent e) {
+        File file = new File("");
+        String path= file.getAbsolutePath();
 		// TODO Auto-generated method stub
 		int row = tbllistSanPham.getSelectedRow();
 		String masp = tbllistSanPham.getValueAt(row, 0).toString();
+		txtMaSP.setText(masp);
 		txtTenSP.setText(tbllistSanPham.getValueAt(row, 1).toString());
 		cboLoaiSanPham.setSelectedItem(tbllistSanPham.getValueAt(row, 2));
 		txtGiaNhap.setText(tbllistSanPham.getValueAt(row, 3).toString());
@@ -736,12 +978,15 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		cboMauSac.setSelectedItem(tbllistSanPham.getValueAt(row, 9));
 		cboChatLieu.setSelectedItem(tbllistSanPham.getValueAt(row, 10));
 		cboNCC.setSelectedItem(tbllistSanPham.getValueAt(row, 11));
-		
+
 		//tbl chua co kieu dang de lay
 		sanPhamDAO = new SanPhamDAO();
 		SanPham sp = sanPhamDAO.getSanPhanTheoId(masp);
 		cboKieuDang.setSelectedItem(sp.getKieuDang().getKieuDang());
 		cboxuatXu.setSelectedItem(sp.getXuatXu().getXuatXu());
+		lblHinhAnh.setIcon(new ImageIcon());
+		lblHinhAnh.setSize(new Dimension(159,108));
+		lblHinhAnh.setIcon(ResizeImage(path + "/data/hinhAnhSP/"+sp.getHinhAnh()));
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {
