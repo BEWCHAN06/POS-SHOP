@@ -94,7 +94,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 	private SanPhamDAO listSP;
 	private JTextField txtMaSP;
 	private int btn;
-	private JCheckBox checkbox_xuatKichThuocTuDong;
+	private JCheckBox checkbox_xuatAllKichThuoc;
 	private JButton btnHinhAnh;
 	private File file;
 	private JPanel pnlHinhAnh;
@@ -144,6 +144,22 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
     private void clearTable() {
         DefaultTableModel dtm = (DefaultTableModel) tbllistSanPham.getModel();
         dtm.setRowCount(0);
+    }
+    private void tblXemTruocSanPham() {
+    	DefaultTableModel dtmxemtruoc = (DefaultTableModel) tblXemTruoc.getModel();
+    	List<KichThuoc> listkt = kichThuocDAO.getAllKichThuoc();
+    	SanPham sp = new SanPham();
+    	SanPhamDAO sanPham_DAO = new SanPhamDAO();
+        String idPrefix = "SP";
+       int length = sanPham_DAO.doTuBang().size();
+		int cnt = 1;
+    	double dongia = Double.parseDouble(txtGiaNhap.getText()) + Double.parseDouble(txtGiaNhap.getText())*Integer.parseInt(cboGiaLoi.getSelectedItem().toString()) /100;
+    	for(KichThuoc kt : listkt) {
+    		Object[] rowdata = {idPrefix + String.format("%02d", length + cnt),txtTenSP.getText().toString(), kt.getKichThuoc(),dongia,""};
+    		cnt++;
+//    		Object[] rowdata = {sp.getAutoID(),txtTenSP, kt.getKichThuoc(),dongia,txtSoLuongSP};
+    		dtmxemtruoc.addRow(rowdata);
+    	}
     }
 	private void tblDanhSachSanPham() {
 		sanPhamDAO = new SanPhamDAO();
@@ -324,6 +340,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		pnlSanPham.setLayout(gl_pnlSanPham);
 		
 		JPanel pnlBangXemTruoc = new JPanel();
+		pnlBangXemTruoc.setBackground(new Color(255, 255, 255));
 		pnlBangXemTruoc.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		
 		JLabel lblNewLabel_2 = new JLabel("Thay đổi số lượng : ");
@@ -389,20 +406,9 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		pnlBangXemTruoc.add(scrollPane, "name_17081090334300");
 		
 		tblXemTruoc = new JTable();
+		tblXemTruoc.setBackground(new Color(255, 255, 255));
 		tblXemTruoc.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
 			},
 			new String[] {
 				"M\u00E3 s\u1EA3n ph\u1EA9m", "T\u00EAn s\u1EA3n ph\u1EA9m", "K\u00EDch Th\u01B0\u1EDBc", "\u0110\u01A1n gi\u00E1", "S\u1ED1 l\u01B0\u1EE3ng"
@@ -484,8 +490,8 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		cboGiaLoi.setBorder(new LineBorder(new Color(0, 0, 0)));
 		cboGiaLoi.setBackground(new Color(255, 255, 255));
 		
-		checkbox_xuatKichThuocTuDong = new JCheckBox("Xuất kích thước tự động");
-		checkbox_xuatKichThuocTuDong.setBackground(new Color(255, 255, 255));
+		checkbox_xuatAllKichThuoc = new JCheckBox("Xuất tất cả kích thước");
+		checkbox_xuatAllKichThuoc.setBackground(new Color(255, 255, 255));
 		
 		JLabel lblNewLabel_1_1_1_2_3 = new JLabel("Kích thước :");
 		
@@ -568,7 +574,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 									.addComponent(cboNCC, GroupLayout.PREFERRED_SIZE, 250, GroupLayout.PREFERRED_SIZE))
 								.addGroup(gl_pnlXemTruoc.createSequentialGroup()
 									.addContainerGap()
-									.addComponent(checkbox_xuatKichThuocTuDong)))
+									.addComponent(checkbox_xuatAllKichThuoc)))
 							.addGap(18)
 							.addGroup(gl_pnlXemTruoc.createParallelGroup(Alignment.LEADING, false)
 								.addGroup(gl_pnlXemTruoc.createSequentialGroup()
@@ -641,7 +647,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(cboNCC, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(checkbox_xuatKichThuocTuDong)
+							.addComponent(checkbox_xuatAllKichThuoc)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_pnlXemTruoc.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblNewLabel_1_1_1_2_3)
@@ -670,7 +676,8 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		btnLamMoi.addActionListener(this);
 		btnHuy.addActionListener(this);
 		btnHinhAnh.addActionListener(this);
-		checkbox_xuatKichThuocTuDong.addActionListener(this);
+		checkbox_xuatAllKichThuoc.addActionListener(this);
+		btnXemTruoc.addActionListener(this);
 		
 		//su kien click table
 		tbllistSanPham.addMouseListener(this);
@@ -866,12 +873,16 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 			btnLuu.setEnabled(false);
 			btnHuy.setEnabled(false);
 			
-		}else if(o.equals(checkbox_xuatKichThuocTuDong)) {
-			btnXemTruoc.setEnabled(checkbox_xuatKichThuocTuDong.isSelected());
-			cboKichThuocKetThuc.setEnabled(checkbox_xuatKichThuocTuDong.isSelected());
+		}else if(o.equals(checkbox_xuatAllKichThuoc)) {
+			btnXemTruoc.setEnabled(checkbox_xuatAllKichThuoc.isSelected());
+			cboKichThuocKetThuc.setEnabled(!checkbox_xuatAllKichThuoc.isSelected());
+			cboKichThuocBatDau.setEnabled(!checkbox_xuatAllKichThuoc.isSelected());
 		}
 		if(o.equals(btnHinhAnh)) {
 			chonHinhAnh();
+		}
+		if(o.equals(btnXemTruoc)) {
+			tblXemTruocSanPham();
 		}
 	}
 	private void resetGui() {
