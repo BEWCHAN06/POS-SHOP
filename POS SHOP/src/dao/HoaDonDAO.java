@@ -2,6 +2,7 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -47,4 +48,56 @@ public class HoaDonDAO {
 		}
 		return dshd;
 	}
+	
+	// Tìm danh sách hóa đơn theo tháng
+	public List<HoaDon> getHoaDonTheoThang(int thang) {
+		try {
+			KetNoiSQL.getInstance().connect();
+			Connection con = KetNoiSQL.getInstance().getConnection();
+			String sql = "Select * From HoaDon Where MONTH(ngayLap) = ?;";
+			PreparedStatement stmt = con.prepareCall(sql);
+			stmt.setInt(1, thang);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				String maHD = rs.getString(1);
+				Date ngayLap = rs.getDate(2);
+				String maNV = rs.getString(3);
+				String tenNV = rs.getString(4);
+				String maKH = rs.getString(5);
+				String tenKH = rs.getString(6);
+				HoaDon hd = new HoaDon(maHD, ngayLap, new KhachHang(maKH, tenKH, null, null, null, false),
+						new NhanVien(maNV, tenNV, null, null, null, null, false, null, false, 0));
+				dshd.add(hd);
+			}
+		} catch (SQLException e) {
+			// TODO: handle exception
+		}
+		return dshd;
+	}
+	
+	// Tìm danh sách hóa đơn theo tháng
+		public List<HoaDon> getHoaDonTheoNam(int nam) {
+			try {
+				KetNoiSQL.getInstance().connect();
+				Connection con = KetNoiSQL.getInstance().getConnection();
+				String sql = "Select * From HoaDon Where YEAR(ngayLap) = ?;";
+				PreparedStatement stmt = con.prepareCall(sql);
+				stmt.setInt(1, nam);
+				ResultSet rs = stmt.executeQuery();
+				while (rs.next()) {
+					String maHD = rs.getString(1);
+					Date ngayLap = rs.getDate(2);
+					String maNV = rs.getString(3);
+					String tenNV = rs.getString(4);
+					String maKH = rs.getString(5);
+					String tenKH = rs.getString(6);
+					HoaDon hd = new HoaDon(maHD, ngayLap, new KhachHang(maKH, tenKH, null, null, null, false),
+							new NhanVien(maNV, tenNV, null, null, null, null, false, null, false, 0));
+					dshd.add(hd);
+				}
+			} catch (SQLException e) {
+				// TODO: handle exception
+			}
+			return dshd;
+		}
 }

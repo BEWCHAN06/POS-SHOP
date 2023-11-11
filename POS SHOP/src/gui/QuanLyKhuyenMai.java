@@ -523,8 +523,9 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 				// Sự kiện click chuột vào bảng KhuyenMai thì hiển thị danh sách SanPham được
 				// khuyến mãi
 				if (row != -1) {
+					SanPhamDAO ds = new SanPhamDAO();
 					String selectedMaKM = (String) tblKhuyenMai.getValueAt(row, 0);
-					List<SanPham> list = dssp.getSanPhanTheoMaKM(selectedMaKM);
+					List<SanPham> list = ds.getSanPhanTheoMaKM(selectedMaKM);
 					modelSanPham.getDataVector().removeAllElements();
 					for (SanPham sp : list) {
 						Object data[] = { Boolean.TRUE, sp.getMaSP(), sp.getTenSP(), sp.getGiaBan() };
@@ -569,7 +570,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 					if (dskm.createKhuyenMai(km)) { // Thêm khuyến mãi vào SQL
 						// Thêm khuyến mãi vào table
 						JOptionPane.showMessageDialog(null, "Thêm Thành Công !");
-//						updateTableKhuyenMai();
+						updateTableKhuyenMai();
 						txtTenKhuyenMai.setEditable(false);
 						txtMucKhuyenMai.setEditable(false);
 						dateChooserThoiGianBatDauGiamGia.setEnabled(false);
@@ -594,17 +595,14 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 				}
 			} else { // Ngược lại khi nhấn vào nút thêm
 				xoaRong();
-				modelSanPham.getDataVector().removeAllElements();
 				updateTableSanPham();
 				txtTenKhuyenMai.requestFocus();
 				txtMaKhuyenMai.setText(dskm.getAuToID()); // Khi nhấn nút thêm thì tự động phát sinh maKM
 			}
 		} else if (o.equals(btnSuaKhuyenMai)) {
 			JOptionPane.showMessageDialog(null, "Sửa thành công !");
-			modelSanPham.getDataVector().removeAllElements();
 		} else if (o.equals(btnLamMoi)) {
 			xoaRong();
-			modelSanPham.getDataVector().removeAllElements();
 			updateTableSanPham();
 		}
 	}
@@ -654,7 +652,8 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 
 	// Đưa dữ liệu vào table KhuyenMAi
 	private void updateTableKhuyenMai() {
-		List<KhuyenMai> list = dskm.doTuBang();
+		KhuyenMaiDAO ds = new KhuyenMaiDAO();
+		List<KhuyenMai> list = ds.doTuBang();
 		modelKhuyenMai.getDataVector().removeAllElements();
 		for (KhuyenMai km : list) {
 			Object data[] = { km.getMaKM(), km.getTenKhuyenMai(), km.getPhanTramKhuyenMai() + "%", km.getNgayBatDau(),
@@ -666,8 +665,9 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 
 	// Đưa dữ liệu vào table SanPham
 	private void updateTableSanPham() {
+		SanPhamDAO ds = new SanPhamDAO();
 		modelSanPham.getDataVector().removeAllElements();
-		List<SanPham> list = dssp.doTuBang();
+		List<SanPham> list = ds.doTuBang();
 		for (SanPham sp : list) {
 			Object data[] = { Boolean.FALSE, sp.getMaSP(), sp.getTenSP(), sp.getGiaBan() };
 			modelSanPham.addRow(data);

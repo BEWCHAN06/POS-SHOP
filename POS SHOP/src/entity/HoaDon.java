@@ -5,15 +5,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import dao.HoaDonDAO;
-import dao.SanPhamDAO;
+import dao.ChiTietHoaDonDAO;
 
 public class HoaDon {
 	private String maHoaDon;
 	private Date ngayLap;
 	private KhachHang khachHang;
 	private NhanVien nhanVien;
-	private List<ChiTietHoaDon> chiTietHoaDonList = new ArrayList<>();
+//	List<ChiTietHoaDon> chiTietHoaDonList = new ArrayList<ChiTietHoaDon>();
 
 	public HoaDon() {
 		// Constructor mặc nhiên
@@ -65,29 +64,24 @@ public class HoaDon {
 		this.nhanVien = nhanVien;
 	}
 
-	public List<ChiTietHoaDon> getChiTietHoaDonList() {
-		return chiTietHoaDonList;
-	}
+//	public List<ChiTietHoaDon> getChiTietHoaDonList() {
+//		return chiTietHoaDonList;
+//	}
 
-	public void themChiTietHoaDon(ChiTietHoaDon chiTietHoaDon) {
-		chiTietHoaDonList.add(chiTietHoaDon);
-	}
+//	public void themChiTietHoaDon(ChiTietHoaDon chiTietHoaDon) {
+//		chiTietHoaDonList.add(chiTietHoaDon);
+//	}
 
 	public double tongTien() {
 		double tongTien = 0;
-		for (ChiTietHoaDon chiTietHoaDon : chiTietHoaDonList) {
-			tongTien += chiTietHoaDon.thanhTien();
+		ChiTietHoaDonDAO ds = new ChiTietHoaDonDAO();
+		List<ChiTietHoaDon> list = ds.getChiTietHoaDonTheoMaHD(maHoaDon);
+		for (ChiTietHoaDon chiTietHoaDon : list) {
+			tongTien += chiTietHoaDon.tinhGiaSauKhuyenMai(chiTietHoaDon.thanhTien());
 		}
 		return tongTien;
 	}
-	public String getAutoID(){
-		
-		HoaDonDAO hoaDon_DAO = new HoaDonDAO();
-        String idPrefix = "HD";
-       int length = hoaDon_DAO.doTuBang().size();
-       String finalId = idPrefix + String.format("%02d", length + 1);
-       return finalId;
-	}
+
 	@Override
 	public String toString() {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");

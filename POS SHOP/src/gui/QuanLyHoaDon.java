@@ -462,6 +462,9 @@ public class QuanLyHoaDon extends JPanel implements ActionListener {
 		 * ==== EVENT ====
 		 */
 		updateTableHoaDon();
+		comboBoxTongTienTraHang.addActionListener(this);
+		comboBoxThangHoaDon.addActionListener(this);
+		comboBoxNamHoaDon.addActionListener(this);
 		tblHoaDon.addMouseListener(new MouseListener() {
 
 			@Override
@@ -494,14 +497,15 @@ public class QuanLyHoaDon extends JPanel implements ActionListener {
 				int row = tblHoaDon.getSelectedRow();
 				if (row != -1) {
 					String selectedMaHD = (String) tblHoaDon.getValueAt(row, 0);
-					List<ChiTietHoaDon> list = dscthd.getChiTietHoaDonTheoMaHD(selectedMaHD);
+					ChiTietHoaDonDAO ds = new ChiTietHoaDonDAO();
+					List<ChiTietHoaDon> list = ds.getChiTietHoaDonTheoMaHD(selectedMaHD);
 					modelChiTietHoaDon.getDataVector().removeAllElements();
 					for (ChiTietHoaDon cthd : list) {
 						Double thanhTien = cthd.thanhTien();
 						Double giaSauKhuyenMai = cthd.tinhGiaSauKhuyenMai(thanhTien);
 						Object data[] = { cthd.getSanPham().getMaSP(), cthd.getSanPham().getTenSP(),
 								cthd.getSanPham().getPl().getPhanLoai(), cthd.getSanPham().getGiaBan(),
-								cthd.getSoLuong(), cthd.getPhanTramKhuyenMai()+"%",
+								cthd.getSoLuong(), cthd.getPhanTramKhuyenMai() + "%",
 								cthd.getSanPham().getChatLieu().getChatLieu(),
 								cthd.getSanPham().getKieuDang().getKieuDang(),
 								cthd.getSanPham().getMauSac().getMauSac(),
@@ -517,7 +521,10 @@ public class QuanLyHoaDon extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-
+		Object o = e.getSource();
+		if(o.equals(comboBoxThangHoaDon)) {
+			
+		}
 	}
 
 	private void updateTableHoaDon() {
@@ -525,6 +532,7 @@ public class QuanLyHoaDon extends JPanel implements ActionListener {
 		List<HoaDon> list = dshd.doTuBang();
 		for (HoaDon hd : list) {
 			Double tongTien = hd.tongTien();
+			System.out.println(tongTien);
 			Object data[] = { hd.getMaHoaDon(), hd.getNgayLap(), hd.getNhanVien().getMaNV(),
 					hd.getNhanVien().getTenNV(), hd.getKhachHang().getMaKH(), hd.getKhachHang().getTenKH(), tongTien };
 			modelHoaDon.addRow(data);
