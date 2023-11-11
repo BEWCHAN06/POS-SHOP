@@ -56,7 +56,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 	private JDateChooser dateChooserThoiGianBatDauGiamGia, dateChooserThoiGianKetThucGiamGia;
 	private JButton btnTimKiemSanPham, btnThemKhuyenMai, btnSuaKhuyenMai, btnLamMoi;
 	private JTable tblSanPham, tblKhuyenMai;
-	private DefaultTableModel modelKhuyenMai, modelSanPham;
+	private DefaultTableModel modelSanPham, modelKhuyenMai;
 	private KhuyenMaiDAO dskm = new KhuyenMaiDAO();
 	private SanPhamDAO dssp = new SanPhamDAO();
 	private PhanLoaiDAO dspl = new PhanLoaiDAO();
@@ -200,7 +200,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 					btnThemKhuyenMai.setForeground(new Color(255, 255, 255));
 					btnThemKhuyenMai.setBackground(new Color(65, 105, 255));
 					btnThemKhuyenMai.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/add.png")));
-					
+
 					btnLamMoi.setText("Làm mới (CtrlR)");
 					btnLamMoi.setBackground(new Color(152, 251, 152));
 					btnLamMoi.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/loading.png")));
@@ -263,7 +263,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 					btnLamMoi.setText("Làm mới (CtrlR)");
 					btnLamMoi.setBackground(new Color(152, 251, 152));
 					btnLamMoi.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/loading.png")));
-					
+
 					btnThemKhuyenMai.setText("Thêm (CtrlC)");
 					btnThemKhuyenMai.setForeground(new Color(255, 255, 255));
 					btnThemKhuyenMai.setBackground(new Color(65, 105, 255));
@@ -477,8 +477,8 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 		btnSuaKhuyenMai.addActionListener(this);
 		btnLamMoi.addActionListener(this);
 		// Chương trình chạy , lấy dữ liệu đưa vào table, comBoBox
+//		updateTableSanPham();
 		updateTableKhuyenMai();
-		updateTableSanPham();
 		updateComboBox();
 
 		// Sự kiện Click getValueAt
@@ -569,7 +569,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 					if (dskm.createKhuyenMai(km)) { // Thêm khuyến mãi vào SQL
 						// Thêm khuyến mãi vào table
 						JOptionPane.showMessageDialog(null, "Thêm Thành Công !");
-						updateTableKhuyenMai();
+//						updateTableKhuyenMai();
 						txtTenKhuyenMai.setEditable(false);
 						txtMucKhuyenMai.setEditable(false);
 						dateChooserThoiGianBatDauGiamGia.setEnabled(false);
@@ -601,8 +601,10 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 			}
 		} else if (o.equals(btnSuaKhuyenMai)) {
 			JOptionPane.showMessageDialog(null, "Sửa thành công !");
+			modelSanPham.getDataVector().removeAllElements();
 		} else if (o.equals(btnLamMoi)) {
 			xoaRong();
+			modelSanPham.getDataVector().removeAllElements();
 			updateTableSanPham();
 		}
 	}
@@ -652,8 +654,8 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 
 	// Đưa dữ liệu vào table KhuyenMAi
 	private void updateTableKhuyenMai() {
-		modelKhuyenMai.getDataVector().removeAllElements();
 		List<KhuyenMai> list = dskm.doTuBang();
+		modelKhuyenMai.getDataVector().removeAllElements();
 		for (KhuyenMai km : list) {
 			Object data[] = { km.getMaKM(), km.getTenKhuyenMai(), km.getPhanTramKhuyenMai() + "%", km.getNgayBatDau(),
 					km.getNgayKetThuc() };

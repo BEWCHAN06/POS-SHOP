@@ -34,6 +34,7 @@ public class ChiTietHoaDonDAO {
 	// Lấy danh sách thông tin Chi Tiết Hóa Đơn từ SQL
 	public ArrayList<ChiTietHoaDon> getChiTietHoaDonTheoMaHD(String maHD) {
 		try {
+			KetNoiSQL.getInstance().connect();
 			Connection con = KetNoiSQL.getInstance().getConnection();
 			PreparedStatement stmt = null;
 			String sql = "Select chd.maSP,sp.tenSP,sp.giaNhap,sp.loiTheoPhanTram,chd.soLuong,chd.phanTramKhuyenmai,cl.chatLieu,kd.kieuDang,kt.kichThuoc,ms.mauSac,pl.phanLoai\r\n"
