@@ -433,7 +433,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 				.addComponent(scrollPane_SanPham, GroupLayout.PREFERRED_SIZE, 155, GroupLayout.PREFERRED_SIZE)));
 
 		modelSanPham = new DefaultTableModel(new Object[][] {}, new String[] { "Select", "M\u00E3 s\u1EA3n ph\u1EA9m",
-				"T\u00EAn s\u1EA3n ph\u1EA9m", "Mã khuyến mãi","\u0110\u01A1n gi\u00E1" });
+				"T\u00EAn s\u1EA3n ph\u1EA9m", "Mã khuyến mãi", "\u0110\u01A1n gi\u00E1" });
 		tblSanPham = new JTable(modelSanPham) {
 			@Override
 			public Class getColumnClass(int column) { // Class<?> là kiểu trả về cho phương thức getColumnClass để xác
@@ -523,12 +523,17 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 				// Sự kiện click chuột vào bảng KhuyenMai thì hiển thị danh sách SanPham được
 				// khuyến mãi
 				if (row != -1) {
-					SanPhamDAO ds = new SanPhamDAO();
+					KhuyenMaiDAO ds = new KhuyenMaiDAO();
 					String selectedMaKM = (String) tblKhuyenMai.getValueAt(row, 0);
 					List<SanPham> list = ds.getSanPhanTheoMaKM(selectedMaKM);
 					modelSanPham.setRowCount(0);
 					for (SanPham sp : list) {
-						Object data[] = { Boolean.TRUE, sp.getMaSP(), sp.getTenSP(), sp.getGiaBan() };
+						String maKM = "Null"; // Mặc định là "null"
+						// Kiểm tra xem có khuyến mãi không trước khi gọi getMaKM()
+						if (sp.getKhuyenMai() != null) {
+							maKM = sp.getKhuyenMai().getMaKM().toString();
+						}
+						Object data[] = { Boolean.TRUE, sp.getMaSP(), sp.getTenSP(), maKM, sp.getGiaBan() };
 						modelSanPham.addRow(data);
 					}
 					tblSanPham.setModel(modelSanPham);
@@ -564,13 +569,15 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 		} else if (o.equals(btnTimKiemSanPham)) {
 			JOptionPane.showMessageDialog(null, "Tìm thấy !");
 		} else if (o.equals(btnThemKhuyenMai)) {
-			if (btnThemKhuyenMai.getText().equalsIgnoreCase("Lưu")) { // Nếu là button lưu thì thực hiện thêm khuyến mãi
+			if (btnThemKhuyenMai.getText().equalsIgnoreCase("Lưu (CtrlS)")) { // Nếu là button lưu thì thực hiện thêm khuyến mãi
 				if (validData()) {
-					KhuyenMai km = reverSPFfromTextFile(); // Lấy dữ liệu từ JtexFiled, JDateChooser thêm vào danh sách
-															// khuyến mãi
-					if (dskm.createKhuyenMai(km)) { // Thêm khuyến mãi vào SQL
+					// Lấy dữ liệu từ JtexFiled, JDateChooser thêm vào danh sách khuyến mãi
+					KhuyenMaiDAO ds = new KhuyenMaiDAO();
+					KhuyenMai km = reverSPFfromTextFile(); 
+					if (ds.createKhuyenMai(km)) { // Thêm khuyến mãi vào SQL
 						// Thêm khuyến mãi vào table
 						JOptionPane.showMessageDialog(null, "Thêm Thành Công !");
+						updateTableSanPham();
 						updateTableKhuyenMai();
 						txtTenKhuyenMai.setEditable(false);
 						txtMucKhuyenMai.setEditable(false);
@@ -579,14 +586,14 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 
 						// Cập nhật, thêm mã khuyến mãi cho sản phẩm được chọn
 						for (int row = 0; row < tblSanPham.getRowCount(); row++) {
-							boolean isChecked = (boolean) tblSanPham.getValueAt(row, 0); // Kiểm tra cột 0 hàng hiện tại
-																							// có được tick vào ô kiểm
-																							// hay không
+							// Kiểm tra cột 0 hàng hiện tại có được tick vào ô kiểm hay không
+							boolean isChecked = (boolean) tblSanPham.getValueAt(row, 0);
 							if (isChecked) { // Nếu ô kiểm đã được tick
+								KhuyenMaiDAO ds1 = new KhuyenMaiDAO();
 								String maSP = (String) tblSanPham.getValueAt(row, 1); // Lấy ra mã sản phẩm ở ô kiểm đã
 																						// được tick
 								String maKM = txtMaKhuyenMai.getText().toString();
-								dssp.updateMaKMChoSanPHam(maSP, maKM);
+								ds1.updateMaKMChoSanPHam(maKM, maSP);
 							}
 						}
 						xoaRong();
@@ -670,14 +677,13 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 		modelSanPham.setRowCount(0);
 		List<SanPham> list = ds.doTuBang();
 		for (SanPham sp : list) {
-			
-			String maKM = "Null";  // Mặc định là "null"
-	        // Kiểm tra xem có khuyến mãi không trước khi gọi getMaKM()
-	        if (sp.getKhuyenMai() != null) {
-	            maKM = sp.getKhuyenMai().getMaKM().toString();
-	        }
-	        Object data[] = { Boolean.FALSE, sp.getMaSP(), sp.getTenSP(), maKM, sp.getGiaBan() };
-            modelSanPham.addRow(data);
+			String maKM = "Null"; // Mặc định là "null"
+			// Kiểm tra xem có khuyến mãi không trước khi gọi getMaKM()
+			if (sp.getKhuyenMai() != null) {
+				maKM = sp.getKhuyenMai().getMaKM().toString();
+			}
+			Object data[] = { Boolean.FALSE, sp.getMaSP(), sp.getTenSP(), maKM, sp.getGiaBan() };
+			modelSanPham.addRow(data);
 		}
 		tblSanPham.setModel(modelSanPham);
 	}
