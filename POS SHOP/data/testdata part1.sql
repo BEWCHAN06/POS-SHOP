@@ -127,7 +127,9 @@ CREATE TABLE HoaDon
 maHD varchar(7) PRIMARY KEY,
 ngayLap date DEFAULT GETDATE(),
 maKH varchar(7) FOREIGN KEY REFERENCES KhachHang(maKH),
-maNV varchar(7) FOREIGN KEY REFERENCES NhanVien(maNV)
+maNV varchar(7) FOREIGN KEY REFERENCES NhanVien(maNV),
+trangThai int,
+tongTien double precision
 )
 
 -- Tạo bảng ChiTietHoaDon
@@ -139,7 +141,8 @@ phanTramKhuyenMai double precision,
 soLuong int CHECK (soLuong > 0),
 PRIMARY KEY (maSP, maHD),
 FOREIGN KEY (maSP) REFERENCES SanPham (maSP),
-FOREIGN KEY (maHD) REFERENCES HoaDon(maHD)
+FOREIGN KEY (maHD) REFERENCES HoaDon(maHD),
+thanhTien double precision
 )
 
 -- Tạo bảng HoaDonTraHang
