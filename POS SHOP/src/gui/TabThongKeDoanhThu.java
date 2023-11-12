@@ -78,7 +78,7 @@ public class TabThongKeDoanhThu extends javax.swing.JPanel {
     private void designTable() {
         tbl_DanhSachSanPham.getTableHeader().setFont(new java.awt.Font("Calibri", 0, 12));
         tbl_DanhSachSanPham.getTableHeader().setOpaque(false);
-        tbl_DanhSachSanPham.getTableHeader().setBackground(new Color(102,204,153));
+        tbl_DanhSachSanPham.getTableHeader().setBackground(new Color(144,238,144));
         tbl_DanhSachSanPham.getTableHeader().setForeground(Color.WHITE);
         tbl_DanhSachSanPham.setDefaultEditor(Object.class, null);
     }
