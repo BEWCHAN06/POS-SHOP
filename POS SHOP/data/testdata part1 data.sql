@@ -74,15 +74,15 @@ INSERT INTO TaiKhoan VALUES
 
 --Insert data for table HoaDon
 INSERT INTO HoaDon VALUES
-('HD01','2022-01-05','KH01','NV01'),
-('HD02','2022-02-14','KH02','NV02'),
-('HD03','2022-03-30','KH03','NV03')
+('HD01','2022-01-05','KH01','NV01', 1, 0),
+('HD02','2022-02-14','KH02','NV02', 1, 0),
+('HD03','2022-03-30','KH03','NV03', 0, 0)
 
 --Insert data for table ChiTietHoaDon
 INSERT INTO ChiTietHoaDon VALUES
-('SP01','HD01',10, 3),
-('SP02','HD02',15, 2),
-('SP03','HD03',0, 1)
+('SP01','HD01',10, 3, 0),
+('SP02','HD02',15, 2, 0),
+('SP03','HD03',0, 1, 0)
 
 --Insert data for table HoaDonTraHang
 INSERT INTO HoaDonTraHang VALUES
