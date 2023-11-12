@@ -15,15 +15,19 @@ import entity.HoaDon;
 import entity.KhachHang;
 import entity.KhuyenMai;
 import entity.KichThuoc;
+import entity.KieuDang;
 import entity.MauSac;
 import entity.NhaCungCap;
 import entity.NhanVien;
 import entity.PhanLoai;
 import entity.SanPham;
+import entity.XuatXu;
 
 public class HoaDonDAO {
 	ArrayList<HoaDon> dshd;
 	HoaDon hd;
+	KhachHangDAO khachHangDAO = new KhachHangDAO();
+	NhanVienDAO nhanVienDAO = new NhanVienDAO();
 
 	public HoaDonDAO() {
 		KetNoiSQL.getInstance().connect();
@@ -55,7 +59,32 @@ public class HoaDonDAO {
 		}
 		return dshd;
 	}
+	public HoaDon getHDTheoId(String id) {
+		try {
+			KetNoiSQL.getInstance().connect();
+			Connection con = KetNoiSQL.getInstance().getConnection();
+			String sql = "select * from HoaDon where maHD =(?)";
+			PreparedStatement stmt = con.prepareCall(sql);
+			stmt.setString(1, id);
+			ResultSet rs = stmt.executeQuery();
 
+			while (rs.next()) {
+				String mahd = rs.getString(1);
+				Date ngaylap = rs.getDate(2);
+				String makh = rs.getString(3);
+				String manv = rs.getString(4);
+				KhachHang kh = khachHangDAO.getKhachHang(makh);
+				NhanVien nv = nhanVienDAO.getNhanVienByID(manv);
+				HoaDon hd = new HoaDon(mahd, ngaylap, kh, nv);
+				return hd;
+			}
+
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	// Tìm kiếm hóa đơn theo từ khóa (maHD, maNV, tenNV, maKH, tenKH)
 	public List<HoaDon> getHoaDonTheoTuKhoa(String tukhoa) {
 		try {
@@ -119,7 +148,51 @@ public class HoaDonDAO {
 		}
 		return dshd;
 	}
-
+	public List<HoaDon> getHDCho() {
+		try {
+			Connection con = KetNoiSQL.getInstance().getConnection();
+			String sql = "select * from HoaDon where trangthai = 1";
+			Statement statement = con.createStatement(); // Thực thi câu lệnh SQL trả về ResulSet.
+			ResultSet rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				String mahd = rs.getString(1);
+				Date ngaylap = rs.getDate(2);
+				String makh = rs.getString(3);
+				String manv = rs.getString(4);
+				KhachHang kh = khachHangDAO.getKhachHang(makh);
+				NhanVien nv = nhanVienDAO.getNhanVienByID(manv);
+				HoaDon hd = new HoaDon(mahd, ngaylap, kh, nv);
+				dshd.add(hd);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dshd;
+	}
+	public int addHoaDon(HoaDon hoaDon) {
+			KetNoiSQL.getInstance().connect();
+	    try {
+	    	Connection con = KetNoiSQL.getInstance().getConnection();
+	        String sql = "Insert into HoaDon values(?,?,?,?,?)";
+	        PreparedStatement ps = con.prepareStatement(sql);
+	        
+	        ps.setString(1, hoaDon.getMaHoaDon());
+	        ps.setDate(2, Date.valueOf(hoaDon.getNgayLap().toString()));
+	        if(hoaDon.getKhachHang() == null) {
+	        	ps.setString(3, "");
+	        }else {
+	        	ps.setString(3, hoaDon.getKhachHang().getMaKH());
+	        }
+	        
+	        ps.setString(4, hoaDon.getNhanVien().getMaNV());
+	        ps.setInt(5, hoaDon.getTrangthai());
+	
+	        return ps.executeUpdate();
+	    } catch (SQLException ex) {
+	    	ex.printStackTrace();
+	    }
+	    return -1;
+	}
 	// Tìm danh sách hóa đơn theo tháng
 	public List<HoaDon> getHoaDonTheoThang(int thang) {
 		try {

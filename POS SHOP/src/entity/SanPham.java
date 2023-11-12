@@ -19,7 +19,7 @@ public class SanPham {
     private XuatXu xuatXu;
     private String hinhAnh;
     private int TrangThai;
-    
+    SanPhamDAO sanPhamDAO = new SanPhamDAO();
 	public SanPham() {
 	}
 	public SanPham(String maSP, String tenSP, PhanLoai pl, double giaNhap, int loi, KhuyenMai khuyenMai, double giaBan,
@@ -102,6 +102,26 @@ public class SanPham {
 		this.hinhAnh = hinhAnh;
 		TrangThai = trangThai;
 	}
+	public SanPham(String maSP, String tenSP, PhanLoai pl, double giaBan, KichThuoc kichThuoc, int soLuong,
+			MauSac mauSac) {
+			super();
+			this.maSP = maSP;
+			this.tenSP = tenSP;
+			this.pl = sanPhamDAO.getSanPhanTheoId(maSP).getPl();
+			this.giaNhap = sanPhamDAO.getSanPhanTheoId(maSP).getGiaNhap();
+			this.loi = sanPhamDAO.getSanPhanTheoId(maSP).getLoi();
+			this.khuyenMai = sanPhamDAO.getSanPhanTheoId(maSP).getKhuyenMai();
+			this.giaBan = giaBan;
+			this.kichThuoc = sanPhamDAO.getSanPhanTheoId(maSP).getKichThuoc();
+			this.soLuong = soLuong;
+			this.mauSac = sanPhamDAO.getSanPhanTheoId(maSP).getMauSac();
+			this.chatLieu = sanPhamDAO.getSanPhanTheoId(maSP).getChatLieu();
+			this.nhaCungCap = sanPhamDAO.getSanPhanTheoId(maSP).getNhaCungCap();
+			this.kieuDang = sanPhamDAO.getSanPhanTheoId(maSP).getKieuDang();
+			this.xuatXu = sanPhamDAO.getSanPhanTheoId(maSP).getXuatXu();
+			this.hinhAnh = sanPhamDAO.getSanPhanTheoId(maSP).getHinhAnh();
+		}
+
 	public String getMaSP() {
 		return maSP;
 	}
@@ -207,6 +227,11 @@ public class SanPham {
        int length = sanPham_DAO.doTuBang().size();
        String finalId = idPrefix + String.format("%02d", length + 1);
        return finalId;
+	}
+	public double tinhGiaBanLucDau() {
+		double giaBanLucDau = 0;
+		giaBanLucDau = this.giaNhap + this.giaNhap/10;
+		return giaBanLucDau;
 	}
 	@Override
 	public String toString() {

@@ -69,7 +69,7 @@ public class TabThongKeSanPham extends javax.swing.JPanel {
     private void designTable() {
         tbl_DanhSachSanPham.getTableHeader().setFont(new java.awt.Font("Arial", 0, 12));
         tbl_DanhSachSanPham.getTableHeader().setOpaque(false);
-        tbl_DanhSachSanPham.getTableHeader().setBackground(new Color(102,204,153));
+        tbl_DanhSachSanPham.getTableHeader().setBackground(new Color(144,238,144));
         tbl_DanhSachSanPham.getTableHeader().setForeground(Color.WHITE);
         tbl_DanhSachSanPham.setDefaultEditor(Object.class, null);
         tbl_DanhSachSanPham.setRowHeight(30);
@@ -121,16 +121,16 @@ public class TabThongKeSanPham extends javax.swing.JPanel {
         if(cb_KichThuoc.getSelectedItem().toString().equals("Tất cả")) kichThuoc = "";
 
 //        ArrayList<SanPham> listSanPham = cthd_DAO.thongKeDanhSachSanPhamVoiSoLuongBanDuoc(mauSac, phanLoai, kichThuoc, thang, nam);
-//        ArrayList<SanPham> listSanPham = sanPham_DAO.getAllSanPhamVuotDinhMuc("", "", phanLoai, mauSac, kichThuoc, soLuongDinhMuc);
-//        DefaultTableModel dtm = (DefaultTableModel) tbl_DanhSachSanPham.getModel();
-//        
-//        for(SanPham sp : listSanPham){
-//     
-//            Object[] rowData = {sp.getMaSP(), sp.getTenSP(), sp.getPl().getPhanLoai(), sp.getKichThuoc().getKichThuoc(),
-//                                sp.getMauSac().getMauSac(), sp.getSoLuong(), NumberFormat.getInstance().format(sp.getGiaNhap()) };
-//            dtm.addRow(rowData);
-//        }
-//        
+        ArrayList<SanPham> listSanPham = sanPham_DAO.getAllSanPhamVuotDinhMuc(soLuongDinhMuc);
+        DefaultTableModel dtm = (DefaultTableModel) tbl_DanhSachSanPham.getModel();
+        
+        for(SanPham sp : listSanPham){
+     
+            Object[] rowData = {sp.getMaSP(), sp.getTenSP(), sp.getPl().getPhanLoai(), sp.getKichThuoc().getKichThuoc(),
+                                sp.getMauSac().getMauSac(), sp.getSoLuong(), NumberFormat.getInstance().format(sp.getGiaNhap()) };
+            dtm.addRow(rowData);
+        }
+        
     }
     
     private void tblDanhSachSanPhamDuoiDinhMuc(int soLuongDinhMuc){
@@ -146,15 +146,15 @@ public class TabThongKeSanPham extends javax.swing.JPanel {
         if(cb_KichThuoc.getSelectedItem().toString().equals("Tất cả")) kichThuoc = "";
 
 //        ArrayList<SanPham> listSanPham = cthd_DAO.thongKeDanhSachSanPhamVoiSoLuongBanDuoc(mauSac, phanLoai, kichThuoc, thang, nam);
-//        ArrayList<SanPham> listSanPham = sanPham_DAO.getAllSanPhamDuoiDinhMuc("", "", phanLoai, mauSac, kichThuoc, soLuongDinhMuc);
-//        DefaultTableModel dtm = (DefaultTableModel) tbl_DanhSachSanPham.getModel();
-//
-//        for(SanPham sp : listSanPham){
-//           
-//            Object[] rowData = {sp.getMaSP(), sp.getTenSP(), sp.getPl().getPhanLoai(), sp.getKichThuoc().getKichThuoc(),
-//                                sp.getMauSac().getMauSac(), sp.getSoLuong(), NumberFormat.getInstance().format(sp.getGiaNhap()) };
-//            dtm.addRow(rowData);
-//        }
+        ArrayList<SanPham> listSanPham = sanPham_DAO.getAllSanPhamDuoiDinhMuc(soLuongDinhMuc);
+        DefaultTableModel dtm = (DefaultTableModel) tbl_DanhSachSanPham.getModel();
+
+        for(SanPham sp : listSanPham){
+           
+            Object[] rowData = {sp.getMaSP(), sp.getTenSP(), sp.getPl().getPhanLoai(), sp.getKichThuoc().getKichThuoc(),
+                                sp.getMauSac().getMauSac(), sp.getSoLuong(), NumberFormat.getInstance().format(sp.getGiaNhap()) };
+            dtm.addRow(rowData);
+        }
         
     }
     
@@ -214,21 +214,30 @@ public class TabThongKeSanPham extends javax.swing.JPanel {
         btng = new javax.swing.ButtonGroup();
         scr_1 = new javax.swing.JScrollPane();
         tbl_DanhSachSanPham = new javax.swing.JTable();
+        tbl_DanhSachSanPham.setBackground(new Color(255, 255, 255));
         lbl_MauSac = new javax.swing.JLabel();
         cb_MauSac = new javax.swing.JComboBox<>();
+        cb_MauSac.setBackground(new Color(255, 255, 255));
         lbl_PhanLoai = new javax.swing.JLabel();
         cb_PhanLoai = new javax.swing.JComboBox<>();
+        cb_PhanLoai.setBackground(new Color(255, 255, 255));
         lbl_KichThuoc = new javax.swing.JLabel();
         cb_KichThuoc = new javax.swing.JComboBox<>();
+        cb_KichThuoc.setBackground(new Color(255, 255, 255));
         pnl_4 = new javax.swing.JPanel();
         lbl_2 = new javax.swing.JLabel();
         lbl_3 = new javax.swing.JLabel();
         txt_DinhMuc = new javax.swing.JTextField();
+        txt_DinhMuc.setBorder(new LineBorder(new Color(0, 0, 0), 2));
         rbtn_duoiDinhMuc = new javax.swing.JRadioButton();
         rbtn_vuocDinhMuc = new javax.swing.JRadioButton();
         rbtn_tatCa = new javax.swing.JRadioButton();
         btn_topspbancham = new javax.swing.JButton();
+        btn_topspbancham.setBackground(new Color(255, 255, 255));
+        btn_topspbancham.setBorder(new LineBorder(new Color(0, 0, 0), 2));
         btn_topspbanchay = new javax.swing.JButton();
+        btn_topspbanchay.setBackground(new Color(255, 255, 255));
+        btn_topspbanchay.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 
         lbl_1.setText("lbl_1");
 
@@ -284,7 +293,7 @@ public class TabThongKeSanPham extends javax.swing.JPanel {
             }
         });
 
-        pnl_4.setBackground(new java.awt.Color(102,204,153));
+        pnl_4.setBackground(new Color(144, 238, 144));
 
         lbl_2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         lbl_2.setForeground(new java.awt.Color(255, 255, 255));
@@ -308,7 +317,7 @@ public class TabThongKeSanPham extends javax.swing.JPanel {
             }
         });
 
-        rbtn_duoiDinhMuc.setBackground(new java.awt.Color(102,204,153));
+        rbtn_duoiDinhMuc.setBackground(new Color(144, 238, 144));
         btng.add(rbtn_duoiDinhMuc);
         rbtn_duoiDinhMuc.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         rbtn_duoiDinhMuc.setForeground(new java.awt.Color(255, 255, 255));
@@ -319,7 +328,7 @@ public class TabThongKeSanPham extends javax.swing.JPanel {
             }
         });
 
-        rbtn_vuocDinhMuc.setBackground(new java.awt.Color(102,204,153));
+        rbtn_vuocDinhMuc.setBackground(new Color(144, 238, 144));
         btng.add(rbtn_vuocDinhMuc);
         rbtn_vuocDinhMuc.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         rbtn_vuocDinhMuc.setForeground(new java.awt.Color(255, 255, 255));
@@ -330,7 +339,7 @@ public class TabThongKeSanPham extends javax.swing.JPanel {
             }
         });
 
-        rbtn_tatCa.setBackground(new java.awt.Color(102,204,153));
+        rbtn_tatCa.setBackground(new Color(144, 238, 144));
         btng.add(rbtn_tatCa);
         rbtn_tatCa.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         rbtn_tatCa.setForeground(new java.awt.Color(255, 255, 255));
@@ -433,7 +442,7 @@ public class TabThongKeSanPham extends javax.swing.JPanel {
         				.addGroup(layout.createSequentialGroup()
         					.addGap(17)
         					.addGroup(layout.createParallelGroup(Alignment.LEADING)
-        						.addComponent(lbl_MauSac, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        						.addComponent(lbl_MauSac, GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
         						.addGroup(layout.createParallelGroup(Alignment.BASELINE)
         							.addComponent(cb_MauSac, GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
         							.addComponent(btn_topspbanchay, GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)))
@@ -446,11 +455,11 @@ public class TabThongKeSanPham extends javax.swing.JPanel {
         					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
         						.addComponent(lbl_KichThuoc, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
         						.addComponent(cb_KichThuoc, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
-        					.addGap(42))
+        					.addGap(48))
         				.addGroup(layout.createSequentialGroup()
         					.addContainerGap()
-        					.addComponent(pnl_4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-        			.addPreferredGap(ComponentPlacement.RELATED)
+        					.addComponent(pnl_4, GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
+        					.addPreferredGap(ComponentPlacement.RELATED)))
         			.addComponent(scr_1, GroupLayout.DEFAULT_SIZE, 431, Short.MAX_VALUE)
         			.addContainerGap())
         );
