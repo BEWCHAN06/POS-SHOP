@@ -18,6 +18,8 @@ import java.awt.Dimension;
 
 import javax.swing.border.LineBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
@@ -36,10 +38,12 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.xml.crypto.Data;
 
+import dao.ChiTietHoaDonDAO;
 import dao.HoaDonDAO;
 import dao.KhachHangDAO;
 import dao.NhanVienDAO;
 import dao.SanPhamDAO;
+import entity.ChiTietHoaDon;
 import entity.HoaDon;
 import entity.KhachHang;
 import entity.NhanVien;
@@ -70,8 +74,12 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 	private JButton btnTim;
 	private JPanel contentPane;
 	private HoaDonDAO HoaDonDAO;
+	private HoaDonDAO HoaDonDAO1;
 	KhachHangDAO khachHangDAO = new KhachHangDAO();
 	NhanVienDAO nhanVienDAO = new NhanVienDAO();
+	private JLabel lblmakh;
+	private JLabel lbltenkh;
+	private String mahd;
 
 	/**
 	 * Create the panel.
@@ -83,6 +91,10 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 	}
     private void clearTableDSSP() {
         DefaultTableModel dtm = (DefaultTableModel) tblDSSanPham.getModel();
+        dtm.setRowCount(0);
+    }
+    private void clearTableGioHang() {
+        DefaultTableModel dtm = (DefaultTableModel) tblGioHang.getModel();
         dtm.setRowCount(0);
     }
     private void clearTableDSHDC() {
@@ -578,10 +590,10 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 		JLabel lblTenKH = new JLabel("Tên khách hàng : ");
 		lblTenKH.setFont(new Font("Arial", Font.BOLD, 12));
 		
-		JLabel lblmakh = new JLabel(" ");
+		lblmakh = new JLabel("KH01");
 		lblmakh.setForeground(new Color(255, 0, 0));
 		
-		JLabel lbltenkh = new JLabel(" ");
+		lbltenkh = new JLabel("ẨN DANH");
 		lbltenkh.setForeground(Color.RED);
 		
 		btnTim = new JButton("Tìm");
@@ -672,25 +684,42 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 		btnThemVaoGio.addActionListener(this);
 		tblDSSanPham.addMouseListener(this);
 		btnTaoHD.addActionListener(this);
-		
+		tblHoaDonCho.addMouseListener(this);
 	}
-	private void updateTableGioHang(){
-		SanPham sp = sanPhamDAO.getSanPhanTheoId(masp);
+	private void updateTableGioHang(String mahd){
+		sanPhamDAO = new SanPhamDAO();
+		clearTableGioHang();
 		DefaultTableModel dtm = (DefaultTableModel) tblGioHang.getModel();
-		soluong = 1;
-		double khuyenmai = 0.0;
-		if(sp.getKhuyenMai() == null) {
-			khuyenmai = 0.0;
-		}else {
-			khuyenmai = sp.getKhuyenMai().getPhanTramKhuyenMai();
+		dtm.getDataVector().removeAllElements();
+		List<SanPham> listsp = sanPhamDAO.getSanPhanTheoMaHD(mahd);
+		for(SanPham sp : listsp) {
+			double khuyenmai = 0.0;
+			if(sp.getKhuyenMai() == null) {
+				khuyenmai = 0.0;
+			}else {
+				khuyenmai = sp.getKhuyenMai().getPhanTramKhuyenMai();
+			}
+			Object[] rowdata = {sp.getMaSP(),sp.getTenSP(),sp.getKichThuoc().getKichThuoc(),khuyenmai,sp.getGiaBan(),sp.getSoLuong(),sp.getGiaBan()*soluong};
+			dtm.addRow(rowdata);
 		}
-		Object[] rowdata = {sp.getMaSP(),sp.getTenSP(),sp.getKichThuoc().getKichThuoc(),khuyenmai,sp.getGiaBan(),soluong,sp.getGiaBan()*soluong};
-		dtm.addRow(rowdata);
+//		SanPham sp = sanPhamDAO.getSanPhanTheoMaHD(mahd);
+//		clearTableGioHang();
+//		DefaultTableModel dtm = (DefaultTableModel) tblGioHang.getModel();
+//		soluong = 1;
+//		double khuyenmai = 0.0;
+//		if(sp.getKhuyenMai() == null) {
+//			khuyenmai = 0.0;
+//		}else {
+//			khuyenmai = sp.getKhuyenMai().getPhanTramKhuyenMai();
+//		}
+//		Object[] rowdata = {sp.getMaSP(),sp.getTenSP(),sp.getKichThuoc().getKichThuoc(),khuyenmai,sp.getGiaBan(),soluong,sp.getGiaBan()*soluong};
+//		dtm.addRow(rowdata);
 	}
 	private void updateTableHoaDonCho() {
 		HoaDonDAO = new HoaDonDAO();
 		clearTableDSHDC();
 		DefaultTableModel dtm = (DefaultTableModel) tblHoaDonCho.getModel();
+		dtm.getDataVector().removeAllElements();
 		List<HoaDon> listhd = HoaDonDAO.getHDCho();
 		for(HoaDon hd : listhd) {
 			if(hd.getTrangthai() == 0) {
@@ -707,7 +736,7 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 		DefaultTableModel dtm = (DefaultTableModel) tblDSSanPham.getModel();
 		List<SanPham> listsp = sanPhamDAO.getDSSPTheoMaSP(masp);
 		for(SanPham sp : listsp) {
-			Object[] rowdata = {};
+			Object[] rowdata = {sp.getMaSP(),sp.getTenSP(),sp.getPl().getPhanLoai(),sp.getKichThuoc(),sp.getGiaBan(),sp.getSoLuong(),sp.getMauSac().getMauSac(),sp.getKichThuoc().getKichThuoc()};
 			dtm.addRow(rowdata);
 		}
 	}
@@ -716,23 +745,34 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 		// TODO Auto-generated method stub
 		Object o = e.getSource();
 		if(o.equals(btnThemVaoGio)) {
-			updateTableGioHang();
+			ChiTietHoaDonDAO chiTietHoaDonDAO = new ChiTietHoaDonDAO();
+			SanPham sp = sanPhamDAO.getSanPhanTheoId("SP02");
+			HoaDon hd = HoaDonDAO.getHDTheoId(mahd);
+			ChiTietHoaDon cthd = new ChiTietHoaDon(sp, hd, 0.0, 1);
+			chiTietHoaDonDAO.addSanPhamVaoHD(cthd);
+			updateTableGioHang(mahd);
 		}
 		if(o.equals(btnTaoHD)) {
-			LocalDate localDate = LocalDate.now();
-			KhachHang kh = khachHangDAO.getKhachHang("KH01") ;
-			NhanVien nv = nhanVienDAO.getNhanVienByID("NV01");
-			System.out.println(kh.toString());
-			System.out.println(nv.toString());
-	        // Chuyển đổi LocalDate sang Date
-	        Date date = Date.valueOf(localDate);
-	        HoaDonDAO hoaDonDAO = new HoaDonDAO();
-	        String idPrefix = "HD";
-	       int length = hoaDonDAO.doTuBang().size();
-	       String finalId = idPrefix + String.format("%02d", length + 1);
-			HoaDon hd = new HoaDon(finalId, date, kh, nv, 0);
-			HoaDonDAO.addHoaDon(hd);
-			updateTableHoaDonCho();
+			HoaDonDAO hoaDonDAO = new HoaDonDAO();
+//			System.out.println(hoaDonDAO.getHDCho().size());
+			if(hoaDonDAO.getHDCho().size() > 3) {
+				JOptionPane.showMessageDialog(null, "Bạn không thể tạo quá 4 hóa đơn chờ");
+				updateTableHoaDonCho();
+			}else {
+				KhachHang kh = new KhachHang();
+				LocalDate localDate = LocalDate.now();
+				if(!lblmakh.getText().equals("")) {
+					kh = khachHangDAO.getKhachHang(lblmakh.getText()) ;
+				}else kh = null;
+				NhanVien nv = nhanVienDAO.getNhanVienByID("NV01");
+		        // Chuyển đổi LocalDate sang Date
+		        Date date = Date.valueOf(localDate);
+		        HoaDon hd1 = new HoaDon();
+				HoaDon hd = new HoaDon(hd1.getAutoID(), date, kh, nv, 0);
+				HoaDonDAO.addHoaDon(hd);
+				updateTableHoaDonCho();
+			}
+			
 		}
 		if(o.equals(btnTim)) {
 			
@@ -742,13 +782,16 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		int row = tblDSSanPham.getSelectedRow();
-		masp = tblDSSanPham.getValueAt(row, 0).toString();
+		int rowhdc = tblHoaDonCho.getSelectedRow();
+		mahd = tblHoaDonCho.getValueAt(rowhdc, 0).toString();
+		updateTableGioHang(mahd);
+		
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+//		int row = tblDSSanPham.getSelectedRow();
+//		masp = tblDSSanPham.getValueAt(row, 0).toString();
 	}
 	@Override
 	public void mouseReleased(MouseEvent e) {

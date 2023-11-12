@@ -68,4 +68,38 @@ public class ChiTietHoaDonDAO {
 		}
 		return dscthd;
 	}
+	
+	public int addSanPhamVaoHD(ChiTietHoaDon chiTietHoaDon) {
+		KetNoiSQL.getInstance().connect();
+    try {
+    	Connection con = KetNoiSQL.getInstance().getConnection();
+        String sql = "Insert into ChiTietHoaDon values(?,?,?,?)";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setString(1, chiTietHoaDon.getSanPham().getMaSP());
+        ps.setString(2, chiTietHoaDon.getHoaDon().getMaHoaDon());
+        ps.setDouble(3, chiTietHoaDon.getPhanTramKhuyenMai());
+        ps.setInt(4, chiTietHoaDon.getSoLuong());
+//        ps.setString(1, sanPham.getMaSP());
+//        ps.setString(2, sanPham.getTenSP());
+//        ps.setDouble(3, sanPham.getGiaNhap());
+//        ps.setInt(4, sanPham.getSoLuong());
+//        ps.setString(5, sanPham.getNhaCungCap().getMaNCC());
+//        ps.setString(6, null);
+//        ps.setInt(7, sanPham.getTrangThai());
+//        ps.setString(8, sanPham.getChatLieu().getMaChatLieu());
+//        ps.setString(9, sanPham.getKieuDang().getMaKieuDang());
+//        ps.setString(10, sanPham.getKichThuoc().getMaKichThuoc());
+//        ps.setString(11, sanPham.getMauSac().getMaMauSac());
+//        ps.setString(12, sanPham.getXuatXu().getMaXuatXu());
+//        ps.setString(13, sanPham.getPl().getMaPhanLoai());
+//        ps.setInt(14, sanPham.getLoi());
+//        ps.setDouble(15, sanPham.getGiaBan());
+//        ps.setString(16, sanPham.getHinhAnh());
+
+        return ps.executeUpdate();
+    } catch (SQLException ex) {
+    	ex.printStackTrace();
+    }
+    return -1;
+}
 }
