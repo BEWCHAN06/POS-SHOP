@@ -21,6 +21,7 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -45,6 +46,7 @@ import ConnectDB.KetNoiSQL;
 import dao.KhuyenMaiDAO;
 import dao.PhanLoaiDAO;
 import dao.SanPhamDAO;
+import entity.ChiTietHoaDon;
 import entity.KhuyenMai;
 import entity.PhanLoai;
 import entity.SanPham;
@@ -188,6 +190,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 					btnThemKhuyenMai.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/luulienket.png")));
 					txtTenKhuyenMai.setEditable(true);
 					txtMucKhuyenMai.setEditable(true);
+					btnSuaKhuyenMai.setEnabled(false);
 					dateChooserThoiGianBatDauGiamGia.setEnabled(true);
 					dateChooserThoiGianKetThucGiamGia.setEnabled(true);
 
@@ -209,6 +212,27 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 		});
 
 		btnSuaKhuyenMai = new JButton("Sửa (CtrlU)");
+		btnSuaKhuyenMai.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (btnSuaKhuyenMai.getText().equals("Lưu (CtrlS)")) {
+//					btnSuaKhuyenMai.setText("Sửa (CtrlU)");
+//					btnSuaKhuyenMai.setForeground(new Color(0, 0, 0));
+//					btnSuaKhuyenMai.setBackground(new Color(255, 255, 0));
+//					btnSuaKhuyenMai.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/sua.png")));
+//					txtTenKhuyenMai.setEditable(false);
+//					txtMucKhuyenMai.setEditable(false);
+//					btnThemKhuyenMai.setEnabled(true);
+//					dateChooserThoiGianBatDauGiamGia.setEnabled(false);
+//					dateChooserThoiGianKetThucGiamGia.setEnabled(false);
+//
+//					btnLamMoi.setText("Làm mới (CtrlR)");
+//					btnLamMoi.setBackground(new Color(152, 251, 152));
+//					btnLamMoi.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/loading.png")));
+				}
+			}
+		});
 		btnSuaKhuyenMai.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		btnSuaKhuyenMai.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/sua.png")));
 		btnSuaKhuyenMai.setFont(new Font("Arial", Font.BOLD, 12));
@@ -268,8 +292,16 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 					btnThemKhuyenMai.setForeground(new Color(255, 255, 255));
 					btnThemKhuyenMai.setBackground(new Color(65, 105, 255));
 					btnThemKhuyenMai.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/add.png")));
+
+					btnSuaKhuyenMai.setText("Sửa (CtrlU)");
+					btnThemKhuyenMai.setForeground(new Color(255, 255, 255));
+					btnSuaKhuyenMai.setBackground(new Color(255, 255, 0));
+					btnSuaKhuyenMai.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/sua.png")));
+
 					txtTenKhuyenMai.setEditable(false);
 					txtMucKhuyenMai.setEditable(false);
+					btnThemKhuyenMai.setEnabled(true);
+					btnSuaKhuyenMai.setEnabled(true);
 					dateChooserThoiGianBatDauGiamGia.setEnabled(false);
 					dateChooserThoiGianKetThucGiamGia.setEnabled(false);
 				}
@@ -528,12 +560,17 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 					List<SanPham> list = ds.getSanPhanTheoMaKM(selectedMaKM);
 					modelSanPham.setRowCount(0);
 					for (SanPham sp : list) {
-						String maKM = "Null"; // Mặc định là "null"
-						// Kiểm tra xem có khuyến mãi không trước khi gọi getMaKM()
-						if (sp.getKhuyenMai() != null) {
-							maKM = sp.getKhuyenMai().getMaKM().toString();
+						KhuyenMai khuyenMai = sp.getKhuyenMai();
+						String maKM = "Null"; // Mặc định là "null" nếu khuyến mãi là null
+						double phanTramKhuyenMai = 0.0; // Mặc định là 0.0 nếu khuyến mãi là null
+
+						// Nếu khuyến mãi không null thì lấy ra mã khuyến mãi và phần trăm khuyến mãi
+						if (khuyenMai != null) {
+							maKM = khuyenMai.getMaKM().toString();
+							phanTramKhuyenMai = khuyenMai.getPhanTramKhuyenMai();
 						}
-						Object data[] = { Boolean.TRUE, sp.getMaSP(), sp.getTenSP(), maKM, sp.getGiaBan() };
+						double giaSauKhuyenMai = sp.tinhGiaBan(sp.getGiaNhap(), sp.getLoi(), phanTramKhuyenMai);
+						Object data[] = { Boolean.TRUE, sp.getMaSP(), sp.getTenSP(), maKM, giaSauKhuyenMai };
 						modelSanPham.addRow(data);
 					}
 					tblSanPham.setModel(modelSanPham);
@@ -569,20 +606,16 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 		} else if (o.equals(btnTimKiemSanPham)) {
 			JOptionPane.showMessageDialog(null, "Tìm thấy !");
 		} else if (o.equals(btnThemKhuyenMai)) {
-			if (btnThemKhuyenMai.getText().equalsIgnoreCase("Lưu (CtrlS)")) { // Nếu là button lưu thì thực hiện thêm khuyến mãi
+			if (btnThemKhuyenMai.getText().equalsIgnoreCase("Lưu (CtrlS)")) { // Nếu là button lưu thì thực hiện thêm
+																				// khuyến mãi
 				if (validData()) {
 					// Lấy dữ liệu từ JtexFiled, JDateChooser thêm vào danh sách khuyến mãi
 					KhuyenMaiDAO ds = new KhuyenMaiDAO();
-					KhuyenMai km = reverSPFfromTextFile(); 
+					KhuyenMai km = reverSPFfromTextFile();
 					if (ds.createKhuyenMai(km)) { // Thêm khuyến mãi vào SQL
 						// Thêm khuyến mãi vào table
 						JOptionPane.showMessageDialog(null, "Thêm Thành Công !");
-						updateTableSanPham();
 						updateTableKhuyenMai();
-						txtTenKhuyenMai.setEditable(false);
-						txtMucKhuyenMai.setEditable(false);
-						dateChooserThoiGianBatDauGiamGia.setEnabled(false);
-						dateChooserThoiGianKetThucGiamGia.setEnabled(false);
 
 						// Cập nhật, thêm mã khuyến mãi cho sản phẩm được chọn
 						for (int row = 0; row < tblSanPham.getRowCount(); row++) {
@@ -590,12 +623,19 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 							boolean isChecked = (boolean) tblSanPham.getValueAt(row, 0);
 							if (isChecked) { // Nếu ô kiểm đã được tick
 								KhuyenMaiDAO ds1 = new KhuyenMaiDAO();
-								String maSP = (String) tblSanPham.getValueAt(row, 1); // Lấy ra mã sản phẩm ở ô kiểm đã
-																						// được tick
+								// Lấy ra mã sản phẩm ở ô kiểm đã được tick
+								String maSP = (String) tblSanPham.getValueAt(row, 1);
 								String maKM = txtMaKhuyenMai.getText().toString();
 								ds1.updateMaKMChoSanPHam(maKM, maSP);
+								updateTableSanPham();
+								Double giaBan = (Double) tblSanPham.getValueAt(row, 4);
+								ds1.updateGiaBanChoSanPHam(giaBan, maSP);
 							}
 						}
+						txtTenKhuyenMai.setEditable(false);
+						txtMucKhuyenMai.setEditable(false);
+						dateChooserThoiGianBatDauGiamGia.setEnabled(false);
+						dateChooserThoiGianKetThucGiamGia.setEnabled(false);
 						xoaRong();
 					} else {
 						JOptionPane.showMessageDialog(null, "Không thể thêm do trùng mã !");
@@ -608,7 +648,58 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 				txtMaKhuyenMai.setText(dskm.getAuToID()); // Khi nhấn nút thêm thì tự động phát sinh maKM
 			}
 		} else if (o.equals(btnSuaKhuyenMai)) {
-			JOptionPane.showMessageDialog(null, "Sửa thành công !");
+			if (btnSuaKhuyenMai.getText().equalsIgnoreCase("Sửa (CtrlU)")) {
+				int rowKhuyenMai = tblKhuyenMai.getSelectedRow();
+				if (rowKhuyenMai == -1) {
+					JOptionPane.showMessageDialog(null, "Hãy một chương trình khuyến mãi muốn sửa !");
+				} else {
+					updateTableSanPham();
+					btnSuaKhuyenMai.setText("Lưu (CtrlS)");
+					btnSuaKhuyenMai.setForeground(new Color(0, 0, 0));
+					btnSuaKhuyenMai.setBackground(new Color(210, 105, 30));
+					btnSuaKhuyenMai.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/luulienket.png")));
+					txtTenKhuyenMai.setEditable(true);
+					txtMucKhuyenMai.setEditable(true);
+					btnThemKhuyenMai.setEnabled(false);
+					dateChooserThoiGianBatDauGiamGia.setEnabled(true);
+					dateChooserThoiGianKetThucGiamGia.setEnabled(true);
+
+					btnLamMoi.setText("Hủy (CtrlD)");
+					btnLamMoi.setForeground(new Color(0, 0, 0));
+					btnLamMoi.setBackground(new Color(255, 0, 0));
+					btnLamMoi.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/x.png")));
+				}
+			} else {
+				// Cập nhật, thêm mã khuyến mãi cho sản phẩm được chọn
+				JOptionPane.showMessageDialog(null, "Sửa thành công !");
+				for (int row = 0; row < tblSanPham.getRowCount(); row++) {
+					// Kiểm tra cột 0 hàng hiện tại có được tick vào ô kiểm hay không
+					boolean isChecked = (boolean) tblSanPham.getValueAt(row, 0);
+					if (isChecked) { // Nếu ô kiểm đã được tick
+						KhuyenMaiDAO ds1 = new KhuyenMaiDAO();
+						// Lấy ra mã sản phẩm ở ô kiểm đã được tick
+						String maSP = (String) tblSanPham.getValueAt(row, 1);
+						String maKM = txtMaKhuyenMai.getText().toString();
+						ds1.updateMaKMChoSanPHam(maKM, maSP);
+						updateTableSanPham();
+						Double giaBan = (Double) tblSanPham.getValueAt(row, 4);
+						ds1.updateGiaBanChoSanPHam(giaBan, maSP);
+					}
+				}
+				btnThemKhuyenMai.setText("Thêm (CtrlC)");
+				btnThemKhuyenMai.setForeground(new Color(255, 255, 255));
+				btnThemKhuyenMai.setBackground(new Color(65, 105, 255));
+				btnThemKhuyenMai.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/add.png")));
+
+				btnLamMoi.setText("Làm mới (CtrlR)");
+				btnLamMoi.setBackground(new Color(152, 251, 152));
+				btnLamMoi.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/loading.png")));
+				txtTenKhuyenMai.setEditable(false);
+				txtMucKhuyenMai.setEditable(false);
+				dateChooserThoiGianBatDauGiamGia.setEnabled(false);
+				dateChooserThoiGianKetThucGiamGia.setEnabled(false);
+				xoaRong();
+			}
 		} else if (o.equals(btnLamMoi)) {
 			xoaRong();
 			updateTableSanPham();
@@ -677,12 +768,17 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 		modelSanPham.setRowCount(0);
 		List<SanPham> list = ds.doTuBang();
 		for (SanPham sp : list) {
-			String maKM = "Null"; // Mặc định là "null"
-			// Kiểm tra xem có khuyến mãi không trước khi gọi getMaKM()
-			if (sp.getKhuyenMai() != null) {
-				maKM = sp.getKhuyenMai().getMaKM().toString();
+			KhuyenMai khuyenMai = sp.getKhuyenMai();
+			String maKM = "Null"; // Mặc định là "null" nếu khuyến mãi là null
+			double phanTramKhuyenMai = 0.0; // Mặc định là 0.0 nếu khuyến mãi là null
+
+			// Nếu khuyến mãi không null thì lấy ra mã khuyến mãi và phần trăm khuyến mãi
+			if (khuyenMai != null) {
+				maKM = khuyenMai.getMaKM().toString();
+				phanTramKhuyenMai = khuyenMai.getPhanTramKhuyenMai();
 			}
-			Object data[] = { Boolean.FALSE, sp.getMaSP(), sp.getTenSP(), maKM, sp.getGiaBan() };
+			double giaSauKhuyenMai = sp.tinhGiaBan(sp.getGiaNhap(), sp.getLoi(), phanTramKhuyenMai);
+			Object data[] = { Boolean.FALSE, sp.getMaSP(), sp.getTenSP(), maKM, giaSauKhuyenMai };
 			modelSanPham.addRow(data);
 		}
 		tblSanPham.setModel(modelSanPham);
