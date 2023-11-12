@@ -82,7 +82,7 @@ INSERT INTO HoaDon VALUES
 INSERT INTO ChiTietHoaDon VALUES
 ('SP01','HD01',10, 3),
 ('SP02','HD02',15, 2),
-('SP03','HD03',NULL, 1)
+('SP03','HD03',0, 1)
 
 --Insert data for table HoaDonTraHang
 INSERT INTO HoaDonTraHang VALUES
