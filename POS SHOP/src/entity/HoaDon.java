@@ -15,11 +15,29 @@ public class HoaDon {
 	private KhachHang khachHang;
 	private NhanVien nhanVien;
 	private int trangthai;
-
+	private double tongtien;
 	
 	public HoaDon() {
 		super();
 		// TODO Auto-generated constructor stub
+	}
+	
+	public HoaDon(String maHoaDon, Date ngayLap, KhachHang khachHang, NhanVien nhanVien, int trangthai,
+			double tongtien) {
+		super();
+		this.maHoaDon = maHoaDon;
+		this.ngayLap = ngayLap;
+		this.khachHang = khachHang;
+		this.nhanVien = nhanVien;
+		this.trangthai = trangthai;
+		this.tongtien = tongtien;
+	}
+	
+	public HoaDon(String maHoaDon, KhachHang khachHang, NhanVien nhanVien) {
+		super();
+		this.maHoaDon = maHoaDon;
+		this.khachHang = khachHang;
+		this.nhanVien = nhanVien;
 	}
 
 	public HoaDon(String maHoaDon, Date ngayLap, KhachHang khachHang, NhanVien nhanVien, int trangthai) {
@@ -28,7 +46,7 @@ public class HoaDon {
 	this.khachHang = khachHang;
 	this.nhanVien = nhanVien;
 	this.trangthai = trangthai;
-}
+	}
 
 	public HoaDon(String maHoaDon, Date ngayLap, KhachHang khachHang, NhanVien nhanVien) {
 		this.maHoaDon = maHoaDon;
@@ -83,6 +101,14 @@ public class HoaDon {
 //	public void themChiTietHoaDon(ChiTietHoaDon chiTietHoaDon) {
 //		chiTietHoaDonList.add(chiTietHoaDon);
 //	}
+
+	public double getTongtien() {
+		return tongtien;
+	}
+
+	public void setTongtien(double tongtien) {
+		this.tongtien = tongtien;
+	}
 
 	public double tongTien() {
 		double tongTien = 0;

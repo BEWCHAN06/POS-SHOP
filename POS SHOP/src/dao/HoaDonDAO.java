@@ -11,6 +11,7 @@ import java.util.List;
 
 import ConnectDB.KetNoiSQL;
 import entity.ChatLieu;
+import entity.ChiTietHoaDon;
 import entity.HoaDon;
 import entity.KhachHang;
 import entity.KhuyenMai;
@@ -151,7 +152,7 @@ public class HoaDonDAO {
 	public List<HoaDon> getHDCho() {
 		try {
 			Connection con = KetNoiSQL.getInstance().getConnection();
-			String sql = "select * from HoaDon where trangthai = 1";
+			String sql = "select * from HoaDon where trangthai = 0";
 			Statement statement = con.createStatement(); // Thực thi câu lệnh SQL trả về ResulSet.
 			ResultSet rs = statement.executeQuery(sql);
 			while (rs.next()) {
@@ -173,7 +174,7 @@ public class HoaDonDAO {
 			KetNoiSQL.getInstance().connect();
 	    try {
 	    	Connection con = KetNoiSQL.getInstance().getConnection();
-	        String sql = "Insert into HoaDon values(?,?,?,?,?)";
+	        String sql = "Insert into HoaDon values(?,?,?,?,?,?)";
 	        PreparedStatement ps = con.prepareStatement(sql);
 	        
 	        ps.setString(1, hoaDon.getMaHoaDon());
@@ -186,7 +187,7 @@ public class HoaDonDAO {
 	        
 	        ps.setString(4, hoaDon.getNhanVien().getMaNV());
 	        ps.setInt(5, hoaDon.getTrangthai());
-	
+	        ps.setDouble(6, hoaDon.getTongtien());
 	        return ps.executeUpdate();
 	    } catch (SQLException ex) {
 	    	ex.printStackTrace();
@@ -647,4 +648,56 @@ public class HoaDonDAO {
 		}
 		return dshd;
 	}
+	public int editNVTrongHD(HoaDon hoaDon) {
+		KetNoiSQL.getInstance().connect();
+		;
+		Connection conn = KetNoiSQL.getConnection();
+
+		try {
+			String sql = "update HoaDon set maKH = (?) where maHD = (?)";
+
+			PreparedStatement stmt = conn.prepareCall(sql);
+			stmt.setString(1, hoaDon.getKhachHang().getMaKH());
+			stmt.setString(2, hoaDon.getMaHoaDon());
+			return stmt.executeUpdate();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return -1;
+    }
+	public int updateHoaDon(String maHD,int trangthai,double tongtien) {
+		KetNoiSQL.getInstance().connect();
+		;
+		Connection conn = KetNoiSQL.getConnection();
+
+		try {
+			String sql = "update HoaDon set tongTien =(?),trangthai =(?) where maHD = (?)";
+
+			PreparedStatement stmt = conn.prepareCall(sql);
+			stmt.setDouble(1, tongtien);
+			stmt.setInt(2, trangthai);
+			stmt.setString(3, maHD);
+			return stmt.executeUpdate();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return -1;
+    }
+	public int deleteHoaDon(String maHD) {
+		KetNoiSQL.getInstance().connect();
+		;
+		Connection conn = KetNoiSQL.getConnection();
+
+		try {
+			String sql = "delete ChiTietHoaDon where maHD = (?)\r\n";
+
+			PreparedStatement stmt = conn.prepareCall(sql);
+			stmt.setString(1, maHD);
+			stmt.setString(2, maHD);
+			return stmt.executeUpdate();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return -1;
+    }
 }

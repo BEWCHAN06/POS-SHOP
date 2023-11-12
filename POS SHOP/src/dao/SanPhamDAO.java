@@ -222,8 +222,8 @@ public class SanPhamDAO {
 		try {
 			KetNoiSQL.getInstance().connect();
 			Connection con = KetNoiSQL.getInstance().getConnection();
-			String sql = "select maSP, tenSP, maPL, giaNhap,loiTheoPhanTram, maKM, giaBan, maKT,soLuong,maMS, maCL, maNCC, hinhAnh \r\n"
-					+ "from SanPham where maSP in (select maSP from ChiTietHoaDon where maHD = (?))";
+			String sql = "select cthd.maSP, tenSP, maPL, giaNhap,loiTheoPhanTram, maKM, giaBan, maKT, cthd.soLuong,maMS, maCL, maNCC,maKD,maXX, hinhAnh \r\n"
+					+ "from ChiTietHoaDon cthd join SanPham sp on cthd.maSP = sp.maSP where maHD = (?)";
 			PreparedStatement stmt = con.prepareCall(sql);
 			stmt.setString(1, id);
 			ResultSet rs = stmt.executeQuery();
@@ -301,7 +301,8 @@ public class SanPhamDAO {
 		try {
 			String sql = "update SanPham set tenSP = ?, giaNhap = ?,soLuong=?,maNCC = ?,\r\n"
 					+ "maKM =?, trangThai = ?, maCL = ?,maKD = ?, maMS = ?, maXX = ?,maPL= ?, \r\n"
-					+ "loiTheoPhanTram = ?, giaBan= ?,hinhAnh = ? \r\n" + "where maSP = ?";
+					+ "loiTheoPhanTram = ?, giaBan= ?,hinhAnh = ? \r\n" 
+					+ "where maSP = ?";
 
 			PreparedStatement stmt = conn.prepareCall(sql);
 			stmt.setString(1, sanPham.getTenSP());
