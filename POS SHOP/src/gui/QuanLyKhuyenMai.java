@@ -433,7 +433,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 				.addComponent(scrollPane_SanPham, GroupLayout.PREFERRED_SIZE, 155, GroupLayout.PREFERRED_SIZE)));
 
 		modelSanPham = new DefaultTableModel(new Object[][] {}, new String[] { "Select", "M\u00E3 s\u1EA3n ph\u1EA9m",
-				"T\u00EAn s\u1EA3n ph\u1EA9m", "\u0110\u01A1n gi\u00E1" });
+				"T\u00EAn s\u1EA3n ph\u1EA9m", "Mã khuyến mãi","\u0110\u01A1n gi\u00E1" });
 		tblSanPham = new JTable(modelSanPham) {
 			@Override
 			public Class getColumnClass(int column) { // Class<?> là kiểu trả về cho phương thức getColumnClass để xác
@@ -526,7 +526,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 					SanPhamDAO ds = new SanPhamDAO();
 					String selectedMaKM = (String) tblKhuyenMai.getValueAt(row, 0);
 					List<SanPham> list = ds.getSanPhanTheoMaKM(selectedMaKM);
-					modelSanPham.getDataVector().removeAllElements();
+					modelSanPham.setRowCount(0);
 					for (SanPham sp : list) {
 						Object data[] = { Boolean.TRUE, sp.getMaSP(), sp.getTenSP(), sp.getGiaBan() };
 						modelSanPham.addRow(data);
@@ -553,7 +553,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 			if (phanLoai == "All") { // Nếu comBoBox phân loại là All thì hiển thị tất cả danh sách sản phẩm
 				updateTableSanPham();
 			} else { // Ngược lại thì tìm kiếm các sản phẩm phân loại tương ứng
-				modelSanPham.getDataVector().removeAllElements();
+				modelSanPham.setRowCount(0);
 				for (SanPham sp : list) {
 					Object data[] = { Boolean.FALSE, sp.getMaSP(), sp.getTenSP(), sp.getGiaBan() };
 					modelSanPham.addRow(data);
@@ -655,7 +655,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 	private void updateTableKhuyenMai() {
 		KhuyenMaiDAO ds = new KhuyenMaiDAO();
 		List<KhuyenMai> list = ds.doTuBang();
-		modelKhuyenMai.getDataVector().removeAllElements();
+		modelKhuyenMai.setRowCount(0);
 		for (KhuyenMai km : list) {
 			Object data[] = { km.getMaKM(), km.getTenKhuyenMai(), km.getPhanTramKhuyenMai() + "%", km.getNgayBatDau(),
 					km.getNgayKetThuc() };
@@ -667,11 +667,17 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 	// Đưa dữ liệu vào table SanPham
 	private void updateTableSanPham() {
 		SanPhamDAO ds = new SanPhamDAO();
-		modelSanPham.getDataVector().removeAllElements();
+		modelSanPham.setRowCount(0);
 		List<SanPham> list = ds.doTuBang();
 		for (SanPham sp : list) {
-			Object data[] = { Boolean.FALSE, sp.getMaSP(), sp.getTenSP(), sp.getGiaBan() };
-			modelSanPham.addRow(data);
+			
+			String maKM = "Null";  // Mặc định là "null"
+	        // Kiểm tra xem có khuyến mãi không trước khi gọi getMaKM()
+	        if (sp.getKhuyenMai() != null) {
+	            maKM = sp.getKhuyenMai().getMaKM().toString();
+	        }
+	        Object data[] = { Boolean.FALSE, sp.getMaSP(), sp.getTenSP(), maKM, sp.getGiaBan() };
+            modelSanPham.addRow(data);
 		}
 		tblSanPham.setModel(modelSanPham);
 	}
