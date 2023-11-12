@@ -13,11 +13,13 @@ import ConnectDB.KetNoiSQL;
 import entity.HoaDon;
 import entity.KhachHang;
 import entity.NhanVien;
+import entity.SanPham;
 
 public class HoaDonDAO {
 	ArrayList<HoaDon> dshd;
 	HoaDon hd;
-
+	KhachHangDAO khachHangDAO = new KhachHangDAO();
+	NhanVienDAO nhanVienDAO = new NhanVienDAO();
 	public HoaDonDAO() {
 		KetNoiSQL.getInstance().connect();
 		dshd = new ArrayList<HoaDon>();
@@ -48,7 +50,27 @@ public class HoaDonDAO {
 		}
 		return dshd;
 	}
-	
+	public List<HoaDon> getHDCho() {
+		try {
+			Connection con = KetNoiSQL.getInstance().getConnection();
+			String sql = "select * from HoaDon where trangthai = 0";
+			Statement statement = con.createStatement(); // Thực thi câu lệnh SQL trả về ResulSet.
+			ResultSet rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				String mahd = rs.getString(1);
+				Date ngaylap = rs.getDate(2);
+				String makh = rs.getString(3);
+				String manv = rs.getString(4);
+				KhachHang kh = khachHangDAO.getKhachHang(makh);
+				NhanVien nv = nhanVienDAO.getNhanVienByID(manv);
+				HoaDon hd = new HoaDon(mahd, ngaylap, kh, nv);
+				dshd.add(hd);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dshd;
+	}
 	// Tìm danh sách hóa đơn theo tháng
 	public List<HoaDon> getHoaDonTheoThang(int thang) {
 		try {
@@ -100,4 +122,23 @@ public class HoaDonDAO {
 			}
 			return dshd;
 		}
+		public int addHoaDon(HoaDon hoaDon) {
+			KetNoiSQL.getInstance().connect();
+        try {
+        	Connection con = KetNoiSQL.getInstance().getConnection();
+            String sql = "Insert into HoaDon values(?,?,?,?,?)";
+            PreparedStatement ps = con.prepareStatement(sql);
+            
+            ps.setString(1, hoaDon.getMaHoaDon());
+            ps.setDate(2, Date.valueOf(hoaDon.getNgayLap().toString()));
+            ps.setString(3, hoaDon.getKhachHang().getMaKH());
+            ps.setString(4, hoaDon.getNhanVien().getMaNV());
+            ps.setInt(5, hoaDon.getTrangthai());
+
+            return ps.executeUpdate();
+        } catch (SQLException ex) {
+        	ex.printStackTrace();
+        }
+        return -1;
+    }
 }

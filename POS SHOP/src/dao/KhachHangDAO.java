@@ -2,16 +2,20 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import ConnectDB.KetNoiSQL;
 import entity.HoaDon;
 import entity.KhachHang;
 import entity.NhanVien;
+import entity.PhanLoai;
 
 public class KhachHangDAO {
 	ArrayList<KhachHang> dskh;
@@ -43,4 +47,28 @@ public class KhachHangDAO {
 		}
 		return dskh;
 	}
+	public KhachHang getKhachHang(String id){
+        KetNoiSQL.getInstance();
+        Connection conn = KetNoiSQL.getConnection();
+        
+        try {
+            String sql = "select * from KhachHang where maKH = ?";
+            PreparedStatement stmt = conn.prepareCall(sql);
+            stmt.setString(1, id);
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+                KhachHang kh = new KhachHang();
+                kh.setMaKH(rs.getString(1));
+                kh.setTenKH(rs.getString(2));
+                kh.setNgaySinh(rs.getDate(3));
+                kh.setSDT(rs.getString(4));
+                kh.setEmail(rs.getString(5));
+                kh.setGioiTinh(rs.getBoolean(6));
+                return kh;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(XuatXuDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 }

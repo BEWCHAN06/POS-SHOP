@@ -14,11 +14,16 @@ public class HoaDon {
 	private Date ngayLap;
 	private KhachHang khachHang;
 	private NhanVien nhanVien;
-//	List<ChiTietHoaDon> chiTietHoaDonList = new ArrayList<ChiTietHoaDon>();
+	private int trangthai;
 
-	public HoaDon() {
-		// Constructor mặc nhiên
-	}
+	
+	public HoaDon(String maHoaDon, Date ngayLap, KhachHang khachHang, NhanVien nhanVien, int trangthai) {
+	this.maHoaDon = maHoaDon;
+	this.ngayLap = ngayLap;
+	this.khachHang = khachHang;
+	this.nhanVien = nhanVien;
+	this.trangthai = trangthai;
+}
 
 	public HoaDon(String maHoaDon, Date ngayLap, KhachHang khachHang, NhanVien nhanVien) {
 		this.maHoaDon = maHoaDon;
@@ -83,6 +88,14 @@ public class HoaDon {
 		}
 		return tongTien;
 	}
+	public int getTrangthai() {
+		return trangthai;
+	}
+
+	public void setTrangthai(int trangthai) {
+		this.trangthai = trangthai;
+	}
+
 	public String getAutoID(){
 		HoaDonDAO hoaDonDAO = new HoaDonDAO();
         String idPrefix = "HD";

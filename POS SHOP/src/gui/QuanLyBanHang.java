@@ -34,9 +34,15 @@ import java.awt.ScrollPane;
 import java.awt.CardLayout;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.xml.crypto.Data;
 
+import dao.HoaDonDAO;
+import dao.KhachHangDAO;
+import dao.NhanVienDAO;
 import dao.SanPhamDAO;
 import entity.HoaDon;
+import entity.KhachHang;
+import entity.NhanVien;
 import entity.SanPham;
 
 import javax.swing.JScrollPane;
@@ -44,7 +50,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.Date;
-import java.time.LocalDate;
+import java.text.DateFormat;
+import java.time.LocalDate;import java.time.LocalDateTime;
 import java.util.List;
 
 public class QuanLyBanHang extends JPanel implements ActionListener, MouseListener{
@@ -62,6 +69,9 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 	private JButton btnTaoHD;
 	private JButton btnTim;
 	private JPanel contentPane;
+	private HoaDonDAO HoaDonDAO;
+	KhachHangDAO khachHangDAO = new KhachHangDAO();
+	NhanVienDAO nhanVienDAO = new NhanVienDAO();
 
 	/**
 	 * Create the panel.
@@ -69,9 +79,14 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 	public QuanLyBanHang() {
 		UiBanHang();
 		tblDanhSachSanPham();
+		updateTableHoaDonCho();
 	}
     private void clearTableDSSP() {
         DefaultTableModel dtm = (DefaultTableModel) tblDSSanPham.getModel();
+        dtm.setRowCount(0);
+    }
+    private void clearTableDSHDC() {
+        DefaultTableModel dtm = (DefaultTableModel) tblHoaDonCho.getModel();
         dtm.setRowCount(0);
     }
 	private void tblDanhSachSanPham() {
@@ -673,11 +688,17 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 		dtm.addRow(rowdata);
 	}
 	private void updateTableHoaDonCho() {
-		HoaDon hd = new HoaDon();
+		HoaDonDAO = new HoaDonDAO();
+		clearTableDSHDC();
 		DefaultTableModel dtm = (DefaultTableModel) tblHoaDonCho.getModel();
-		LocalDate ngayhientai = LocalDate.now();
-		Object[] rowdata = {hd.getAutoID(),ngayhientai.toString(),"Trần Chí Bảo","Trần Văn Bình"};
-		dtm.addRow(rowdata);
+		List<HoaDon> listhd = HoaDonDAO.getHDCho();
+		for(HoaDon hd : listhd) {
+			if(hd.getTrangthai() == 0) {
+				Object[] rowdata = {hd.getMaHoaDon(),hd.getNgayLap(),hd.getKhachHang().getTenKH(),hd.getNhanVien().getTenNV()};
+				dtm.addRow(rowdata);
+			}
+		}
+		
 	}
 	private void updateTableTimKiemSP(){
 		String masp = txtTimKiemSP.getText();
@@ -698,6 +719,19 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 			updateTableGioHang();
 		}
 		if(o.equals(btnTaoHD)) {
+			LocalDate localDate = LocalDate.now();
+			KhachHang kh = khachHangDAO.getKhachHang("KH01") ;
+			NhanVien nv = nhanVienDAO.getNhanVienByID("NV01");
+			System.out.println(kh.toString());
+			System.out.println(nv.toString());
+	        // Chuyển đổi LocalDate sang Date
+	        Date date = Date.valueOf(localDate);
+	        HoaDonDAO hoaDonDAO = new HoaDonDAO();
+	        String idPrefix = "HD";
+	       int length = hoaDonDAO.doTuBang().size();
+	       String finalId = idPrefix + String.format("%02d", length + 1);
+			HoaDon hd = new HoaDon(finalId, date, kh, nv, 0);
+			HoaDonDAO.addHoaDon(hd);
 			updateTableHoaDonCho();
 		}
 		if(o.equals(btnTim)) {
