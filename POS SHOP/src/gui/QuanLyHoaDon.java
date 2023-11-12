@@ -18,6 +18,7 @@ import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -94,13 +95,10 @@ public class QuanLyHoaDon extends JPanel implements ActionListener {
 		lblTimKiemHoaDon.setFont(new Font("Arial", Font.BOLD, 12));
 
 		btnTimKiemHoaDon = new JButton("Tìm");
-		btnTimKiemHoaDon.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		btnTimKiemHoaDon.setIcon(new ImageIcon(QuanLyHoaDon.class.getResource("/icon/search.png")));
 		btnTimKiemHoaDon.setFont(new Font("Arial", Font.BOLD, 11));
 		btnTimKiemHoaDon.setBackground(new Color(192, 192, 192));
+		btnTimKiemHoaDon.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(255, 255, 255));
@@ -115,7 +113,7 @@ public class QuanLyHoaDon extends JPanel implements ActionListener {
 		comboBoxThangHoaDon = new JComboBox<>();
 		comboBoxThangHoaDon.setFont(new Font("Arial", Font.BOLD, 11));
 		comboBoxThangHoaDon.setModel(new DefaultComboBoxModel(
-				new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
+				new String[] { "All", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
 
 		JLabel lblThang = new JLabel("Tháng :");
 		lblThang.setHorizontalAlignment(SwingConstants.LEFT);
@@ -128,7 +126,7 @@ public class QuanLyHoaDon extends JPanel implements ActionListener {
 		comboBoxNamHoaDon = new JComboBox<>();
 		comboBoxNamHoaDon.setFont(new Font("Arial", Font.BOLD, 11));
 		comboBoxNamHoaDon.setModel(new DefaultComboBoxModel(
-				new String[] { "2023", "2022", "2021", "2020", "2019", "2018", "2017", "2016", "2015" }));
+				new String[] { "All", "2023", "2022", "2021", "2020", "2019", "2018", "2017", "2016", "2015" }));
 		GroupLayout gl_panel_1_1 = new GroupLayout(panel_1_1);
 		gl_panel_1_1
 				.setHorizontalGroup(
@@ -173,7 +171,7 @@ public class QuanLyHoaDon extends JPanel implements ActionListener {
 										GroupLayout.PREFERRED_SIZE)
 								.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(btnTimKiemHoaDon,
 										GroupLayout.PREFERRED_SIZE, 83, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_panel.createSequentialGroup().addGap(23)
+						.addGroup(gl_panel.createSequentialGroup().addGap(18)
 								.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)
 								.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 								.addComponent(panel_1_1, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)
@@ -187,10 +185,11 @@ public class QuanLyHoaDon extends JPanel implements ActionListener {
 								GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnTimKiemHoaDon, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE))
 						.addPreferredGap(ComponentPlacement.RELATED)
-						.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
-								.addComponent(panel_1, 0, 0, Short.MAX_VALUE)
+						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
+								.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
+										Short.MAX_VALUE)
 								.addComponent(panel_1_1, GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE))
-						.addGap(28).addComponent(scrollPane_HoaDon, GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)));
+						.addGap(28).addComponent(scrollPane_HoaDon, GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)));
 
 		tblHoaDon = new JTable();
 		tblHoaDon.setForeground(new Color(0, 0, 0));
@@ -208,8 +207,8 @@ public class QuanLyHoaDon extends JPanel implements ActionListener {
 
 		comboBoxTongTien = new JComboBox<>();
 		comboBoxTongTien.setFont(new Font("Arial", Font.BOLD, 11));
-		comboBoxTongTien.setModel(new DefaultComboBoxModel(new String[] { "0 NVĐ - 500.000 VNĐ",
-				"500.000 VNĐ - 1.000.000 VNĐ", "1.000.000 VNĐ - 1.500.000 VNĐ", "1.500.000 VNĐ - 2.000.000 VNĐ" }));
+		comboBoxTongTien.setModel(new DefaultComboBoxModel(new String[] { "All", "0 NVĐ - 500000 VNĐ",
+				"500000 VNĐ - 1000000 VNĐ", "1000000 VNĐ - 1500000 VNĐ", "1500000 VNĐ - 2000000 VNĐ" }));
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1
 				.setHorizontalGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING).addGroup(Alignment.LEADING,
@@ -303,16 +302,19 @@ public class QuanLyHoaDon extends JPanel implements ActionListener {
 		comboBoxTongTienTraHang.setFont(new Font("Arial", Font.BOLD, 11));
 		GroupLayout gl_panel_1_2 = new GroupLayout(panel_1_2);
 		gl_panel_1_2
-				.setHorizontalGroup(gl_panel_1_2.createParallelGroup(Alignment.LEADING).addGap(0, 193, Short.MAX_VALUE)
-						.addGroup(gl_panel_1_2.createSequentialGroup().addContainerGap()
-								.addGroup(gl_panel_1_2.createParallelGroup(Alignment.LEADING)
+				.setHorizontalGroup(
+						gl_panel_1_2.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_panel_1_2.createSequentialGroup().addContainerGap()
 										.addComponent(lblTongTien_1, GroupLayout.PREFERRED_SIZE, 66,
 												GroupLayout.PREFERRED_SIZE)
-										.addComponent(comboBoxTongTienTraHang, GroupLayout.PREFERRED_SIZE, 171,
-												GroupLayout.PREFERRED_SIZE))
-								.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+										.addContainerGap(109, Short.MAX_VALUE))
+								.addGroup(Alignment.TRAILING,
+										gl_panel_1_2.createSequentialGroup()
+												.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+												.addComponent(comboBoxTongTienTraHang, GroupLayout.PREFERRED_SIZE, 171,
+														GroupLayout.PREFERRED_SIZE)
+												.addContainerGap()));
 		gl_panel_1_2.setVerticalGroup(gl_panel_1_2.createParallelGroup(Alignment.TRAILING)
-				.addGap(0, 60, Short.MAX_VALUE)
 				.addGroup(gl_panel_1_2.createSequentialGroup()
 						.addComponent(lblTongTien_1, GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
 						.addPreferredGap(ComponentPlacement.RELATED).addComponent(comboBoxTongTienTraHang,
@@ -327,7 +329,7 @@ public class QuanLyHoaDon extends JPanel implements ActionListener {
 
 		JComboBox<String> comboBoxThangTraHang = new JComboBox<String>();
 		comboBoxThangTraHang.setModel(new DefaultComboBoxModel(
-				new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
+				new String[] { "All", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
 		comboBoxThangTraHang.setFont(new Font("Arial", Font.BOLD, 11));
 
 		JLabel lblThang_1 = new JLabel("Tháng :");
@@ -374,9 +376,9 @@ public class QuanLyHoaDon extends JPanel implements ActionListener {
 		JScrollPane scrollPane_HoaDonTraHang = new JScrollPane();
 		scrollPane_HoaDonTraHang.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		GroupLayout gl_panel_3 = new GroupLayout(panel_3);
-		gl_panel_3.setHorizontalGroup(gl_panel_3.createParallelGroup(Alignment.LEADING).addGap(0, 915, Short.MAX_VALUE)
-				.addGroup(gl_panel_3.createSequentialGroup().addGap(182).addGroup(gl_panel_3
-						.createParallelGroup(Alignment.TRAILING)
+		gl_panel_3.setHorizontalGroup(gl_panel_3.createParallelGroup(Alignment.LEADING).addGroup(gl_panel_3
+				.createSequentialGroup().addGap(182)
+				.addGroup(gl_panel_3.createParallelGroup(Alignment.TRAILING, false)
 						.addGroup(gl_panel_3.createSequentialGroup().addComponent(lblTmKimHa)
 								.addPreferredGap(ComponentPlacement.RELATED)
 								.addComponent(txtTimKiemHoaDonTraHang, GroupLayout.PREFERRED_SIZE, 246,
@@ -384,15 +386,14 @@ public class QuanLyHoaDon extends JPanel implements ActionListener {
 								.addPreferredGap(ComponentPlacement.UNRELATED)
 								.addComponent(btnTimKiemHoaDonTraHang, GroupLayout.PREFERRED_SIZE, 83,
 										GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_panel_3.createSequentialGroup()
-								.addComponent(panel_1_2, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)
-								.addGap(26)
+						.addGroup(gl_panel_3.createSequentialGroup().addGap(68)
+								.addComponent(panel_1_2, GroupLayout.PREFERRED_SIZE, 189, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 								.addComponent(panel_1_1_1, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)
 								.addGap(15)))
-						.addContainerGap(231, Short.MAX_VALUE))
-				.addComponent(scrollPane_HoaDonTraHang, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 911,
-						Short.MAX_VALUE));
-		gl_panel_3.setVerticalGroup(gl_panel_3.createParallelGroup(Alignment.LEADING).addGap(0, 359, Short.MAX_VALUE)
+				.addContainerGap(243, Short.MAX_VALUE)).addComponent(scrollPane_HoaDonTraHang, Alignment.TRAILING,
+						GroupLayout.DEFAULT_SIZE, 922, Short.MAX_VALUE));
+		gl_panel_3.setVerticalGroup(gl_panel_3.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_3.createSequentialGroup().addGroup(gl_panel_3.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblTmKimHa, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
 						.addComponent(txtTimKiemHoaDonTraHang, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
@@ -400,11 +401,14 @@ public class QuanLyHoaDon extends JPanel implements ActionListener {
 						.addComponent(btnTimKiemHoaDonTraHang, GroupLayout.PREFERRED_SIZE, 28,
 								GroupLayout.PREFERRED_SIZE))
 						.addPreferredGap(ComponentPlacement.RELATED)
-						.addGroup(gl_panel_3.createParallelGroup(Alignment.TRAILING)
-								.addComponent(panel_1_1_1, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
-								.addComponent(panel_1_2, 0, 0, Short.MAX_VALUE))
-						.addGap(28)
-						.addComponent(scrollPane_HoaDonTraHang, GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)));
+						.addGroup(gl_panel_3.createParallelGroup(Alignment.LEADING)
+								.addComponent(panel_1_2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
+										Short.MAX_VALUE)
+								.addComponent(panel_1_1_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE))
+						.addPreferredGap(ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+						.addComponent(scrollPane_HoaDonTraHang, GroupLayout.PREFERRED_SIZE, 229,
+								GroupLayout.PREFERRED_SIZE)));
 
 		tblHoaDonTraHang = new JTable();
 		tblHoaDonTraHang.setForeground(new Color(255, 255, 255));
@@ -429,7 +433,7 @@ public class QuanLyHoaDon extends JPanel implements ActionListener {
 				.addComponent(scrollPane_ChiTietHoaDonTraHang, GroupLayout.DEFAULT_SIZE, 914, Short.MAX_VALUE));
 		gl_panel_2_1.setVerticalGroup(gl_panel_2_1.createParallelGroup(Alignment.LEADING).addGroup(
 				gl_panel_2_1.createSequentialGroup().addContainerGap().addComponent(scrollPane_ChiTietHoaDonTraHang,
-						GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE)));
+						GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)));
 
 		tblChiTietHoaDonTraHang = new JTable();
 		tblChiTietHoaDonTraHang.setForeground(new Color(255, 255, 255));
@@ -442,18 +446,18 @@ public class QuanLyHoaDon extends JPanel implements ActionListener {
 		scrollPane_ChiTietHoaDonTraHang.setViewportView(tblChiTietHoaDonTraHang);
 		panel_2_1.setLayout(gl_panel_2_1);
 		GroupLayout gl_pnlHoaDonTraHang = new GroupLayout(pnlHoaDonTraHang);
-		gl_pnlHoaDonTraHang.setHorizontalGroup(
-				gl_pnlHoaDonTraHang.createParallelGroup(Alignment.LEADING).addGroup(Alignment.TRAILING,
-						gl_pnlHoaDonTraHang.createSequentialGroup()
-								.addGroup(gl_pnlHoaDonTraHang.createParallelGroup(Alignment.TRAILING)
-										.addComponent(panel_2_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 926,
-												Short.MAX_VALUE)
-										.addComponent(panel_3, GroupLayout.DEFAULT_SIZE, 925, Short.MAX_VALUE))
-								.addContainerGap()));
+		gl_pnlHoaDonTraHang.setHorizontalGroup(gl_pnlHoaDonTraHang.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_pnlHoaDonTraHang.createSequentialGroup()
+						.addGroup(gl_pnlHoaDonTraHang.createParallelGroup(Alignment.TRAILING)
+								.addComponent(panel_2_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 926,
+										Short.MAX_VALUE)
+								.addComponent(panel_3, GroupLayout.DEFAULT_SIZE, 926, Short.MAX_VALUE))
+						.addContainerGap()));
 		gl_pnlHoaDonTraHang.setVerticalGroup(gl_pnlHoaDonTraHang.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_pnlHoaDonTraHang.createSequentialGroup()
-						.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 359, GroupLayout.PREFERRED_SIZE).addGap(18)
-						.addComponent(panel_2_1, GroupLayout.PREFERRED_SIZE, 278, GroupLayout.PREFERRED_SIZE)
+						.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 359, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.UNRELATED)
+						.addComponent(panel_2_1, GroupLayout.PREFERRED_SIZE, 286, GroupLayout.PREFERRED_SIZE)
 						.addContainerGap(17, Short.MAX_VALUE)));
 		pnlHoaDonTraHang.setLayout(gl_pnlHoaDonTraHang);
 		pnlMain.setLayout(gl_pnlMain);
@@ -462,7 +466,8 @@ public class QuanLyHoaDon extends JPanel implements ActionListener {
 		 * ==== EVENT ====
 		 */
 		updateTableHoaDon();
-		comboBoxTongTienTraHang.addActionListener(this);
+		btnTimKiemHoaDon.addActionListener(this);
+		comboBoxTongTien.addActionListener(this);
 		comboBoxThangHoaDon.addActionListener(this);
 		comboBoxNamHoaDon.addActionListener(this);
 		tblHoaDon.addMouseListener(new MouseListener() {
@@ -499,7 +504,7 @@ public class QuanLyHoaDon extends JPanel implements ActionListener {
 					String selectedMaHD = (String) tblHoaDon.getValueAt(row, 0);
 					ChiTietHoaDonDAO ds = new ChiTietHoaDonDAO();
 					List<ChiTietHoaDon> list = ds.getChiTietHoaDonTheoMaHD(selectedMaHD);
-					modelChiTietHoaDon.getDataVector().removeAllElements();
+					modelChiTietHoaDon.setRowCount(0);
 					for (ChiTietHoaDon cthd : list) {
 						Double thanhTien = cthd.thanhTien();
 						Double giaSauKhuyenMai = cthd.tinhGiaSauKhuyenMai(thanhTien);
@@ -522,17 +527,346 @@ public class QuanLyHoaDon extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		Object o = e.getSource();
-		if(o.equals(comboBoxThangHoaDon)) {
-			
+		if (o.equals(btnTimKiemHoaDon)) { // Sự kiện tìm kiếm hóa đơn theo từ khóa (maHD, maNV, tenNV, maKH, tenKH) kết
+											// hợp tháng, năm hoặc tổng tiền
+			String tuKhoa = txtTimKiemHoaDon.getText();
+			String selectedTongTien = (String) comboBoxTongTien.getSelectedItem();
+			String selectedThang = (String) comboBoxThangHoaDon.getSelectedItem();
+			String selectedNam = (String) comboBoxNamHoaDon.getSelectedItem();
+
+			String khoangTien = (String) comboBoxTongTien.getSelectedItem();
+			// Tách chuỗi bằng dấu "-" và loại bỏ khoảng trắng xung quanh
+			String[] chiaKhoangTien = khoangTien.split("\\s*-\\s*");
+
+			// Ô inut là rỗng thì reset các comBoBox và tải lại table hóa đơn
+			if (tuKhoa.equals("")) {
+				comboBoxTongTien.setSelectedIndex(0);
+				comboBoxThangHoaDon.setSelectedIndex(0);
+				comboBoxNamHoaDon.setSelectedIndex(0);
+			} // Nếu nhập từ khóa và chọn tổng tiền, không chọn tháng và năm thì tìm kiếm theo
+				// từ khóa và tổng tiền
+			else if (!selectedTongTien.equals("All") && selectedThang.equals("All") && selectedNam.equals("All")) {
+				// loại bỏ mọi ký tự không phải là số từ mỗi phần tử của mảng sau khi tách, Lưu
+				// giá trị tối thiểu và tối đa vào biến
+				int giaMin = Integer.parseInt(chiaKhoangTien[0].replaceAll("[^\\d]+", ""));
+				int giaMax = Integer.parseInt(chiaKhoangTien[1].replaceAll("[^\\d]+", ""));
+				HoaDonDAO ds = new HoaDonDAO();
+				List<HoaDon> list = ds.getHoaDonTheoTuKhoaTongTien(tuKhoa, giaMin, giaMax);
+				if (list.size() == 0) {
+					modelHoaDon.setRowCount(0);
+				} else {
+					modelHoaDon.setRowCount(0);
+					for (HoaDon hd : list) {
+						Double tongTien = hd.tongTien();
+						Object data[] = { hd.getMaHoaDon(), hd.getNgayLap(), hd.getNhanVien().getMaNV(),
+								hd.getNhanVien().getTenNV(), hd.getKhachHang().getMaKH(), hd.getKhachHang().getTenKH(),
+								tongTien };
+						modelHoaDon.addRow(data);
+					}
+					tblHoaDon.setModel(modelHoaDon);
+				}
+			} // Nếu nhập từ khóa và chọn tháng, không chọn tổng tiền và năm thì tìm kiếm theo
+				// từ khóa và tháng
+			else if (selectedTongTien.equals("All") && !selectedThang.equals("All") && selectedNam.equals("All")) {
+				int thang = Integer.parseInt((String) comboBoxThangHoaDon.getSelectedItem());
+				HoaDonDAO ds = new HoaDonDAO();
+				List<HoaDon> list = ds.getHoaDonTheoTuKhoaThang(tuKhoa, thang);
+				if (list.size() == 0) {
+					modelHoaDon.setRowCount(0);
+				} else {
+					modelHoaDon.setRowCount(0);
+					for (HoaDon hd : list) {
+						Double tongTien = hd.tongTien();
+						Object data[] = { hd.getMaHoaDon(), hd.getNgayLap(), hd.getNhanVien().getMaNV(),
+								hd.getNhanVien().getTenNV(), hd.getKhachHang().getMaKH(), hd.getKhachHang().getTenKH(),
+								tongTien };
+						modelHoaDon.addRow(data);
+					}
+					tblHoaDon.setModel(modelHoaDon);
+				}
+			} // Nếu nhập từ khóa và chọn năm, không chọn tổng tiền và tháng thì tìm kiếm theo
+				// từ khóa và năm
+			else if (selectedTongTien.equals("All") && selectedThang.equals("All") && !selectedNam.equals("All")) {
+				int nam = Integer.parseInt((String) comboBoxNamHoaDon.getSelectedItem());
+				HoaDonDAO ds = new HoaDonDAO();
+				List<HoaDon> list = ds.getHoaDonTheoTuKhoaNam(tuKhoa, nam);
+				if (list.size() == 0) {
+					modelHoaDon.setRowCount(0);
+				} else {
+					modelHoaDon.setRowCount(0);
+					for (HoaDon hd : list) {
+						Double tongTien = hd.tongTien();
+						Object data[] = { hd.getMaHoaDon(), hd.getNgayLap(), hd.getNhanVien().getMaNV(),
+								hd.getNhanVien().getTenNV(), hd.getKhachHang().getMaKH(), hd.getKhachHang().getTenKH(),
+								tongTien };
+						modelHoaDon.addRow(data);
+					}
+					tblHoaDon.setModel(modelHoaDon);
+				}
+			} // Nếu nhập từ khóa chọn tổng tiền và chọn tháng, không chọn năm thì tìm kiếm
+				// theo
+				// từ khóa tổng tiền và tháng
+			else if (!selectedTongTien.equals("All") && !selectedThang.equals("All") && selectedNam.equals("All")) {
+				int thang = Integer.parseInt((String) comboBoxThangHoaDon.getSelectedItem());
+				int giaMin = Integer.parseInt(chiaKhoangTien[0].replaceAll("[^\\d]+", ""));
+				int giaMax = Integer.parseInt(chiaKhoangTien[1].replaceAll("[^\\d]+", ""));
+				HoaDonDAO ds = new HoaDonDAO();
+				List<HoaDon> list = ds.getHoaDonTheoTuKhoaThangTongTien(tuKhoa, thang, giaMin, giaMax);
+				if (list.size() == 0) {
+					modelHoaDon.setRowCount(0);
+				} else {
+					modelHoaDon.setRowCount(0);
+					for (HoaDon hd : list) {
+						Double tongTien = hd.tongTien();
+						Object data[] = { hd.getMaHoaDon(), hd.getNgayLap(), hd.getNhanVien().getMaNV(),
+								hd.getNhanVien().getTenNV(), hd.getKhachHang().getMaKH(), hd.getKhachHang().getTenKH(),
+								tongTien };
+						modelHoaDon.addRow(data);
+					}
+					tblHoaDon.setModel(modelHoaDon);
+				}
+			} // Nếu nhập từ khóa chọn tổng tiền và chọn năm, không chọn tháng thì tìm kiếm
+				// theo
+				// từ khóa tổng tiền và năm
+			else if (!selectedTongTien.equals("All") && selectedThang.equals("All") && !selectedNam.equals("All")) {
+				int nam = Integer.parseInt((String) comboBoxNamHoaDon.getSelectedItem());
+				int giaMin = Integer.parseInt(chiaKhoangTien[0].replaceAll("[^\\d]+", ""));
+				int giaMax = Integer.parseInt(chiaKhoangTien[1].replaceAll("[^\\d]+", ""));
+				HoaDonDAO ds = new HoaDonDAO();
+				List<HoaDon> list = ds.getHoaDonTheoTuKhoaNamTongTien(tuKhoa, nam, giaMin, giaMax);
+				if (list.size() == 0) {
+					modelHoaDon.setRowCount(0);
+				} else {
+					modelHoaDon.setRowCount(0);
+					for (HoaDon hd : list) {
+						Double tongTien = hd.tongTien();
+						Object data[] = { hd.getMaHoaDon(), hd.getNgayLap(), hd.getNhanVien().getMaNV(),
+								hd.getNhanVien().getTenNV(), hd.getKhachHang().getMaKH(), hd.getKhachHang().getTenKH(),
+								tongTien };
+						modelHoaDon.addRow(data);
+					}
+					tblHoaDon.setModel(modelHoaDon);
+				}
+			} // Nếu nhập từ khóa chọn tổng tiền chọn tháng và chọn năm, thì tìm kiếm theo
+				// từ khóa tổng tiền tháng và năm
+			else if (!selectedTongTien.equals("All") && !selectedThang.equals("All") && !selectedNam.equals("All")) {
+				int thang = Integer.parseInt((String) comboBoxThangHoaDon.getSelectedItem());
+				int nam = Integer.parseInt((String) comboBoxNamHoaDon.getSelectedItem());
+				int giaMin = Integer.parseInt(chiaKhoangTien[0].replaceAll("[^\\d]+", ""));
+				int giaMax = Integer.parseInt(chiaKhoangTien[1].replaceAll("[^\\d]+", ""));
+				HoaDonDAO ds = new HoaDonDAO();
+				List<HoaDon> list = ds.getHoaDonTheoTuKhoaThangNamTongTien(tuKhoa, thang, nam, giaMin, giaMax);
+				if (list.size() == 0) {
+					modelHoaDon.setRowCount(0);
+				} else {
+					modelHoaDon.setRowCount(0);
+					for (HoaDon hd : list) {
+						Double tongTien = hd.tongTien();
+						Object data[] = { hd.getMaHoaDon(), hd.getNgayLap(), hd.getNhanVien().getMaNV(),
+								hd.getNhanVien().getTenNV(), hd.getKhachHang().getMaKH(), hd.getKhachHang().getTenKH(),
+								tongTien };
+						modelHoaDon.addRow(data);
+					}
+					tblHoaDon.setModel(modelHoaDon);
+				}
+			} // Nếu nhập từ khóa chọn tháng và chọn năm, không chọn tổng tiền thì tìm kiếm
+				// theo
+				// từ khóa tháng và năm
+			else if (selectedTongTien.equals("All") && !selectedThang.equals("All") && !selectedNam.equals("All")) {
+				int thang = Integer.parseInt((String) comboBoxThangHoaDon.getSelectedItem());
+				int nam = Integer.parseInt((String) comboBoxNamHoaDon.getSelectedItem());
+				HoaDonDAO ds = new HoaDonDAO();
+				List<HoaDon> list = ds.getHoaDonTheoTuKhoaThangNam(tuKhoa, thang, nam);
+				if (list.size() == 0) {
+					modelHoaDon.setRowCount(0);
+				} else {
+					modelHoaDon.setRowCount(0);
+					for (HoaDon hd : list) {
+						Double tongTien = hd.tongTien();
+						Object data[] = { hd.getMaHoaDon(), hd.getNgayLap(), hd.getNhanVien().getMaNV(),
+								hd.getNhanVien().getTenNV(), hd.getKhachHang().getMaKH(), hd.getKhachHang().getTenKH(),
+								tongTien };
+						modelHoaDon.addRow(data);
+					}
+					tblHoaDon.setModel(modelHoaDon);
+				}
+			} else { // Nếu chỉ nhập từ khóa, không chọn tổng tiền, tháng và năm
+				HoaDonDAO ds = new HoaDonDAO();
+				List<HoaDon> list = ds.getHoaDonTheoTuKhoa(tuKhoa);
+				if (list.size() == 0) {
+					modelHoaDon.setRowCount(0);
+				} else {
+					modelHoaDon.setRowCount(0);
+					for (HoaDon hd : list) {
+						Double tongTien = hd.tongTien();
+						Object data[] = { hd.getMaHoaDon(), hd.getNgayLap(), hd.getNhanVien().getMaNV(),
+								hd.getNhanVien().getTenNV(), hd.getKhachHang().getMaKH(), hd.getKhachHang().getTenKH(),
+								tongTien };
+						modelHoaDon.addRow(data);
+					}
+					tblHoaDon.setModel(modelHoaDon);
+				}
+			}
+
+			// Sự kiện lọc hóa đơn theo tổng tiền tháng,năm hoặc kết hợp cả tổng tiền, tháng
+			// và năm
+		} else if (o.equals(comboBoxThangHoaDon) || o.equals(comboBoxNamHoaDon) || o.equals(comboBoxTongTien)) {
+			String selectedTongTien = (String) comboBoxTongTien.getSelectedItem();
+			String selectedThang = (String) comboBoxThangHoaDon.getSelectedItem();
+			String selectedNam = (String) comboBoxNamHoaDon.getSelectedItem();
+
+			String khoangTien = (String) comboBoxTongTien.getSelectedItem();
+			// Tách chuỗi bằng dấu "-" và loại bỏ khoảng trắng xung quanh
+			String[] chiaKhoangTien = khoangTien.split("\\s*-\\s*");
+
+			// Nếu tổng tiền được chon, tháng và năm không được chọn thì tìm theo tổng tiền
+			if (!selectedTongTien.equals("All") && selectedThang.equals("All") && selectedNam.equals("All")) {
+				int giaMin = Integer.parseInt(chiaKhoangTien[0].replaceAll("[^\\d]+", ""));
+				int giaMax = Integer.parseInt(chiaKhoangTien[1].replaceAll("[^\\d]+", ""));
+				HoaDonDAO ds = new HoaDonDAO();
+				List<HoaDon> list = ds.getHoaDonTheoTongTien(giaMin, giaMax);
+				if (list.size() == 0) {
+					modelHoaDon.setRowCount(0);
+				} else {
+					modelHoaDon.setRowCount(0);
+					for (HoaDon hd : list) {
+						Double tongTien = hd.tongTien();
+						Object data[] = { hd.getMaHoaDon(), hd.getNgayLap(), hd.getNhanVien().getMaNV(),
+								hd.getNhanVien().getTenNV(), hd.getKhachHang().getMaKH(), hd.getKhachHang().getTenKH(),
+								tongTien };
+						modelHoaDon.addRow(data);
+					}
+					tblHoaDon.setModel(modelHoaDon);
+				}
+			} // Nếu tháng được chọn, tổng tiền và năm không được chọn thì tìm theo tháng
+			else if (selectedTongTien.equals("All") && !selectedThang.equals("All") && selectedNam.equals("All")) {
+				int thang = Integer.parseInt((String) comboBoxThangHoaDon.getSelectedItem());
+				HoaDonDAO ds = new HoaDonDAO();
+				List<HoaDon> list = ds.getHoaDonTheoThang(thang);
+				if (list.size() == 0) {
+					modelHoaDon.setRowCount(0);
+				} else {
+					modelHoaDon.setRowCount(0);
+					for (HoaDon hd : list) {
+						Double tongTien = hd.tongTien();
+						Object data[] = { hd.getMaHoaDon(), hd.getNgayLap(), hd.getNhanVien().getMaNV(),
+								hd.getNhanVien().getTenNV(), hd.getKhachHang().getMaKH(), hd.getKhachHang().getTenKH(),
+								tongTien };
+						modelHoaDon.addRow(data);
+					}
+					tblHoaDon.setModel(modelHoaDon);
+				}
+			} // Nếu năm được chọn, tổng tiền và tháng không được chọn thì tìm theo năm
+			else if (selectedTongTien.equals("All") && selectedThang.equals("All") && !selectedNam.equals("All")) {
+				int nam = Integer.parseInt((String) comboBoxNamHoaDon.getSelectedItem());
+				HoaDonDAO ds = new HoaDonDAO();
+				List<HoaDon> list = ds.getHoaDonTheoNam(nam);
+				if (list.size() == 0) {
+					modelHoaDon.setRowCount(0);
+				} else {
+					for (HoaDon hd : list) {
+						Double tongTien = hd.tongTien();
+						Object data[] = { hd.getMaHoaDon(), hd.getNgayLap(), hd.getNhanVien().getMaNV(),
+								hd.getNhanVien().getTenNV(), hd.getKhachHang().getMaKH(), hd.getKhachHang().getTenKH(),
+								tongTien };
+						modelHoaDon.addRow(data);
+					}
+					tblHoaDon.setModel(modelHoaDon);
+				}
+			} // Nếu cả tổng tiền và tháng đều được chọn, năm không được chọn thì tìm theo cả
+				// tổng tiền và tháng
+			else if (!selectedTongTien.equals("All") && !selectedThang.equals("All") && selectedNam.equals("All")) {
+				int thang = Integer.parseInt((String) comboBoxThangHoaDon.getSelectedItem());
+				int giaMin = Integer.parseInt(chiaKhoangTien[0].replaceAll("[^\\d]+", ""));
+				int giaMax = Integer.parseInt(chiaKhoangTien[1].replaceAll("[^\\d]+", ""));
+				HoaDonDAO ds = new HoaDonDAO();
+				List<HoaDon> list = ds.getHoaDonTheoTongTienThang(thang, giaMin, giaMax);
+				if (list.size() == 0) {
+					modelHoaDon.setRowCount(0);
+				} else {
+					modelHoaDon.setRowCount(0);
+					for (HoaDon hd : list) {
+						Double tongTien = hd.tongTien();
+						Object data[] = { hd.getMaHoaDon(), hd.getNgayLap(), hd.getNhanVien().getMaNV(),
+								hd.getNhanVien().getTenNV(), hd.getKhachHang().getMaKH(), hd.getKhachHang().getTenKH(),
+								tongTien };
+						modelHoaDon.addRow(data);
+					}
+					tblHoaDon.setModel(modelHoaDon);
+				}
+			} // Nếu cả tổng tiền và năm đều được chọn, tháng không được chọn thì tìm theo cả
+				// tổng tiền và năm
+			else if (!selectedTongTien.equals("All") && selectedThang.equals("All") && !selectedNam.equals("All")) {
+				int nam = Integer.parseInt((String) comboBoxNamHoaDon.getSelectedItem());
+				int giaMin = Integer.parseInt(chiaKhoangTien[0].replaceAll("[^\\d]+", ""));
+				int giaMax = Integer.parseInt(chiaKhoangTien[1].replaceAll("[^\\d]+", ""));
+				HoaDonDAO ds = new HoaDonDAO();
+				List<HoaDon> list = ds.getHoaDonTheoTongTienNam(nam, giaMin, giaMax);
+				if (list.size() == 0) {
+					modelHoaDon.setRowCount(0);
+				} else {
+					modelHoaDon.setRowCount(0);
+					for (HoaDon hd : list) {
+						Double tongTien = hd.tongTien();
+						Object data[] = { hd.getMaHoaDon(), hd.getNgayLap(), hd.getNhanVien().getMaNV(),
+								hd.getNhanVien().getTenNV(), hd.getKhachHang().getMaKH(), hd.getKhachHang().getTenKH(),
+								tongTien };
+						modelHoaDon.addRow(data);
+					}
+					tblHoaDon.setModel(modelHoaDon);
+				}
+			} // Nếu cả tổng tiền, tháng và năm đều được chọn thì tìm theo cả tổng tiền, tháng
+				// và năm
+			else if (!selectedTongTien.equals("All") && !selectedThang.equals("All") && !selectedNam.equals("All")) {
+				int thang = Integer.parseInt((String) comboBoxThangHoaDon.getSelectedItem());
+				int nam = Integer.parseInt((String) comboBoxNamHoaDon.getSelectedItem());
+				int giaMin = Integer.parseInt(chiaKhoangTien[0].replaceAll("[^\\d]+", ""));
+				int giaMax = Integer.parseInt(chiaKhoangTien[1].replaceAll("[^\\d]+", ""));
+				HoaDonDAO ds = new HoaDonDAO();
+				List<HoaDon> list = ds.getHoaDonTheoTongTienThangNam(thang, nam, giaMin, giaMax);
+				if (list.size() == 0) {
+					modelHoaDon.setRowCount(0);
+				} else {
+					modelHoaDon.setRowCount(0);
+					for (HoaDon hd : list) {
+						Double tongTien = hd.tongTien();
+						Object data[] = { hd.getMaHoaDon(), hd.getNgayLap(), hd.getNhanVien().getMaNV(),
+								hd.getNhanVien().getTenNV(), hd.getKhachHang().getMaKH(), hd.getKhachHang().getTenKH(),
+								tongTien };
+						modelHoaDon.addRow(data);
+					}
+					tblHoaDon.setModel(modelHoaDon);
+				}
+			} // Nếu cả tháng và năm đều được chọn, tổng tiền không được chọn thì tìm theo
+				// tháng và năm
+			else if (selectedTongTien.equals("All") && !selectedThang.equals("All") && !selectedNam.equals("All")) {
+				int thang = Integer.parseInt((String) comboBoxThangHoaDon.getSelectedItem());
+				int nam = Integer.parseInt((String) comboBoxNamHoaDon.getSelectedItem());
+				HoaDonDAO ds = new HoaDonDAO();
+				List<HoaDon> list = ds.getHoaDonTheoThangNam(thang, nam);
+				modelHoaDon.setRowCount(0);
+				for (HoaDon hd : list) {
+					Double tongTien = hd.tongTien();
+					Object data[] = { hd.getMaHoaDon(), hd.getNgayLap(), hd.getNhanVien().getMaNV(),
+							hd.getNhanVien().getTenNV(), hd.getKhachHang().getMaKH(), hd.getKhachHang().getTenKH(),
+							tongTien };
+					modelHoaDon.addRow(data);
+				}
+				tblHoaDon.setModel(modelHoaDon);
+			} else { // Nếu cả hai comBoBox đều là All thì hiển thị toàn bộ danh sách hóa đơn
+				updateTableHoaDon();
+			}
+		} else if (o.equals(comboBoxTongTien)) {
+
 		}
 	}
 
 	private void updateTableHoaDon() {
-		modelHoaDon.getDataVector().removeAllElements();
-		List<HoaDon> list = dshd.doTuBang();
+		modelHoaDon.setRowCount(0);
+		HoaDonDAO ds = new HoaDonDAO();
+		List<HoaDon> list = ds.doTuBang();
 		for (HoaDon hd : list) {
 			Double tongTien = hd.tongTien();
-			System.out.println(tongTien);
 			Object data[] = { hd.getMaHoaDon(), hd.getNgayLap(), hd.getNhanVien().getMaNV(),
 					hd.getNhanVien().getTenNV(), hd.getKhachHang().getMaKH(), hd.getKhachHang().getTenKH(), tongTien };
 			modelHoaDon.addRow(data);

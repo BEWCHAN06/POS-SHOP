@@ -548,7 +548,8 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 			}
 		} else if (o.equals(comboBoxPhanLoai)) {
 			String phanLoai = (String) comboBoxPhanLoai.getSelectedItem();
-			List<SanPham> list = dssp.getSanPhanTheoPhanLoai(phanLoai); // Lấy danh sách sản phẩm thêm tên phân loại
+			SanPhamDAO ds = new SanPhamDAO();
+			List<SanPham> list = ds.getSanPhanTheoPhanLoai(phanLoai); // Lấy danh sách sản phẩm thêm tên phân loại
 			if (phanLoai == "All") { // Nếu comBoBox phân loại là All thì hiển thị tất cả danh sách sản phẩm
 				updateTableSanPham();
 			} else { // Ngược lại thì tìm kiếm các sản phẩm phân loại tương ứng
