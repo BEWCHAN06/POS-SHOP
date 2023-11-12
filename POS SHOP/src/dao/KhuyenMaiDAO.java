@@ -17,14 +17,18 @@ import java.util.logging.Logger;
 import ConnectDB.KetNoiSQL;
 import entity.KhuyenMai;
 import entity.PhanLoai;
+import entity.SanPham;
 
 public class KhuyenMaiDAO {
 	ArrayList<KhuyenMai> dskm;
 	KhuyenMai km;
+	ArrayList<SanPham> dssp;
+	SanPham sp;
 
 	public KhuyenMaiDAO() {
 		KetNoiSQL.getInstance().connect();
 		dskm = new ArrayList<KhuyenMai>();
+		dssp = new ArrayList<SanPham>();
 	}
 
 	// Lấy danh sách Khuyến Mãi từ SQL
@@ -102,7 +106,8 @@ public class KhuyenMaiDAO {
 	}
 
 	public KhuyenMai getKhuyenMai(String id) {
-		KetNoiSQL.getInstance().connect();;
+		KetNoiSQL.getInstance().connect();
+		;
 		Connection conn = KetNoiSQL.getConnection();
 		try {
 			String sql = "select * from KhuyenMai where maKM = ?";
@@ -126,7 +131,8 @@ public class KhuyenMaiDAO {
 	}
 
 	public KhuyenMai getKhuyenMaiByPhanTram(int phanTram) {
-		KetNoiSQL.getInstance().connect();;
+		KetNoiSQL.getInstance().connect();
+		;
 		Connection conn = KetNoiSQL.getConnection();
 
 		try {
@@ -148,5 +154,51 @@ public class KhuyenMaiDAO {
 			Logger.getLogger(XuatXuDAO.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		return null;
+	}
+
+	// Tìm sản phẩm theo mã khuyến mãi
+	public List<SanPham> getSanPhanTheoMaKM(String maKM) {
+		try {
+			KetNoiSQL.getInstance().connect();
+			Connection con = KetNoiSQL.getInstance().getConnection();
+			String sql = "select sp.maSP, sp.tenSP, sp.maKM, sp.giaNhap, sp.loiTheoPhanTram, cthd.soLuong\r\n"
+					+ "from SanPham sp join ChiTietHoaDon cthd on sp.maSP = cthd.maSP where sp.maKM = ?";
+			PreparedStatement stmt = con.prepareCall(sql);
+			stmt.setString(1, maKM);
+			ResultSet rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				String masp = rs.getString(1);
+				String ten = rs.getString(2);
+				String makm = rs.getString(3);
+				Double giaNhap = rs.getDouble(4);
+				int loi = rs.getInt(5);
+				int soLuong = rs.getInt(6);
+				SanPham sp = new SanPham(masp, ten, null, giaNhap, loi, new KhuyenMai(makm, null, 0, null, null), 0,
+						null, soLuong, null, null, null, null);
+				dssp.add(sp);
+			}
+
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dssp;
+	}
+
+	// Cập nhật mã khuyến mãi cho sản phẩm
+	public boolean updateMaKMChoSanPHam(String maKM, String maSP) {
+		Connection con = KetNoiSQL.getInstance().getConnection();
+		PreparedStatement stmt = null;
+		int n = 0;
+		try {
+			stmt = con.prepareStatement("update SanPham set maKM = ? where maSP = ?");
+			stmt.setString(1, maKM);
+			stmt.setString(2, maSP);
+			n = stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return n > 0;
 	}
 }

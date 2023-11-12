@@ -34,9 +34,7 @@ public class SanPhamDAO {
 	KhuyenMaiDAO khuyenMaiDao = new KhuyenMaiDAO();
 
 	public SanPhamDAO() {
-
 		KetNoiSQL.getInstance().connect();
-		;
 		dssp = new ArrayList<SanPham>();
 	}
 
@@ -126,6 +124,7 @@ public class SanPhamDAO {
 		}
 		return dssp;
 	}
+
 	public List<SanPham> getDSSPTheoMaSP(String name) {
 		try {
 			KetNoiSQL.getInstance().connect();
@@ -133,8 +132,8 @@ public class SanPhamDAO {
 			String sql = "select maSP, tenSP, maPL, giaNhap,loiTheoPhanTram, maKM, giaBan, maKT,soLuong,maMS, maCL, maNCC, hinhAnh \r\n"
 					+ "from SanPham where maSP like ? or tenSP like ?";
 			PreparedStatement stmt = con.prepareCall(sql);
-			stmt.setString(1, "%" +name+"%");
-			stmt.setString(2, "%" +name+"%");
+			stmt.setString(1, "%" + name + "%");
+			stmt.setString(2, "%" + name + "%");
 			ResultSet rs = stmt.executeQuery();
 
 			while (rs.next()) {
@@ -218,6 +217,7 @@ public class SanPhamDAO {
 		}
 		return null;
 	}
+
 	public List<SanPham> getSanPhanTheoMaHD(String id) {
 		try {
 			KetNoiSQL.getInstance().connect();
@@ -262,329 +262,150 @@ public class SanPhamDAO {
 		return dssp;
 	}
 
-	// Tìm sản phẩm theo mã khuyến mãi
-	public List<SanPham> getSanPhanTheoMaKM(String maKM) {
+	public int addSanPham(SanPham sanPham) {
+		KetNoiSQL.getInstance().connect();
 		try {
-			KetNoiSQL.getInstance().connect();
 			Connection con = KetNoiSQL.getInstance().getConnection();
-			String sql = "select *from SanPham where maKM = (?)";
-			PreparedStatement stmt = con.prepareCall(sql);
-			stmt.setString(1, maKM);
-			ResultSet rs = stmt.executeQuery();
+			String sql = "Insert into sanpham values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			PreparedStatement ps = con.prepareStatement(sql);
 
+			ps.setString(1, sanPham.getMaSP());
+			ps.setString(2, sanPham.getTenSP());
+			ps.setDouble(3, sanPham.getGiaNhap());
+			ps.setInt(4, sanPham.getSoLuong());
+			ps.setString(5, sanPham.getNhaCungCap().getMaNCC());
+			ps.setString(6, null);
+			ps.setInt(7, sanPham.getTrangThai());
+			ps.setString(8, sanPham.getChatLieu().getMaChatLieu());
+			ps.setString(9, sanPham.getKieuDang().getMaKieuDang());
+			ps.setString(10, sanPham.getKichThuoc().getMaKichThuoc());
+			ps.setString(11, sanPham.getMauSac().getMaMauSac());
+			ps.setString(12, sanPham.getXuatXu().getMaXuatXu());
+			ps.setString(13, sanPham.getPl().getMaPhanLoai());
+			ps.setInt(14, sanPham.getLoi());
+			ps.setDouble(15, sanPham.getGiaBan());
+			ps.setString(16, sanPham.getHinhAnh());
+
+			return ps.executeUpdate();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return -1;
+	}
+
+	public int updateSanPham(SanPham sanPham) {
+		KetNoiSQL.getInstance().connect();
+		;
+		Connection conn = KetNoiSQL.getConnection();
+
+		try {
+			String sql = "update SanPham set tenSP = ?, giaNhap = ?,soLuong=?,maNCC = ?,\r\n"
+					+ "maKM =?, trangThai = ?, maCL = ?,maKD = ?, maMS = ?, maXX = ?,maPL= ?, \r\n"
+					+ "loiTheoPhanTram = ?, giaBan= ?,hinhAnh = ? \r\n" + "where maSP = ?";
+
+			PreparedStatement stmt = conn.prepareCall(sql);
+			stmt.setString(1, sanPham.getTenSP());
+			stmt.setDouble(2, sanPham.getGiaBan());
+			stmt.setInt(3, sanPham.getSoLuong());
+			stmt.setString(4, sanPham.getNhaCungCap().getMaNCC());
+			stmt.setString(5, null);
+			stmt.setInt(6, sanPham.getTrangThai());
+			stmt.setString(7, sanPham.getChatLieu().getMaChatLieu());
+			stmt.setString(8, sanPham.getKieuDang().getMaKieuDang());
+			stmt.setString(9, sanPham.getMauSac().getMaMauSac());
+			stmt.setString(10, sanPham.getXuatXu().getMaXuatXu());
+			stmt.setString(11, sanPham.getPl().getMaPhanLoai());
+			stmt.setInt(12, sanPham.getLoi());
+			stmt.setDouble(13, sanPham.getGiaBan());
+			stmt.setString(14, sanPham.getHinhAnh());
+			stmt.setString(15, sanPham.getMaSP());
+
+			return stmt.executeUpdate();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return -1;
+	}
+
+	/// code của phát
+	public ArrayList<SanPham> topNSanPham() {
+		ArrayList<SanPham> listSanPham = new ArrayList<>();
+		KetNoiSQL.getInstance();
+		Connection conn = KetNoiSQL.getConnection();
+		SanPhamDAO sp_DAO = new SanPhamDAO();
+		String sql = "SELECT TOP 10\n" + "    sanPham.maSP,\n" + "    sanPham.tenSP,\n"
+				+ "    SUM(ChiTietHoaDon.soLuong) as tongSoLuong\n" + "FROM\n" + "    ChiTietHoaDon\n" + "INNER JOIN\n"
+				+ "    HoaDon ON ChiTietHoaDon.maHoaDon = HoaDon.maHoaDon\n" + "INNER JOIN\n"
+				+ "    SanPham ON ChiTietHoaDon.maSP = SanPham.maSP\n" + "GROUP BY\n"
+				+ "    sanPham.maSP, sanPham.tenSP\n" + "ORDER BY\n" + "    tongSoLuong DESC;\n" + "";
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				SanPham sp = sp_DAO.getSanPhanTheoId(rs.getString(1));
+				sp.setSoLuong(rs.getInt(2));
+				listSanPham.add(sp);
+
+			}
+			return listSanPham;
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return null;
+	}
+
+	public ArrayList<SanPham> topNSanPhamBanCham() {
+		ArrayList<SanPham> listSanPham = new ArrayList<>();
+		KetNoiSQL.getInstance();
+		Connection conn = KetNoiSQL.getConnection();
+		SanPhamDAO sp_DAO = new SanPhamDAO();
+		String sql = "SELECT TOP 10\n" + "    sanPham.maSP,\n" + "    sanPham.tenSP,\n"
+				+ "    SUM(ChiTietHoaDon.soLuong) as tongSoLuong\n" + "FROM\n" + "    ChiTietHoaDon\n" + "INNER JOIN\n"
+				+ "    HoaDon ON ChiTietHoaDon.maHoaDon = HoaDon.maHoaDon\n" + "INNER JOIN\n"
+				+ "    SanPham ON ChiTietHoaDon.maSP = SanPham.maSP\n" + "GROUP BY\n"
+				+ "    sanPham.maSP, sanPham.tenSP\n" + "ORDER BY\n" + "    tongSoLuong ASC;\n" + "";
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				SanPham sp = sp_DAO.getSanPhanTheoId(rs.getString(1));
+				sp.setSoLuong(rs.getInt(2));
+				listSanPham.add(sp);
+
+			}
+			return listSanPham;
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return null;
+	}
+
+	public ArrayList<SanPham> getAllSanPham() {
+
+		ChatLieuDAO chatLieuDao = new ChatLieuDAO();
+		KieuDangDAO kieuDangDao = new KieuDangDAO();
+		KichThuocDAO kichThuocDao = new KichThuocDAO();
+		MauSacDAO mauSacDAO = new MauSacDAO();
+		XuatXuDAO xuatXuDAO = new XuatXuDAO();
+		PhanLoaiDAO phanLoaiDAO = new PhanLoaiDAO();
+		NhaCungCapDAO nhaCungCapDao = new NhaCungCapDAO();
+		KhuyenMaiDAO khuyenMaiDao = new KhuyenMaiDAO();
+
+		ArrayList<SanPham> listSanPham = new ArrayList<>();
+		KetNoiSQL.getInstance();
+		Connection conn = KetNoiSQL.getConnection();
+
+		try {
+			String sql = "SELECT SanPham.maSP, SanPham.tenSP, PhanLoai.phanLoai, KichThuoc.kichThuoc, MauSac.mauSac, SanPham.soLuong, SanPham.giaBan\n"
+					+ "FROM SanPham\n" + "JOIN KichThuoc ON SanPham.maKT = KichThuoc.maKT\n"
+					+ "JOIN MauSac ON SanPham.maMS = MauSac.maMS\n" + "JOIN PhanLoai ON SanPham.maPL = PhanLoai.maPL;\n"
+					+ "";
+
+			PreparedStatement stmt = conn.prepareCall(sql);
+
+			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
 				String masp = rs.getString("maSP");
-				String ten = rs.getString("tenSP");
-				Double giaBan = rs.getDouble("giaBan");
-				SanPham sp = new SanPham(masp, ten, null, 0, 0, null, giaBan, null, 0, null, null, null, null);
-				dssp.add(sp);
-			}
-
-			con.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return dssp;
-	}
-
-	// Cập nhật mã khuyến mãi cho sản phẩm
-	public boolean updateMaKMChoSanPHam(String maSP, String maKM) {
-		Connection con = KetNoiSQL.getInstance().getConnection();
-		PreparedStatement stmt = null;
-		int n = 0;
-		try {
-			stmt = con.prepareStatement("update SanPham set maKM = ? where maSP = ?");
-			stmt.setString(1, maKM);
-			stmt.setString(2, maSP);
-			n = stmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return n > 0;
-	}
-	public int addSanPham(SanPham sanPham) {
-			KetNoiSQL.getInstance().connect();
-        try {
-        	Connection con = KetNoiSQL.getInstance().getConnection();
-            String sql = "Insert into sanpham values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-            PreparedStatement ps = con.prepareStatement(sql);
-            
-            ps.setString(1, sanPham.getMaSP());
-            ps.setString(2, sanPham.getTenSP());
-            ps.setDouble(3, sanPham.getGiaNhap());
-            ps.setInt(4, sanPham.getSoLuong());
-            ps.setString(5, sanPham.getNhaCungCap().getMaNCC());
-            ps.setString(6, null);
-            ps.setInt(7, sanPham.getTrangThai());
-            ps.setString(8, sanPham.getChatLieu().getMaChatLieu());
-            ps.setString(9, sanPham.getKieuDang().getMaKieuDang());
-            ps.setString(10, sanPham.getKichThuoc().getMaKichThuoc());
-            ps.setString(11, sanPham.getMauSac().getMaMauSac());
-            ps.setString(12, sanPham.getXuatXu().getMaXuatXu());
-            ps.setString(13, sanPham.getPl().getMaPhanLoai());
-            ps.setInt(14, sanPham.getLoi());
-            ps.setDouble(15, sanPham.getGiaBan());
-            ps.setString(16, sanPham.getHinhAnh());
-
-            return ps.executeUpdate();
-        } catch (SQLException ex) {
-        	ex.printStackTrace();
-        }
-        return -1;
-    }
-	public int updateSanPham(SanPham sanPham) {
-        KetNoiSQL.getInstance().connect();;
-        Connection conn = KetNoiSQL.getConnection();
-
-        try {
-            String sql = "update SanPham set tenSP = ?, giaNhap = ?,soLuong=?,maNCC = ?,\r\n"
-            		+ "maKM =?, trangThai = ?, maCL = ?,maKD = ?, maMS = ?, maXX = ?,maPL= ?, \r\n"
-            		+ "loiTheoPhanTram = ?, giaBan= ?,hinhAnh = ? \r\n"
-            		+ "where maSP = ?";
-
-            PreparedStatement stmt = conn.prepareCall(sql);
-            stmt.setString(1, sanPham.getTenSP());
-            stmt.setDouble(2, sanPham.getGiaBan());
-            stmt.setInt(3, sanPham.getSoLuong());
-            stmt.setString(4, sanPham.getNhaCungCap().getMaNCC());
-            stmt.setString(5, null);
-            stmt.setInt(6, sanPham.getTrangThai());
-            stmt.setString(7, sanPham.getChatLieu().getMaChatLieu());
-            stmt.setString(8, sanPham.getKieuDang().getMaKieuDang());
-            stmt.setString(9, sanPham.getMauSac().getMaMauSac());
-            stmt.setString(10, sanPham.getXuatXu().getMaXuatXu());
-            stmt.setString(11, sanPham.getPl().getMaPhanLoai());
-            stmt.setInt(12, sanPham.getLoi());
-            stmt.setDouble(13, sanPham.getGiaBan());
-            stmt.setString(14, sanPham.getHinhAnh());
-            stmt.setString(15, sanPham.getMaSP());
-
-            return stmt.executeUpdate();
-        } catch (SQLException ex) {
-        	ex.printStackTrace();
-        }
-        return -1;
-    }
-	///code của phát 
-	public ArrayList<SanPham>topNSanPham(){
-        ArrayList<SanPham>listSanPham = new ArrayList<>();
-        KetNoiSQL.getInstance();
-        Connection conn = KetNoiSQL.getConnection();
-        SanPhamDAO sp_DAO = new SanPhamDAO();
-        String sql = "SELECT TOP 10\n"
-        		+ "    sanPham.maSP,\n"
-        		+ "    sanPham.tenSP,\n"
-        		+ "    SUM(ChiTietHoaDon.soLuong) as tongSoLuong\n"
-        		+ "FROM\n"
-        		+ "    ChiTietHoaDon\n"
-        		+ "INNER JOIN\n"
-        		+ "    HoaDon ON ChiTietHoaDon.maHoaDon = HoaDon.maHoaDon\n"
-        		+ "INNER JOIN\n"
-        		+ "    SanPham ON ChiTietHoaDon.maSP = SanPham.maSP\n"
-        		+ "GROUP BY\n"
-        		+ "    sanPham.maSP, sanPham.tenSP\n"
-        		+ "ORDER BY\n"
-        		+ "    tongSoLuong DESC;\n"
-        		+ "";
-        try {
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-            while(rs.next()){
-                SanPham sp = sp_DAO.getSanPhanTheoId(rs.getString(1));
-                sp.setSoLuong(rs.getInt(2));
-                listSanPham.add(sp);
-                
-            }
-            return listSanPham;
-        } catch (SQLException ex) {
-        	ex.printStackTrace();
-        }
-        return null;
-    }
-	public ArrayList<SanPham>topNSanPhamBanCham(){
-        ArrayList<SanPham>listSanPham = new ArrayList<>();
-        KetNoiSQL.getInstance();
-        Connection conn = KetNoiSQL.getConnection();
-        SanPhamDAO sp_DAO = new SanPhamDAO();
-        String sql = "SELECT TOP 10\n"
-        		+ "    sanPham.maSP,\n"
-        		+ "    sanPham.tenSP,\n"
-        		+ "    SUM(ChiTietHoaDon.soLuong) as tongSoLuong\n"
-        		+ "FROM\n"
-        		+ "    ChiTietHoaDon\n"
-        		+ "INNER JOIN\n"
-        		+ "    HoaDon ON ChiTietHoaDon.maHoaDon = HoaDon.maHoaDon\n"
-        		+ "INNER JOIN\n"
-        		+ "    SanPham ON ChiTietHoaDon.maSP = SanPham.maSP\n"
-        		+ "GROUP BY\n"
-        		+ "    sanPham.maSP, sanPham.tenSP\n"
-        		+ "ORDER BY\n"
-        		+ "    tongSoLuong ASC;\n"
-        		+ "";
-        try {
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-            while(rs.next()){
-                SanPham sp = sp_DAO.getSanPhanTheoId(rs.getString(1));
-                sp.setSoLuong(rs.getInt(2));
-                listSanPham.add(sp);
-                
-            }
-            return listSanPham;
-        } catch (SQLException ex) {
-        	ex.printStackTrace();
-        }
-        return null;
-    }
-
-public ArrayList<SanPham> getAllSanPham() {
-
-        ChatLieuDAO chatLieuDao = new ChatLieuDAO();
-        KieuDangDAO kieuDangDao = new KieuDangDAO();
-        KichThuocDAO kichThuocDao = new KichThuocDAO();
-        MauSacDAO mauSacDAO = new MauSacDAO();
-        XuatXuDAO xuatXuDAO = new XuatXuDAO();
-        PhanLoaiDAO phanLoaiDAO = new PhanLoaiDAO();
-        NhaCungCapDAO nhaCungCapDao = new NhaCungCapDAO();
-        KhuyenMaiDAO khuyenMaiDao = new KhuyenMaiDAO();
-
-        ArrayList<SanPham> listSanPham = new ArrayList<>();
-        KetNoiSQL.getInstance();
-        Connection conn = KetNoiSQL.getConnection();
-
-        try {
-            String sql= "SELECT SanPham.maSP, SanPham.tenSP, PhanLoai.phanLoai, KichThuoc.kichThuoc, MauSac.mauSac, SanPham.soLuong, SanPham.giaBan\n"
-            		+ "FROM SanPham\n"
-            		+ "JOIN KichThuoc ON SanPham.maKT = KichThuoc.maKT\n"
-            		+ "JOIN MauSac ON SanPham.maMS = MauSac.maMS\n"
-            		+ "JOIN PhanLoai ON SanPham.maPL = PhanLoai.maPL;\n"
-            		+ "";
-            
-            PreparedStatement stmt = conn.prepareCall(sql);
-            
-            
-            ResultSet rs = stmt.executeQuery();
-                while (rs.next()) {
-                	String masp = rs.getString("maSP");
-    				String ten = rs.getString("tenSP");
-    				String maloai = rs.getString("phanLoai");
-    				String kichthuoc = rs.getString("kichThuoc");
-    				String mausac = rs.getString("mauSac");
-    				int sl = rs.getInt("soLuong");
-    				float giaBan = rs.getFloat("giaBan");
-    				PhanLoai phanloai = phanLoaiDAO.getPhanLoai(maloai);
-    				KichThuoc kt = kichThuocDao.getKichThuoc(kichthuoc);
-    				MauSac ms = mauSacDAO.getMauSac(mausac);								
-                    SanPham sanPham = new SanPham(masp, ten, phanloai, giaBan, kt, sl, ms);
-                    listSanPham.add(sanPham);
-            }
-
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return listSanPham;
-    }
-	public ArrayList<SanPham> getAllSanPhamDuoiDinhMuc(int soluong) {
-
-        ChatLieuDAO chatLieuDao = new ChatLieuDAO();
-        KieuDangDAO kieuDangDao = new KieuDangDAO();
-        KichThuocDAO kichThuocDao = new KichThuocDAO();
-        MauSacDAO mauSacDAO = new MauSacDAO();
-        XuatXuDAO xuatXuDAO = new XuatXuDAO();
-        PhanLoaiDAO phanLoaiDAO = new PhanLoaiDAO();
-        NhaCungCapDAO nhaCungCapDao = new NhaCungCapDAO();
-        KhuyenMaiDAO khuyenMaiDao = new KhuyenMaiDAO();
-
-        ArrayList<SanPham> listSanPham = new ArrayList<>();
-        KetNoiSQL.getInstance();
-        Connection conn = KetNoiSQL.getConnection();
-
-        try {
-            String sql= "SELECT \n"
-            		+ "    SanPham.maSP,\n"
-            		+ "    SanPham.tenSP,\n"
-            		+ "    PhanLoai.phanLoai,\n"
-            		+ "    KichThuoc.kichThuoc,\n"
-            		+ "    MauSac.mauSac,\n"
-            		+ "    SanPham.soLuong,\n"
-            		+ "    SanPham.giaBan\n"
-            		+ "FROM \n"
-            		+ "    SanPham\n"
-            		+ "JOIN \n"
-            		+ "    KichThuoc ON SanPham.maKT = KichThuoc.maKT\n"
-            		+ "JOIN \n"
-            		+ "    PhanLoai ON SanPham.maPL = PhanLoai.maPL\n"
-            		+ "JOIN \n"
-            		+ "    MauSac ON SanPham.maMS = MauSac.maMS\n"
-            		+ "WHERE \n"
-            		+ "    SanPham.soLuong < (?)\n"
-            		+ "";
-            
-            PreparedStatement stmt = conn.prepareCall(sql);
-            stmt.setInt(1, soluong);
-            
-            ResultSet rs = stmt.executeQuery();
-                while (rs.next()) {
-                	String masp = rs.getString("maSP");
-    				String ten = rs.getString("tenSP");
-    				String maloai = rs.getString("phanLoai");
-    				String kichthuoc = rs.getString("kichThuoc");
-    				String mausac = rs.getString("mauSac");
-    				int sl = rs.getInt("soLuong");
-    				float giaBan = rs.getFloat("giaBan");
-    				PhanLoai phanloai = phanLoaiDAO.getPhanLoai(maloai);
-    				KichThuoc kt = kichThuocDao.getKichThuoc(kichthuoc);
-    				MauSac ms = mauSacDAO.getMauSac(mausac);								
-                    SanPham sanPham = new SanPham(masp, ten, phanloai, giaBan, kt, sl, ms);
-                    listSanPham.add(sanPham);
-            }
-
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return listSanPham;
-    }
-	public ArrayList<SanPham> getAllSanPhamVuotDinhMuc(int soluong) {
-        ChatLieuDAO chatLieuDao = new ChatLieuDAO();
-        KieuDangDAO kieuDangDao = new KieuDangDAO();
-        KichThuocDAO kichThuocDao = new KichThuocDAO();
-        MauSacDAO mauSacDAO = new MauSacDAO();
-        XuatXuDAO xuatXuDAO = new XuatXuDAO();
-        PhanLoaiDAO phanLoaiDAO = new PhanLoaiDAO();
-        NhaCungCapDAO nhaCungCapDao = new NhaCungCapDAO();
-        KhuyenMaiDAO khuyenMaiDao = new KhuyenMaiDAO();
-
-        ArrayList<SanPham> listSanPham = new ArrayList<>();
-        KetNoiSQL.getInstance();
-        Connection conn = KetNoiSQL.getConnection();
-
-        try {
-            String sql= "SELECT \n"
-            		+ "    SanPham.maSP,\n"
-            		+ "    SanPham.tenSP,\n"
-            		+ "    PhanLoai.phanLoai,\n"
-            		+ "    KichThuoc.kichThuoc,\n"
-            		+ "    MauSac.mauSac,\n"
-            		+ "    SanPham.soLuong,\n"
-            		+ "    SanPham.giaBan\n"
-            		+ "FROM \n"
-            		+ "    SanPham\n"
-            		+ "JOIN \n"
-            		+ "    KichThuoc ON SanPham.maKT = KichThuoc.maKT\n"
-            		+ "JOIN \n"
-            		+ "    PhanLoai ON SanPham.maPL = PhanLoai.maPL\n"
-            		+ "JOIN \n"
-            		+ "    MauSac ON SanPham.maMS = MauSac.maMS\n"
-            		+ "WHERE \n"
-            		+ "    SanPham.soLuong > (?)\n"
-            		+ "";
-            
-            PreparedStatement stmt = conn.prepareCall(sql);       
-            stmt.setInt(1, soluong);
-            
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-            	String masp = rs.getString("maSP");
 				String ten = rs.getString("tenSP");
 				String maloai = rs.getString("phanLoai");
 				String kichthuoc = rs.getString("kichThuoc");
@@ -593,14 +414,109 @@ public ArrayList<SanPham> getAllSanPham() {
 				float giaBan = rs.getFloat("giaBan");
 				PhanLoai phanloai = phanLoaiDAO.getPhanLoai(maloai);
 				KichThuoc kt = kichThuocDao.getKichThuoc(kichthuoc);
-				MauSac ms = mauSacDAO.getMauSac(mausac);								
-                SanPham sanPham = new SanPham(masp, ten, phanloai, giaBan, kt, sl, ms);
-                listSanPham.add(sanPham);
-            }
+				MauSac ms = mauSacDAO.getMauSac(mausac);
+				SanPham sanPham = new SanPham(masp, ten, phanloai, giaBan, kt, sl, ms);
+				listSanPham.add(sanPham);
+			}
 
-        } catch (SQLException ex) {
-        	ex.printStackTrace();
-        }
-        return listSanPham;
-    }
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return listSanPham;
+	}
+
+	public ArrayList<SanPham> getAllSanPhamDuoiDinhMuc(int soluong) {
+
+		ChatLieuDAO chatLieuDao = new ChatLieuDAO();
+		KieuDangDAO kieuDangDao = new KieuDangDAO();
+		KichThuocDAO kichThuocDao = new KichThuocDAO();
+		MauSacDAO mauSacDAO = new MauSacDAO();
+		XuatXuDAO xuatXuDAO = new XuatXuDAO();
+		PhanLoaiDAO phanLoaiDAO = new PhanLoaiDAO();
+		NhaCungCapDAO nhaCungCapDao = new NhaCungCapDAO();
+		KhuyenMaiDAO khuyenMaiDao = new KhuyenMaiDAO();
+
+		ArrayList<SanPham> listSanPham = new ArrayList<>();
+		KetNoiSQL.getInstance();
+		Connection conn = KetNoiSQL.getConnection();
+
+		try {
+			String sql = "SELECT \n" + "    SanPham.maSP,\n" + "    SanPham.tenSP,\n" + "    PhanLoai.phanLoai,\n"
+					+ "    KichThuoc.kichThuoc,\n" + "    MauSac.mauSac,\n" + "    SanPham.soLuong,\n"
+					+ "    SanPham.giaBan\n" + "FROM \n" + "    SanPham\n" + "JOIN \n"
+					+ "    KichThuoc ON SanPham.maKT = KichThuoc.maKT\n" + "JOIN \n"
+					+ "    PhanLoai ON SanPham.maPL = PhanLoai.maPL\n" + "JOIN \n"
+					+ "    MauSac ON SanPham.maMS = MauSac.maMS\n" + "WHERE \n" + "    SanPham.soLuong < (?)\n" + "";
+
+			PreparedStatement stmt = conn.prepareCall(sql);
+			stmt.setInt(1, soluong);
+
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				String masp = rs.getString("maSP");
+				String ten = rs.getString("tenSP");
+				String maloai = rs.getString("phanLoai");
+				String kichthuoc = rs.getString("kichThuoc");
+				String mausac = rs.getString("mauSac");
+				int sl = rs.getInt("soLuong");
+				float giaBan = rs.getFloat("giaBan");
+				PhanLoai phanloai = phanLoaiDAO.getPhanLoai(maloai);
+				KichThuoc kt = kichThuocDao.getKichThuoc(kichthuoc);
+				MauSac ms = mauSacDAO.getMauSac(mausac);
+				SanPham sanPham = new SanPham(masp, ten, phanloai, giaBan, kt, sl, ms);
+				listSanPham.add(sanPham);
+			}
+
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return listSanPham;
+	}
+
+	public ArrayList<SanPham> getAllSanPhamVuotDinhMuc(int soluong) {
+		ChatLieuDAO chatLieuDao = new ChatLieuDAO();
+		KieuDangDAO kieuDangDao = new KieuDangDAO();
+		KichThuocDAO kichThuocDao = new KichThuocDAO();
+		MauSacDAO mauSacDAO = new MauSacDAO();
+		XuatXuDAO xuatXuDAO = new XuatXuDAO();
+		PhanLoaiDAO phanLoaiDAO = new PhanLoaiDAO();
+		NhaCungCapDAO nhaCungCapDao = new NhaCungCapDAO();
+		KhuyenMaiDAO khuyenMaiDao = new KhuyenMaiDAO();
+
+		ArrayList<SanPham> listSanPham = new ArrayList<>();
+		KetNoiSQL.getInstance();
+		Connection conn = KetNoiSQL.getConnection();
+
+		try {
+			String sql = "SELECT \n" + "    SanPham.maSP,\n" + "    SanPham.tenSP,\n" + "    PhanLoai.phanLoai,\n"
+					+ "    KichThuoc.kichThuoc,\n" + "    MauSac.mauSac,\n" + "    SanPham.soLuong,\n"
+					+ "    SanPham.giaBan\n" + "FROM \n" + "    SanPham\n" + "JOIN \n"
+					+ "    KichThuoc ON SanPham.maKT = KichThuoc.maKT\n" + "JOIN \n"
+					+ "    PhanLoai ON SanPham.maPL = PhanLoai.maPL\n" + "JOIN \n"
+					+ "    MauSac ON SanPham.maMS = MauSac.maMS\n" + "WHERE \n" + "    SanPham.soLuong > (?)\n" + "";
+
+			PreparedStatement stmt = conn.prepareCall(sql);
+			stmt.setInt(1, soluong);
+
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				String masp = rs.getString("maSP");
+				String ten = rs.getString("tenSP");
+				String maloai = rs.getString("phanLoai");
+				String kichthuoc = rs.getString("kichThuoc");
+				String mausac = rs.getString("mauSac");
+				int sl = rs.getInt("soLuong");
+				float giaBan = rs.getFloat("giaBan");
+				PhanLoai phanloai = phanLoaiDAO.getPhanLoai(maloai);
+				KichThuoc kt = kichThuocDao.getKichThuoc(kichthuoc);
+				MauSac ms = mauSacDAO.getMauSac(mausac);
+				SanPham sanPham = new SanPham(masp, ten, phanloai, giaBan, kt, sl, ms);
+				listSanPham.add(sanPham);
+			}
+
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return listSanPham;
+	}
 }
