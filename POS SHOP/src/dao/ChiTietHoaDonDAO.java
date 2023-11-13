@@ -26,6 +26,7 @@ import entity.SanPham;
 public class ChiTietHoaDonDAO {
 	ArrayList<ChiTietHoaDon> dscthd;
 	ChiTietHoaDon cthd;
+	SanPhamDAO sanPham_DAO = new SanPhamDAO();
 
 	public ChiTietHoaDonDAO() {
 		KetNoiSQL.getInstance().connect();
@@ -146,4 +147,101 @@ public class ChiTietHoaDonDAO {
 		}
 		return thanhtien;
 	}
+    
+    public ArrayList<SanPham>thongKeDanhSachSanPhamVoiSoLuongBanDuoc(String mauSac, String phanLoai, String kichThuoc){
+        ArrayList<SanPham> listSanPham = new ArrayList<>();
+        KetNoiSQL.getInstance();
+        Connection conn = KetNoiSQL.getConnection();
+        try {
+            String sql = "SELECT\n"
+            		+ "    sp.maSP,\n"
+            		+ "    SUM(cthd.soLuong) AS SoLuongBan,\n"
+            		+ "    SUM(cthd.thanhTien) AS DoanhThu\n"
+            		+ "FROM\n"
+            		+ "    sanPham AS sp\n"
+            		+ "INNER JOIN\n"
+            		+ "    ChiTietHoaDon AS cthd ON cthd.maSP = sp.maSP\n"
+            		+ "INNER JOIN\n"
+            		+ "    KichThuoc AS kt ON sp.maKT = kt.maKT\n"
+            		+ "INNER JOIN\n"
+            		+ "    MauSac AS ms ON sp.maMS = ms.maMS\n"
+            		+ "INNER JOIN\n"
+            		+ "    PhanLoai AS pl ON sp.maPL = pl.maPL\n"
+            		+ "WHERE\n"
+            		+ "    kt.kichThuoc LIKE ?\n"
+            		+ "    AND ms.mauSac LIKE ?\n"
+            		+ "    AND pl.phanLoai LIKE ?\n"
+            		+ "GROUP BY\n"
+            		+ "    sp.maSP;\n"
+            		+ "";
+            
+            PreparedStatement stmt = conn.prepareCall(sql);
+            stmt.setString(1, "%"+kichThuoc+"%");
+            stmt.setString(2, "%"+mauSac+"%");
+            stmt.setString(3, "%"+phanLoai+"%");
+            ResultSet rs = stmt.executeQuery();
+            
+            while(rs.next()){
+                SanPham sp = sanPham_DAO.getSanPhanTheoId(rs.getString(1));
+                sp.setSoLuong(rs.getInt(2));
+                sp.setGiaNhap(rs.getLong(3));
+                listSanPham.add(sp);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return listSanPham;
+    }
+    
+    
+    public ArrayList<SanPham>thongKeDanhSachSanPhamVoiSoLuongBanDuoc(String mauSac, String phanLoai, String kichThuoc, String tuNgay, String denNgay){
+        ArrayList<SanPham> listSanPham = new ArrayList<>();
+        KetNoiSQL.getInstance();
+        Connection conn = KetNoiSQL.getConnection();
+        try {
+            String sql = "SELECT\n"
+            		+ "    sanPham.maSP,\n"
+            		+ "    SUM(ChiTietHoaDon.soLuong) AS SoLuongBan,\n"
+            		+ "    SUM(ChiTietHoaDon.thanhTien) AS DoanhThu\n"
+            		+ "FROM\n"
+            		+ "    ChiTietHoaDon\n"
+            		+ "INNER JOIN\n"
+            		+ "    sanPham ON ChiTietHoaDon.maSP = sanPham.maSP\n"
+            		+ "INNER JOIN\n"
+            		+ "    KichThuoc ON sanPham.maKT = KichThuoc.maKT\n"
+            		+ "INNER JOIN\n"
+            		+ "    MauSac ON sanPham.maMS = MauSac.maMS\n"
+            		+ "INNER JOIN\n"
+            		+ "    PhanLoai ON sanPham.maPL = PhanLoai.maPL\n"
+            		+ "INNER JOIN\n"
+            		+ "    HoaDon ON ChiTietHoaDon.maHD = HoaDon.maHD\n"
+            		+ "WHERE\n"
+            		+ "    KichThuoc.kichThuoc LIKE ?\n"
+            		+ "    AND MauSac.mauSac LIKE ?\n"
+            		+ "    AND PhanLoai.phanLoai LIKE ?\n"
+            		+ "    AND HoaDon.ngayLap >= ?\n"
+            		+ "    AND HoaDon.ngayLap <= ?\n"
+            		+ "GROUP BY\n"
+            		+ "    sanPham.maSP;\n"
+            		+ "";
+            
+            PreparedStatement stmt = conn.prepareCall(sql);
+            stmt.setString(1, "%"+kichThuoc+"%");
+            stmt.setString(2, "%"+mauSac+"%");
+            stmt.setString(3, "%"+phanLoai+"%");
+            stmt.setString(4, tuNgay);
+            stmt.setString(5, denNgay);
+            ResultSet rs = stmt.executeQuery();
+            
+            while(rs.next()){
+                SanPham sp = sanPham_DAO.getSanPhanTheoId(rs.getString(1));
+                sp.setSoLuong(rs.getInt(2));
+                sp.setGiaNhap(rs.getLong(3));
+                listSanPham.add(sp);
+            }
+        } catch (SQLException ex) {
+        	ex.printStackTrace();
+        }
+        return listSanPham;
+    }
 }

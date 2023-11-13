@@ -1,5 +1,7 @@
 package gui;
 
+import dao.ChiTietHoaDonDAO;
+import dao.HoaDonDAO;
 //import dao.ChiTietHoaDonDAO;
 //import dao.HoaDonDAO;
 import dao.KichThuocDAO;
@@ -15,6 +17,7 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -33,8 +36,8 @@ import javax.swing.border.LineBorder;
 public class TabThongKeDoanhThu extends javax.swing.JPanel {
     private boolean initial = true; 
     private SanPhamDAO sanPham_DAO = new SanPhamDAO();
-//    private ChiTietHoaDonDAO cthd_DAO = new ChiTietHoaDonDAO();
-//    private HoaDonDAO hoaDon_DAO = new HoaDonDAO();
+    private ChiTietHoaDonDAO cthd_DAO = new ChiTietHoaDonDAO();
+    private HoaDonDAO hoaDon_DAO = new HoaDonDAO();
     private KichThuocDAO kichThuoc_DAO = new KichThuocDAO();
     private MauSacDAO mauSac_DAO = new MauSacDAO();
     private PhanLoaiDAO phanLoai_DAO = new PhanLoaiDAO();
@@ -76,7 +79,7 @@ public class TabThongKeDoanhThu extends javax.swing.JPanel {
     }
     
     private void designTable() {
-        tbl_DanhSachSanPham.getTableHeader().setFont(new java.awt.Font("Calibri", 0, 12));
+        tbl_DanhSachSanPham.getTableHeader().setFont(new java.awt.Font("Arial", 0, 12));
         tbl_DanhSachSanPham.getTableHeader().setOpaque(false);
         tbl_DanhSachSanPham.getTableHeader().setBackground(new Color(144,238,144));
         tbl_DanhSachSanPham.getTableHeader().setForeground(Color.WHITE);
@@ -88,23 +91,23 @@ public class TabThongKeDoanhThu extends javax.swing.JPanel {
         dtm.setRowCount(0);
     }
     
-//    private double tongDoanhThu(String mauSac, String phanLoai, String kichThuoc){
-//        double tongDoanhThu = 0;
-//        ArrayList<SanPham> listSanPham = cthd_DAO.thongKeDanhSachSanPhamVoiSoLuongBanDuoc(mauSac, phanLoai, kichThuoc);
-//         for(SanPham sp : listSanPham){
-//             tongDoanhThu += sp.getGiaNhap();
-//         }
-//         return tongDoanhThu;
-//    }
+    private double tongDoanhThu(String mauSac, String phanLoai, String kichThuoc){
+        double tongDoanhThu = 0;
+        ArrayList<SanPham> listSanPham = cthd_DAO.thongKeDanhSachSanPhamVoiSoLuongBanDuoc(mauSac, phanLoai, kichThuoc);
+         for(SanPham sp : listSanPham){
+             tongDoanhThu += sp.getGiaNhap();
+         }
+         return tongDoanhThu;
+    }
     
-//    private double tongDoanhThuFilter(String mauSac, String phanLoai, String kichThuoc, String tuNgay,String denNgay){
-//        double tongDoanhThu = 0;
-//         ArrayList<SanPham> listSanPham = cthd_DAO.thongKeDanhSachSanPhamVoiSoLuongBanDuoc(mauSac, phanLoai, kichThuoc, tuNgay, denNgay);
-//         for(SanPham sp : listSanPham){
-//             tongDoanhThu += sp.getGiaNhap();
-//         }
-//         return tongDoanhThu;
-//    }
+    private double tongDoanhThuFilter(String mauSac, String phanLoai, String kichThuoc, String tuNgay,String denNgay){
+        double tongDoanhThu = 0;
+         ArrayList<SanPham> listSanPham = cthd_DAO.thongKeDanhSachSanPhamVoiSoLuongBanDuoc(mauSac, phanLoai, kichThuoc, tuNgay, denNgay);
+         for(SanPham sp : listSanPham){
+             tongDoanhThu += sp.getGiaNhap();
+         }
+         return tongDoanhThu;
+    }
     
     private void tblDanhSachSanPham(){
         clearTable();
@@ -118,21 +121,26 @@ public class TabThongKeDoanhThu extends javax.swing.JPanel {
         String kichThuoc = cb_KichThuoc.getSelectedItem().toString();
         if(cb_KichThuoc.getSelectedItem().toString().equals("Tất cả")) kichThuoc = "";
         
-//        ArrayList<SanPham> listSanPham = cthd_DAO.thongKeDanhSachSanPhamVoiSoLuongBanDuoc(mauSac, phanLoai, kichThuoc);
+        ArrayList<SanPham> listSanPham = cthd_DAO.thongKeDanhSachSanPhamVoiSoLuongBanDuoc(mauSac, phanLoai, kichThuoc);
         DefaultTableModel dtm = (DefaultTableModel) tbl_DanhSachSanPham.getModel();
         int tongSoSanPhamBanDuoc = 0;
-//        double tongDoanhThu = tongDoanhThu(mauSac, phanLoai, kichThuoc);
-//        for(SanPham sp : listSanPham){
-//            tongSoSanPhamBanDuoc += sp.getSoLuong();
-//            double tiLeDoanhThu = (sp.getGiaNhap() / tongDoanhThu) * 100;
-//            Object[] rowData = {sp.getMaSP(), sp.getTenSP(), sp.getPhanLoai().getLoaiSanPham(), sp.getKichThuoc().getKichThuoc(),
-//                                sp.getMauSac().getMauSac(), sp.getSoLuong(), NumberFormat.getInstance().format( sp.getGiaNhap()), 
-//                                String.format("%.2f", tiLeDoanhThu) };
-//            dtm.addRow(rowData);
-//        }
+        double tongDoanhThu = tongDoanhThu(mauSac, phanLoai, kichThuoc);
+        for(SanPham sp : listSanPham){
+            tongSoSanPhamBanDuoc += sp.getSoLuong();
+            double tiLeDoanhThu = 0;
+            DecimalFormat df = new DecimalFormat("#.##");//rút gọn số thập phân
+            if (tongDoanhThu != 0) {
+                tiLeDoanhThu = (sp.getGiaNhap() / (double)tongDoanhThu) * 100;
+            }           
+            String tldt = df.format(tiLeDoanhThu);//
+            Object[] rowData = {sp.getMaSP(), sp.getTenSP(), sp.getPl().getPhanLoai(), sp.getKichThuoc().getKichThuoc(),
+                                sp.getMauSac().getMauSac(), sp.getSoLuong(), NumberFormat.getInstance().format( sp.getGiaNhap()), 
+                                tldt};
+            dtm.addRow(rowData);
+        }
         
         lbl_SoTongSanPhamDaBan.setText(tongSoSanPhamBanDuoc+"");
-//        lbl_SoTongSanPhamConLai.setText(NumberFormat.getInstance().format(tongDoanhThu));
+        lbl_SoTongSanPhamConLai.setText(NumberFormat.getInstance().format(tongDoanhThu));
     }
     
    
@@ -151,22 +159,27 @@ public class TabThongKeDoanhThu extends javax.swing.JPanel {
 
         String tuNgay = new SimpleDateFormat("yyyy-MM-dd").format( dc_TuNgay.getDate());
         String denNgay = new SimpleDateFormat("yyyy-MM-dd").format( dc_DenNgay.getDate());
-//        ArrayList<SanPham> listSanPham = cthd_DAO.thongKeDanhSachSanPhamVoiSoLuongBanDuoc(mauSac, phanLoai, kichThuoc, tuNgay, denNgay);
+        ArrayList<SanPham> listSanPham = cthd_DAO.thongKeDanhSachSanPhamVoiSoLuongBanDuoc(mauSac, phanLoai, kichThuoc, tuNgay, denNgay);
         
         DefaultTableModel dtm = (DefaultTableModel) tbl_DanhSachSanPham.getModel();
         int tongSoSanPhamBanDuoc = 0;
-//        double tongDoanhThu = tongDoanhThuFilter(mauSac, phanLoai, kichThuoc, tuNgay, denNgay);
-//        for(SanPham sp : listSanPham){
-//            tongSoSanPhamBanDuoc += sp.getSoLuong();
-//            double tiLeDoanhThu = (sp.getGiaNhap() / tongDoanhThu) * 100;
-//            Object[] rowData = {sp.getMaSP(), sp.getTenSP(), sp.getPhanLoai().getLoaiSanPham(), sp.getKichThuoc().getKichThuoc(),
-//                                sp.getMauSac().getMauSac(), sp.getSoLuong(), NumberFormat.getInstance().format(sp.getGiaNhap()),
-//                                String.format("%.2f", tiLeDoanhThu)};
-//            dtm.addRow(rowData);
-//        }
+        double tongDoanhThu = tongDoanhThuFilter(mauSac, phanLoai, kichThuoc, tuNgay, denNgay);
+        for(SanPham sp : listSanPham){
+            tongSoSanPhamBanDuoc += sp.getSoLuong();
+            double tiLeDoanhThu = 0;
+            DecimalFormat df = new DecimalFormat("#.##");//rút gọn số thập phân
+            if (tongDoanhThu != 0) {
+                tiLeDoanhThu = (sp.getGiaNhap() / (double)tongDoanhThu) * 100;
+            }           
+            String tldt = df.format(tiLeDoanhThu);//
+            Object[] rowData = {sp.getMaSP(), sp.getTenSP(), sp.getPl().getPhanLoai(), sp.getKichThuoc().getKichThuoc(),
+                                sp.getMauSac().getMauSac(), sp.getSoLuong(), NumberFormat.getInstance().format(sp.getGiaNhap()),
+                                tldt};
+            dtm.addRow(rowData);
+        }
         
         lbl_SoTongSanPhamDaBan.setText(tongSoSanPhamBanDuoc+"");
-//        lbl_SoTongSanPhamConLai.setText(NumberFormat.getInstance().format(tongDoanhThu));
+        lbl_SoTongSanPhamConLai.setText(NumberFormat.getInstance().format(tongDoanhThu));
     }
     
      

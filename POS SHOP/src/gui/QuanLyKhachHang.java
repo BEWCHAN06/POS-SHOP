@@ -411,40 +411,40 @@ public class QuanLyKhachHang extends JPanel implements ActionListener,MouseListe
 			}
 		});
 		
-		btnLuu.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				if (validData()) {
-
-					String makh = txtMaKH.getText().trim();
-					String tenkh = txtTenKh.getText().trim();
-					String Sdt = txtSdt.getText().trim();
-					String diachi = txtDiachi.getText().trim();
-					String email = txtEmail.getText().trim();
-
-					boolean gt = true;
-					if (rdGioitinh.isSelected()) {
-						gt = true;
-					} else {
-						gt = false;
-					}
-
-					int tt = 1;
-
-					if (rdTrangthai.isSelected()) {
-						tt = 1;
-					} else {
-						tt = 0;
-					}
-
-					NhanVien nv = new NhanVien(manv, tennv, Date.valueOf(ngaysinh), sdt, email, cmnd, gt,
-							diachi, cv, tt);
-
-					nvdao.addNhanVien(nv);
-					JOptionPane.showMessageDialog(null, "Thêm thành công 1 nhân viên.");
-				}
-			}
-		});
+//		btnLuu.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//
+//				if (validData()) {
+//
+//					String makh = txtMaKH.getText().trim();
+//					String tenkh = txtTenKh.getText().trim();
+//					String Sdt = txtSdt.getText().trim();
+//					String diachi = txtDiachi.getText().trim();
+//					String email = txtEmail.getText().trim();
+//
+//					boolean gt = true;
+//					if (rdGioitinh.isSelected()) {
+//						gt = true;
+//					} else {
+//						gt = false;
+//					}
+//
+//					int tt = 1;
+//
+//					if (rdTrangthai.isSelected()) {
+//						tt = 1;
+//					} else {
+//						tt = 0;
+//					}
+//
+//					NhanVien nv = new NhanVien(manv, tennv, Date.valueOf(ngaysinh), sdt, email, cmnd, gt,
+//							diachi, cv, tt);
+//
+//					nvdao.addNhanVien(nv);
+//					JOptionPane.showMessageDialog(null, "Thêm thành công 1 nhân viên.");
+//				}
+//			}
+//		});
 		
 	}
 	private boolean validData() {

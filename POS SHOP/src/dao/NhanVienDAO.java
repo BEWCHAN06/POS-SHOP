@@ -33,7 +33,7 @@ public class NhanVienDAO {
 
 	public ArrayList<NhanVien> getAllNhanVien() {
 		ArrayList<NhanVien> listNhanVien = new ArrayList<>();
-		KetNoiSQL.getInstance();
+		KetNoiSQL.getInstance().connect();;
 		Connection conn = KetNoiSQL.getConnection();
 
 		try {
@@ -96,7 +96,7 @@ public class NhanVienDAO {
 		Connection conn = KetNoiSQL.getConnection();
 		try {
 
-			String sql = "select * from nhanvien where maNhanVien = ?";
+			String sql = "select * from nhanvien where maNV = ?";
 			PreparedStatement stmt = conn.prepareCall(sql);
 			stmt.setString(1, id);
 			ResultSet rs = stmt.executeQuery();
@@ -403,11 +403,11 @@ public class NhanVienDAO {
     
     public ArrayList<NhanVien> timnv(String manvtensdt,boolean gioitinh ,boolean chucvu) {
     	ArrayList<NhanVien> listnv = new ArrayList<>();
-		KetNoiSQL.getInstance();
+		KetNoiSQL.getInstance().connect();
 		Connection conn = KetNoiSQL.getConnection();
 		try {
 
-			String sql = "select  * from nhanvien where maNV like ? or tenNV like ? or SDT like ? and gioitinh =? and chucVu=?";
+			String sql = "select  * from nhanvien where maNV like (?) or tenNV like (?) or SDT like (?) and gioitinh =(?) and chucVu=(?)";
 			PreparedStatement stmt = conn.prepareCall(sql);
 			stmt.setString(1, "%" +manvtensdt+"%");
 			stmt.setString(2, "%" +manvtensdt+"%");
