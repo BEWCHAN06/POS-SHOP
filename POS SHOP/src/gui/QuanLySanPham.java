@@ -15,6 +15,8 @@ import javax.swing.border.LineBorder;
 import java.awt.Color;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
@@ -68,7 +70,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 	private JTextField txtGiaNhap;
 	private JTable tblXemTruoc;
 	private JTextField txtThayDoiSoLuong;
-	private JTextField textField_1;
+	private JTextField txtTimKiemSP;
 	private JTable tbllistSanPham;
 	private SanPhamDAO sanPhamDAO;
     private MauSacDAO mauSacDAO;
@@ -286,9 +288,9 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		
 		JLabel lblNewLabel_3 = new JLabel("tìm kiếm sản phẩm : ");
 		
-		textField_1 = new JTextField();
-		textField_1.setBorder(new LineBorder(new Color(0, 0, 0)));
-		textField_1.setColumns(10);
+		txtTimKiemSP = new JTextField();
+		txtTimKiemSP.setBorder(new LineBorder(new Color(0, 0, 0)));
+		txtTimKiemSP.setColumns(10);
 		
 		txtMaSP = new JTextField();
 		txtMaSP.setEditable(false);
@@ -304,7 +306,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 					.addContainerGap()
 					.addComponent(lblNewLabel_3)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 263, GroupLayout.PREFERRED_SIZE)
+					.addComponent(txtTimKiemSP, GroupLayout.PREFERRED_SIZE, 263, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED, 235, Short.MAX_VALUE)
 					.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
@@ -319,7 +321,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 							.addGap(8)
 							.addGroup(gl_pnlSanPham.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblNewLabel_3)
-								.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)))
+								.addComponent(txtTimKiemSP, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(gl_pnlSanPham.createSequentialGroup()
 							.addGap(3)
 							.addComponent(txtMaSP, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
@@ -721,6 +723,39 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		txtThayDoiSoLuong.setEnabled(checkbox_xuatAllKichThuoc.isSelected());
 		btnOk.setEnabled(checkbox_xuatAllKichThuoc.isSelected());
 		btnLuuTatCa.setEnabled(checkbox_xuatAllKichThuoc.isSelected());
+		
+		txtTimKiemSP.getDocument().addDocumentListener(new DocumentListener() {
+			
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				updateTableTimKiemSP();
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				updateTableTimKiemSP();
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				updateTableTimKiemSP();
+			}
+		});
+	}
+	private void updateTableTimKiemSP(){
+		String masp = txtTimKiemSP.getText();
+		sanPhamDAO = new SanPhamDAO();
+		clearTable();
+		DefaultTableModel dtm = (DefaultTableModel) tbllistSanPham.getModel();
+		List<SanPham> listsp = sanPhamDAO.getDSSPTheoMaSP(masp);
+		for(SanPham sp : listsp) {
+			Object[] rowdata = {sp.getMaSP(), sp.getTenSP(),sp.getPl().getPhanLoai(),sp.getGiaNhap(),sp.getLoi(), (sp.getKhuyenMai() != null) ? sp.getKhuyenMai().getPhanTramKhuyenMai(): "",
+					sp.getGiaBan(),sp.getKichThuoc().getKichThuoc(),sp.getSoLuong(), sp.getMauSac().getMauSac(),sp.getChatLieu().getChatLieu(),sp.getNhaCungCap().getTenNCC(),sp.getHinhAnh()};
+			dtm.addRow(rowdata);
+		}
 	}
     public ImageIcon ResizeImage(String imgPath) {
         ImageIcon myImage = new ImageIcon(imgPath);
