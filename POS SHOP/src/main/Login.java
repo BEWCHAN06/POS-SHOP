@@ -24,10 +24,14 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 
@@ -38,6 +42,7 @@ public class Login extends JFrame {
 	private JTextField txtTenTK;
 	private JPasswordField passwordField;
 	private JFrame frame;
+	private boolean isPasswordVisible = false;
 
 	/**
 	 * Launch the application.
@@ -74,8 +79,9 @@ public class Login extends JFrame {
 		panelLogo.setBackground(new Color(34, 139, 34));
 
 		JPanel pnlDangNhap = new JPanel();
+		pnlDangNhap.setForeground(new Color(144, 238, 144));
+		pnlDangNhap.setBorder(new LineBorder(new Color(0, 0, 0), 0));
 		pnlDangNhap.setBounds(333, 5, 646, 601);
-		pnlDangNhap.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		pnlDangNhap.setBackground(new Color(144, 238, 144));
 		contentPane.setLayout(null);
 		contentPane.add(panelLogo);
@@ -125,9 +131,6 @@ public class Login extends JFrame {
 		lblNewLabel_2_1_1_1.setFont(new Font("Arial", Font.BOLD, 15));
 		lblNewLabel_2_1_1_1.setBackground(Color.BLACK);
 
-		JLabel lblNewLabel_3 = new JLabel("");
-		lblNewLabel_3.setIcon(new ImageIcon(Login.class.getResource("/icon/conmat.png")));
-
 		JButton btnDangNhap = new JButton("ĐĂNG NHẬP");
 		btnDangNhap.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -170,6 +173,11 @@ public class Login extends JFrame {
 		btnDangNhap.setFont(new Font("Arial", Font.BOLD, 13));
 
 		passwordField = new JPasswordField();
+
+		JButton btnNewButton = new JButton("");
+		btnNewButton.setForeground(new Color(255, 255, 255));
+		btnNewButton.setBackground(new Color(144, 238, 144));
+		btnNewButton.setIcon(new ImageIcon(Login.class.getResource("/icon/conmat.png")));
 		GroupLayout gl_pnlDangNhap = new GroupLayout(pnlDangNhap);
 		gl_pnlDangNhap.setHorizontalGroup(gl_pnlDangNhap.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_pnlDangNhap.createSequentialGroup().addGap(142)
@@ -183,10 +191,13 @@ public class Login extends JFrame {
 												158, GroupLayout.PREFERRED_SIZE)
 										.addComponent(lblNewLabel_2_1, Alignment.LEADING).addComponent(txtTenTK,
 												Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE)))
-						.addGap(18).addComponent(lblNewLabel_3).addGap(82)));
+						.addGap(18)
+						.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 57, GroupLayout.PREFERRED_SIZE)
+						.addGap(65)));
 		gl_pnlDangNhap.setVerticalGroup(gl_pnlDangNhap.createParallelGroup(Alignment.LEADING).addGroup(gl_pnlDangNhap
 				.createSequentialGroup().addGap(153)
-				.addGroup(gl_pnlDangNhap.createParallelGroup(Alignment.TRAILING).addComponent(lblNewLabel_3)
+				.addGroup(gl_pnlDangNhap.createParallelGroup(Alignment.TRAILING)
+						.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_pnlDangNhap.createSequentialGroup().addComponent(lblNewLabel_2_1).addGap(23)
 								.addComponent(lblNewLabel_2_1_1, GroupLayout.PREFERRED_SIZE, 28,
 										GroupLayout.PREFERRED_SIZE)
@@ -200,9 +211,24 @@ public class Login extends JFrame {
 				.addGap(45).addComponent(btnDangNhap, GroupLayout.PREFERRED_SIZE, 52, GroupLayout.PREFERRED_SIZE)
 				.addContainerGap(161, Short.MAX_VALUE)));
 		pnlDangNhap.setLayout(gl_pnlDangNhap);
+		btnNewButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				isPasswordVisible = !isPasswordVisible;
+				updatePasswordFieldEchoChar();
+			}
+		});
 
 		txtTenTK.setText("TK01");
 		passwordField.setText("123456");
 
+	}
+
+	private void updatePasswordFieldEchoChar() {
+		if (isPasswordVisible) {
+			passwordField.setEchoChar((char) 0);
+		} else {
+			passwordField.setEchoChar('*');
+		}
 	}
 }
