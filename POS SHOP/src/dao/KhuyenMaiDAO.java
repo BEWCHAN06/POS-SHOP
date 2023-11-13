@@ -176,8 +176,9 @@ public class KhuyenMaiDAO {
 				Double giaNhap = rs.getDouble(5);
 				int loi = rs.getInt(6);
 				int soLuong = rs.getInt(7);
-				SanPham sp = new SanPham(masp, ten, null, giaNhap, loi, new KhuyenMai(makm, null, phanTramKhuyenMai, null, null), 0,
-						null, soLuong, null, null, null, null);
+				SanPham sp = new SanPham(masp, ten, null, giaNhap, loi,
+						new KhuyenMai(makm, null, phanTramKhuyenMai, null, null), 0, null, soLuong, null, null, null,
+						null);
 				dssp.add(sp);
 			}
 
@@ -188,15 +189,40 @@ public class KhuyenMaiDAO {
 		return dssp;
 	}
 
-	// Thêm mã khuyến mãi cho sản phẩm
-	public boolean updateMaKMChoSanPHam(String maKM, String maSP) {
+	// Thêm mã khuyến mãi cho sản phẩm và Cập nhật các trường chương trình khuyến
+	// mãi
+	public boolean updateMaKMChoSanPHam(KhuyenMai km, String maKM, String maSP) {
 		KetNoiSQL.getInstance().connect();
 		Connection con = KetNoiSQL.getInstance().getConnection();
 		PreparedStatement stmt = null;
 		int n = 0;
 		try {
-			stmt = con.prepareStatement("update SanPham set maKM = ? where maSP = ?");
-			stmt.setString(1, maKM);
+			stmt = con.prepareStatement("update KhuyenMai set phanTramKhuyenMai = ?, tenKhuyenMai = ?, \r\n"
+					+ "ngayBatDau = ?, ngayKetThuc = ? where maKM = ?;\r\n"
+					+ "update SanPham set maKM = ? where maSP = ?;");
+			stmt.setDouble(1, km.getPhanTramKhuyenMai());
+			stmt.setString(2, km.getTenKhuyenMai());
+			stmt.setDate(3, (Date) km.getNgayBatDau());
+			stmt.setDate(4, (Date) km.getNgayKetThuc());
+			stmt.setString(5, km.getMaKM());
+			stmt.setString(6, maKM);
+			stmt.setString(7, maSP);
+			n = stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return n > 0;
+	}
+
+	// Thêm mã khuyến mãi cho sản phẩm
+	public boolean updateGiaBanChoSanPHam(double giaBan, String maSP) {
+		KetNoiSQL.getInstance().connect();
+		Connection con = KetNoiSQL.getInstance().getConnection();
+		PreparedStatement stmt = null;
+		int n = 0;
+		try {
+			stmt = con.prepareStatement("update SanPham set giaBan = ? where maSP = ?");
+			stmt.setDouble(1, giaBan);
 			stmt.setString(2, maSP);
 			n = stmt.executeUpdate();
 		} catch (SQLException e) {
@@ -204,22 +230,4 @@ public class KhuyenMaiDAO {
 		}
 		return n > 0;
 	}
-	
-	// Thêm mã khuyến mãi cho sản phẩm
-		public boolean updateGiaBanChoSanPHam(double giaBan, String maSP) {
-			KetNoiSQL.getInstance().connect();
-			Connection con = KetNoiSQL.getInstance().getConnection();
-			PreparedStatement stmt = null;
-			int n = 0;
-			try {
-				stmt = con.prepareStatement("update SanPham set giaBan = ? where maSP = ?");
-				stmt.setDouble(1, giaBan);
-				stmt.setString(2, maSP);
-				n = stmt.executeUpdate();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			return n > 0;
-		}
-
 }
