@@ -30,6 +30,9 @@ import javax.swing.JTextField;
 import java.awt.ScrollPane;
 import javax.swing.JScrollBar;
 import javax.swing.event.AncestorListener;
+
+import main.Login;
+
 import javax.swing.event.AncestorEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -37,7 +40,7 @@ import javax.swing.border.LineBorder;
 
 public class uiMain {
 
-	private JFrame frame;
+	public JFrame frame;
 	public JPanel mainPanel = new JPanel();
 	private JPanel btnSanPham;
 	private JPanel btnHoaDon;
@@ -53,8 +56,8 @@ public class uiMain {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					uiMain window = new uiMain();
-					window.frame.setVisible(true);
+					Login frame = new Login();
+					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -78,6 +81,7 @@ public class uiMain {
 		
 		JPanel pnlMenu = new JPanel();
 		pnlMenu.setPreferredSize(new Dimension(947, 703));
+
 		pnlMenu.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		pnlMenu.setBackground(new Color(152, 251, 152));
 		
@@ -597,7 +601,9 @@ public class uiMain {
 		pnlListMenu.setLayout(gl_pnlListMenu);
 		pnlMenu.setLayout(gl_pnlMenu);
 		frame.getContentPane().setLayout(groupLayout);
-		frame.setBounds(100, 100, 1215, 777);
+//		frame.setBounds(100, 100, 1215, 777);
+		frame.setSize(new Dimension(1215, 777));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setLocationRelativeTo(null);
 	}
 }
