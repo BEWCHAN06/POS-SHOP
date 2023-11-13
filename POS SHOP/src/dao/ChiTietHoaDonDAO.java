@@ -39,7 +39,7 @@ public class ChiTietHoaDonDAO {
 			KetNoiSQL.getInstance().connect();
 			Connection con = KetNoiSQL.getInstance().getConnection();
 			PreparedStatement stmt = null;
-			String sql = "Select chd.maSP,sp.tenSP,sp.giaNhap,sp.loiTheoPhanTram,chd.soLuong,chd.phanTramKhuyenmai,cl.chatLieu,kd.kieuDang,kt.kichThuoc,ms.mauSac,pl.phanLoai\r\n"
+			String sql = "Select chd.maSP,sp.tenSP,sp.giaNhap,chd.soLuong,chd.phanTramKhuyenmai,cl.chatLieu,kd.kieuDang,kt.kichThuoc,ms.mauSac,pl.phanLoai, chd.thanhTien\r\n"
 					+ "from ChiTietHoaDon chd join sanPham sp on chd.maSP = sp.maSP left join KhuyenMai km on sp.maKM = km.maKM\r\n"
 					+ "join ChatLieu cl on sp.maCL = cl.maCL join KieuDang kd on sp.maKD = kd.maKD join KichThuoc kt on sp.maKT = kt.maKT\r\n"
 					+ "join MauSac ms on sp.maMS = ms.maMS join PhanLoai pl on sp.maPL = pl.maPL where chd.maHD = ?";
@@ -50,19 +50,19 @@ public class ChiTietHoaDonDAO {
 				String maSP = rs.getString(1);
 				String tenSP = rs.getString(2);
 				Double giaNhap = rs.getDouble(3);
-				int loi = rs.getInt(4);
-				int soLuong = rs.getInt(5);
-				Double phanTramKhuyenMai = rs.getDouble(6);
-				String chatLieu = rs.getString(7);
-				String kieuDang = rs.getString(8);
-				String kichThuoc = rs.getString(9);
-				String mauSac = rs.getString(10);
-				String phanLoai = rs.getString(11);
+				int soLuong = rs.getInt(4);
+				Double phanTramKhuyenMai = rs.getDouble(5);
+				String chatLieu = rs.getString(6);
+				String kieuDang = rs.getString(7);
+				String kichThuoc = rs.getString(8);
+				String mauSac = rs.getString(9);
+				String phanLoai = rs.getString(10);
+				Double thanhTien = rs.getDouble(11);
 				ChiTietHoaDon cthd = new ChiTietHoaDon(
-						new SanPham(maSP, tenSP, new PhanLoai(null, phanLoai), giaNhap, loi, null, 0,
+						new SanPham(maSP, tenSP, new PhanLoai(null, phanLoai), giaNhap, 0, null, 0,
 								new KichThuoc(null, kichThuoc), 0, new MauSac(null, mauSac),
 								new ChatLieu(null, chatLieu), null, new KieuDang(null, kieuDang), null, null, 0),
-						null, phanTramKhuyenMai, soLuong);
+						null, phanTramKhuyenMai, soLuong, thanhTien);
 				dscthd.add(cthd);
 			}
 		} catch (SQLException e) {
