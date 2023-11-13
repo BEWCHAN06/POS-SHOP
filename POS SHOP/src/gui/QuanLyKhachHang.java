@@ -14,19 +14,29 @@ import javax.swing.JTextPane;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.sql.Date;
+
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JRadioButton;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.table.DefaultTableModel;
+
+import entity.NhanVien;
+
 import javax.swing.JTabbedPane;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 
-public class QuanLyKhachHang extends JPanel {
+public class QuanLyKhachHang extends JPanel implements ActionListener,MouseListener {
 	private JTextField txtMaKH;
 	private JTextField txtTenKh;
 	private JTextField txtSdt;
@@ -188,29 +198,7 @@ public class QuanLyKhachHang extends JPanel {
 		table = new JTable();
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
+				
 			},
 			new String[] {
 				"M\u00E3 kh\u00E1ch h\u00E0ng", "H\u1ECD v\u00E0 t\u00EAn", "Email", "S\u0110T", "Gi\u1EDBi t\u00EDnh"
@@ -264,29 +252,7 @@ public class QuanLyKhachHang extends JPanel {
 		tblThongtin = new JTable();
 		tblThongtin.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
+				
 			},
 			new String[] {
 				"M\u00E3 kh\u00E1ch h\u00E0ng", "H\u1ECD v\u00E0 t\u00EAn", "Email", "S\u0110T", "Gi\u1EDBi t\u00EDnh"
@@ -436,5 +402,116 @@ public class QuanLyKhachHang extends JPanel {
 		);
 		panel.setLayout(gl_panel);
 		Mainpanel.setLayout(gl_Mainpanel);
+		
+		//nút thêm
+		btnThem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnThem.setEnabled(false);
+				btnLuu.setEnabled(true);
+			}
+		});
+		
+		btnLuu.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				if (validData()) {
+
+					String makh = txtMaKH.getText().trim();
+					String tenkh = txtTenKh.getText().trim();
+					String Sdt = txtSdt.getText().trim();
+					String diachi = txtDiachi.getText().trim();
+					String email = txtEmail.getText().trim();
+
+					boolean gt = true;
+					if (rdGioitinh.isSelected()) {
+						gt = true;
+					} else {
+						gt = false;
+					}
+
+					int tt = 1;
+
+					if (rdTrangthai.isSelected()) {
+						tt = 1;
+					} else {
+						tt = 0;
+					}
+
+					NhanVien nv = new NhanVien(manv, tennv, Date.valueOf(ngaysinh), sdt, email, cmnd, gt,
+							diachi, cv, tt);
+
+					nvdao.addNhanVien(nv);
+					JOptionPane.showMessageDialog(null, "Thêm thành công 1 nhân viên.");
+				}
+			}
+		});
+		
 	}
+	private boolean validData() {
+		String makh = txtMaKH.getText().trim();
+		String tenkh = txtTenKh.getText().trim();
+		String Sdt = txtSdt.getText().trim();
+		String diachi = txtDiachi.getText().trim();
+		String email = txtEmail.getText().trim();
+		
+		if (makh.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Vui lòng điền mã khách hàng.");
+			return false;
+		}
+		
+		if (tenkh.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Vui lòng điền tên khách hàng.");
+			return false;
+		}
+		if (Sdt.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Vui lòng điền số điện thoại.");
+			return false;
+		}
+		if (email.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Vui lòng điền email.");
+			return false;
+		}
+		if (diachi.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Vui lòng điền địa chỉ.");
+			return false;
+		}
+		return false;
+}
+		
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }
