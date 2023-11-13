@@ -227,7 +227,6 @@ public class SanPhamDAO {
 			PreparedStatement stmt = con.prepareCall(sql);
 			stmt.setString(1, id);
 			ResultSet rs = stmt.executeQuery();
-
 			while (rs.next()) {
 				String masp = rs.getString("maSP");
 				String ten = rs.getString("tenSP");

@@ -693,7 +693,6 @@ public class HoaDonDAO {
 
 			PreparedStatement stmt = conn.prepareCall(sql);
 			stmt.setString(1, maHD);
-			stmt.setString(2, maHD);
 			return stmt.executeUpdate();
 		} catch (SQLException ex) {
 			ex.printStackTrace();

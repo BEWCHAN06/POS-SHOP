@@ -1,6 +1,12 @@
 package gui;
 
 import javax.swing.JPanel;
+import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.AbstractButton;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -28,6 +34,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingWorker;
 import javax.swing.JTextArea;
 
 import java.awt.BorderLayout;
@@ -37,6 +44,19 @@ import java.awt.CardLayout;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.xml.crypto.Data;
+
+import org.opencv.core.Core;
+import org.opencv.core.Mat;
+import org.opencv.core.MatOfByte;
+import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.videoio.VideoCapture;
+
+import com.google.zxing.BinaryBitmap;
+import com.google.zxing.MultiFormatReader;
+import com.google.zxing.NotFoundException;
+import com.google.zxing.Result;
+import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
+import com.google.zxing.common.HybridBinarizer;
 
 import dao.ChiTietHoaDonDAO;
 import dao.HoaDonDAO;
@@ -48,17 +68,22 @@ import entity.HoaDon;
 import entity.KhachHang;
 import entity.NhanVien;
 import entity.SanPham;
+import gui.CameraPanel.QRCodeListener;
 
 import javax.swing.JScrollPane;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.time.LocalDate;import java.time.LocalDateTime;
 import java.util.List;
 
-public class QuanLyBanHang extends JPanel implements ActionListener, MouseListener{
+public class QuanLyBanHang extends JPanel implements ActionListener, MouseListener, QRCodeListener{
 	private JTextField txtTienKhachDua;
 	private JTable tblHoaDonCho;
 	private JTable tblGioHang;
@@ -92,10 +117,16 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 	private JLabel lblThanhToanpush;
 	private JButton btnHuyHoaDon;
 	private JLabel lbltienthua;
+	private VideoCapture capture;
+	private JPanel cam;
+	private JPanel pnlCamera;
+	private JLabel cameraViewLabel;
+	private String qrCodeValue;
 	/**
 	 * Create the panel.
 	 */
 	public QuanLyBanHang() {
+		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 		UiBanHang();
 		tblDanhSachSanPham();
 		updateTableHoaDonCho();
@@ -103,9 +134,17 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 			tblHoaDonCho.setRowSelectionInterval(0, 0);
 			int row=tblHoaDonCho.getSelectedRow();
 			mahd = tblHoaDonCho.getValueAt(row, 0).toString();
-			 updateTableGioHang( mahd);
+			 updateTableGioHang(mahd);
 			 lblTongTienpush.setText(chiTietHoaDonDAO.getTongTien(mahd)+"");
 		}
+
+//		cameraViewLabel.setPreferredSize(new Dimension(170, 110));
+		cam.removeAll();
+		cam.setLayout(new BorderLayout());
+		CameraPanel cameraPanel = new CameraPanel();
+		cam.add(cameraPanel);
+		cameraPanel.addQRCodeListener(this);
+		cameraPanel.startCamera();
 	}
     private void clearTableDSSP() {
         DefaultTableModel dtm = (DefaultTableModel) tblDSSanPham.getModel();
@@ -142,7 +181,7 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 		pnlHoaDonCho.setBackground(new Color(255, 255, 255));
 		pnlHoaDonCho.setBorder(new CompoundBorder(new CompoundBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2), "H\u00F3a \u0110\u01A1n Ch\u1EDD", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)), null), null));
 		
-		JPanel pnlCamera = new JPanel();
+		pnlCamera = new JPanel();
 		pnlCamera.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		
 		JPanel pnlGioHang = new JPanel();
@@ -197,6 +236,13 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 							.addComponent(lblTienThua, GroupLayout.DEFAULT_SIZE, 639, Short.MAX_VALUE)))
 					.addContainerGap())
 		);
+		pnlCamera.setLayout(new CardLayout(0, 0));
+		
+		cam = new JPanel();
+		pnlCamera.add(cam, "name_58835019045600");
+		cam.setLayout(new CardLayout(0, 0));
+//		cameraViewLabel = new JLabel();
+//		cam.add(cameraViewLabel);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(255, 255, 255));
@@ -957,12 +1003,13 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 		System.out.println(mahd);
 		lblTongTienpush.setText(chiTietHoaDonDAO.getTongTien(mahd)+"");
 		updateTableGioHang(mahd);
+		System.out.println(qrCodeValue);
 		
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-
+		
 	}
 	@Override
 	public void mouseReleased(MouseEvent e) {
@@ -977,6 +1024,51 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
+		
+	}
+	///them sp bang qr
+	@Override
+	public void onQRCodeRead(String qrCode) {
+		
+		// TODO Auto-generated method stub
+		int sl = 0;
+		List<SanPham> listsp = sanPhamDAO.getSanPhanTheoMaHD(mahd);
+		for(SanPham sp : listsp) {
+			if(sp.getMaSP().equals(qrCode))
+				sl = sp.getSoLuong();
+		}
+		if(qrCode.startsWith("SP")) {
+			boolean check = true;
+			ChiTietHoaDonDAO chiTietHoaDonDAO = new ChiTietHoaDonDAO();
+			int cnt = tblGioHang.getRowCount();
+			for(int i = 0; i < cnt; i++) {
+				if(tblGioHang.getValueAt(i, 0).equals(qrCode)) {
+					sanPhamDAO = new SanPhamDAO();
+					HoaDonDAO = new HoaDonDAO();
+					SanPham sp = sanPhamDAO.getSanPhanTheoId(qrCode);
+					HoaDon hd = HoaDonDAO.getHDTheoId(mahd);
+					double phantram = phantramKM;
+					sl++;
+					ChiTietHoaDon cthd = new ChiTietHoaDon();
+					cthd = new ChiTietHoaDon(sp, hd, phantram, sl, sl*dongia);
+					chiTietHoaDonDAO.updateSoLuongSPTrongGio(cthd);
+					updateTableGioHang(mahd);
+					lblTongTienpush.setText(chiTietHoaDonDAO.getTongTien(mahd)+"");
+					check = false;
+				}
+			}
+			if(check) {
+				sanPhamDAO = new SanPhamDAO();
+				HoaDonDAO = new HoaDonDAO();
+				SanPham sp = sanPhamDAO.getSanPhanTheoId(qrCode);
+				HoaDon hd = HoaDonDAO.getHDTheoId(mahd);
+				ChiTietHoaDon cthd = new ChiTietHoaDon(sp, hd, 0.0, 1, sp.getGiaBan()*1);
+				chiTietHoaDonDAO.addSanPhamVaoHD(cthd);
+				updateTableGioHang(mahd);
+				lblTongTienpush.setText(chiTietHoaDonDAO.getTongTien(mahd)+"");
+			}
+		}
+
 		
 	}
 	
