@@ -278,6 +278,9 @@ public class SanPham {
 
 		return giaSauGiamGia;
 	}
+	public double giaBan() {
+		return this.giaNhap + this.giaNhap * loi;
+	}
 
 	@Override
 	public String toString() {

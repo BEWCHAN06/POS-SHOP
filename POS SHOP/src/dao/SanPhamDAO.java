@@ -305,7 +305,7 @@ public class SanPhamDAO {
 
 			PreparedStatement stmt = conn.prepareCall(sql);
 			stmt.setString(1, sanPham.getTenSP());
-			stmt.setDouble(2, sanPham.getGiaBan());
+			stmt.setDouble(2, sanPham.getGiaNhap());
 			stmt.setInt(3, sanPham.getSoLuong());
 			stmt.setString(4, sanPham.getNhaCungCap().getMaNCC());
 			stmt.setString(5, null);
