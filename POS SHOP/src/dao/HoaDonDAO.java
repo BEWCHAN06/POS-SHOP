@@ -39,9 +39,9 @@ public class HoaDonDAO {
 	public List<HoaDon> doTuBang() {
 		try {
 			Connection con = KetNoiSQL.getInstance().getConnection();
-			String sql = "select hd.maHD, hd.ngayLap, hd.maNV, nv.tenNV, hd.maKH, kh.tenKH\r\n"
+			String sql = "select hd.maHD, hd.ngayLap, hd.maNV, nv.tenNV, hd.maKH, kh.tenKH, hd.tongTien\r\n"
 					+ "from HoaDon hd join NhanVien nv on hd.maNV = nv.maNV\r\n"
-					+ "join KhachHang kh on hd.maKH = kh.maKH";
+					+ "join KhachHang kh on hd.maKH = kh.maKH where hd.trangThai = 1";
 			Statement statement = con.createStatement(); // Thực thi câu lệnh SQL trả về ResulSet.
 			ResultSet rs = statement.executeQuery(sql);
 			while (rs.next()) {
@@ -51,8 +51,9 @@ public class HoaDonDAO {
 				String tenNV = rs.getString(4);
 				String maKH = rs.getString(5);
 				String tenKH = rs.getString(6);
+				Double tongTien = rs.getDouble(7);
 				HoaDon hd = new HoaDon(maHD, ngayLap, new KhachHang(maKH, tenKH, null, null, null, false),
-						new NhanVien(maNV, tenNV, null, null, null, null, false, null, false, 0));
+						new NhanVien(maNV, tenNV, null, null, null, null, false, null, false, 0), 0, tongTien);
 				dshd.add(hd);
 			}
 		} catch (SQLException e) {
