@@ -161,8 +161,8 @@ public class KhuyenMaiDAO {
 		try {
 			KetNoiSQL.getInstance().connect();
 			Connection con = KetNoiSQL.getInstance().getConnection();
-			String sql = "select sp.maSP, sp.tenSP, sp.maKM, km.phanTramKhuyenMai, sp.giaNhap, sp.loiTheoPhanTram, cthd.soLuong\r\n"
-					+ "from SanPham sp join ChiTietHoaDon cthd on sp.maSP = cthd.maSP join KhuyenMai km on km.maKM = sp.maKM\r\n"
+			String sql = "select sp.maSP, sp.tenSP, sp.maKM, km.phanTramKhuyenMai, sp.giaNhap, sp.loiTheoPhanTram\r\n"
+					+ "from SanPham sp  join KhuyenMai km on km.maKM = sp.maKM\r\n"
 					+ "where sp.maKM = ?";
 			PreparedStatement stmt = con.prepareCall(sql);
 			stmt.setString(1, maKM);
@@ -175,9 +175,8 @@ public class KhuyenMaiDAO {
 				Double phanTramKhuyenMai = rs.getDouble(4);
 				Double giaNhap = rs.getDouble(5);
 				int loi = rs.getInt(6);
-				int soLuong = rs.getInt(7);
 				SanPham sp = new SanPham(masp, ten, null, giaNhap, loi,
-						new KhuyenMai(makm, null, phanTramKhuyenMai, null, null), 0, null, soLuong, null, null, null,
+						new KhuyenMai(makm, null, phanTramKhuyenMai, null, null), 0, null, 0, null, null, null,
 						null);
 				dssp.add(sp);
 			}
