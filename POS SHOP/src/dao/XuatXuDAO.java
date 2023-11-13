@@ -63,7 +63,7 @@ public class XuatXuDAO {
         Connection conn = KetNoiSQL.getConnection();
         
         try {
-            String sql = "update XuatXu set noiXuatXu = (?) where maXuatXu = ?";
+            String sql = "update XuatXu set xuatXu = (?) where maXX = ?";
             PreparedStatement stmt = conn.prepareCall(sql);
             stmt.setString(1, xuatXu.getXuatXu());
             stmt.setString(2, xuatXu.getMaXuatXu());
@@ -78,7 +78,7 @@ public class XuatXuDAO {
         KetNoiSQL.getInstance();
         Connection conn = KetNoiSQL.getConnection();    
         try {
-            String sql = "insert into XuatXu(maXuatXu, noiXuatXu) values (?, ?)";
+            String sql = "insert into XuatXu(maXX, xuatXu) values (?, ?)";
             PreparedStatement stmt = conn.prepareCall(sql);
             stmt.setString(1, xuatXu.getMaXuatXu());
             stmt.setString(2, xuatXu.getXuatXu());

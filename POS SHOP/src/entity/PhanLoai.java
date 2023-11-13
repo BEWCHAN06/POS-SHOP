@@ -1,5 +1,7 @@
 package entity;
 
+import dao.PhanLoaiDAO;
+
 public class PhanLoai {
     private String maPhanLoai;
     private String phanLoai;
@@ -24,11 +26,18 @@ public class PhanLoai {
 	public void setPhanLoai(String phanLoai) {
 		this.phanLoai = phanLoai;
 	}
+	public String getAutoID() {
+		PhanLoaiDAO phanLoaiDAO = new PhanLoaiDAO();
+		String idPrefix = "PL";
+		int length = phanLoaiDAO.getAllPhanLoai().size();
+		String finalId = idPrefix + String.format("%02d", length + 1);
+		return finalId;
+	}
 	@Override
 	public String toString() {
 		return "PhanLoai [maPhanLoai=" + maPhanLoai + ", phanLoai=" + phanLoai + "]";
 	}
-
+	
     
 }
 

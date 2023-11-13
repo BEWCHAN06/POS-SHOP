@@ -60,9 +60,8 @@ public class MauSacDAO {
     public int updateMauSac(MauSac mauSac){
         KetNoiSQL.getInstance();
         Connection conn = KetNoiSQL.getConnection();
-        
         try {
-            String sql = "update MauSac set mauSac = (?) where maMauSac = ?";
+            String sql = "update MauSac set mauSac = (?) where maMS = ?";
             PreparedStatement stmt = conn.prepareCall(sql);
             stmt.setString(1, mauSac.getMauSac());
             stmt.setString(2, mauSac.getMaMauSac());
@@ -77,7 +76,7 @@ public class MauSacDAO {
         KetNoiSQL.getInstance();
         Connection conn = KetNoiSQL.getConnection();    
         try {
-            String sql = "insert into MauSac(maMauSac, mauSac) values (?, ?)";
+            String sql = "insert into MauSac(maMS, mauSac) values (?, ?)";
             PreparedStatement stmt = conn.prepareCall(sql);
             stmt.setString(1, mauSac.getMaMauSac());
             stmt.setString(2, mauSac.getMauSac());

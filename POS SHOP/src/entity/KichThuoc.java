@@ -1,5 +1,8 @@
 package entity;
 
+import dao.KichThuocDAO;
+import dao.MauSacDAO;
+
 public class KichThuoc {
     private String maKichThuoc;
     private String kichThuoc;
@@ -23,6 +26,13 @@ public class KichThuoc {
 	}
 	public void setKichThuoc(String kichThuoc) {
 		this.kichThuoc = kichThuoc;
+	}
+	public String getAutoID() {
+		KichThuocDAO kichThuocDAO = new KichThuocDAO();
+		String idPrefix = "KT";
+		int length = kichThuocDAO.getAllKichThuoc().size();
+		String finalId = idPrefix + String.format("%02d", length + 1);
+		return finalId;
 	}
 	@Override
 	public String toString() {

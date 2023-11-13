@@ -1,5 +1,7 @@
 package entity;
 
+import dao.XuatXuDAO;
+
 public class XuatXu {
     private String maXuatXu;
     private String xuatXu;
@@ -25,6 +27,13 @@ public class XuatXu {
 	}
 	public void setXuatXu(String xuatXu) {
 		this.xuatXu = xuatXu;
+	}
+	public String getAutoID() {
+		XuatXuDAO xuatXuDAO = new XuatXuDAO();
+		String idPrefix = "XX";
+		int length = xuatXuDAO.getAllXuatXu().size();
+		String finalId = idPrefix + String.format("%02d", length + 1);
+		return finalId;
 	}
 	@Override
 	public String toString() {

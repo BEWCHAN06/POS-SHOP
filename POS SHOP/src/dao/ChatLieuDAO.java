@@ -62,7 +62,7 @@ public class ChatLieuDAO {
         Connection conn = KetNoiSQL.getConnection();
         
         try {
-            String sql = "update ChatLieu set chatLieu = (?) where maChatLieu = ?";
+            String sql = "update ChatLieu set chatLieu = (?) where maCL = ?";
             PreparedStatement stmt = conn.prepareCall(sql);
             stmt.setString(1, chatLieu.getChatLieu());
             stmt.setString(2, chatLieu.getMaChatLieu());
@@ -77,7 +77,7 @@ public class ChatLieuDAO {
         KetNoiSQL.getInstance();
         Connection conn = KetNoiSQL.getConnection();    
         try {
-            String sql = "insert into ChatLieu(maChatLieu, chatLieu) values (?, ?)";
+            String sql = "insert into ChatLieu(maCL, chatLieu) values (?, ?)";
             PreparedStatement stmt = conn.prepareCall(sql);
             stmt.setString(1, chatLieu.getMaChatLieu());
             stmt.setString(2, chatLieu.getChatLieu());

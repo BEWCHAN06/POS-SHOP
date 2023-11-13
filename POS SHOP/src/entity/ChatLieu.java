@@ -1,5 +1,7 @@
 package entity;
 
+import dao.ChatLieuDAO;
+
 public class ChatLieu {
     private String maChatLieu;
     private String chatLieu;
@@ -23,6 +25,13 @@ public class ChatLieu {
 	}
 	public void setChatLieu(String chatLieu) {
 		this.chatLieu = chatLieu;
+	}
+	public String getAutoID() {
+		ChatLieuDAO chatLieuDAO = new ChatLieuDAO();
+		String idPrefix = "CL";
+		int length = chatLieuDAO.getAllChatLieu().size();
+		String finalId = idPrefix + String.format("%02d", length + 1);
+		return finalId;
 	}
 	@Override
 	public String toString() {

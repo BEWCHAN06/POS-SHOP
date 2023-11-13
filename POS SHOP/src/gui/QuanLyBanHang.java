@@ -162,7 +162,7 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 		sanPhamDAO = new SanPhamDAO();
 		clearTableDSSP();
 		DefaultTableModel dtm = (DefaultTableModel) tblDSSanPham.getModel();
-		List<SanPham> listsp = sanPhamDAO.doTuBang();
+		List<SanPham> listsp = sanPhamDAO.dsSPBanHang();
 		for(SanPham sp : listsp) {
 			Object[] rowdata = {sp.getMaSP(),sp.getTenSP(),sp.getPl().getPhanLoai(),sp.getKichThuoc(),sp.getGiaBan(),sp.getSoLuong(),sp.getMauSac().getMauSac(),sp.getKichThuoc().getKichThuoc()};
 			dtm.addRow(rowdata);
@@ -515,7 +515,17 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 				HoaDonDAO hoaDonDAO = new HoaDonDAO();
 				double tt = chiTietHoaDonDAO.getTongTien(mahd);
 				hoaDonDAO.updateHoaDon(mahd,1, tt);
+				int cnt = tblGioHang.getRowCount();
+				for(int i  = 0; i < cnt; i++) {
+					System.out.println(tblGioHang.getValueAt(i, 0));
+					System.out.println(tblGioHang.getValueAt(i, 5));
+					String ma = tblGioHang.getValueAt(i, 0).toString();
+					int sl = Integer.parseInt(tblGioHang.getValueAt(i, 5).toString());
+					sanPhamDAO.SuaSlSP(sl, ma);
+				}
 				updateTableHoaDonCho();
+				updateTableGioHang("");
+				tblDanhSachSanPham();
 				
 			}
 		});
@@ -946,7 +956,7 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 			if(check) {
 				SanPham sp = sanPhamDAO.getSanPhanTheoId(masp);
 				HoaDon hd = HoaDonDAO.getHDTheoId(mahd);
-				ChiTietHoaDon cthd = new ChiTietHoaDon(sp, hd, 0.0, 1, sp.getGiaBan()*1);
+				ChiTietHoaDon cthd = new ChiTietHoaDon(sp, hd, 0.0, 1, sp.getGiaBan());
 				chiTietHoaDonDAO.addSanPhamVaoHD(cthd);
 				updateTableGioHang(mahd);
 				lblTongTienpush.setText(chiTietHoaDonDAO.getTongTien(mahd)+"");
@@ -1004,6 +1014,7 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 		lblTongTienpush.setText(chiTietHoaDonDAO.getTongTien(mahd)+"");
 		updateTableGioHang(mahd);
 		System.out.println(qrCodeValue);
+
 		
 	}
 	@Override

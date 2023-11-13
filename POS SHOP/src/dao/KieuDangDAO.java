@@ -62,7 +62,7 @@ public class KieuDangDAO {
         Connection conn = KetNoiSQL.getConnection();
         
         try {
-            String sql = "update KieuDang set kieuDang = (?) where maKieuDang = ?";
+            String sql = "update KieuDang set kieuDang = (?) where maKD = ?";
             PreparedStatement stmt = conn.prepareCall(sql);
             stmt.setString(1, kieuDang.getKieuDang());
             stmt.setString(2, kieuDang.getMaKieuDang());
@@ -77,7 +77,7 @@ public class KieuDangDAO {
         KetNoiSQL.getInstance();
         Connection conn = KetNoiSQL.getConnection();    
         try {
-            String sql = "insert into KieuDang(maKieuDang, kieuDang) values (?, ?)";
+            String sql = "insert into KieuDang(maKD, kieuDang) values (?, ?)";
             PreparedStatement stmt = conn.prepareCall(sql);
             stmt.setString(1, kieuDang.getMaKieuDang());
             stmt.setString(2, kieuDang.getKieuDang());

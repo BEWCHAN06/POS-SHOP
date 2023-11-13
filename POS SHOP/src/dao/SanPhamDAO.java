@@ -79,6 +79,47 @@ public class SanPhamDAO {
 		}
 		return dssp;
 	}
+	public List<SanPham> dsSPBanHang() {
+		KetNoiSQL.getInstance().connect();
+		try {
+			Connection con = KetNoiSQL.getInstance().getConnection();
+			String sql = "select maSP, tenSP, maPL, giaNhap,loiTheoPhanTram, maKM, giaBan, maKT,soLuong,maMS, maCL, maNCC, hinhAnh  from SanPham where soLuong > 0";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+
+			while (rs.next()) {
+				String masp = rs.getString("maSP");
+				String ten = rs.getString("tenSP");
+				String maloai = rs.getString("maPL");
+				float giaNhap = rs.getFloat("giaNhap");
+				int loi = rs.getInt("loiTheoPhanTram");
+				String maKm = rs.getString("maKM");
+				float giaBan = rs.getFloat("giaBan");
+				String makt = rs.getString("maKT");
+				int sl = rs.getInt("soLuong");
+				String mams = rs.getString("maMS");
+				String macl = rs.getString("maCL");
+				String mancc = rs.getString("maNCC");
+				String hinhAnh = rs.getString("hinhAnh");
+
+				PhanLoai phanloai = phanLoaiDAO.getPhanLoai(maloai);
+				KhuyenMai khuyenmai = khuyenMaiDao.getKhuyenMai(maKm);
+				KichThuoc kt = kichThuocDao.getKichThuoc(makt);
+				MauSac ms = mauSacDAO.getMauSac(mams);
+				ChatLieu cl = chatLieuDao.getChatLieu(macl);
+				NhaCungCap ncc = nhaCungCapDao.getNhaCungCap(mancc);
+
+				SanPham sp = new SanPham(masp, ten, phanloai, giaNhap, loi, khuyenmai, giaBan, kt, sl, ms, cl, ncc,
+						hinhAnh);
+				dssp.add(sp);
+			}
+
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dssp;
+	}
 
 	// Tìm sản phẩm theo phân loại
 	public List<SanPham> getSanPhanTheoPhanLoai(String name) {
@@ -320,6 +361,23 @@ public class SanPhamDAO {
 			stmt.setString(14, sanPham.getHinhAnh());
 			stmt.setString(15, sanPham.getMaSP());
 
+			return stmt.executeUpdate();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return -1;
+	}
+	public int SuaSlSP(int sl, String mahd) {
+		KetNoiSQL.getInstance().connect();
+		;
+		Connection conn = KetNoiSQL.getConnection();
+
+		try {
+			String sql = "update SanPham set soLuong = soLuong - (?) where maSP = (?)";
+
+			PreparedStatement stmt = conn.prepareCall(sql);
+			stmt.setInt(1, sl);
+			stmt.setString(2, mahd);
 			return stmt.executeUpdate();
 		} catch (SQLException ex) {
 			ex.printStackTrace();

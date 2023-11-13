@@ -1,5 +1,8 @@
 package entity;
 
+import dao.MauSacDAO;
+import dao.SanPhamDAO;
+
 public class MauSac {
     private String maMauSac;
     private String mauSac;
@@ -23,6 +26,13 @@ public class MauSac {
 	}
 	public void setMauSac(String mauSac) {
 		this.mauSac = mauSac;
+	}
+	public String getAutoID() {
+		MauSacDAO sanPham_DAO = new MauSacDAO();
+		String idPrefix = "MS";
+		int length = sanPham_DAO.getAllMauSac().size();
+		String finalId = idPrefix + String.format("%02d", length + 1);
+		return finalId;
 	}
 	@Override
 	public String toString() {

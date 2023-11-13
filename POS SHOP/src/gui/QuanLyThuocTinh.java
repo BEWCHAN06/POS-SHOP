@@ -45,10 +45,11 @@ import entity.PhanLoai;
 import entity.XuatXu;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class QuanLyThuocTinh extends JPanel implements ActionListener{
+public class QuanLyThuocTinh extends JPanel implements ActionListener, MouseListener{
 	private JTextField txtTenThuocTinh;
 	private JTextField txtTimKiem;
 	private JTable tblThuocTinh;
@@ -71,6 +72,9 @@ public class QuanLyThuocTinh extends JPanel implements ActionListener{
 	private JButton btnHuy;
 	private DefaultTableModel dtm;
 	private JButton btnLamMoi;
+	private String trangThaiThuocTinh;
+	private int trangthaibtn;
+	private String maThuocTinh;
 	/**
 	 * Create the panel.
 	 */
@@ -201,8 +205,10 @@ public class QuanLyThuocTinh extends JPanel implements ActionListener{
 		
 		btnThem = new JButton("thêm");
 		btnThem.addMouseListener(new MouseAdapter() {
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				trangthaibtn = 1;
 //				System.exit(0);
 //				rb_mauSac.setEnabled(false);
 //				btn_ThemMouseListener(e);
@@ -225,6 +231,7 @@ public class QuanLyThuocTinh extends JPanel implements ActionListener{
 		btnSua.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				trangthaibtn = 2;
 				txtTenThuocTinh.setEnabled(true);
 				btnLuu.setEnabled(true);
 				btnSua.setEnabled(false);
@@ -233,6 +240,7 @@ public class QuanLyThuocTinh extends JPanel implements ActionListener{
 				setRb(false);
 			}
 		});
+		trangThaiThuocTinh = "mausac";
 		btnSua.setIcon(new ImageIcon(QuanLyThuocTinh.class.getResource("/icon/sua.png")));
 		btnSua.setFont(new Font("Arial", Font.BOLD, 12));
 		btnSua.setBorder(new LineBorder(new Color(0, 0, 0), 2));
@@ -242,10 +250,8 @@ public class QuanLyThuocTinh extends JPanel implements ActionListener{
 		btnLuu.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				String thuoctinh = txtTenThuocTinh.getText();
-				if(rb_mauSac.isSelected()) {
-//					themMauXac(thuoctinh);
-				}
+				
+				
 			}
 		});
 		btnLuu.setEnabled(false);
@@ -257,6 +263,70 @@ public class QuanLyThuocTinh extends JPanel implements ActionListener{
 				btnLuu.setEnabled(false);
 				btnHuy.setEnabled(false);
 				setRb(true);
+				
+				String thuoctinh = txtTenThuocTinh.getText();
+				if(trangThaiThuocTinh.equals("mausac")) {
+					if(trangthaibtn == 1) {
+						MauSac ms = new MauSac();
+						mauSac_Dao.addMauSac(new MauSac(ms.getAutoID(), thuoctinh));
+						tblDanhSachMauSac();
+					}
+					if(trangthaibtn == 2) {
+						mauSac_Dao.updateMauSac(new MauSac(maThuocTinh, thuoctinh));
+						tblDanhSachMauSac();
+					}
+				}else if(trangThaiThuocTinh.equals("kichthuoc")) {
+					if(trangthaibtn == 1) {
+						KichThuoc kt = new KichThuoc();
+						kichThuoc_Dao.addKichThuoc(new KichThuoc(kt.getAutoID(), thuoctinh));
+						tblDanhSachKichThuoc();
+					}
+					if(trangthaibtn == 2) {
+						kichThuoc_Dao.updateKichThuoc(new KichThuoc(maThuocTinh, thuoctinh));
+						tblDanhSachKichThuoc();
+					}
+				}else if(trangThaiThuocTinh.equals("chatlieu")) {
+					if(trangthaibtn == 1) {
+						ChatLieu cl = new ChatLieu();
+						chatLieu_Dao.addChatLieu(new ChatLieu(cl.getAutoID(), thuoctinh));
+						tblDanhSachChatLieu();
+					}
+					if(trangthaibtn == 2) {
+						chatLieu_Dao.updateChatLieu(new ChatLieu(maThuocTinh, thuoctinh));
+						tblDanhSachChatLieu();
+					}
+				}else if(trangThaiThuocTinh.equals("kieudang")) {
+					if(trangthaibtn == 1) {
+						KieuDang kd = new KieuDang();
+						kieuDang_Dao.addKieuDang(new KieuDang(kd.getAutoID(), thuoctinh));
+						tblDanhSachKieuDang();
+					}
+					if(trangthaibtn == 2) {
+						chatLieu_Dao.updateChatLieu(new ChatLieu(maThuocTinh, thuoctinh));
+						tblDanhSachKieuDang();
+					}
+				}else if(trangThaiThuocTinh.equals("xuatxu")) {
+					if(trangthaibtn == 1) {
+						XuatXu xx = new XuatXu();
+						xuatXu_Dao.addXuatXu(new XuatXu(xx.getAutoID(), thuoctinh));
+						tblDanhSachXuatXu();
+					}
+					if(trangthaibtn == 2) {
+						xuatXu_Dao.updateXuatXu(new XuatXu(maThuocTinh, thuoctinh));
+						tblDanhSachXuatXu();
+					}
+				}else if(trangThaiThuocTinh.equals("loai")) {
+					if(trangthaibtn == 1) {
+						PhanLoai phanLoai = new PhanLoai();
+						phanLoai_Dao.addPhanLoai(new PhanLoai(phanLoai.getAutoID(), thuoctinh));
+						tblDanhSachPhanLoai();
+					}
+					if(trangthaibtn == 2) {
+						phanLoai_Dao.updatePhanLoai(new PhanLoai(maThuocTinh, thuoctinh));
+						tblDanhSachPhanLoai();
+					}
+				}
+				trangthaibtn = 0;
 			}
 		});
 		btnLuu.setIcon(new ImageIcon(QuanLyThuocTinh.class.getResource("/icon/luulienket.png")));
@@ -276,6 +346,7 @@ public class QuanLyThuocTinh extends JPanel implements ActionListener{
 				btnHuy.setEnabled(false);
 				btnLuu.setEnabled(false);
 				txtTimKiem.setEnabled(false);
+				trangthaibtn = 0;
 			}
 		});
 		btnLamMoi.setIcon(new ImageIcon(QuanLyThuocTinh.class.getResource("/icon/refesh.png")));
@@ -294,6 +365,7 @@ public class QuanLyThuocTinh extends JPanel implements ActionListener{
 				btnLuu.setEnabled(false);
 				btnHuy.setEnabled(false);
 				setRb(true);
+				trangthaibtn = 0;
 			}
 		});
 		btnHuy.setIcon(new ImageIcon(QuanLyThuocTinh.class.getResource("/icon/x.png")));
@@ -304,8 +376,8 @@ public class QuanLyThuocTinh extends JPanel implements ActionListener{
 		
 		txtTenThuocTinh = new JTextField();
 		txtTenThuocTinh.setEnabled(false);
-		txtTenThuocTinh.setBackground(Color.LIGHT_GRAY);
-		txtTenThuocTinh.setBorder(new LineBorder(new Color(0, 0, 0)));
+//		txtTenThuocTinh.setBackground(Color.LIGHT_GRAY);
+//		txtTenThuocTinh.setBorder(new LineBorder(new Color(0, 0, 0)));
 		txtTenThuocTinh.setColumns(10);
 		//===========================================
 		//chạy tổng thể:
@@ -444,6 +516,7 @@ public class QuanLyThuocTinh extends JPanel implements ActionListener{
       rb_mauSac.addActionListener(this);
       rb_xuatXu.addActionListener(this);
       rb_kieuDang.addActionListener(this);
+      tblThuocTinh.addMouseListener(this);
 	}
 	private void setColorTXT() {
 		boolean check = txtTenThuocTinh.isEnabled();
@@ -555,26 +628,64 @@ public class QuanLyThuocTinh extends JPanel implements ActionListener{
 		// TODO Auto-generated method stub
 		String event = e.getActionCommand();
 		if(event.equalsIgnoreCase("Kích thước")){
+			trangThaiThuocTinh = "kichthuoc";
             tblDanhSachKichThuoc();
         }
 
         else if(event.equalsIgnoreCase("Màu sắc")){
+        	trangThaiThuocTinh = "mausac";
             tblDanhSachMauSac();
         }
 
         else if(event.equalsIgnoreCase("Chất liệu")){
+        	trangThaiThuocTinh = "chatlieu";
             tblDanhSachChatLieu();
         }
 
         else if(event.equalsIgnoreCase("Loại sản phẩm")){
+        	trangThaiThuocTinh = "loai";
             tblDanhSachPhanLoai();
         }
         else if(event.equalsIgnoreCase("Kiểu dáng")){
+        	trangThaiThuocTinh = "kieudang";
             tblDanhSachKieuDang();
         }
         else if(event.equalsIgnoreCase("Xuất xứ")){
+        	trangThaiThuocTinh = "xuatxu";
             tblDanhSachXuatXu();
         } 
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		int row = tblThuocTinh.getSelectedRow();
+		maThuocTinh = tblThuocTinh.getValueAt(row, 0).toString();
+		System.out.println(maThuocTinh);
+		txtTenThuocTinh.setText(tblThuocTinh.getValueAt(row, 1).toString());
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

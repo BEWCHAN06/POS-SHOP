@@ -1,5 +1,7 @@
 package entity;
 
+import dao.KieuDangDAO;
+
 public class KieuDang {
     private String maKieuDang;
     private String kieuDang;
@@ -23,6 +25,13 @@ public class KieuDang {
 	}
 	public void setKieuDang(String kieuDang) {
 		this.kieuDang = kieuDang;
+	}
+	public String getAutoID() {
+		KieuDangDAO kieuDangDAO = new KieuDangDAO();
+		String idPrefix = "KD";
+		int length = kieuDangDAO.getAllKieuDang().size();
+		String finalId = idPrefix + String.format("%02d", length + 1);
+		return finalId;
 	}
 	@Override
 	public String toString() {

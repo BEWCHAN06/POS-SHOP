@@ -62,7 +62,7 @@ public class KichThuocDAO {
         Connection conn = KetNoiSQL.getConnection();
         
         try {
-            String sql = "update KichThuoc set kichThuoc = (?) where maKichThuoc = ?";
+            String sql = "update KichThuoc set kichThuoc = (?) where maKT = ?";
             PreparedStatement stmt = conn.prepareCall(sql);
             stmt.setString(1, kichThuoc.getKichThuoc());
             stmt.setString(2, kichThuoc.getMaKichThuoc());
@@ -77,7 +77,7 @@ public class KichThuocDAO {
         KetNoiSQL.getInstance();
         Connection conn = KetNoiSQL.getConnection();    
         try {
-            String sql = "insert into KichThuoc(maKichThuoc, kichThuoc) values (?, ?)";
+            String sql = "insert into KichThuoc(maKT, kichThuoc) values (?, ?)";
             PreparedStatement stmt = conn.prepareCall(sql);
             stmt.setString(1, kichThuoc.getMaKichThuoc());
             stmt.setString(2, kichThuoc.getKichThuoc());
