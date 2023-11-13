@@ -18,7 +18,7 @@ public class PhanLoaiDAO {
     
     public ArrayList<PhanLoai> getAllPhanLoai(){
         ArrayList<PhanLoai>listPhanLoai = new ArrayList<>();
-        KetNoiSQL.getInstance().connect();
+        	KetNoiSQL.getInstance().connect();
             Connection conn = KetNoiSQL.getInstance().getConnection(); 
         try {
             String sql = "Select * from PhanLoai";
@@ -39,7 +39,8 @@ public class PhanLoaiDAO {
     
     public PhanLoai getPhanLoai(String id){
         KetNoiSQL.getInstance();
-        Connection conn = KetNoiSQL.getConnection();
+        KetNoiSQL.getInstance().connect();
+        Connection conn = KetNoiSQL.getInstance().getConnection(); 
         
         try {
             String sql = "select * from PhanLoai where maPL = ?";
@@ -60,7 +61,8 @@ public class PhanLoaiDAO {
     
     public int updatePhanLoai(PhanLoai phanLoai){
         KetNoiSQL.getInstance();
-        Connection conn = KetNoiSQL.getConnection();
+        KetNoiSQL.getInstance().connect();
+        Connection conn = KetNoiSQL.getInstance().getConnection(); 
         
         try {
             String sql = "update PhanLoai set phanLoai = (?) where maPL = ?";
@@ -76,7 +78,8 @@ public class PhanLoaiDAO {
     
     public int addPhanLoai(PhanLoai phanLoai){
         KetNoiSQL.getInstance();
-        Connection conn = KetNoiSQL.getConnection();    
+        KetNoiSQL.getInstance().connect();
+        Connection conn = KetNoiSQL.getInstance().getConnection();   
         try {
             String sql = "insert into PhanLoai(maPL, phanLoai) values (?, ?)";
             PreparedStatement stmt = conn.prepareCall(sql);
@@ -91,7 +94,8 @@ public class PhanLoaiDAO {
      
     public PhanLoai getPhanLoaiByName(String name){
         KetNoiSQL.getInstance().connect();;
-        Connection conn = KetNoiSQL.getConnection();
+        KetNoiSQL.getInstance().connect();
+        Connection conn = KetNoiSQL.getInstance().getConnection(); 
         
         try {
             String sql = "select * from PhanLoai where phanLoai = ?";

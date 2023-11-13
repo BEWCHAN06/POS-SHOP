@@ -1,3 +1,8 @@
 /gui/
+<<<<<<< HEAD
+/component/
+/testZxing/
 /entity/
+=======
+>>>>>>> 7e94efe98c98b4a3bebed4d0c5debe2d83728698
 /dao/

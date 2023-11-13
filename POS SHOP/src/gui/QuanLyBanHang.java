@@ -1,11 +1,20 @@
 package gui;
 
 import javax.swing.JPanel;
+import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.AbstractButton;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTextPane;
 import javax.swing.JEditorPane;
+import javax.swing.JFrame;
 import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -15,6 +24,8 @@ import java.awt.Dimension;
 
 import javax.swing.border.LineBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
@@ -23,6 +34,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingWorker;
 import javax.swing.JTextArea;
 
 import java.awt.BorderLayout;
@@ -31,20 +43,47 @@ import java.awt.ScrollPane;
 import java.awt.CardLayout;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.xml.crypto.Data;
 
+import org.opencv.core.Core;
+import org.opencv.core.Mat;
+import org.opencv.core.MatOfByte;
+import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.videoio.VideoCapture;
+
+import com.google.zxing.BinaryBitmap;
+import com.google.zxing.MultiFormatReader;
+import com.google.zxing.NotFoundException;
+import com.google.zxing.Result;
+import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
+import com.google.zxing.common.HybridBinarizer;
+
+import dao.ChiTietHoaDonDAO;
+import dao.HoaDonDAO;
+import dao.KhachHangDAO;
+import dao.NhanVienDAO;
 import dao.SanPhamDAO;
+import entity.ChiTietHoaDon;
 import entity.HoaDon;
+import entity.KhachHang;
+import entity.NhanVien;
 import entity.SanPham;
+import gui.CameraPanel.QRCodeListener;
 
 import javax.swing.JScrollPane;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Date;
-import java.time.LocalDate;
+import java.text.DateFormat;
+import java.time.LocalDate;import java.time.LocalDateTime;
 import java.util.List;
 
-public class QuanLyBanHang extends JPanel implements ActionListener, MouseListener{
+public class QuanLyBanHang extends JPanel implements ActionListener, MouseListener, QRCodeListener{
 	private JTextField txtTienKhachDua;
 	private JTable tblHoaDonCho;
 	private JTable tblGioHang;
@@ -58,16 +97,65 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 	private int soluong;
 	private JButton btnTaoHD;
 	private JButton btnTim;
-
+	private JPanel contentPane;
+	private HoaDonDAO HoaDonDAO;
+	private HoaDonDAO HoaDonDAO1;
+	KhachHangDAO khachHangDAO = new KhachHangDAO();
+	NhanVienDAO nhanVienDAO = new NhanVienDAO();
+	private JLabel lblmakh;
+	private JLabel lbltenkh;
+	private String mahd;
+	private String maspGioHang;
+	private double phantramKM;
+	private ChiTietHoaDonDAO chiTietHoaDonDAO = new ChiTietHoaDonDAO();
+	private double dongia;
+	private JButton btnXoaSP;
+	private JLabel lblMaHDpush;
+	private JLabel lblTongTienpush;
+	private JLabel lblGiamGiapush;
+	private JLabel lblThuepush;
+	private JLabel lblThanhToanpush;
+	private JButton btnHuyHoaDon;
+	private JLabel lbltienthua;
+	private VideoCapture capture;
+	private JPanel cam;
+	private JPanel pnlCamera;
+	private JLabel cameraViewLabel;
+	private String qrCodeValue;
 	/**
 	 * Create the panel.
 	 */
 	public QuanLyBanHang() {
+		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 		UiBanHang();
 		tblDanhSachSanPham();
+		updateTableHoaDonCho();
+		if(tblHoaDonCho.getRowCount()>0) {
+			tblHoaDonCho.setRowSelectionInterval(0, 0);
+			int row=tblHoaDonCho.getSelectedRow();
+			mahd = tblHoaDonCho.getValueAt(row, 0).toString();
+			 updateTableGioHang(mahd);
+			 lblTongTienpush.setText(chiTietHoaDonDAO.getTongTien(mahd)+"");
+		}
+
+//		cameraViewLabel.setPreferredSize(new Dimension(170, 110));
+		cam.removeAll();
+		cam.setLayout(new BorderLayout());
+		CameraPanel cameraPanel = new CameraPanel();
+		cam.add(cameraPanel);
+		cameraPanel.addQRCodeListener(this);
+		cameraPanel.startCamera();
 	}
     private void clearTableDSSP() {
         DefaultTableModel dtm = (DefaultTableModel) tblDSSanPham.getModel();
+        dtm.setRowCount(0);
+    }
+    private void clearTableGioHang() {
+        DefaultTableModel dtm = (DefaultTableModel) tblGioHang.getModel();
+        dtm.setRowCount(0);
+    }
+    private void clearTableDSHDC() {
+        DefaultTableModel dtm = (DefaultTableModel) tblHoaDonCho.getModel();
         dtm.setRowCount(0);
     }
 	private void tblDanhSachSanPham() {
@@ -85,15 +173,15 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 		setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		setBackground(new Color(255, 255, 255));
 		
-		JPanel pnlHoaDon = new JPanel();
-		pnlHoaDon.setBackground(new Color(255, 255, 255));
-		pnlHoaDon.setBorder(new CompoundBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2), "\u0110\u01A1n H\u00E0ng", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)), null));
+		JPanel lblTienThua = new JPanel();
+		lblTienThua.setBackground(new Color(255, 255, 255));
+		lblTienThua.setBorder(new CompoundBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2), "\u0110\u01A1n H\u00E0ng", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)), null));
 		
 		JPanel pnlHoaDonCho = new JPanel();
 		pnlHoaDonCho.setBackground(new Color(255, 255, 255));
 		pnlHoaDonCho.setBorder(new CompoundBorder(new CompoundBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2), "H\u00F3a \u0110\u01A1n Ch\u1EDD", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)), null), null));
 		
-		JPanel pnlCamera = new JPanel();
+		pnlCamera = new JPanel();
 		pnlCamera.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		
 		JPanel pnlGioHang = new JPanel();
@@ -122,7 +210,7 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 							.addComponent(pnlCamera, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE)))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(pnlHoaDon, GroupLayout.PREFERRED_SIZE, 330, Short.MAX_VALUE)
+						.addComponent(lblTienThua, GroupLayout.PREFERRED_SIZE, 330, Short.MAX_VALUE)
 						.addComponent(btnTraHang))
 					.addContainerGap())
 		);
@@ -145,9 +233,16 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 							.addGap(12)
 							.addComponent(btnTraHang)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(pnlHoaDon, GroupLayout.DEFAULT_SIZE, 639, Short.MAX_VALUE)))
+							.addComponent(lblTienThua, GroupLayout.DEFAULT_SIZE, 639, Short.MAX_VALUE)))
 					.addContainerGap())
 		);
+		pnlCamera.setLayout(new CardLayout(0, 0));
+		
+		cam = new JPanel();
+		pnlCamera.add(cam, "name_58835019045600");
+		cam.setLayout(new CardLayout(0, 0));
+//		cameraViewLabel = new JLabel();
+//		cam.add(cameraViewLabel);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(255, 255, 255));
@@ -225,29 +320,44 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 		btnOk.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		btnOk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String msp = maspGioHang;
+				SanPham sp = sanPhamDAO.getSanPhanTheoId(msp);
+				HoaDon hd = HoaDonDAO.getHDTheoId(mahd);
+				double phantram = phantramKM;
+				int sl = Integer.parseInt(txtSoLuong.getText());
+				ChiTietHoaDon cthd = new ChiTietHoaDon();
+				cthd = new ChiTietHoaDon(sp, hd, phantram, sl, sl*dongia);
+				chiTietHoaDonDAO.updateSoLuongSPTrongGio(cthd);
+				updateTableGioHang(mahd);
+				lblTongTienpush.setText(chiTietHoaDonDAO.getTongTien(mahd)+"");
 			}
 		});
 		btnOk.setForeground(new Color(255, 255, 255));
 		btnOk.setBackground(new Color(144, 238, 144));
 		btnOk.setFont(new Font("Arial", Font.BOLD, 9));
 		
-		JButton btnXoaSanPham = new JButton("Xóa sản phẩm");
-		btnXoaSanPham.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-		btnXoaSanPham.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnXoaSP = new JButton("Xóa Sản Phẩm");
+
+		btnXoaSP.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				String msp = maspGioHang;
+				SanPham sp = sanPhamDAO.getSanPhanTheoId(msp);
+				HoaDon hd = HoaDonDAO.getHDTheoId(mahd);
+				double phantram = phantramKM;
+				int sl = Integer.parseInt(txtSoLuong.getText());
+				ChiTietHoaDon cthd = new ChiTietHoaDon();
+				cthd = new ChiTietHoaDon(sp, hd, phantram, sl, sl*dongia);
+				chiTietHoaDonDAO.deleteMotSP(cthd);
+				updateTableGioHang(mahd);
+				lblTongTienpush.setText(chiTietHoaDonDAO.getTongTien(mahd)+"");
 			}
 		});
-		btnXoaSanPham.setIcon(new ImageIcon(QuanLyBanHang.class.getResource("/icon/xoa1sp.png")));
-		btnXoaSanPham.setForeground(new Color(255, 255, 255));
-		btnXoaSanPham.setBackground(new Color(210, 105, 30));
-		btnXoaSanPham.setFont(new Font("Arial", Font.BOLD, 10));
-		
-		JButton btnXoaTatCaSP = new JButton("Xóa tất cả");
-		btnXoaTatCaSP.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-		btnXoaTatCaSP.setIcon(new ImageIcon(QuanLyBanHang.class.getResource("/icon/xoaall.png")));
-		btnXoaTatCaSP.setForeground(new Color(255, 255, 255));
-		btnXoaTatCaSP.setBackground(new Color(255, 0, 0));
-		btnXoaTatCaSP.setFont(new Font("Arial", Font.BOLD, 10));
+		btnXoaSP.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		btnXoaSP.setIcon(new ImageIcon(QuanLyBanHang.class.getResource("/icon/xoaall.png")));
+		btnXoaSP.setForeground(new Color(255, 255, 255));
+		btnXoaSP.setBackground(new Color(255, 0, 0));
+		btnXoaSP.setFont(new Font("Arial", Font.BOLD, 10));
 		GroupLayout gl_pnlGioHang = new GroupLayout(pnlGioHang);
 		gl_pnlGioHang.setHorizontalGroup(
 			gl_pnlGioHang.createParallelGroup(Alignment.LEADING)
@@ -258,26 +368,22 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 					.addComponent(txtSoLuong, GroupLayout.PREFERRED_SIZE, 66, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(btnOk, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
-					.addGap(39)
-					.addComponent(btnXoaSanPham, GroupLayout.PREFERRED_SIZE, 126, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
-					.addComponent(btnXoaTatCaSP, GroupLayout.PREFERRED_SIZE, 117, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, 197, Short.MAX_VALUE)
+					.addComponent(btnXoaSP, GroupLayout.PREFERRED_SIZE, 117, GroupLayout.PREFERRED_SIZE)
 					.addGap(55))
 				.addComponent(panel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 568, Short.MAX_VALUE)
 		);
 		gl_pnlGioHang.setVerticalGroup(
-			gl_pnlGioHang.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_pnlGioHang.createSequentialGroup()
+			gl_pnlGioHang.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_pnlGioHang.createSequentialGroup()
 					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_pnlGioHang.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_pnlGioHang.createParallelGroup(Alignment.BASELINE)
 							.addComponent(lblNewLabel)
 							.addComponent(txtSoLuong, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_pnlGioHang.createParallelGroup(Alignment.BASELINE)
-							.addComponent(btnOk, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
-							.addComponent(btnXoaSanPham, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
-						.addComponent(btnXoaTatCaSP, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)))
+						.addComponent(btnOk, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnXoaSP, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)))
 		);
 		panel.setLayout(new CardLayout(0, 0));
 		
@@ -355,17 +461,17 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 		txtTienKhachDua = new JTextField();
 		txtTienKhachDua.setColumns(10);
 		
-		JLabel lblMaHDpush = new JLabel("0");
+		lblMaHDpush = new JLabel("0");
 		
-		JLabel lblTongTienpush = new JLabel("0");
+		lblTongTienpush = new JLabel("0");
 		
-		JLabel lblGiamGiapush = new JLabel("0");
+		lblGiamGiapush = new JLabel("0");
 		
-		JLabel lblThuepush = new JLabel("0");
+		lblThuepush = new JLabel("0");
 		
-		JLabel lblThanhToanpush = new JLabel("0");
+		lblThanhToanpush = new JLabel("0");
 		
-		JLabel lblNewLabel_1_4 = new JLabel("0");
+		lbltienthua = new JLabel("0");
 		
 		JLabel lblTien = new JLabel("VNĐ");
 		lblTien.setHorizontalAlignment(SwingConstants.CENTER);
@@ -385,162 +491,163 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 		JLabel lblTien_5 = new JLabel("VNĐ");
 		lblTien_5.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JLabel lblTinKhcha_1_1 = new JLabel("Tiền thừa : ");
+		JLabel lblTinKhcha_1_1 = new JLabel("Ghi Chú:");
 		lblTinKhcha_1_1.setHorizontalAlignment(SwingConstants.LEFT);
 		lblTinKhcha_1_1.setFont(new Font("Arial", Font.BOLD, 12));
 		
 		JPanel pnlGhiChu = new JPanel();
 		pnlGhiChu.setBorder(new LineBorder(new Color(0, 0, 0)));
 		
-		JButton btnHuyHoaDon = new JButton("Hủy Hóa Đơn");
+		btnHuyHoaDon = new JButton("Hủy Hóa Đơn");
 		btnHuyHoaDon.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		btnHuyHoaDon.setIcon(new ImageIcon(QuanLyBanHang.class.getResource("/icon/stop2.png")));
 		btnHuyHoaDon.setForeground(new Color(255, 255, 255));
 		btnHuyHoaDon.setBackground(new Color(255, 0, 0));
 		btnHuyHoaDon.setFont(new Font("Arial", Font.BOLD, 12));
-		btnHuyHoaDon.addActionListener(new ActionListener() {
+		
+		JButton btnThanhToan = new JButton("Thanh Toán");
+		btnThanhToan.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		btnThanhToan.setForeground(new Color(255, 255, 255));
+		btnThanhToan.setIcon(new ImageIcon(QuanLyBanHang.class.getResource("/icon/thanhtoan.png")));
+		btnThanhToan.setBackground(new Color(50, 205, 50));
+		btnThanhToan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				HoaDonDAO hoaDonDAO = new HoaDonDAO();
+				double tt = chiTietHoaDonDAO.getTongTien(mahd);
+				hoaDonDAO.updateHoaDon(mahd,1, tt);
+				updateTableHoaDonCho();
+				
 			}
 		});
+		btnThanhToan.setFont(new Font("Arial", Font.BOLD, 22));
 		
-		JButton btnNewButton = new JButton("Thanh Toán");
-		btnNewButton.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-		btnNewButton.setForeground(new Color(255, 255, 255));
-		btnNewButton.setIcon(new ImageIcon(QuanLyBanHang.class.getResource("/icon/thanhtoan.png")));
-		btnNewButton.setBackground(new Color(50, 205, 50));
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnNewButton.setFont(new Font("Arial", Font.BOLD, 22));
-		
-		JButton btnHuyHoaDon_1 = new JButton("Làm mới ");
-		btnHuyHoaDon_1.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-		btnHuyHoaDon_1.setIcon(new ImageIcon(QuanLyBanHang.class.getResource("/icon/refesh.png")));
-		btnHuyHoaDon_1.setBackground(new Color(152, 251, 152));
-		btnHuyHoaDon_1.setFont(new Font("Arial", Font.BOLD, 12));
-		GroupLayout gl_pnlHoaDon = new GroupLayout(pnlHoaDon);
-		gl_pnlHoaDon.setHorizontalGroup(
-			gl_pnlHoaDon.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pnlHoaDon.createSequentialGroup()
-					.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_pnlHoaDon.createSequentialGroup()
+		JButton btnLamMoi = new JButton("Làm mới ");
+		btnLamMoi.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		btnLamMoi.setIcon(new ImageIcon(QuanLyBanHang.class.getResource("/icon/refesh.png")));
+		btnLamMoi.setBackground(new Color(152, 251, 152));
+		btnLamMoi.setFont(new Font("Arial", Font.BOLD, 12));
+		GroupLayout gl_lblTienThua = new GroupLayout(lblTienThua);
+		gl_lblTienThua.setHorizontalGroup(
+			gl_lblTienThua.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_lblTienThua.createSequentialGroup()
+					.addGroup(gl_lblTienThua.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_lblTienThua.createSequentialGroup()
 							.addGap(4)
-							.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.LEADING)
+							.addGroup(gl_lblTienThua.createParallelGroup(Alignment.LEADING)
 								.addComponent(pnlKhachHang, GroupLayout.PREFERRED_SIZE, 311, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_pnlHoaDon.createSequentialGroup()
+								.addGroup(gl_lblTienThua.createSequentialGroup()
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.TRAILING)
-										.addGroup(gl_pnlHoaDon.createSequentialGroup()
-											.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.LEADING)
-												.addGroup(gl_pnlHoaDon.createSequentialGroup()
-													.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.LEADING)
+									.addGroup(gl_lblTienThua.createParallelGroup(Alignment.TRAILING)
+										.addGroup(gl_lblTienThua.createSequentialGroup()
+											.addGroup(gl_lblTienThua.createParallelGroup(Alignment.LEADING)
+												.addGroup(gl_lblTienThua.createSequentialGroup()
+													.addGroup(gl_lblTienThua.createParallelGroup(Alignment.LEADING)
 														.addComponent(lblTinKhcha)
 														.addComponent(lblTinKhcha_1, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE))
 													.addGap(18)
-													.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.LEADING)
+													.addGroup(gl_lblTienThua.createParallelGroup(Alignment.LEADING)
 														.addComponent(txtTienKhachDua, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE)
-														.addGroup(gl_pnlHoaDon.createSequentialGroup()
-															.addComponent(lblNewLabel_1_4)
-															.addGap(151)
+														.addGroup(gl_lblTienThua.createSequentialGroup()
+															.addComponent(lbltienthua, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
+															.addGap(41)
 															.addComponent(lblTien_5))))
 												.addComponent(lblTinKhcha_1_1, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE))
 											.addGap(18))
-										.addGroup(gl_pnlHoaDon.createSequentialGroup()
-											.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.LEADING)
+										.addGroup(gl_lblTienThua.createSequentialGroup()
+											.addGroup(gl_lblTienThua.createParallelGroup(Alignment.LEADING)
 												.addComponent(lblMaHD, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE)
 												.addComponent(lblTngTin, GroupLayout.PREFERRED_SIZE, 76, GroupLayout.PREFERRED_SIZE)
 												.addComponent(lblGimGi, GroupLayout.PREFERRED_SIZE, 76, GroupLayout.PREFERRED_SIZE)
 												.addComponent(lblThuVat, GroupLayout.PREFERRED_SIZE, 76, GroupLayout.PREFERRED_SIZE)
 												.addComponent(lblT, GroupLayout.PREFERRED_SIZE, 76, GroupLayout.PREFERRED_SIZE))
 											.addPreferredGap(ComponentPlacement.RELATED)
-											.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.TRAILING)
-												.addGroup(gl_pnlHoaDon.createSequentialGroup()
+											.addGroup(gl_lblTienThua.createParallelGroup(Alignment.TRAILING)
+												.addGroup(gl_lblTienThua.createSequentialGroup()
 													.addComponent(lblTongTienpush, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE)
 													.addPreferredGap(ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
 													.addComponent(lblTien, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE))
-												.addGroup(gl_pnlHoaDon.createSequentialGroup()
+												.addGroup(gl_lblTienThua.createSequentialGroup()
 													.addComponent(lblThuepush, GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
 													.addPreferredGap(ComponentPlacement.RELATED)
 													.addComponent(lblTien_2, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE))
-												.addGroup(gl_pnlHoaDon.createSequentialGroup()
+												.addGroup(gl_lblTienThua.createSequentialGroup()
 													.addComponent(lblGiamGiapush, GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
 													.addPreferredGap(ComponentPlacement.RELATED)
 													.addComponent(lblTien_1, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE))
-												.addGroup(gl_pnlHoaDon.createSequentialGroup()
+												.addGroup(gl_lblTienThua.createSequentialGroup()
 													.addComponent(lblMaHDpush, GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
 													.addGap(18)
 													.addComponent(btnTaoHD, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
 													.addGap(18))
-												.addGroup(gl_pnlHoaDon.createSequentialGroup()
+												.addGroup(gl_lblTienThua.createSequentialGroup()
 													.addComponent(lblThanhToanpush, GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
 													.addPreferredGap(ComponentPlacement.RELATED)
-													.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.LEADING)
+													.addGroup(gl_lblTienThua.createParallelGroup(Alignment.LEADING)
 														.addComponent(lblTien_4, GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
 														.addComponent(lblTien_3, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE))))))
 									.addGap(19))))
-						.addGroup(gl_pnlHoaDon.createSequentialGroup()
+						.addGroup(gl_lblTienThua.createSequentialGroup()
 							.addGap(23)
-							.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(btnNewButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addGroup(gl_lblTienThua.createParallelGroup(Alignment.LEADING, false)
+								.addComponent(btnThanhToan, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 								.addComponent(pnlGhiChu, GroupLayout.PREFERRED_SIZE, 281, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_pnlHoaDon.createSequentialGroup()
+								.addGroup(gl_lblTienThua.createSequentialGroup()
 									.addComponent(btnHuyHoaDon, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(btnHuyHoaDon_1, GroupLayout.PREFERRED_SIZE, 132, GroupLayout.PREFERRED_SIZE)))))
+									.addComponent(btnLamMoi, GroupLayout.PREFERRED_SIZE, 132, GroupLayout.PREFERRED_SIZE)))))
 					.addContainerGap())
 		);
-		gl_pnlHoaDon.setVerticalGroup(
-			gl_pnlHoaDon.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pnlHoaDon.createSequentialGroup()
+		gl_lblTienThua.setVerticalGroup(
+			gl_lblTienThua.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_lblTienThua.createSequentialGroup()
 					.addComponent(pnlKhachHang, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.BASELINE)
+					.addGroup(gl_lblTienThua.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_lblTienThua.createParallelGroup(Alignment.BASELINE)
 							.addComponent(lblMaHD)
 							.addComponent(lblMaHDpush))
 						.addComponent(btnTaoHD, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
-					.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.BASELINE)
+					.addGroup(gl_lblTienThua.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblTngTin)
 						.addComponent(lblTongTienpush)
 						.addComponent(lblTien))
 					.addGap(18)
-					.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.BASELINE)
+					.addGroup(gl_lblTienThua.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblGimGi)
 						.addComponent(lblGiamGiapush)
 						.addComponent(lblTien_1))
 					.addGap(18)
-					.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.BASELINE)
+					.addGroup(gl_lblTienThua.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblThuVat)
 						.addComponent(lblThuepush)
 						.addComponent(lblTien_2))
 					.addGap(18)
-					.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.BASELINE)
+					.addGroup(gl_lblTienThua.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblT)
 						.addComponent(lblThanhToanpush)
 						.addComponent(lblTien_3))
 					.addGap(18)
-					.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.BASELINE)
+					.addGroup(gl_lblTienThua.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblTinKhcha)
 						.addComponent(txtTienKhachDua, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblTien_4))
 					.addGap(28)
-					.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.BASELINE)
+					.addGroup(gl_lblTienThua.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblTinKhcha_1)
-						.addComponent(lblNewLabel_1_4)
+						.addComponent(lbltienthua)
 						.addComponent(lblTien_5))
 					.addGap(31)
 					.addComponent(lblTinKhcha_1_1)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(pnlGhiChu, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
 					.addGap(11)
-					.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.BASELINE)
+					.addGroup(gl_lblTienThua.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnHuyHoaDon, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnHuyHoaDon_1, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
+						.addComponent(btnLamMoi, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(24, Short.MAX_VALUE))
+					.addComponent(btnThanhToan, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(37, Short.MAX_VALUE))
 		);
 		GroupLayout gl_pnlGhiChu = new GroupLayout(pnlGhiChu);
 		gl_pnlGhiChu.setHorizontalGroup(
@@ -559,13 +666,38 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 		JLabel lblTenKH = new JLabel("Tên khách hàng : ");
 		lblTenKH.setFont(new Font("Arial", Font.BOLD, 12));
 		
-		JLabel lblKh = new JLabel(" ");
-		lblKh.setForeground(new Color(255, 0, 0));
+		lblmakh = new JLabel("KH01");
+		lblmakh.setForeground(new Color(255, 0, 0));
 		
-		JLabel lblTrn = new JLabel(" ");
-		lblTrn.setForeground(Color.RED);
+		lbltenkh = new JLabel("ẨN DANH");
+		lbltenkh.setForeground(Color.RED);
 		
 		btnTim = new JButton("Tìm");
+		
+		//===================================
+		///them jframe để tìm khách hàng
+		btnTim.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				UiTimKhachHang timKhachHangUI = new UiTimKhachHang();
+		        timKhachHangUI.setKhachHangSelectedListener(new UiTimKhachHang.KhachHangSelectedListener() {
+		            @Override
+		            public void onKhachHangSelected(String makh, String tenkh) {
+		                lblmakh.setText(makh);
+		                lbltenkh.setText(tenkh);
+		                KhachHang kh = khachHangDAO.getKhachHang(makh);
+		                NhanVien nv = nhanVienDAO.getNhanVienByID("NV01");
+		                HoaDon hd = new HoaDon(mahd, kh, nv);
+		                HoaDonDAO.editNVTrongHD(hd);
+		                updateTableHoaDonCho();
+		            }
+		        });
+		        timKhachHangUI.setVisible(true);
+		        disable();
+			}
+		});
+		//===================================
+		//===================================
 		btnTim.setBackground(new Color(192, 192, 192));
 		btnTim.setIcon(new ImageIcon(QuanLyBanHang.class.getResource("/icon/search.png")));
 		btnTim.setFont(new Font("Arial", Font.BOLD, 11));
@@ -578,11 +710,11 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 						.addGroup(gl_pnlKhachHang.createSequentialGroup()
 							.addComponent(lblTenKH, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(lblTrn, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE))
+							.addComponent(lbltenkh, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_pnlKhachHang.createSequentialGroup()
 							.addComponent(lblMaKH)
 							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addComponent(lblKh, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
+							.addComponent(lblmakh, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
 							.addGap(26)
 							.addComponent(btnTim, GroupLayout.PREFERRED_SIZE, 83, GroupLayout.PREFERRED_SIZE)
 							.addGap(50)))
@@ -594,19 +726,43 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addGroup(gl_pnlKhachHang.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblMaKH)
-						.addComponent(lblKh)
+						.addComponent(lblmakh)
 						.addComponent(btnTim, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_pnlKhachHang.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblTenKH)
-						.addComponent(lblTrn))
+						.addComponent(lbltenkh))
 					.addContainerGap())
 		);
 		pnlKhachHang.setLayout(gl_pnlKhachHang);
-		pnlHoaDon.setLayout(gl_pnlHoaDon);
+		lblTienThua.setLayout(gl_lblTienThua);
 		setLayout(groupLayout);
+		
+		//vong lập lbl
+		
 		//su kien hoa don cho va san pham
 		///su kien tim kiếm liên tục (auto find load table)
+		txtTienKhachDua.getDocument().addDocumentListener(new DocumentListener() {
+				
+				@Override
+				public void removeUpdate(DocumentEvent e) {
+					// TODO Auto-generated method stub
+					TienKhachDua();
+				}
+				
+				@Override
+				public void insertUpdate(DocumentEvent e) {
+					// TODO Auto-generated method stub
+					TienKhachDua();
+				}
+				
+				@Override
+				public void changedUpdate(DocumentEvent e) {
+					// TODO Auto-generated method stub
+					TienKhachDua();
+				}
+		});
+		
 		txtTimKiemSP.getDocument().addDocumentListener(new DocumentListener() {
 			
 			@Override
@@ -631,29 +787,135 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 		
 		//them sư kiện
 		btnThemVaoGio.addActionListener(this);
-		tblDSSanPham.addMouseListener(this);
 		btnTaoHD.addActionListener(this);
+		tblHoaDonCho.addMouseListener(this);
+		btnHuyHoaDon.addActionListener(this);
+		//table gio hang
+		tblGioHang.addMouseListener(new MouseListener() {
+
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				int row = tblGioHang.getSelectedRow();
+				maspGioHang = tblGioHang.getValueAt(row, 0).toString();
+				System.out.println(maspGioHang);
+				phantramKM = Double.parseDouble(tblGioHang.getValueAt(row, 3).toString());
+				System.out.println(phantramKM);
+				dongia = Double.parseDouble(tblGioHang.getValueAt(row, 4).toString());
+				System.out.println(dongia);
+				String soluong = tblGioHang.getValueAt(row, 5).toString();
+				txtSoLuong.setText(soluong);
+			}
+		});
 		
+		
+		///table san pham
+		tblDSSanPham.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				int row = tblDSSanPham.getSelectedRow();
+				masp = tblDSSanPham.getValueAt(row, 0).toString();
+				System.out.println(masp);
+			}
+		});
 	}
-	private void updateTableGioHang(){
-		SanPham sp = sanPhamDAO.getSanPhanTheoId(masp);
+	private void updateTableGioHang(String mahd){
+		lblMaHDpush.setText(mahd);
+		sanPhamDAO = new SanPhamDAO();
+		clearTableGioHang();
 		DefaultTableModel dtm = (DefaultTableModel) tblGioHang.getModel();
-		soluong = 1;
-		double khuyenmai = 0.0;
-		if(sp.getKhuyenMai() == null) {
-			khuyenmai = 0.0;
-		}else {
-			khuyenmai = sp.getKhuyenMai().getPhanTramKhuyenMai();
+		dtm.getDataVector().removeAllElements();
+		List<SanPham> listsp = sanPhamDAO.getSanPhanTheoMaHD(mahd);
+		for(SanPham sp : listsp) {
+			double khuyenmai = 0.0;
+			if(sp.getKhuyenMai() == null) {
+				khuyenmai = 0.0;
+			}else {
+				khuyenmai = sp.getKhuyenMai().getPhanTramKhuyenMai();
+			}
+			Object[] rowdata = {sp.getMaSP(),sp.getTenSP(),sp.getKichThuoc().getKichThuoc(),khuyenmai,sp.getGiaBan(),sp.getSoLuong(),sp.getGiaBan()*sp.getSoLuong()};
+			dtm.addRow(rowdata);
 		}
-		Object[] rowdata = {sp.getMaSP(),sp.getTenSP(),sp.getKichThuoc().getKichThuoc(),khuyenmai,sp.getGiaBan(),soluong,sp.getGiaBan()*soluong};
-		dtm.addRow(rowdata);
 	}
 	private void updateTableHoaDonCho() {
-		HoaDon hd = new HoaDon();
+		HoaDonDAO = new HoaDonDAO();
+		clearTableDSHDC();
 		DefaultTableModel dtm = (DefaultTableModel) tblHoaDonCho.getModel();
-		LocalDate ngayhientai = LocalDate.now();
-		Object[] rowdata = {hd.getAutoID(),ngayhientai.toString(),"Trần Chí Bảo","Trần Văn Bình"};
-		dtm.addRow(rowdata);
+		dtm.getDataVector().removeAllElements();
+		List<HoaDon> listhd = HoaDonDAO.getHDCho();
+		for(HoaDon hd : listhd) {
+			if(hd.getTrangthai() == 0) {
+				Object[] rowdata = {hd.getMaHoaDon(),hd.getNgayLap(),hd.getNhanVien().getTenNV(),hd.getKhachHang().getTenKH()};
+				dtm.addRow(rowdata);
+			}
+		}
+		
+	}
+	private void TienKhachDua() {
+		double tienkhachdua = Double.parseDouble(txtTienKhachDua.getText());
+		double thua = 0;
+		if(tienkhachdua < chiTietHoaDonDAO.getTongTien(mahd)) {
+			thua = tienkhachdua -chiTietHoaDonDAO.getTongTien(mahd);
+			lbltienthua.setText("Cần thêm "+ -thua+"");
+			lbltienthua.setForeground(new Color(255,0,0));
+		}else {
+			thua = tienkhachdua -chiTietHoaDonDAO.getTongTien(mahd);
+			txtTienKhachDua.setForeground(new Color(0,0,0));
+			lbltienthua.setText(thua+"");
+			lbltienthua.setForeground(new Color(34, 139, 34));
+		}
+		
 	}
 	private void updateTableTimKiemSP(){
 		String masp = txtTimKiemSP.getText();
@@ -662,7 +924,7 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 		DefaultTableModel dtm = (DefaultTableModel) tblDSSanPham.getModel();
 		List<SanPham> listsp = sanPhamDAO.getDSSPTheoMaSP(masp);
 		for(SanPham sp : listsp) {
-			Object[] rowdata = {};
+			Object[] rowdata = {sp.getMaSP(),sp.getTenSP(),sp.getPl().getPhanLoai(),sp.getKichThuoc(),sp.getGiaBan(),sp.getSoLuong(),sp.getMauSac().getMauSac(),sp.getKichThuoc().getKichThuoc()};
 			dtm.addRow(rowdata);
 		}
 	}
@@ -671,12 +933,64 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 		// TODO Auto-generated method stub
 		Object o = e.getSource();
 		if(o.equals(btnThemVaoGio)) {
-			updateTableGioHang();
+			soluong = 1;
+			boolean check = true;
+			ChiTietHoaDonDAO chiTietHoaDonDAO = new ChiTietHoaDonDAO();
+			int cnt = tblGioHang.getRowCount();
+			for(int i = 0; i < cnt; i++) {
+				if(tblGioHang.getValueAt(i, 0).equals(masp)) {
+					JOptionPane.showMessageDialog(null, "Sản Phẩm đã có trong giỏ hàng !!!");
+					check = false;
+				}
+			}
+			if(check) {
+				SanPham sp = sanPhamDAO.getSanPhanTheoId(masp);
+				HoaDon hd = HoaDonDAO.getHDTheoId(mahd);
+				ChiTietHoaDon cthd = new ChiTietHoaDon(sp, hd, 0.0, 1, sp.getGiaBan()*1);
+				chiTietHoaDonDAO.addSanPhamVaoHD(cthd);
+				updateTableGioHang(mahd);
+				lblTongTienpush.setText(chiTietHoaDonDAO.getTongTien(mahd)+"");
+			}
+			
 		}
 		if(o.equals(btnTaoHD)) {
-			updateTableHoaDonCho();
+			HoaDonDAO hoaDonDAO = new HoaDonDAO();
+//			System.out.println(hoaDonDAO.getHDCho().size());
+			if(hoaDonDAO.getHDCho().size() > 3) {
+				JOptionPane.showMessageDialog(null, "Bạn không thể tạo quá 4 hóa đơn chờ");
+				updateTableHoaDonCho();
+			}else {
+				KhachHang kh = new KhachHang();
+				LocalDate localDate = LocalDate.now();
+				if(!lblmakh.getText().equals("")) {
+					kh = khachHangDAO.getKhachHang(lblmakh.getText()) ;
+				}else kh = null;
+				NhanVien nv = nhanVienDAO.getNhanVienByID("NV01");
+		        // Chuyển đổi LocalDate sang Date
+		        Date date = Date.valueOf(localDate);
+		        HoaDon hd1 = new HoaDon();
+				HoaDon hd = new HoaDon(hd1.getAutoID(), date, kh, nv, 0,0.0);
+				lblTongTienpush.setText(chiTietHoaDonDAO.getTongTien(hd1.getAutoID())+"");
+				HoaDonDAO.addHoaDon(hd);
+				updateTableHoaDonCho();
+//				int dongcuoi=tblHoaDonCho.getRowCount()-1;
+//				tblHoaDonCho.setRowSelectionInterval(dongcuoi,dongcuoi);
+//				int row=tblHoaDonCho.getSelectedRow();
+//				mahd = tblHoaDonCho.getValueAt(row, 0).toString();
+//				updateTableGioHang( mahd);
+//				lblTongTienpush.setText(chiTietHoaDonDAO.getTongTien(mahd)+"");
+			}
+			
 		}
-		if(o.equals(btnTim)) {
+		if(o.equals(btnHuyHoaDon)) {
+			HoaDonDAO hddao = new HoaDonDAO();
+			hddao.deleteHoaDon(mahd);
+			int dongcuoi=tblHoaDonCho.getRowCount()-1;
+			tblHoaDonCho.setRowSelectionInterval(dongcuoi,dongcuoi);
+			int row=tblHoaDonCho.getSelectedRow();
+			mahd = tblHoaDonCho.getValueAt(row, 0).toString();
+			updateTableGioHang( mahd);
+			lblTongTienpush.setText(chiTietHoaDonDAO.getTongTien(mahd)+"");
 			
 		}
 
@@ -684,8 +998,13 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		int row = tblDSSanPham.getSelectedRow();
-		masp = tblDSSanPham.getValueAt(row, 0).toString();
+		int rowhdc = tblHoaDonCho.getSelectedRow();
+		mahd = tblHoaDonCho.getValueAt(rowhdc, 0).toString();
+		System.out.println(mahd);
+		lblTongTienpush.setText(chiTietHoaDonDAO.getTongTien(mahd)+"");
+		updateTableGioHang(mahd);
+		System.out.println(qrCodeValue);
+		
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {
@@ -705,6 +1024,51 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
+		
+	}
+	///them sp bang qr
+	@Override
+	public void onQRCodeRead(String qrCode) {
+		
+		// TODO Auto-generated method stub
+		int sl = 0;
+		List<SanPham> listsp = sanPhamDAO.getSanPhanTheoMaHD(mahd);
+		for(SanPham sp : listsp) {
+			if(sp.getMaSP().equals(qrCode))
+				sl = sp.getSoLuong();
+		}
+		if(qrCode.startsWith("SP")) {
+			boolean check = true;
+			ChiTietHoaDonDAO chiTietHoaDonDAO = new ChiTietHoaDonDAO();
+			int cnt = tblGioHang.getRowCount();
+			for(int i = 0; i < cnt; i++) {
+				if(tblGioHang.getValueAt(i, 0).equals(qrCode)) {
+					sanPhamDAO = new SanPhamDAO();
+					HoaDonDAO = new HoaDonDAO();
+					SanPham sp = sanPhamDAO.getSanPhanTheoId(qrCode);
+					HoaDon hd = HoaDonDAO.getHDTheoId(mahd);
+					double phantram = phantramKM;
+					sl++;
+					ChiTietHoaDon cthd = new ChiTietHoaDon();
+					cthd = new ChiTietHoaDon(sp, hd, phantram, sl, sl*dongia);
+					chiTietHoaDonDAO.updateSoLuongSPTrongGio(cthd);
+					updateTableGioHang(mahd);
+					lblTongTienpush.setText(chiTietHoaDonDAO.getTongTien(mahd)+"");
+					check = false;
+				}
+			}
+			if(check) {
+				sanPhamDAO = new SanPhamDAO();
+				HoaDonDAO = new HoaDonDAO();
+				SanPham sp = sanPhamDAO.getSanPhanTheoId(qrCode);
+				HoaDon hd = HoaDonDAO.getHDTheoId(mahd);
+				ChiTietHoaDon cthd = new ChiTietHoaDon(sp, hd, 0.0, 1, sp.getGiaBan()*1);
+				chiTietHoaDonDAO.addSanPhamVaoHD(cthd);
+				updateTableGioHang(mahd);
+				lblTongTienpush.setText(chiTietHoaDonDAO.getTongTien(mahd)+"");
+			}
+		}
+
 		
 	}
 	

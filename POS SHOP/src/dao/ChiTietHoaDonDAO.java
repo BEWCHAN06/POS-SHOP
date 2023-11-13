@@ -18,6 +18,7 @@ import entity.KhuyenMai;
 import entity.KichThuoc;
 import entity.KieuDang;
 import entity.MauSac;
+import entity.NhaCungCap;
 import entity.NhanVien;
 import entity.PhanLoai;
 import entity.SanPham;
@@ -67,5 +68,82 @@ public class ChiTietHoaDonDAO {
 			e.printStackTrace();
 		}
 		return dscthd;
+	}
+	
+	public int addSanPhamVaoHD(ChiTietHoaDon chiTietHoaDon) {
+		KetNoiSQL.getInstance().connect();
+    try {
+    	Connection con = KetNoiSQL.getInstance().getConnection();
+        String sql = "Insert into ChiTietHoaDon values(?,?,?,?,?)";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setString(1, chiTietHoaDon.getSanPham().getMaSP());
+        ps.setString(2, chiTietHoaDon.getHoaDon().getMaHoaDon());
+        ps.setDouble(3, chiTietHoaDon.getPhanTramKhuyenMai());
+        ps.setInt(4, chiTietHoaDon.getSoLuong());
+        ps.setDouble(5, chiTietHoaDon.getThanhTien());
+        return ps.executeUpdate();
+    } catch (SQLException ex) {
+    	ex.printStackTrace();
+    }
+    return -1;
+	}
+    
+    public int updateSoLuongSPTrongGio(ChiTietHoaDon chiTietHoaDon) {
+		KetNoiSQL.getInstance().connect();
+		;
+		Connection conn = KetNoiSQL.getConnection();
+
+		try {
+			String sql = "update ChiTietHoaDon set soLuong =(?), thanhTien =(?) where maSP =(?) and maHD = (?)";
+
+			PreparedStatement stmt = conn.prepareCall(sql);
+			stmt.setInt(1, chiTietHoaDon.getSoLuong());
+			stmt.setDouble(2, chiTietHoaDon.getThanhTien());
+			stmt.setString(3, chiTietHoaDon.getSanPham().getMaSP());
+			stmt.setString(4, chiTietHoaDon.getHoaDon().getMaHoaDon());
+			return stmt.executeUpdate();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return -1;
+    }
+    public int	deleteMotSP(ChiTietHoaDon chiTietHoaDon) {
+		KetNoiSQL.getInstance().connect();
+		;
+		Connection conn = KetNoiSQL.getConnection();
+
+		try {
+			String sql = "delete ChiTietHoaDon where maSP = (?) and maHD = (?)";
+
+			PreparedStatement stmt = conn.prepareCall(sql);
+			stmt.setString(1, chiTietHoaDon.getSanPham().getMaSP());
+			stmt.setString(2, chiTietHoaDon.getHoaDon().getMaHoaDon());
+			return stmt.executeUpdate();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return -1;
+    }
+    
+    public double getTongTien(String id) {
+    	double thanhtien = 0;
+		try {
+			KetNoiSQL.getInstance().connect();
+			Connection con = KetNoiSQL.getInstance().getConnection();
+			String sql = "select sum(thanhTien) from ChiTietHoaDon where maHD = (?) group by maHD";
+			PreparedStatement stmt = con.prepareCall(sql);
+			stmt.setString(1, id);
+			ResultSet rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				thanhtien = rs.getDouble(1);
+				
+			}
+
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return thanhtien;
 	}
 }

@@ -17,14 +17,18 @@ import java.util.logging.Logger;
 import ConnectDB.KetNoiSQL;
 import entity.KhuyenMai;
 import entity.PhanLoai;
+import entity.SanPham;
 
 public class KhuyenMaiDAO {
 	ArrayList<KhuyenMai> dskm;
 	KhuyenMai km;
+	ArrayList<SanPham> dssp;
+	SanPham sp;
 
 	public KhuyenMaiDAO() {
 		KetNoiSQL.getInstance().connect();
 		dskm = new ArrayList<KhuyenMai>();
+		dssp = new ArrayList<SanPham>();
 	}
 
 	// Lấy danh sách Khuyến Mãi từ SQL
@@ -102,7 +106,8 @@ public class KhuyenMaiDAO {
 	}
 
 	public KhuyenMai getKhuyenMai(String id) {
-		KetNoiSQL.getInstance().connect();;
+		KetNoiSQL.getInstance().connect();
+		;
 		Connection conn = KetNoiSQL.getConnection();
 		try {
 			String sql = "select * from KhuyenMai where maKM = ?";
@@ -126,7 +131,8 @@ public class KhuyenMaiDAO {
 	}
 
 	public KhuyenMai getKhuyenMaiByPhanTram(int phanTram) {
-		KetNoiSQL.getInstance().connect();;
+		KetNoiSQL.getInstance().connect();
+		;
 		Connection conn = KetNoiSQL.getConnection();
 
 		try {
@@ -148,5 +154,80 @@ public class KhuyenMaiDAO {
 			Logger.getLogger(XuatXuDAO.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		return null;
+	}
+
+	// Tìm sản phẩm theo mã khuyến mãi
+	public List<SanPham> getSanPhanTheoMaKM(String maKM) {
+		try {
+			KetNoiSQL.getInstance().connect();
+			Connection con = KetNoiSQL.getInstance().getConnection();
+			String sql = "select sp.maSP, sp.tenSP, sp.maKM, km.phanTramKhuyenMai, sp.giaNhap, sp.loiTheoPhanTram, cthd.soLuong\r\n"
+					+ "from SanPham sp join ChiTietHoaDon cthd on sp.maSP = cthd.maSP join KhuyenMai km on km.maKM = sp.maKM\r\n"
+					+ "where sp.maKM = ?";
+			PreparedStatement stmt = con.prepareCall(sql);
+			stmt.setString(1, maKM);
+			ResultSet rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				String masp = rs.getString(1);
+				String ten = rs.getString(2);
+				String makm = rs.getString(3);
+				Double phanTramKhuyenMai = rs.getDouble(4);
+				Double giaNhap = rs.getDouble(5);
+				int loi = rs.getInt(6);
+				int soLuong = rs.getInt(7);
+				SanPham sp = new SanPham(masp, ten, null, giaNhap, loi,
+						new KhuyenMai(makm, null, phanTramKhuyenMai, null, null), 0, null, soLuong, null, null, null,
+						null);
+				dssp.add(sp);
+			}
+
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dssp;
+	}
+
+	// Thêm mã khuyến mãi cho sản phẩm và Cập nhật các trường chương trình khuyến
+	// mãi
+	public boolean updateMaKMChoSanPHam(KhuyenMai km, String maKM, String maSP) {
+		KetNoiSQL.getInstance().connect();
+		Connection con = KetNoiSQL.getInstance().getConnection();
+		PreparedStatement stmt = null;
+		int n = 0;
+		try {
+			stmt = con.prepareStatement("update KhuyenMai set phanTramKhuyenMai = ?, tenKhuyenMai = ?, \r\n"
+					+ "ngayBatDau = ?, ngayKetThuc = ? where maKM = ?;\r\n"
+					+ "update SanPham set maKM = ? where maSP = ?;");
+			stmt.setDouble(1, km.getPhanTramKhuyenMai());
+			stmt.setString(2, km.getTenKhuyenMai());
+			stmt.setDate(3, (Date) km.getNgayBatDau());
+			stmt.setDate(4, (Date) km.getNgayKetThuc());
+			stmt.setString(5, km.getMaKM());
+			stmt.setString(6, maKM);
+			stmt.setString(7, maSP);
+			n = stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return n > 0;
+	}
+
+	// Thêm mã khuyến mãi cho sản phẩm
+	public boolean updateGiaBanChoSanPHam(double giaBan, String maSP) {
+		KetNoiSQL.getInstance().connect();
+		Connection con = KetNoiSQL.getInstance().getConnection();
+		PreparedStatement stmt = null;
+		int n = 0;
+		try {
+			stmt = con.prepareStatement("update SanPham set giaBan = ? where maSP = ?");
+			stmt.setDouble(1, giaBan);
+			stmt.setString(2, maSP);
+			n = stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return n > 0;
 	}
 }

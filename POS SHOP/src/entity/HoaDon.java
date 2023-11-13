@@ -6,16 +6,46 @@ import java.util.Date;
 import java.util.List;
 
 import dao.ChiTietHoaDonDAO;
+import dao.HoaDonDAO;
+import dao.SanPhamDAO;
 
 public class HoaDon {
 	private String maHoaDon;
 	private Date ngayLap;
 	private KhachHang khachHang;
 	private NhanVien nhanVien;
-//	List<ChiTietHoaDon> chiTietHoaDonList = new ArrayList<ChiTietHoaDon>();
-
+	private int trangthai;
+	private double tongtien;
+	
 	public HoaDon() {
-		// Constructor mặc nhiên
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+	public HoaDon(String maHoaDon, Date ngayLap, KhachHang khachHang, NhanVien nhanVien, int trangthai,
+			double tongtien) {
+		super();
+		this.maHoaDon = maHoaDon;
+		this.ngayLap = ngayLap;
+		this.khachHang = khachHang;
+		this.nhanVien = nhanVien;
+		this.trangthai = trangthai;
+		this.tongtien = tongtien;
+	}
+	
+	public HoaDon(String maHoaDon, KhachHang khachHang, NhanVien nhanVien) {
+		super();
+		this.maHoaDon = maHoaDon;
+		this.khachHang = khachHang;
+		this.nhanVien = nhanVien;
+	}
+
+	public HoaDon(String maHoaDon, Date ngayLap, KhachHang khachHang, NhanVien nhanVien, int trangthai) {
+	this.maHoaDon = maHoaDon;
+	this.ngayLap = ngayLap;
+	this.khachHang = khachHang;
+	this.nhanVien = nhanVien;
+	this.trangthai = trangthai;
 	}
 
 	public HoaDon(String maHoaDon, Date ngayLap, KhachHang khachHang, NhanVien nhanVien) {
@@ -72,6 +102,14 @@ public class HoaDon {
 //		chiTietHoaDonList.add(chiTietHoaDon);
 //	}
 
+	public double getTongtien() {
+		return tongtien;
+	}
+
+	public void setTongtien(double tongtien) {
+		this.tongtien = tongtien;
+	}
+
 	public double tongTien() {
 		double tongTien = 0;
 		ChiTietHoaDonDAO ds = new ChiTietHoaDonDAO();
@@ -81,7 +119,21 @@ public class HoaDon {
 		}
 		return tongTien;
 	}
+	public int getTrangthai() {
+		return trangthai;
+	}
 
+	public void setTrangthai(int trangthai) {
+		this.trangthai = trangthai;
+	}
+
+	public String getAutoID(){
+		HoaDonDAO hoaDonDAO = new HoaDonDAO();
+        String idPrefix = "HD";
+       int length = hoaDonDAO.doTuBang().size();
+       String finalId = idPrefix + String.format("%02d", length + 1);
+       return finalId;
+	}
 	@Override
 	public String toString() {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
