@@ -1,7 +1,16 @@
 package dao;
 
 import ConnectDB.KetNoiSQL;
+import entity.ChatLieu;
+import entity.KhuyenMai;
+import entity.KichThuoc;
+import entity.MauSac;
+import entity.NhaCungCap;
 import entity.NhanVien;
+import entity.PhanLoai;
+import entity.SanPham;
+import entity.TaiKhoan;
+
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -10,132 +19,137 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class NhanVienDAO {
+	private static ArrayList<NhanVien> dsNV;
 
-    public NhanVienDAO() {
-    }
-    
-    public ArrayList<NhanVien>getAllNhanVien(){
-        ArrayList<NhanVien> listNhanVien = new ArrayList<>();
-        KetNoiSQL.getInstance();
-        Connection conn = KetNoiSQL.getConnection();
-        
-        try {
-            String sql = "Select * from nhanvien";
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-            while(rs.next()){
-                String manv = rs.getString(1);
-                String tennv = rs.getString(2);
-                Date ns = rs.getDate(3);
-                String sdt = rs.getString(4);
-                String email = rs.getString(5);
-                String cmnd = rs.getString(6);
-                double gioitinh = rs.getDouble(7);
-                String dc = rs.getString(8);
-                boolean cv = rs.getBoolean(9);
-                int trangthai = rs.getInt(10);
-                NhanVien nv = new NhanVien(manv, tennv, ns, sdt, email, cmnd, cv, dc, cv, trangthai);
-                listNhanVien.add(nv);
-            }
-        
-        } catch (SQLException ex) {
-            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    return listNhanVien;
-    }
-           
-    public ArrayList<NhanVien>getAllNhanVienConHoatDong(){
-        ArrayList<NhanVien> listNhanVien = new ArrayList<>();
-        KetNoiSQL.getInstance();
-        Connection conn = KetNoiSQL.getConnection();
-        
-        try {
-            String sql = "  Select * from nhanvien where isDeleted IS NULL OR isDeleted = 0";
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-            while(rs.next()){
-            	String manv = rs.getString(1);
-                String tennv = rs.getString(2);
-                Date ns = rs.getDate(3);
-                String sdt = rs.getString(4);
-                String email = rs.getString(5);
-                String cmnd = rs.getString(6);
-                double gioitinh = rs.getDouble(7);
-                String dc = rs.getString(8);
-                boolean cv = rs.getBoolean(9);
-                int trangthai = rs.getInt(10);
-                NhanVien nv = new NhanVien(manv, tennv, ns, sdt, email, cmnd, cv, dc, cv, trangthai);
-                listNhanVien.add(nv);
-            }
-        
-        } catch (SQLException ex) {
-            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    return listNhanVien;
-    }
-    
-    public NhanVien getNhanVienByID(String id){
-        KetNoiSQL.getInstance();
-        Connection conn = KetNoiSQL.getConnection();
-        try {
-           
-            String sql = "select * from nhanvien where maNV = ?";
-            PreparedStatement stmt = conn.prepareCall(sql);
-            stmt.setString(1, id);
-            ResultSet rs = stmt.executeQuery();
-            while(rs.next()){
-            	String manv = rs.getString(1);
-                String tennv = rs.getString(2);
-                Date ns = rs.getDate(3);
-                String sdt = rs.getString(4);
-                String email = rs.getString(5);
-                String cmnd = rs.getString(6);
-                Boolean gioitinh = rs.getBoolean(7);
-                String dc = rs.getString(8);
-                boolean cv = rs.getBoolean(9);
-                int trangthai = rs.getInt(10);
-                NhanVien nv = new NhanVien(manv, tennv, ns, sdt, email, cmnd, gioitinh, dc, cv, trangthai);
-                return nv;
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
+	public NhanVienDAO() {
+		dsNV = new ArrayList<NhanVien>(10);
+	}
 	
-     public NhanVien getNhanVienByName(String name){
-        KetNoiSQL.getInstance();
-        Connection conn = KetNoiSQL.getConnection();
-        try {
-           
-            String sql = "select * from nhanvien where hoVaTen = ?";
-            PreparedStatement stmt = conn.prepareCall(sql);
-            stmt.setString(1, name);
-            ResultSet rs = stmt.executeQuery();
-            while(rs.next()){
-            	String manv = rs.getString(1);
-                String tennv = rs.getString(2);
-                Date ns = rs.getDate(3);
-                String sdt = rs.getString(4);
-                String email = rs.getString(5);
-                String cmnd = rs.getString(6);
-                double gioitinh = rs.getDouble(7);
-                String dc = rs.getString(8);
-                boolean cv = rs.getBoolean(9);
-                int trangthai = rs.getInt(10);
-                NhanVien nv = new NhanVien(manv, tennv, ns, sdt, email, cmnd, cv, dc, cv, trangthai);
-                return nv;
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-     	public NhanVien getNhanVienBySdt(String sdt) {
+
+	public ArrayList<NhanVien> getAllNhanVien() {
+		ArrayList<NhanVien> listNhanVien = new ArrayList<>();
+		KetNoiSQL.getInstance();
+		Connection conn = KetNoiSQL.getConnection();
+
+		try {
+			String sql = "Select * from nhanvien";
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				String manv = rs.getString(1);
+				String tennv = rs.getString(2);
+				Date ns = rs.getDate(3);
+				String sdt = rs.getString(4);
+				String email = rs.getString(5);
+				String cmnd = rs.getString(6);
+				boolean gioitinh = rs.getBoolean(7);
+				String dc = rs.getString(8);
+				boolean cv = rs.getBoolean(9);
+				int trangthai = rs.getInt(10);
+				NhanVien nv = new NhanVien(manv ,tennv,ns,sdt,email,cmnd,gioitinh,dc,cv,trangthai);
+				listNhanVien.add(nv);
+			}
+
+		} catch (SQLException ex) {
+			Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		return listNhanVien;
+	}
+
+	public ArrayList<NhanVien> getAllNhanVienConHoatDong() {
+		ArrayList<NhanVien> listNhanVien = new ArrayList<>();
+		KetNoiSQL.getInstance();
+		Connection conn = KetNoiSQL.getConnection();
+
+		try {
+			String sql = "  Select * from nhanvien where isDeleted IS NULL OR isDeleted = 0";
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				String manv = rs.getString(1);
+				String tennv = rs.getString(2);
+				Date ns = rs.getDate(3);
+				String sdt = rs.getString(4);
+				String email = rs.getString(5);
+				String cmnd = rs.getString(6);
+				double gioitinh = rs.getDouble(7);
+				String dc = rs.getString(8);
+				boolean cv = rs.getBoolean(9);
+				int trangthai = rs.getInt(10);
+				NhanVien nv = new NhanVien();
+				listNhanVien.add(nv);
+			}
+
+		} catch (SQLException ex) {
+			Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		return listNhanVien;
+	}
+
+	public NhanVien getNhanVienByID(String id) {
+		KetNoiSQL.getInstance();
+		Connection conn = KetNoiSQL.getConnection();
+		try {
+
+			String sql = "select * from nhanvien where maNhanVien = ?";
+			PreparedStatement stmt = conn.prepareCall(sql);
+			stmt.setString(1, id);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				String manv = rs.getString(1);
+				String tennv = rs.getString(2);
+				Date ns = rs.getDate(3);
+				String sdt = rs.getString(4);
+				String email = rs.getString(5);
+				String cmnd = rs.getString(6);
+				double gioitinh = rs.getDouble(7);
+				String dc = rs.getString(8);
+				boolean cv = rs.getBoolean(9);
+				int trangthai = rs.getInt(10);
+				NhanVien nv = new NhanVien();
+				return nv;
+			}
+		} catch (SQLException ex) {
+			Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		return null;
+	}
+
+	public NhanVien getNhanVienByName(String name) {
+		KetNoiSQL.getInstance();
+		Connection conn = KetNoiSQL.getConnection();
+		try {
+
+			String sql = "select * from nhanvien where hoVaTen = ?";
+			PreparedStatement stmt = conn.prepareCall(sql);
+			stmt.setString(1, name);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				String manv = rs.getString(1);
+				String tennv = rs.getString(2);
+				Date ns = rs.getDate(3);
+				String sdt = rs.getString(4);
+				String email = rs.getString(5);
+				String cmnd = rs.getString(6);
+				double gioitinh = rs.getDouble(7);
+				String dc = rs.getString(8);
+				boolean cv = rs.getBoolean(9);
+				int trangthai = rs.getInt(10);
+				NhanVien nv = new NhanVien();
+				return nv;
+			}
+		} catch (SQLException ex) {
+			Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		return null;
+	}
+
+	public NhanVien getNhanVienBySdt(String sdt) {
 		KetNoiSQL.getInstance();
 		Connection conn = KetNoiSQL.getConnection();
 
@@ -146,16 +160,16 @@ public class NhanVienDAO {
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
 				String manv = rs.getString(1);
-                String tennv = rs.getString(2);
-                Date ns = rs.getDate(3);
-                String sdtt = rs.getString(4);
-                String email = rs.getString(5);
-                String cmnd = rs.getString(6);
-                double gioitinh = rs.getDouble(7);
-                String dc = rs.getString(8);
-                boolean cv = rs.getBoolean(9);
-                int trangthai = rs.getInt(10);
-                NhanVien nv = new NhanVien(manv, tennv, ns, sdtt, email, cmnd, cv, dc, cv, trangthai);
+				String tennv = rs.getString(2);
+				Date ns = rs.getDate(3);
+				String sdtt = rs.getString(4);
+				String email = rs.getString(5);
+				String cmnd = rs.getString(6);
+				double gioitinh = rs.getDouble(7);
+				String dc = rs.getString(8);
+				boolean cv = rs.getBoolean(9);
+				int trangthai = rs.getInt(10);
+				NhanVien nv = new NhanVien();
 				return nv;
 			}
 		} catch (SQLException ex) {
@@ -164,77 +178,104 @@ public class NhanVienDAO {
 		return null;
 	}
 
-    public NhanVien getNhanVienByGmail(String gmail){
+	public NhanVien getNhanVienByGmail(String gmail) {
+		KetNoiSQL.getInstance();
+		Connection conn = KetNoiSQL.getConnection();
+		try {
+
+			String sql = "select * from nhanvien where email = ?";
+			PreparedStatement stmt = conn.prepareCall(sql);
+			stmt.setString(1, gmail);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				String manv = rs.getString(1);
+				String tennv = rs.getString(2);
+				Date ns = rs.getDate(3);
+				String sdt = rs.getString(4);
+				String email = rs.getString(5);
+				String cmnd = rs.getString(6);
+				double gioitinh = rs.getDouble(7);
+				String dc = rs.getString(8);
+				boolean cv = rs.getBoolean(9);
+				int trangthai = rs.getInt(10);
+				NhanVien nv = new NhanVien();
+				return nv;
+			}
+		} catch (SQLException ex) {
+			Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		return null;
+	}
+
+	
+//	public NhanVien gettktheoma(String tentk) {
+//		KetNoiSQL.getInstance();
+//		Connection conn = KetNoiSQL.getConnection();
+//		try {
+//
+//			String sql = "select * from nhanvien where email = ?";
+//			PreparedStatement stmt = conn.prepareCall(sql);
+//			stmt.setString(1, gmail);
+//			ResultSet rs = stmt.executeQuery();
+//			while (rs.next()) {
+//				String manv = rs.getString(1);
+//				String tennv = rs.getString(2);
+//				Date ns = rs.getDate(3);
+//				String sdt = rs.getString(4);
+//				String email = rs.getString(5);
+//				String cmnd = rs.getString(6);
+//				double gioitinh = rs.getDouble(7);
+//				String dc = rs.getString(8);
+//				boolean cv = rs.getBoolean(9);
+//				int trangthai = rs.getInt(10);
+//				NhanVien nv = new NhanVien();
+//				return nv;
+//			}
+//		} catch (SQLException ex) {
+//			Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
+//		}
+//		return null;
+//	}
+	
+	public static boolean themnhanvien(NhanVien nv) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public static boolean capNhatnhanvien(String maNVOld, NhanVien NVnew) {
+		NhanVien nhanvienOld = new NhanVien(maNVOld);
+		if(dsNV.contains(nhanvienOld)){
+			nhanvienOld = dsNV.get(dsNV.indexOf(nhanvienOld));
+			nhanvienOld.setTenNV(NVnew.getTenNV());
+			nhanvienOld.setMaNV(NVnew.getMaNV());
+			nhanvienOld.setDiaChi(NVnew.getDiaChi());
+			nhanvienOld.setEmail(NVnew.getEmail());
+			nhanvienOld.setNgaySinh(NVnew.getNgaySinh());
+			return true;
+		}
+		return false;
+}
+
+
+    
+//    
+    public int updateOTP(String gmail, String OTP, Timestamp expiredAt){
         KetNoiSQL.getInstance();
         Connection conn = KetNoiSQL.getConnection();
         try {
            
-            String sql = "select * from nhanvien where email = ?";
+            String sql = "update nhanvien set OTP = ?, expriedAt = ? where email = ?";
             PreparedStatement stmt = conn.prepareCall(sql);
-            stmt.setString(1, gmail);
-            ResultSet rs = stmt.executeQuery();
-            while(rs.next()){
-            	String manv = rs.getString(1);
-                String tennv = rs.getString(2);
-                Date ns = rs.getDate(3);
-                String sdt = rs.getString(4);
-                String email = rs.getString(5);
-                String cmnd = rs.getString(6);
-                double gioitinh = rs.getDouble(7);
-                String dc = rs.getString(8);
-                boolean cv = rs.getBoolean(9);
-                int trangthai = rs.getInt(10);
-                NhanVien nv = new NhanVien(manv, tennv, ns, sdt, email, cmnd, cv, dc, cv, trangthai);
-                return nv;
-            }
+            stmt.setString(1, OTP);
+            stmt.setTimestamp(2, expiredAt);
+            stmt.setString(3, gmail);
+            
+            return stmt.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return null;
-    }
-    
-//    public int updateNhanVien(NhanVien nhanVien){
-//        KetNoiSQL.getInstance();
-//        Connection conn = KetNoiSQL.getConnection();
-//        System.out.println(nhanVien);
-//        try {
-//            String sql = "update nhanvien set hoVaTen = ?,ngaySinh = ?,diaChi = ?,sdt = ?, gioiTinh = ?,luong = ?,email = ?,chucVu = ? where maNhanVien = ?";
-//            
-//            PreparedStatement stmt = conn.prepareCall(sql);
-//            stmt.setString(1, nhanVien.getHoVaTen());
-//            stmt.setDate(2,new Date(nhanVien.getNgaySinh().getTime()));
-//            stmt.setString(3, nhanVien.getDiaChi());
-//            stmt.setString(4, nhanVien.getSdt());
-//            stmt.setBoolean(5, nhanVien.getGioiTinh());
-//            stmt.setLong(6, nhanVien.getLuong());
-//            stmt.setString(7, nhanVien.getEmail());
-//            stmt.setString(8, nhanVien.getChucVu());
-//            stmt.setString(9, nhanVien.getMaNhanVien());
-//            
-//            return stmt.executeUpdate();
-//        } catch (SQLException ex) {
-//            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        return -1;
-//    }
-//    
-//    public int updateOTP(String gmail, String OTP, Timestamp expiredAt){
-//        KetNoiSQL.getInstance();
-//        Connection conn = KetNoiSQL.getConnection();
-//        try {
-//           
-//            String sql = "update nhanvien set OTP = ?, expriedAt = ? where email = ?";
-//            PreparedStatement stmt = conn.prepareCall(sql);
-//            stmt.setString(1, OTP);
-//            stmt.setTimestamp(2, expiredAt);
-//            stmt.setString(3, gmail);
-//            
-//            return stmt.executeUpdate();
-//        } catch (SQLException ex) {
-//            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        return -1;
-//    }
+        return -1;
+    } 
 //    
 //    public int xoaNhanVien(String maNhanVien){
 //        KetNoiSQL.getInstance();
@@ -255,29 +296,143 @@ public class NhanVienDAO {
 //
 //    }
 //    
-//    public int addNhanVien(NhanVien nhanVien){
-//        KetNoiSQL.getInstance();
-//        Connection conn = KetNoiSQL.getConnection();
-//        try {
-//            String sql = "insert into nhanvien(maNhanVien, hoVaTen, ngaySinh, diaChi, sdt, gioiTinh, luong, email, chucVu)"
-//                + "                 values(?, ?, ?, ?, ?, ?, ?, ?, ?)";
-//
-//            PreparedStatement stmt = conn.prepareCall(sql);
-//            stmt.setString(1, nhanVien.getMaNhanVien());
-//            stmt.setString(2, nhanVien.getHoVaTen());
-//            stmt.setDate(3, new Date(nhanVien.getNgaySinh().getTime()));
-//            stmt.setString(4, nhanVien.getDiaChi());
-//            stmt.setString(5, nhanVien.getSdt());
-//            stmt.setBoolean(6, nhanVien.getGioiTinh());
-//            stmt.setInt(7, nhanVien.getLuong());
-//            stmt.setString(8, nhanVien.getEmail());
-//            stmt.setString(9, nhanVien.getChucVu());
-//            
-//            return stmt.executeUpdate();
-//        } catch (SQLException ex) {
-//            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        return -1;
-//    }
-}
+    public int addNhanVien(NhanVien nhanVien){
+        KetNoiSQL.getInstance();
+        Connection conn = KetNoiSQL.getConnection();
+        try {
+            String sql = "insert into nhanvien(maNV, tenNV, ngaySinh, diaChi, sdt, gioiTinh,   email, chucVu,trangThai,CMND)"
+                + "                 values(?, ?, ?, ?, ?, ?, ?, ? ,?,?)";
 
+            PreparedStatement stmt = conn.prepareCall(sql);
+            stmt.setString(1, nhanVien.getMaNV());
+            stmt.setString(2, nhanVien.getTenNV());
+            stmt.setDate(3, new Date(nhanVien.getNgaySinh().getTime()));
+            stmt.setString(4, nhanVien.getDiaChi());
+            stmt.setString(5, nhanVien.getSDT());
+            stmt.setBoolean(6, nhanVien.isGioiTinh());
+           
+            stmt.setString(7, nhanVien.getEmail());
+            stmt.setBoolean(8, nhanVien.isChucVu());
+            stmt.setInt(9, nhanVien.getTrangThai());
+            stmt.setString(10, nhanVien.getCMND());
+            return stmt.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
+    }
+    
+    public int updateNhanVien(NhanVien nhanVien){
+        KetNoiSQL.getInstance();
+        Connection conn = KetNoiSQL.getConnection();
+        System.out.println(nhanVien);
+        try {
+            String sql = "update nhanvien set tenNV = ?,ngaySinh = ?,diaChi = ?,sdt = ?, gioiTinh = ?,  email = ?,chucVu = ? where maNV = ?";
+            
+            PreparedStatement stmt = conn.prepareCall(sql);
+            
+            stmt.setString(1, nhanVien.getTenNV());
+            stmt.setDate(2, new Date(nhanVien.getNgaySinh().getTime()));
+            stmt.setString(3, nhanVien.getDiaChi());
+            stmt.setString(4, nhanVien.getSDT());
+            stmt.setBoolean(5, nhanVien.isGioiTinh());
+           
+            stmt.setString(6, nhanVien.getEmail());
+            stmt.setBoolean(7, nhanVien.isChucVu());
+            stmt.setString(8, nhanVien.getMaNV());
+            return stmt.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
+    }
+    
+    
+    public ArrayList<TaiKhoan> getAlltaikhoan() {
+		ArrayList<TaiKhoan> listtk = new ArrayList<>();
+		KetNoiSQL.getInstance();
+		Connection conn = KetNoiSQL.getConnection();
+
+		try {
+			String sql = "Select * from TaiKhoan";
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				String tentk = rs.getString(1);
+				String mk = rs.getString(2);
+				boolean loaitk= rs.getBoolean(4);
+				String nv = rs.getString(3);
+				 
+				TaiKhoan tk = new  TaiKhoan(tentk, mk, loaitk, new NhanVien(nv));
+				listtk.add(tk);
+			}
+
+		} catch (SQLException ex) {
+			Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		return listtk;
+	}
+    
+    
+    public ArrayList<TaiKhoan> timtk(String tentk) {
+    	ArrayList<TaiKhoan> listtk = new ArrayList<>();
+		KetNoiSQL.getInstance();
+		Connection conn = KetNoiSQL.getConnection();
+		try {
+
+			String sql = "select * from taikhoan where tenTaiKhoan like ?";
+			PreparedStatement stmt = conn.prepareCall(sql);
+			stmt.setString(1, "%"+tentk+"%");
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				String tentk1 = rs.getString(1);
+				String mk = rs.getString(2);
+				boolean loaitk= rs.getBoolean(4);
+				String nv = rs.getString(3);
+				 
+				TaiKhoan tk = new  TaiKhoan(tentk1, mk, loaitk, new NhanVien(nv));
+				listtk.add(tk);
+			}
+		} catch (SQLException ex) {
+			Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		return listtk;
+	}
+    
+    
+    
+    public ArrayList<NhanVien> timnv(String manvtensdt,boolean gioitinh ,boolean chucvu) {
+    	ArrayList<NhanVien> listnv = new ArrayList<>();
+		KetNoiSQL.getInstance();
+		Connection conn = KetNoiSQL.getConnection();
+		try {
+
+			String sql = "select  * from nhanvien where maNV like ? or tenNV like ? or SDT like ? and gioitinh =? and chucVu=?";
+			PreparedStatement stmt = conn.prepareCall(sql);
+			stmt.setString(1, "%" +manvtensdt+"%");
+			stmt.setString(2, "%" +manvtensdt+"%");
+			stmt.setString(3, "%" +manvtensdt+"%");
+			stmt.setBoolean(4,  gioitinh );
+			stmt.setBoolean(5,  chucvu );
+			ResultSet rs = stmt.executeQuery();
+
+			String manv = rs.getString(1);
+			String tennv = rs.getString(2);
+			Date ns = rs.getDate(3);
+			String sdt = rs.getString(4);
+			String email = rs.getString(5);
+			String cmnd = rs.getString(6);
+			boolean gioitinh1 = rs.getBoolean(7);
+			String dc = rs.getString(8);
+			boolean cv = rs.getBoolean(9);
+			int trangthai = rs.getInt(10);
+			NhanVien nv = new NhanVien(manv ,tennv,ns,sdt,email,cmnd,gioitinh1,dc,cv,trangthai);
+			listnv.add(nv);
+			 
+		} catch (SQLException ex) {
+			Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		return listnv;
+	}
+    
+}
