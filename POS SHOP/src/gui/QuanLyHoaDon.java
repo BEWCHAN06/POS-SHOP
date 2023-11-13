@@ -506,15 +506,15 @@ public class QuanLyHoaDon extends JPanel implements ActionListener {
 					List<ChiTietHoaDon> list = ds.getChiTietHoaDonTheoMaHD(selectedMaHD);
 					modelChiTietHoaDon.setRowCount(0);
 					for (ChiTietHoaDon cthd : list) {
-						Double thanhTien = cthd.thanhTien();
-						Double giaSauKhuyenMai = cthd.tinhGiaSauKhuyenMai(thanhTien);
+//						Double thanhTien = cthd.thanhTien();
+//						Double giaSauKhuyenMai = cthd.tinhGiaSauKhuyenMai(thanhTien);
 						Object data[] = { cthd.getSanPham().getMaSP(), cthd.getSanPham().getTenSP(),
-								cthd.getSanPham().getPl().getPhanLoai(), cthd.getSanPham().getGiaBan(),
+								cthd.getSanPham().getPl().getPhanLoai(), cthd.getSanPham().getGiaNhap(),
 								cthd.getSoLuong(), cthd.getPhanTramKhuyenMai() + "%",
 								cthd.getSanPham().getChatLieu().getChatLieu(),
 								cthd.getSanPham().getKieuDang().getKieuDang(),
 								cthd.getSanPham().getMauSac().getMauSac(),
-								cthd.getSanPham().getKichThuoc().getKichThuoc(), giaSauKhuyenMai };
+								cthd.getSanPham().getKichThuoc().getKichThuoc(), cthd.getThanhTien() };
 						modelChiTietHoaDon.addRow(data);
 					}
 					tblChiTietHoaDon.setModel(modelChiTietHoaDon);
@@ -866,9 +866,8 @@ public class QuanLyHoaDon extends JPanel implements ActionListener {
 		HoaDonDAO ds = new HoaDonDAO();
 		List<HoaDon> list = ds.doTuBang();
 		for (HoaDon hd : list) {
-			Double tongTien = hd.tongTien();
 			Object data[] = { hd.getMaHoaDon(), hd.getNgayLap(), hd.getNhanVien().getMaNV(),
-					hd.getNhanVien().getTenNV(), hd.getKhachHang().getMaKH(), hd.getKhachHang().getTenKH(), tongTien };
+					hd.getNhanVien().getTenNV(), hd.getKhachHang().getMaKH(), hd.getKhachHang().getTenKH(), hd.getTongtien() };
 			modelHoaDon.addRow(data);
 		}
 		tblHoaDon.setModel(modelHoaDon);
