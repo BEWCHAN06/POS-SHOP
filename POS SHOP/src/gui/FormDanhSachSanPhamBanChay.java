@@ -17,9 +17,9 @@ public class FormDanhSachSanPhamBanChay extends javax.swing.JFrame {
     }
 
      private void designTable() {
-        tbl_danhSachSanPham.getTableHeader().setFont(new java.awt.Font("Calibri", 0, 12));
+        tbl_danhSachSanPham.getTableHeader().setFont(new java.awt.Font("Arial", 0, 12));
         tbl_danhSachSanPham.getTableHeader().setOpaque(false);
-        tbl_danhSachSanPham.getTableHeader().setBackground(new Color(102,204,153));
+        tbl_danhSachSanPham.getTableHeader().setBackground(new Color(144, 238, 144));
         tbl_danhSachSanPham.getTableHeader().setForeground(Color.WHITE);
         tbl_danhSachSanPham.setDefaultEditor(Object.class, null); // Không cho phép edit
         tbl_danhSachSanPham.setRowHeight(30);

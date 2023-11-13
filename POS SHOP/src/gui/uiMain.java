@@ -59,6 +59,7 @@ public class uiMain {
 
 	/**
 	 * Launch the application.
+	 * @wbp.parser.entryPoint
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -71,10 +72,22 @@ public class uiMain {
 				}
 			}
 		});
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					uiMain window = new uiMain();
+//					window.frame.setVisible(true);
+//					
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
 	}
 
 	/**
 	 * Create the application.
+	 * @wbp.parser.entryPoint
 	 */
 	public uiMain() {
 		initialize();
@@ -82,6 +95,7 @@ public class uiMain {
 
 	/**
 	 * Initialize the contents of the frame.
+	 * @wbp.parser.entryPoint
 	 */
 	private void initialize() {
 		frame = new JFrame();
@@ -106,6 +120,10 @@ public class uiMain {
 						.addComponent(mainPanel, GroupLayout.DEFAULT_SIZE, 680, Short.MAX_VALUE).addContainerGap())
 				.addComponent(pnlMenu, GroupLayout.DEFAULT_SIZE, 691, Short.MAX_VALUE));
 		mainPanel.setLayout(new CardLayout(0, 0));
+		
+		JLabel lblNewLabel_3 = new JLabel("");
+		lblNewLabel_3.setIcon(new ImageIcon(uiMain.class.getResource("/icon/mainscreen.png")));
+		mainPanel.add(lblNewLabel_3, "name_2182919992199");
 
 		JPanel pnlListMenu = new JPanel();
 		pnlListMenu.setBorder(new LineBorder(new Color(0, 0, 0), 2));
