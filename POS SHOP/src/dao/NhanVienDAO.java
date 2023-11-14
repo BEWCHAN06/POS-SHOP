@@ -111,7 +111,7 @@ public class NhanVienDAO {
 				String dc = rs.getString(8);
 				boolean cv = rs.getBoolean(9);
 				int trangthai = rs.getInt(10);
-				NhanVien nv = new NhanVien();
+				NhanVien nv = new NhanVien(manv, tennv, ns, sdt, email, cmnd, cv, dc, cv, trangthai);
 				return nv;
 			}
 		} catch (SQLException ex) {
