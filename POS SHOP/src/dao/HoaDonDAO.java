@@ -41,7 +41,7 @@ public class HoaDonDAO {
 			Connection con = KetNoiSQL.getInstance().getConnection();
 			String sql = "select hd.maHD, hd.ngayLap, hd.maNV, nv.tenNV, hd.maKH, kh.tenKH, hd.tongTien\r\n"
 					+ "from HoaDon hd join NhanVien nv on hd.maNV = nv.maNV\r\n"
-					+ "join KhachHang kh on hd.maKH = kh.maKH where hd.trangThai = 1";
+					+ "join KhachHang kh on hd.maKH = kh.maKH ";
 			Statement statement = con.createStatement(); // Thực thi câu lệnh SQL trả về ResulSet.
 			ResultSet rs = statement.executeQuery(sql);
 			while (rs.next()) {
@@ -152,6 +152,7 @@ public class HoaDonDAO {
 	}
 	public List<HoaDon> getHDCho() {
 		try {
+			KetNoiSQL.getInstance().connect();
 			Connection con = KetNoiSQL.getInstance().getConnection();
 			String sql = "select * from HoaDon where trangthai = 0";
 			Statement statement = con.createStatement(); // Thực thi câu lệnh SQL trả về ResulSet.
@@ -178,7 +179,7 @@ public class HoaDonDAO {
 	        String sql = "Insert into HoaDon values(?,?,?,?,?,?)";
 	        PreparedStatement ps = con.prepareStatement(sql);
 	        
-	        ps.setString(1, hoaDon.getMaHoaDon());
+	        ps.setString(1, hoaDon.getAutoID());
 	        ps.setDate(2, Date.valueOf(hoaDon.getNgayLap().toString()));
 	        if(hoaDon.getKhachHang() == null) {
 	        	ps.setString(3, "");
