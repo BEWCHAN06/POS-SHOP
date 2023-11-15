@@ -3,6 +3,8 @@ package dao;
 import java.util.List;
 
 import ConnectDB.KetNoiSQL;
+import entity.HoaDon;
+import entity.NhanVien;
 import entity.SanPham;
 
 public class test {
@@ -19,6 +21,14 @@ public class test {
 //        } else {
 //            System.out.println("Không có sản phẩm nào trong danh sách.");
 //        }
-        System.out.println(sanPhamDAO.doTuBang().size());
+        HoaDonDAO hddao = new HoaDonDAO();
+        List<HoaDon> dshd = hddao.getHDCho();
+        for(HoaDon hd : dshd) {
+        	System.out.println(hd.toString());
+        }
+//        System.out.println(sanPhamDAO.doTuBang().size());
+        NhanVienDAO nvdao = new NhanVienDAO();
+        NhanVien nv = nvdao.getNhanVienByID("NV01");
+        System.out.println(nv.toString());
     }
 }

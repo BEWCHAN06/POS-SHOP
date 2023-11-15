@@ -130,7 +130,7 @@ public class HoaDon {
 	public String getAutoID(){
 		HoaDonDAO hoaDonDAO = new HoaDonDAO();
         String idPrefix = "HD";
-       int length = hoaDonDAO.doTuBang().size();
+       int length = hoaDonDAO.fullhoadon().size();
        String finalId = idPrefix + String.format("%02d", length + 1);
        return finalId;
 	}

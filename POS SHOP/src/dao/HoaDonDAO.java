@@ -61,6 +61,28 @@ public class HoaDonDAO {
 		}
 		return dshd;
 	}
+	public List<HoaDon> fullhoadon() {
+		try {
+			Connection con = KetNoiSQL.getInstance().getConnection();
+			String sql = "select * from HoaDon";
+			Statement statement = con.createStatement(); // Thực thi câu lệnh SQL trả về ResulSet.
+			ResultSet rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				String maHD = rs.getString(1);
+				Date ngayLap = rs.getDate(2);
+				String maNV = rs.getString(3);
+				String maKH = rs.getString(5);
+				int trangthai = rs.getInt(6);
+				NhanVien nv = nhanVienDAO.getNhanVienByID(maNV);
+				KhachHang kh = khachHangDAO.getKhachHang(maKH);
+				HoaDon hd = new HoaDon(maHD, ngayLap, kh, nv, trangthai, trangthai);
+				dshd.add(hd);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dshd;
+	}
 	public HoaDon getHDTheoId(String id) {
 		try {
 			KetNoiSQL.getInstance().connect();
@@ -163,7 +185,7 @@ public class HoaDonDAO {
 				String makh = rs.getString(3);
 				String manv = rs.getString(4);
 				KhachHang kh = khachHangDAO.getKhachHang(makh);
-				NhanVien nv = nhanVienDAO.getNhanVienByID(manv);
+				NhanVien nv = nhanVienDAO.getNhanVienByID("NV01");
 				HoaDon hd = new HoaDon(mahd, ngaylap, kh, nv);
 				dshd.add(hd);
 			}

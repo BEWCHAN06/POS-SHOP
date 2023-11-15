@@ -96,7 +96,7 @@ public class NhanVienDAO {
 		Connection conn = KetNoiSQL.getConnection();
 		try {
 
-			String sql = "select * from nhanvien where maNV = ?";
+			String sql = "select * from nhanvien where maNV = (?)";
 			PreparedStatement stmt = conn.prepareCall(sql);
 			stmt.setString(1, id);
 			ResultSet rs = stmt.executeQuery();
@@ -107,11 +107,12 @@ public class NhanVienDAO {
 				String sdt = rs.getString(4);
 				String email = rs.getString(5);
 				String cmnd = rs.getString(6);
-				double gioitinh = rs.getDouble(7);
+				boolean gioitinh = rs.getBoolean(7);
+//				double gioitinh = rs.getDouble(7);
 				String dc = rs.getString(8);
 				boolean cv = rs.getBoolean(9);
 				int trangthai = rs.getInt(10);
-				NhanVien nv = new NhanVien(manv, tennv, ns, sdt, email, cmnd, cv, dc, cv, trangthai);
+				NhanVien nv = new NhanVien(manv, tennv, ns, sdt, email, cmnd, gioitinh, dc, cv, trangthai);
 				return nv;
 			}
 		} catch (SQLException ex) {
