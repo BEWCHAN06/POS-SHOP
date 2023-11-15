@@ -185,7 +185,7 @@ public class HoaDonDAO {
 				String makh = rs.getString(3);
 				String manv = rs.getString(4);
 				KhachHang kh = khachHangDAO.getKhachHang(makh);
-				NhanVien nv = nhanVienDAO.getNhanVienByID("NV01");
+				NhanVien nv = nhanVienDAO.getNhanVienByID(manv);
 				HoaDon hd = new HoaDon(mahd, ngaylap, kh, nv);
 				dshd.add(hd);
 			}
@@ -683,6 +683,7 @@ public class HoaDonDAO {
 			PreparedStatement stmt = conn.prepareCall(sql);
 			stmt.setString(1, hoaDon.getKhachHang().getMaKH());
 			stmt.setString(2, hoaDon.getMaHoaDon());
+			
 			return stmt.executeUpdate();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
