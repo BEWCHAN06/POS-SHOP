@@ -1,5 +1,5 @@
 ### CÔNG NGHỆ
-#camera read code
+# camera read code
 ```java
 package gui;
 import javax.swing.*;
