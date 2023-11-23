@@ -15,10 +15,12 @@ import javax.swing.border.LineBorder;
 
 import ConnectDB.KetNoiSQL;
 import dao.loginDAO;
+import gui.FormQuenMatKhau;
 import gui.QuanLyThongKe;
 import gui.uiMain;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import javax.swing.JTextField;
@@ -32,6 +34,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 
@@ -42,6 +46,8 @@ public class Login extends JFrame {
 	private JTextField txtTenTK;
 	private JPasswordField passwordField;
 	private JFrame frame;
+	public FormQuenMatKhau lmxn;
+	public uiMain otherUI;
 	private boolean isPasswordVisible = false;
 
 	/**
@@ -124,6 +130,7 @@ public class Login extends JFrame {
 		lblNewLabel_2_1_1.setBackground(Color.BLACK);
 
 		txtTenTK = new JTextField();
+		txtTenTK.setFont(new Font("Arial", Font.PLAIN, 12));
 		txtTenTK.setColumns(10);
 
 		JLabel lblNewLabel_2_1_1_1 = new JLabel("mật khẩu ");
@@ -138,7 +145,7 @@ public class Login extends JFrame {
 				String pass = String.valueOf(passwordField.getPassword());
 				int checklogin = daoLoginDAO.getTaiKhoan(txtTenTK.getText(), pass);
 				if (checklogin == 1) {
-					uiMain otherUI = new uiMain(); // Tạo một đối tượng của lớp uiMain
+					otherUI = new uiMain(); // Tạo một đối tượng của lớp uiMain
 					otherUI.frame.setVisible(true); // Hiển thị giao diện của uiMain bằng cách set visible cho frame của
 													// uiMain
 					dispose();
@@ -157,7 +164,7 @@ public class Login extends JFrame {
 				String pass = String.valueOf(passwordField.getPassword());
 				int checklogin = daoLoginDAO.getTaiKhoan(txtTenTK.getText(), pass);
 				if (checklogin == 1) {
-					uiMain otherUI = new uiMain(); // Tạo một đối tượng của lớp uiMain
+					otherUI = new uiMain(); // Tạo một đối tượng của lớp uiMain
 					otherUI.frame.setVisible(true); // Hiển thị giao diện của uiMain bằng cách set visible cho frame của
 													// uiMain
 					dispose();
@@ -173,17 +180,77 @@ public class Login extends JFrame {
 		btnDangNhap.setFont(new Font("Arial", Font.BOLD, 13));
 
 		passwordField = new JPasswordField();
+		passwordField.setFont(new Font("Arial", Font.PLAIN, 12));
 
-		JButton btnNewButton = new JButton("");
-		btnNewButton.setForeground(new Color(255, 255, 255));
-		btnNewButton.setBackground(new Color(144, 238, 144));
-		btnNewButton.setIcon(new ImageIcon(Login.class.getResource("/icon/conmat.png")));
+		JButton btnXemMatKhau = new JButton("");
+		btnXemMatKhau.setForeground(new Color(255, 255, 255));
+		btnXemMatKhau.setBackground(new Color(144, 238, 144));
+		btnXemMatKhau.setBorder(new LineBorder(new Color(144, 238, 144), 2));
+		btnXemMatKhau.setIcon(new ImageIcon(Login.class.getResource("/icon/conmat.png")));
+
+		JButton btnQuenMatKhau = new JButton("Quên mật khẩu ?");
+		btnQuenMatKhau.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				lmxn = new FormQuenMatKhau();
+				lmxn.setVisible(true);
+				dispose();
+				lmxn.addWindowListener(new WindowListener() {
+
+					@Override
+					public void windowOpened(WindowEvent e) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void windowIconified(WindowEvent e) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void windowDeiconified(WindowEvent e) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void windowDeactivated(WindowEvent e) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void windowClosing(WindowEvent e) {
+						// TODO Auto-generated method stub
+						// Hiển thị lại giao diện Login khi FormLayMaXacNhan được đóng
+						Login lg = new Login();
+						lg.setVisible(true);
+					}
+
+					@Override
+					public void windowClosed(WindowEvent e) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void windowActivated(WindowEvent e) {
+						// TODO Auto-generated method stub
+
+					}
+				});
+			}
+		});
+		btnQuenMatKhau.setBackground(new Color(144, 238, 144));
+		btnQuenMatKhau.setFont(new Font("Arial", Font.BOLD, 14));
+		btnQuenMatKhau.setBorder(new LineBorder(new Color(144, 238, 144), 2));
 		GroupLayout gl_pnlDangNhap = new GroupLayout(pnlDangNhap);
-		gl_pnlDangNhap.setHorizontalGroup(gl_pnlDangNhap.createParallelGroup(Alignment.LEADING)
+		gl_pnlDangNhap.setHorizontalGroup(gl_pnlDangNhap.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_pnlDangNhap.createSequentialGroup().addGap(142)
 						.addGroup(gl_pnlDangNhap.createParallelGroup(Alignment.LEADING)
-								.addComponent(passwordField, GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE)
-								.addComponent(btnDangNhap, GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE)
+								.addComponent(passwordField, GroupLayout.DEFAULT_SIZE, 364, Short.MAX_VALUE)
+								.addComponent(btnDangNhap, GroupLayout.DEFAULT_SIZE, 364, Short.MAX_VALUE)
 								.addGroup(gl_pnlDangNhap.createParallelGroup(Alignment.TRAILING, false)
 										.addComponent(lblNewLabel_2_1_1_1, Alignment.LEADING,
 												GroupLayout.PREFERRED_SIZE, 158, GroupLayout.PREFERRED_SIZE)
@@ -192,12 +259,15 @@ public class Login extends JFrame {
 										.addComponent(lblNewLabel_2_1, Alignment.LEADING).addComponent(txtTenTK,
 												Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE)))
 						.addGap(18)
-						.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 57, GroupLayout.PREFERRED_SIZE)
-						.addGap(65)));
+						.addComponent(btnXemMatKhau, GroupLayout.PREFERRED_SIZE, 57, GroupLayout.PREFERRED_SIZE)
+						.addGap(65))
+				.addGroup(gl_pnlDangNhap.createSequentialGroup().addContainerGap(252, Short.MAX_VALUE)
+						.addComponent(btnQuenMatKhau, GroupLayout.PREFERRED_SIZE, 164, GroupLayout.PREFERRED_SIZE)
+						.addGap(230)));
 		gl_pnlDangNhap.setVerticalGroup(gl_pnlDangNhap.createParallelGroup(Alignment.LEADING).addGroup(gl_pnlDangNhap
 				.createSequentialGroup().addGap(153)
 				.addGroup(gl_pnlDangNhap.createParallelGroup(Alignment.TRAILING)
-						.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnXemMatKhau, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_pnlDangNhap.createSequentialGroup().addComponent(lblNewLabel_2_1).addGap(23)
 								.addComponent(lblNewLabel_2_1_1, GroupLayout.PREFERRED_SIZE, 28,
 										GroupLayout.PREFERRED_SIZE)
@@ -209,9 +279,10 @@ public class Login extends JFrame {
 								.addPreferredGap(ComponentPlacement.RELATED).addComponent(passwordField,
 										GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)))
 				.addGap(45).addComponent(btnDangNhap, GroupLayout.PREFERRED_SIZE, 52, GroupLayout.PREFERRED_SIZE)
-				.addContainerGap(161, Short.MAX_VALUE)));
+				.addGap(18).addComponent(btnQuenMatKhau, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
+				.addContainerGap(121, Short.MAX_VALUE)));
 		pnlDangNhap.setLayout(gl_pnlDangNhap);
-		btnNewButton.addActionListener(new ActionListener() {
+		btnXemMatKhau.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				isPasswordVisible = !isPasswordVisible;
@@ -228,7 +299,7 @@ public class Login extends JFrame {
 		if (isPasswordVisible) {
 			passwordField.setEchoChar((char) 0);
 		} else {
-			passwordField.setEchoChar('*');
+			passwordField.setEchoChar('\u2022');
 		}
 	}
 }

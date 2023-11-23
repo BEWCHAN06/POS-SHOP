@@ -23,5 +23,7 @@
 	<classpathentry kind="lib" path="lib/zxing/jai-imageio-core-1.4.0.jar"/>
 	<classpathentry kind="lib" path="lib/zxing/javase-3.5.2.jar"/>
 	<classpathentry kind="lib" path="lib/zxing/jcommander-1.82.jar"/>
+	<classpathentry kind="lib" path="lib/javamail/javax.mail.jar"/>
+	<classpathentry kind="lib" path="lib/javaactivation/activation-1.1.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
