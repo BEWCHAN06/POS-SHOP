@@ -263,6 +263,7 @@ public class BarcodeGenerator {
 - demo image qr code
 <img src="POS SHOP/printer/hinhanh/SP28.png" alt="">
 ### CONNECT DATABASE
+
 ```java
 package ConnectDB;
 
