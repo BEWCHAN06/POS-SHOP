@@ -299,7 +299,7 @@ public class Login extends JFrame {
 		if (isPasswordVisible) {
 			passwordField.setEchoChar((char) 0);
 		} else {
-			passwordField.setEchoChar('*');
+			passwordField.setEchoChar('\u2022');
 		}
 	}
 }
