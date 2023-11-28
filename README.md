@@ -1,4 +1,5 @@
 ### CÔNG NGHỆ
+BEWCHAN06/POS-SHOP là một dự án viết bằng Java để tạo một ứng dụng quản lý bán hàng sử dụng mã QR. Dự án này sử dụng công nghệ camera để quét mã QR từ hình ảnh và hiển thị nội dung của mã QR trên giao diện người dùng. Ngoài ra, dự án cũng cung cấp tính năng tạo mã QR mới. Bài viết cũng đề cập đến việc kết nối cơ sở dữ liệu và tạo liên kết với database, cũng như các chức năng quản lý khác như nhân viên, sản phẩm, hóa đơn, khách hàng và thống kê.
 # camera read code
 ```java
 package gui;
