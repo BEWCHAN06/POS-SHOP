@@ -21,14 +21,30 @@ public class test {
 //        } else {
 //            System.out.println("Không có sản phẩm nào trong danh sách.");
 //        }
-        HoaDonDAO hddao = new HoaDonDAO();
-        List<HoaDon> dshd = hddao.getHDCho();
-        for(HoaDon hd : dshd) {
-        	System.out.println(hd.toString());
-        }
-//        System.out.println(sanPhamDAO.doTuBang().size());
+//        HoaDonDAO hddao = new HoaDonDAO();
+//        List<HoaDon> dshd = hddao.getHDCho();
+//        for(HoaDon hd : dshd) {
+//        	System.out.println(hd.toString());
+//        }
+////        System.out.println(sanPhamDAO.doTuBang().size());
+//        NhanVienDAO nvdao = new NhanVienDAO();
+//        NhanVien nv = nvdao.getNhanVienByID("NV01");
+//        System.out.println(nv.toString());
         NhanVienDAO nvdao = new NhanVienDAO();
-        NhanVien nv = nvdao.getNhanVienByID("NV01");
-        System.out.println(nv.toString());
+        for (NhanVien nz : nvdao.timnv("NV01", true, true)) {
+			String gt1 = "";
+			if (nz.isGioiTinh() == true) {
+				gt1 = "Nam";
+			} else {
+				gt1 = "Nu";
+			}
+			String cv1 = "";
+			if (nz.isChucVu() == true) {
+				cv1 = "Nhan vien";
+			} else {
+				cv1 = "Quan ly";
+			}
+			System.out.println(nz);
+		}
     }
 }

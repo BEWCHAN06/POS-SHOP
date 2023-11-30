@@ -156,22 +156,6 @@ public class NhanVien {
 		return finalId;
 	}
 
-//	public boolean equals(Object obj) {
-//		if (this == obj)
-//			return true;
-//		if (obj == null)
-//			return false;
-//		if (getClass() != obj.getClass())
-//			return false;
-//		NhanVien other = (NhanVien) obj;
-//		if (maNV == null) {
-//			if (other.maNV != null)
-//				return false;
-//		} else if (!maNV.equalsIgnoreCase(other.maNV))
-//			return false;
-//		return true;
-//	}
-
 	@Override
 	public String toString() {
 		return "NhanVien [maNV=" + maNV + ", tenNV=" + tenNV + ", ngaySinh=" + ngaySinh + ", SDT=" + SDT + ", email="

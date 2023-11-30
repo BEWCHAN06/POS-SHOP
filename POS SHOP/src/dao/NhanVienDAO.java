@@ -408,7 +408,7 @@ public class NhanVienDAO {
 		Connection conn = KetNoiSQL.getConnection();
 		try {
 
-			String sql = "select  * from nhanvien where maNV like (?) or tenNV like (?) or SDT like (?) and gioitinh =(?) and chucVu=(?)";
+			String sql = "select * from nhanvien where maNV like (?) or tenNV like (?) or SDT like (?) or (gioitinh =(?) and chucVu=(?))";
 			PreparedStatement stmt = conn.prepareCall(sql);
 			stmt.setString(1, "%" +manvtensdt+"%");
 			stmt.setString(2, "%" +manvtensdt+"%");
@@ -416,24 +416,44 @@ public class NhanVienDAO {
 			stmt.setBoolean(4,  gioitinh );
 			stmt.setBoolean(5,  chucvu );
 			ResultSet rs = stmt.executeQuery();
-
-			String manv = rs.getString(1);
-			String tennv = rs.getString(2);
-			Date ns = rs.getDate(3);
-			String sdt = rs.getString(4);
-			String email = rs.getString(5);
-			String cmnd = rs.getString(6);
-			boolean gioitinh1 = rs.getBoolean(7);
-			String dc = rs.getString(8);
-			boolean cv = rs.getBoolean(9);
-			int trangthai = rs.getInt(10);
-			NhanVien nv = new NhanVien(manv ,tennv,ns,sdt,email,cmnd,gioitinh1,dc,cv,trangthai);
-			listnv.add(nv);
+			
+			while(rs.next()) {
+				String manv = rs.getString(1);
+				String tennv = rs.getString(2);
+				Date ns = rs.getDate(3);
+				String sdt = rs.getString(4);
+				String email = rs.getString(5);
+				String cmnd = rs.getString(6);
+				boolean gioitinh1 = rs.getBoolean(7);
+				String dc = rs.getString(8);
+				boolean cv = rs.getBoolean(9);
+				int trangthai = rs.getInt(10);
+				NhanVien nv = new NhanVien(manv ,tennv,ns,sdt,email,cmnd,gioitinh1,dc,cv,trangthai);
+				listnv.add(nv);
+			}
 			 
 		} catch (SQLException ex) {
 			Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		return listnv;
 	}
+    public int updateMatKhau(String matKhau, String taiKhoan){
+        KetNoiSQL.getInstance();
+        Connection conn = KetNoiSQL.getConnection();
+        
+        try {
+            String sql = "update taikhoan set matkhau = ?  where tenTaiKhoan = ?";
+            
+            PreparedStatement stmt = conn.prepareCall(sql);
+            
+            stmt.setString(1, matKhau);
+            stmt.setString(2, taiKhoan);
+            
+            return stmt.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
+    }
     
 }

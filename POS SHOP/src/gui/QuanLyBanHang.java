@@ -139,12 +139,12 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 		}
 
 //		cameraViewLabel.setPreferredSize(new Dimension(170, 110));
-		cam.removeAll();
-		cam.setLayout(new BorderLayout());
-		CameraPanel cameraPanel = new CameraPanel();
-		cam.add(cameraPanel);
-		cameraPanel.addQRCodeListener(this);
-		cameraPanel.startCamera();
+//		cam.removeAll();
+//		cam.setLayout(new BorderLayout());
+//		CameraPanel cameraPanel = new CameraPanel();
+//		cam.add(cameraPanel);
+//		cameraPanel.addQRCodeListener(this);
+//		cameraPanel.startCamera();
 	}
     private void clearTableDSSP() {
         DefaultTableModel dtm = (DefaultTableModel) tblDSSanPham.getModel();
@@ -752,49 +752,56 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 		
 		//su kien hoa don cho va san pham
 		///su kien tim kiếm liên tục (auto find load table)
-		txtTienKhachDua.getDocument().addDocumentListener(new DocumentListener() {
+		if(txtTienKhachDua.getText().trim().isEmpty()) {
+			lbltienthua.setText("vui lòng nhập tiền khách đưa !!!");
+		}else {
+				txtTienKhachDua.getDocument().addDocumentListener(new DocumentListener() {
+				
+					@Override
+					public void removeUpdate(DocumentEvent e) {
+						// TODO Auto-generated method stub
+						TienKhachDua();
+					}
+					
+					@Override
+					public void insertUpdate(DocumentEvent e) {
+						// TODO Auto-generated method stub
+						TienKhachDua();
+					}
+					
+					@Override
+					public void changedUpdate(DocumentEvent e) {
+						// TODO Auto-generated method stub
+						TienKhachDua();
+					}
+				});
+		}
+		
+		///tìm kiếm sản phẩm
+		if(txtTimKiemSP.getText().equalsIgnoreCase("")) {
+			tblDanhSachSanPham();
+		}else {
+			txtTimKiemSP.getDocument().addDocumentListener(new DocumentListener() {
 				
 				@Override
 				public void removeUpdate(DocumentEvent e) {
 					// TODO Auto-generated method stub
-					TienKhachDua();
+					updateTableTimKiemSP();
 				}
 				
 				@Override
 				public void insertUpdate(DocumentEvent e) {
 					// TODO Auto-generated method stub
-					TienKhachDua();
+					updateTableTimKiemSP();
 				}
 				
 				@Override
 				public void changedUpdate(DocumentEvent e) {
 					// TODO Auto-generated method stub
-					TienKhachDua();
+					updateTableTimKiemSP();
 				}
-		});
-		
-		txtTimKiemSP.getDocument().addDocumentListener(new DocumentListener() {
-			
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-				// TODO Auto-generated method stub
-				updateTableTimKiemSP();
-			}
-			
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-				// TODO Auto-generated method stub
-				updateTableTimKiemSP();
-			}
-			
-			@Override
-			public void changedUpdate(DocumentEvent e) {
-				// TODO Auto-generated method stub
-				updateTableTimKiemSP();
-			}
-		});
-		
-		
+			});
+		}
 		//them sư kiện
 		btnThemVaoGio.addActionListener(this);
 		btnTaoHD.addActionListener(this);
@@ -913,17 +920,28 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 		
 	}
 	private void TienKhachDua() {
-		double tienkhachdua = Double.parseDouble(txtTienKhachDua.getText());
+//		double tienkhachdua = Double.parseDouble(txtTienKhachDua.getText());
 		double thua = 0;
-		if(tienkhachdua < chiTietHoaDonDAO.getTongTien(mahd)) {
-			thua = tienkhachdua -chiTietHoaDonDAO.getTongTien(mahd);
-			lbltienthua.setText("Cần thêm "+ -thua+"");
-			lbltienthua.setForeground(new Color(255,0,0));
+//		
+		String input = txtTienKhachDua.getText().trim();
+		if(!input.isEmpty()) {
+			try {
+				double tienkhachdua = Double.parseDouble(input);
+				if(tienkhachdua < chiTietHoaDonDAO.getTongTien(mahd)) {
+					thua = tienkhachdua -chiTietHoaDonDAO.getTongTien(mahd);
+					lbltienthua.setText("Cần thêm "+ -thua+"");
+					lbltienthua.setForeground(new Color(255,0,0));
+				}else {
+					thua = tienkhachdua -chiTietHoaDonDAO.getTongTien(mahd);
+					txtTienKhachDua.setForeground(new Color(0,0,0));
+					lbltienthua.setText(thua+"");
+					lbltienthua.setForeground(new Color(34, 139, 34));
+				}
+			} catch (NumberFormatException e) {
+				JOptionPane.showMessageDialog(null, "vui lòng nhập số tiền của khách");
+			}
 		}else {
-			thua = tienkhachdua -chiTietHoaDonDAO.getTongTien(mahd);
-			txtTienKhachDua.setForeground(new Color(0,0,0));
-			lbltienthua.setText(thua+"");
-			lbltienthua.setForeground(new Color(34, 139, 34));
+			lbltienthua.setText("");
 		}
 		
 	}

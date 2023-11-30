@@ -71,4 +71,71 @@ public class KhachHangDAO {
         }
         return null;
     }
+	public int addKhachHang(KhachHang khachHang){
+        KetNoiSQL.getInstance();
+        Connection conn = KetNoiSQL.getConnection();
+        try {
+            String sql = "insert into khachhang(maKH, tenKH, ngaySinh, SDT,email,gioiTinh)"
+                + "                 values(?, ?, ?, ?, ?, ?)";
+
+            PreparedStatement stmt = conn.prepareCall(sql);
+            stmt.setString(1, khachHang.getMaKH());
+            stmt.setString(2, khachHang.getTenKH());
+            stmt.setDate(3, new Date(khachHang.getNgaySinh().getTime()));
+            stmt.setString(4,khachHang.getSDT());
+            stmt.setString(5, khachHang.getEmail());
+            stmt.setBoolean(6, khachHang.isGioiTinh());
+            return stmt.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(KhachHangDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
+    }
+	public ArrayList<KhachHang> getAllKhachHang() {
+		ArrayList<KhachHang> listKhachHang = new ArrayList<>();
+		KetNoiSQL.getInstance();
+		Connection conn = KetNoiSQL.getConnection();
+
+		try {
+			String sql = "Select * from khachhang";
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				String makh = rs.getString(1);
+				String tenkh= rs.getString(2);
+				Date ns = rs.getDate(3);
+				String sdt = rs.getString(4);
+				String email = rs.getString(5);
+				
+				boolean gioitinh = rs.getBoolean(6);
+				KhachHang kh = new KhachHang(makh ,tenkh,ns,sdt,email,gioitinh);
+				listKhachHang.add(kh);
+			}
+
+		} catch (SQLException ex) {
+			Logger.getLogger(KhachHangDAO.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		return listKhachHang;
+	}
+ 	public int updateKhachHang(KhachHang khachHang){
+        KetNoiSQL.getInstance();
+        Connection conn = KetNoiSQL.getConnection();
+        System.out.println(khachHang);
+        try {
+            String sql = "update khachhang set tenKH = ?,ngaySinh = ?,SDT = ?,email = ?, gioiTinh = ?, where maKH = ?";
+            
+            PreparedStatement stmt = conn.prepareCall(sql);
+            
+            stmt.setString(1, khachHang.getTenKH());
+            stmt.setDate(2, new Date(khachHang.getNgaySinh().getTime()));
+            stmt.setString(3, khachHang.getSDT());
+            stmt.setString(4, khachHang.getEmail());
+            stmt.setBoolean(5, khachHang.isGioiTinh());
+            stmt.setString(6, khachHang.getMaKH());
+            return stmt.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(KhachHangDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
+    }
 }
