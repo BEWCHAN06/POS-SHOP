@@ -58,29 +58,29 @@ public class KhuyenMaiDAO {
 		}
 		return dskm;
 	}
-	
+
 	// Lấy danh sách Sản phẩm có maKM = null từ SQL
-		public List<SanPham> getSanPhamMaKMIsNull() {
-			try {
-				KetNoiSQL.getInstance().connect();
-				Connection con = KetNoiSQL.getConnection();
-				String sql = "Select * from SanPham where maKM is NULL";
-				Statement statement = con.createStatement(); // Thực thi câu lệnh SQL trả về ResulSet.
-				ResultSet rs = statement.executeQuery(sql);
-				// Duyệt kết quả trả về
-				while (rs.next()) { // Di chuyển con trỏ xuống bản ghi kế tiếp
-					String ma = rs.getString("maSP");
-					String ten = rs.getString("tenSP");
-					Double giaNhap = rs.getDouble("giaNhap");
-					int loi = rs.getInt("loiTheoPhanTram");
-					SanPham sp = new SanPham(ma, ten, null, giaNhap, loi, null, 0, null, 0, null, null, null, null);
-					dssp.add(sp);
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
+	public List<SanPham> getSanPhamMaKMIsNull() {
+		KetNoiSQL.getInstance().connect();
+		try {
+			Connection con = KetNoiSQL.getConnection();
+			String sql = "Select * from SanPham where maKM is NULL";
+			Statement statement = con.createStatement(); // Thực thi câu lệnh SQL trả về ResulSet.
+			ResultSet rs = statement.executeQuery(sql);
+			// Duyệt kết quả trả về
+			while (rs.next()) { // Di chuyển con trỏ xuống bản ghi kế tiếp
+				String ma = rs.getString("maSP");
+				String ten = rs.getString("tenSP");
+				Double giaNhap = rs.getDouble("giaNhap");
+				int loi = rs.getInt("loiTheoPhanTram");
+				SanPham sp = new SanPham(ma, ten, null, giaNhap, loi, null, 0, null, 0, null, null, null, null);
+				dssp.add(sp);
 			}
-			return dssp;
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
+		return dssp;
+	}
 
 	// Thêm khuyến mãi
 	public boolean createKhuyenMai(KhuyenMai km) {
@@ -185,12 +185,10 @@ public class KhuyenMaiDAO {
 			KetNoiSQL.getInstance().connect();
 			Connection con = KetNoiSQL.getInstance().getConnection();
 			String sql = "select sp.maSP, sp.tenSP, sp.maKM, km.phanTramKhuyenMai, sp.giaNhap, sp.loiTheoPhanTram\r\n"
-					+ "from SanPham sp  join KhuyenMai km on km.maKM = sp.maKM\r\n"
-					+ "where sp.maKM = ?";
+					+ "from SanPham sp  join KhuyenMai km on km.maKM = sp.maKM\r\n" + "where sp.maKM = ?";
 			PreparedStatement stmt = con.prepareCall(sql);
 			stmt.setString(1, maKM);
 			ResultSet rs = stmt.executeQuery();
-
 			while (rs.next()) {
 				String masp = rs.getString(1);
 				String ten = rs.getString(2);
@@ -199,8 +197,7 @@ public class KhuyenMaiDAO {
 				Double giaNhap = rs.getDouble(5);
 				int loi = rs.getInt(6);
 				SanPham sp = new SanPham(masp, ten, null, giaNhap, loi,
-						new KhuyenMai(makm, null, phanTramKhuyenMai, null, null), 0, null, 0, null, null, null,
-						null);
+						new KhuyenMai(makm, null, phanTramKhuyenMai, null, null), 0, null, 0, null, null, null, null);
 				dssp.add(sp);
 			}
 
@@ -211,7 +208,8 @@ public class KhuyenMaiDAO {
 		return dssp;
 	}
 
-	// Thêm mã khuyến mãi cho sản phẩm và Cập nhật các trường chương trình khuyến
+	// Thêm mã khuyến mãi cho sản phẩm và Cập nhật các trường của chương trình
+	// khuyến
 	// mãi
 	public boolean updateMaKMChoSanPHam(KhuyenMai km, String maKM, String maSP) {
 		KetNoiSQL.getInstance().connect();
@@ -236,16 +234,23 @@ public class KhuyenMaiDAO {
 		return n > 0;
 	}
 
-	// Thêm mã khuyến mãi cho sản phẩm
-	public boolean updateGiaBanChoSanPHam(double giaBan, String maSP) {
+	// Xóa mã khuyến mãi cho sản phẩm và Cập nhật các trường của chương trình khuyến
+	// mãi
+	public boolean deleteMaKMChoSanPHam(KhuyenMai km, String maSP) {
 		KetNoiSQL.getInstance().connect();
 		Connection con = KetNoiSQL.getInstance().getConnection();
 		PreparedStatement stmt = null;
 		int n = 0;
 		try {
-			stmt = con.prepareStatement("update SanPham set giaBan = ? where maSP = ?");
-			stmt.setDouble(1, giaBan);
-			stmt.setString(2, maSP);
+			stmt = con.prepareStatement("update KhuyenMai set phanTramKhuyenMai = ?, tenKhuyenMai = ?, \r\n"
+					+ "ngayBatDau = ?, ngayKetThuc = ? where maKM = ?;\r\n"
+					+ "update SanPham set maKM = Null where maSP = ?;");
+			stmt.setDouble(1, km.getPhanTramKhuyenMai());
+			stmt.setString(2, km.getTenKhuyenMai());
+			stmt.setDate(3, (Date) km.getNgayBatDau());
+			stmt.setDate(4, (Date) km.getNgayKetThuc());
+			stmt.setString(5, km.getMaKM());
+			stmt.setString(6, maSP);
 			n = stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
