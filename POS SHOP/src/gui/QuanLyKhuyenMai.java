@@ -136,15 +136,17 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 		GroupLayout gl_pnlKhuyenMai = new GroupLayout(pnlKhuyenMai);
 		gl_pnlKhuyenMai.setHorizontalGroup(gl_pnlKhuyenMai.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_pnlKhuyenMai.createSequentialGroup()
-						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 646, GroupLayout.PREFERRED_SIZE)
+						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 693, GroupLayout.PREFERRED_SIZE)
 						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 270, GroupLayout.PREFERRED_SIZE)
+						.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 223, GroupLayout.PREFERRED_SIZE)
 						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
-		gl_pnlKhuyenMai.setVerticalGroup(gl_pnlKhuyenMai.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_pnlKhuyenMai.createSequentialGroup()
+		gl_pnlKhuyenMai.setVerticalGroup(gl_pnlKhuyenMai.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_pnlKhuyenMai.createSequentialGroup()
 						.addGroup(gl_pnlKhuyenMai.createParallelGroup(Alignment.TRAILING)
-								.addComponent(panel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)
-								.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE))
+								.addComponent(panel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
+										Short.MAX_VALUE)
+								.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
+										Short.MAX_VALUE))
 						.addContainerGap()));
 
 		JLabel lblThoiGianBatDauKhuyenMai = new JLabel("Thời gian bắt đầu giảm giá :");
@@ -153,7 +155,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 		JLabel lblThoiGianKetThucKhuyenMai = new JLabel("Thời gian kết thúc giảm giá :");
 		lblThoiGianKetThucKhuyenMai.setFont(new Font("Arial", Font.BOLD, 12));
 
-		btnThemKhuyenMai = new JButton("Thêm (CtrlC)");
+		btnThemKhuyenMai = new JButton("Thêm");
 		btnThemKhuyenMai.setForeground(new Color(255, 255, 255));
 		btnThemKhuyenMai.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		btnThemKhuyenMai.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/add.png")));
@@ -168,9 +170,8 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 		btnThemKhuyenMai.getActionMap().put("CtrlC", new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (btnThemKhuyenMai.getText().equals("Thêm (CtrlC)"))
+				if (btnThemKhuyenMai.getText().equals("Thêm"))
 					btnThemKhuyenMai.doClick();
-
 			}
 		});
 		// Ngược lại nếu là button Lưu
@@ -179,12 +180,11 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 		btnThemKhuyenMai.getActionMap().put("CtrlS", new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (btnThemKhuyenMai.getText().equals("Lưu (CtrlS)"))
+				if (btnThemKhuyenMai.getText().equals("Lưu"))
 					btnThemKhuyenMai.doClick();
-
 			}
 		});
-		btnSuaKhuyenMai = new JButton("Sửa (CtrlU)");
+		btnSuaKhuyenMai = new JButton("Sửa");
 		btnSuaKhuyenMai.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		btnSuaKhuyenMai.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/sua.png")));
 		btnSuaKhuyenMai.setFont(new Font("Arial", Font.BOLD, 12));
@@ -208,12 +208,12 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 		btnSuaKhuyenMai.getActionMap().put("CtrlS", new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (btnSuaKhuyenMai.getText().equals("Lưu (CtrlS)"))
+				if (btnSuaKhuyenMai.getText().equals("Lưu"))
 					btnSuaKhuyenMai.doClick();
 
 			}
 		});
-		btnLamMoi = new JButton("Làm mới (CtrlR)");
+		btnLamMoi = new JButton("Làm mới");
 		btnLamMoi.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		btnLamMoi.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/loading.png")));
 		btnLamMoi.setFont(new Font("Arial", Font.BOLD, 12));
@@ -226,7 +226,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 		btnLamMoi.getActionMap().put("CtrlR", new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (btnLamMoi.getText().equals("Làm mới (CtrlR)"))
+				if (btnLamMoi.getText().equals("Làm mới"))
 					btnLamMoi.doClick();
 
 			}
@@ -237,7 +237,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 		btnLamMoi.getActionMap().put("CtrlD", new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (btnLamMoi.getText().equals("Hủy (CtrlD)"))
+				if (btnLamMoi.getText().equals("Hủy"))
 					btnLamMoi.doClick();
 
 			}
@@ -247,17 +247,17 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 		btnLamMoi.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (btnLamMoi.getText().equals("Hủy (CtrlD)")) {
-					btnLamMoi.setText("Làm mới (CtrlR)");
+				if (btnLamMoi.getText().equals("Hủy")) {
+					btnLamMoi.setText("Làm mới");
 					btnLamMoi.setBackground(new Color(152, 251, 152));
 					btnLamMoi.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/loading.png")));
 
-					btnThemKhuyenMai.setText("Thêm (CtrlC)");
+					btnThemKhuyenMai.setText("Thêm");
 					btnThemKhuyenMai.setForeground(new Color(255, 255, 255));
 					btnThemKhuyenMai.setBackground(new Color(65, 105, 255));
 					btnThemKhuyenMai.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/add.png")));
 
-					btnSuaKhuyenMai.setText("Sửa (CtrlU)");
+					btnSuaKhuyenMai.setText("Sửa");
 					btnThemKhuyenMai.setForeground(new Color(255, 255, 255));
 					btnSuaKhuyenMai.setBackground(new Color(255, 255, 0));
 					btnSuaKhuyenMai.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/sua.png")));
@@ -276,26 +276,28 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 		dateChooserThoiGianKetThucGiamGia = new JDateChooser();
 		dateChooserThoiGianKetThucGiamGia.setEnabled(false);
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
-		gl_panel_1.setHorizontalGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_1.createSequentialGroup().addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel_1.createSequentialGroup().addContainerGap()
-								.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-										.addComponent(dateChooserThoiGianKetThucGiamGia, GroupLayout.DEFAULT_SIZE, 238,
-												Short.MAX_VALUE)
-										.addComponent(lblThoiGianBatDauKhuyenMai)
+		gl_panel_1.setHorizontalGroup(gl_panel_1.createParallelGroup(Alignment.LEADING).addGroup(gl_panel_1
+				.createSequentialGroup().addContainerGap(10, Short.MAX_VALUE)
+				.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+						.addGroup(Alignment.TRAILING,
+								gl_panel_1.createSequentialGroup()
+										.addComponent(btnThemKhuyenMai, GroupLayout.PREFERRED_SIZE, 85,
+												GroupLayout.PREFERRED_SIZE)
+										.addGap(18).addComponent(btnSuaKhuyenMai, GroupLayout.PREFERRED_SIZE, 87,
+												GroupLayout.PREFERRED_SIZE))
+						.addGroup(Alignment.TRAILING,
+								gl_panel_1.createParallelGroup(Alignment.LEADING, false)
+										.addComponent(dateChooserThoiGianKetThucGiamGia, Alignment.TRAILING,
+												GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 										.addComponent(lblThoiGianKetThucKhuyenMai, GroupLayout.PREFERRED_SIZE, 170,
 												GroupLayout.PREFERRED_SIZE)
-										.addGroup(gl_panel_1.createSequentialGroup()
-												.addComponent(btnThemKhuyenMai, GroupLayout.PREFERRED_SIZE, 105,
-														GroupLayout.PREFERRED_SIZE)
-												.addPreferredGap(ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
-												.addComponent(btnSuaKhuyenMai, GroupLayout.PREFERRED_SIZE, 107,
-														GroupLayout.PREFERRED_SIZE))
-										.addComponent(dateChooserThoiGianBatDauGiamGia, GroupLayout.DEFAULT_SIZE, 238,
-												Short.MAX_VALUE)))
-						.addGroup(gl_panel_1.createSequentialGroup().addGap(61).addComponent(btnLamMoi,
-								GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)))
-						.addContainerGap()));
+										.addComponent(dateChooserThoiGianBatDauGiamGia, Alignment.TRAILING,
+												GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)
+										.addComponent(lblThoiGianBatDauKhuyenMai)))
+				.addContainerGap())
+				.addGroup(gl_panel_1.createSequentialGroup().addGap(41)
+						.addComponent(btnLamMoi, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)
+						.addContainerGap(42, Short.MAX_VALUE)));
 		gl_panel_1.setVerticalGroup(gl_panel_1.createParallelGroup(Alignment.LEADING).addGroup(gl_panel_1
 				.createSequentialGroup().addGap(18)
 				.addComponent(lblThoiGianBatDauKhuyenMai, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
@@ -309,10 +311,10 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 						GroupLayout.PREFERRED_SIZE)
 				.addGap(18)
 				.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnThemKhuyenMai, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnSuaKhuyenMai, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
-				.addGap(27).addComponent(btnLamMoi, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
-				.addContainerGap(92, Short.MAX_VALUE)));
+						.addComponent(btnSuaKhuyenMai, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnThemKhuyenMai, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
+				.addGap(18).addComponent(btnLamMoi, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
+				.addContainerGap(101, Short.MAX_VALUE)));
 		panel_1.setLayout(gl_panel_1);
 
 		JLabel lblMaKhuyenMai = new JLabel("Mã khuyến mãi :");
@@ -379,31 +381,28 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 				gl_panel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel.createSequentialGroup().addContainerGap()
 								.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-										.addComponent(scrollPane_SanPham, GroupLayout.PREFERRED_SIZE, 633,
-												GroupLayout.PREFERRED_SIZE)
+										.addComponent(txtMaKhuyenMai, GroupLayout.DEFAULT_SIZE, 669, Short.MAX_VALUE)
 										.addGroup(gl_panel.createSequentialGroup().addComponent(checkBoxChonTatCa)
-												.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(lblPhanLoai)
-												.addPreferredGap(ComponentPlacement.RELATED)
+												.addPreferredGap(ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+												.addComponent(lblPhanLoai).addPreferredGap(ComponentPlacement.UNRELATED)
 												.addComponent(comboBoxPhanLoai, GroupLayout.PREFERRED_SIZE, 87,
 														GroupLayout.PREFERRED_SIZE)
-												.addPreferredGap(ComponentPlacement.UNRELATED)
-												.addComponent(lblTimKiemSanPham, GroupLayout.PREFERRED_SIZE, 128,
+												.addGap(38)
+												.addComponent(lblTimKiemSanPham, GroupLayout.PREFERRED_SIZE, 122,
 														GroupLayout.PREFERRED_SIZE)
 												.addPreferredGap(ComponentPlacement.RELATED)
-												.addComponent(txtTimKiemSanPham, GroupLayout.PREFERRED_SIZE, 131,
+												.addComponent(txtTimKiemSanPham, GroupLayout.PREFERRED_SIZE, 144,
 														GroupLayout.PREFERRED_SIZE)
-												.addPreferredGap(ComponentPlacement.RELATED)
-												.addComponent(btnTimKiemSanPham, GroupLayout.PREFERRED_SIZE, 83,
-														GroupLayout.PREFERRED_SIZE))
+												.addGap(18).addComponent(btnTimKiemSanPham, GroupLayout.PREFERRED_SIZE,
+														83, GroupLayout.PREFERRED_SIZE))
 										.addComponent(lblMaKhuyenMai)
 										.addComponent(lblTenKhuyenMai, GroupLayout.PREFERRED_SIZE, 104,
 												GroupLayout.PREFERRED_SIZE)
 										.addComponent(lblMucKhuyenMai)
-										.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
-												.addComponent(txtMucKhuyenMai, Alignment.LEADING)
-												.addComponent(txtTenKhuyenMai, Alignment.LEADING)
-												.addComponent(txtMaKhuyenMai, Alignment.LEADING,
-														GroupLayout.DEFAULT_SIZE, 617, Short.MAX_VALUE)))
+										.addComponent(txtTenKhuyenMai, GroupLayout.DEFAULT_SIZE, 669, Short.MAX_VALUE)
+										.addComponent(txtMucKhuyenMai, GroupLayout.DEFAULT_SIZE, 669, Short.MAX_VALUE)
+										.addComponent(scrollPane_SanPham, GroupLayout.DEFAULT_SIZE, 669,
+												Short.MAX_VALUE))
 								.addContainerGap()));
 		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.LEADING).addGroup(gl_panel
 				.createSequentialGroup().addContainerGap().addComponent(lblMaKhuyenMai)
@@ -418,19 +417,24 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 				.addPreferredGap(ComponentPlacement.RELATED)
 				.addComponent(txtMucKhuyenMai, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE).addGap(18)
 				.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE).addComponent(checkBoxChonTatCa)
-						.addComponent(lblPhanLoai, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
-						.addComponent(comboBoxPhanLoai, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblTimKiemSanPham, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
 						.addComponent(txtTimKiemSanPham, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
 								GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnTimKiemSanPham, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE))
+						.addComponent(btnTimKiemSanPham, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
+						.addComponent(comboBoxPhanLoai, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+								GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblPhanLoai, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblTimKiemSanPham, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE))
 				.addPreferredGap(ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
 				.addComponent(scrollPane_SanPham, GroupLayout.PREFERRED_SIZE, 155, GroupLayout.PREFERRED_SIZE)));
 
-		modelSanPham = new DefaultTableModel(new Object[][] {}, new String[] { "Select", "M\u00E3 s\u1EA3n ph\u1EA9m",
-				"T\u00EAn s\u1EA3n ph\u1EA9m", "Mã khuyến mãi", "\u0110\u01A1n gi\u00E1" });
+		modelSanPham = new DefaultTableModel(new Object[][] {},
+				new String[] { "Select", "Mã sản phẩm", "Tên sản phẩm", "Mã khuyến mãi", "Đơn giá", "Giá khuyến mãi" });
 		tblSanPham = new JTable(modelSanPham) {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public Class getColumnClass(int column) { // Class<?> là kiểu trả về cho phương thức getColumnClass để xác
 														// định kiểu dữ liệu của từng cột.
@@ -524,18 +528,11 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 					List<SanPham> list = ds.getSanPhanTheoMaKM(selectedMaKM);
 					modelSanPham.setRowCount(0);
 					for (SanPham sp : list) {
-						KhuyenMai khuyenMai = sp.getKhuyenMai();
-						String maKM = "Null"; // Mặc định là "null" nếu khuyến mãi là null
-						double phanTramKhuyenMai = 0.0; // Mặc định là 0.0 nếu khuyến mãi là null
-
-						// Nếu khuyến mãi không null thì lấy ra mã khuyến mãi và phần trăm khuyến mãi
-						if (khuyenMai != null) {
-							maKM = khuyenMai.getMaKM().toString();
-							phanTramKhuyenMai = khuyenMai.getPhanTramKhuyenMai();
-						}
-						double giaSauKhuyenMai = sp.tinhGiaBan(sp.getGiaNhap(), sp.getLoi(), phanTramKhuyenMai);
+						double giaSauKhuyenMai = sp.tinhGiaBan(sp.getGiaNhap(), sp.getLoi(),
+								sp.getKhuyenMai().getPhanTramKhuyenMai());
 						String dinhDang = dinhDangTien(String.valueOf(giaSauKhuyenMai));
-						Object data[] = { Boolean.TRUE, sp.getMaSP(), sp.getTenSP(), maKM, dinhDang };
+						Object data[] = { Boolean.TRUE, sp.getMaSP(), sp.getTenSP(), sp.getKhuyenMai().getMaKM(),
+								sp.giaGoc(), dinhDang };
 						modelSanPham.addRow(data);
 					}
 					tblSanPham.setModel(modelSanPham);
@@ -597,7 +594,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 			}
 		} else if (o.equals(btnThemKhuyenMai)) {
 //			 Nếu là button lưu thì thực hiện thêm khuyến mãi
-			if (btnThemKhuyenMai.getText().equalsIgnoreCase("Lưu (CtrlS)")) {
+			if (btnThemKhuyenMai.getText().equalsIgnoreCase("Lưu")) {
 				if (validData()) {
 					// Lấy dữ liệu từ JtexFiled, JDateChooser thêm vào danh sách khuyến mãi
 					KhuyenMaiDAO ds = new KhuyenMaiDAO();
@@ -610,12 +607,12 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 							"Cảnh Báo !!", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 						ds.createKhuyenMai(km);
 						JOptionPane.showMessageDialog(null, "Thêm thành công !");
-						btnThemKhuyenMai.setText("Thêm (CtrlC)");
+						btnThemKhuyenMai.setText("Thêm");
 						btnThemKhuyenMai.setForeground(new Color(255, 255, 255));
 						btnThemKhuyenMai.setBackground(new Color(65, 105, 255));
 						btnThemKhuyenMai.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/add.png")));
 
-						btnLamMoi.setText("Làm mới (CtrlR)");
+						btnLamMoi.setText("Làm mới");
 						btnLamMoi.setBackground(new Color(152, 251, 152));
 						btnLamMoi.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/loading.png")));
 						btnSuaKhuyenMai.setEnabled(true);
@@ -625,12 +622,12 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 						dateChooserThoiGianKetThucGiamGia.setEnabled(false);
 					} else if (rowSanPham != -1) {
 						if (ds.createKhuyenMai(km)) { // Thêm khuyến mãi vào SQL
-							btnThemKhuyenMai.setText("Thêm (CtrlC)");
+							btnThemKhuyenMai.setText("Thêm");
 							btnThemKhuyenMai.setForeground(new Color(255, 255, 255));
 							btnThemKhuyenMai.setBackground(new Color(65, 105, 255));
 							btnThemKhuyenMai.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/add.png")));
 
-							btnLamMoi.setText("Làm mới (CtrlR)");
+							btnLamMoi.setText("Làm mới");
 							btnLamMoi.setBackground(new Color(152, 251, 152));
 							btnLamMoi.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/loading.png")));
 							btnSuaKhuyenMai.setEnabled(true);
@@ -659,13 +656,13 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 										JOptionPane.showMessageDialog(null, "Thêm thành công !!");
 										ds1.updateMaKMChoSanPHam(km, maKM, maSP);
 
-										btnThemKhuyenMai.setText("Thêm (CtrlC)");
+										btnThemKhuyenMai.setText("Thêm");
 										btnThemKhuyenMai.setForeground(new Color(255, 255, 255));
 										btnThemKhuyenMai.setBackground(new Color(65, 105, 255));
 										btnThemKhuyenMai.setIcon(
 												new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/add.png")));
 
-										btnLamMoi.setText("Làm mới (CtrlR)");
+										btnLamMoi.setText("Làm mới");
 										btnLamMoi.setBackground(new Color(152, 251, 152));
 										btnLamMoi.setIcon(
 												new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/loading.png")));
@@ -679,13 +676,13 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 										JOptionPane.showMessageDialog(null, "Thêm thành công !");
 										ds1.updateMaKMChoSanPHam(km, maKM, maSP);
 
-										btnThemKhuyenMai.setText("Thêm (CtrlC)");
+										btnThemKhuyenMai.setText("Thêm");
 										btnThemKhuyenMai.setForeground(new Color(255, 255, 255));
 										btnThemKhuyenMai.setBackground(new Color(65, 105, 255));
 										btnThemKhuyenMai.setIcon(
 												new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/add.png")));
 
-										btnLamMoi.setText("Làm mới (CtrlR)");
+										btnLamMoi.setText("Làm mới");
 										btnLamMoi.setBackground(new Color(152, 251, 152));
 										btnLamMoi.setIcon(
 												new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/loading.png")));
@@ -720,12 +717,12 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 				txtTenKhuyenMai.requestFocus();
 				txtMaKhuyenMai.setText(dskm.getAuToID()); // Khi nhấn nút thêm thì tự động phát sinh maKM
 
-				btnThemKhuyenMai.setText("Lưu (CtrlS)");
+				btnThemKhuyenMai.setText("Lưu");
 				btnThemKhuyenMai.setForeground(new Color(0, 0, 0));
 				btnThemKhuyenMai.setBackground(new Color(210, 105, 30));
 				btnThemKhuyenMai.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/luulienket.png")));
 
-				btnLamMoi.setText("Hủy (CtrlD)");
+				btnLamMoi.setText("Hủy");
 				btnLamMoi.setForeground(new Color(0, 0, 0));
 				btnLamMoi.setBackground(new Color(255, 0, 0));
 				btnLamMoi.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/x.png")));
@@ -738,12 +735,12 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 			}
 		} else if (o.equals(btnSuaKhuyenMai)) {
 			int rowKhuyenMai = tblKhuyenMai.getSelectedRow();
-			if (btnSuaKhuyenMai.getText().equalsIgnoreCase("Sửa (CtrlU)")) {
+			if (btnSuaKhuyenMai.getText().equalsIgnoreCase("Sửa")) {
 				if (rowKhuyenMai == -1) {
 					JOptionPane.showMessageDialog(null, "Hãy một chương trình khuyến mãi muốn sửa !");
 				} else {
 					updateTableSanPham();
-					btnSuaKhuyenMai.setText("Lưu (CtrlS)");
+					btnSuaKhuyenMai.setText("Lưu");
 					btnSuaKhuyenMai.setForeground(new Color(0, 0, 0));
 					btnSuaKhuyenMai.setBackground(new Color(210, 105, 30));
 					btnSuaKhuyenMai.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/luulienket.png")));
@@ -753,7 +750,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 					dateChooserThoiGianBatDauGiamGia.setEnabled(true);
 					dateChooserThoiGianKetThucGiamGia.setEnabled(true);
 
-					btnLamMoi.setText("Hủy (CtrlD)");
+					btnLamMoi.setText("Hủy");
 					btnLamMoi.setForeground(new Color(0, 0, 0));
 					btnLamMoi.setBackground(new Color(255, 0, 0));
 					btnLamMoi.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/x.png")));
@@ -790,18 +787,18 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 							KhuyenMai km = reverSPFfromTextFile();
 							ds1.updateMaKMChoSanPHam(km, maKM, maSP);
 
-							btnSuaKhuyenMai.setText("Sửa (CtrlU)");
+							btnSuaKhuyenMai.setText("Sửa");
 							btnSuaKhuyenMai.setForeground(new Color(0, 0, 0));
 							btnSuaKhuyenMai.setBackground(new Color(255, 255, 0));
 							btnSuaKhuyenMai.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/sua.png")));
 
-							btnThemKhuyenMai.setText("Thêm (CtrlC)");
+							btnThemKhuyenMai.setText("Thêm");
 							btnThemKhuyenMai.setForeground(new Color(255, 255, 255));
 							btnThemKhuyenMai.setBackground(new Color(65, 105, 255));
 							btnThemKhuyenMai.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/add.png")));
 							btnThemKhuyenMai.setEnabled(true);
 
-							btnLamMoi.setText("Làm mới (CtrlR)");
+							btnLamMoi.setText("Làm mới");
 							btnLamMoi.setBackground(new Color(152, 251, 152));
 							btnLamMoi.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/loading.png")));
 
@@ -814,18 +811,18 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 							KhuyenMai km = reverSPFfromTextFile();
 							ds1.updateMaKMChoSanPHam(km, maKM, maSP);
 							JOptionPane.showMessageDialog(null, "kakaka !");
-							btnSuaKhuyenMai.setText("Sửa (CtrlU)");
+							btnSuaKhuyenMai.setText("Sửa");
 							btnSuaKhuyenMai.setForeground(new Color(0, 0, 0));
 							btnSuaKhuyenMai.setBackground(new Color(255, 255, 0));
 							btnSuaKhuyenMai.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/sua.png")));
 
-							btnThemKhuyenMai.setText("Thêm (CtrlC)");
+							btnThemKhuyenMai.setText("Thêm");
 							btnThemKhuyenMai.setForeground(new Color(255, 255, 255));
 							btnThemKhuyenMai.setBackground(new Color(65, 105, 255));
 							btnThemKhuyenMai.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/add.png")));
 							btnThemKhuyenMai.setEnabled(true);
 
-							btnLamMoi.setText("Làm mới (CtrlR)");
+							btnLamMoi.setText("Làm mới");
 							btnLamMoi.setBackground(new Color(152, 251, 152));
 							btnLamMoi.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/loading.png")));
 
@@ -839,18 +836,18 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 							maSP = null;
 							ds1.updateMaKMChoSanPHam(km, maKM, maSP);
 							JOptionPane.showMessageDialog(null, "kakaka 2!");
-							btnSuaKhuyenMai.setText("Sửa (CtrlU)");
+							btnSuaKhuyenMai.setText("Sửa");
 							btnSuaKhuyenMai.setForeground(new Color(0, 0, 0));
 							btnSuaKhuyenMai.setBackground(new Color(255, 255, 0));
 							btnSuaKhuyenMai.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/sua.png")));
 
-							btnThemKhuyenMai.setText("Thêm (CtrlC)");
+							btnThemKhuyenMai.setText("Thêm");
 							btnThemKhuyenMai.setForeground(new Color(255, 255, 255));
 							btnThemKhuyenMai.setBackground(new Color(65, 105, 255));
 							btnThemKhuyenMai.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/add.png")));
 							btnThemKhuyenMai.setEnabled(true);
 
-							btnLamMoi.setText("Làm mới (CtrlR)");
+							btnLamMoi.setText("Làm mới");
 							btnLamMoi.setBackground(new Color(152, 251, 152));
 							btnLamMoi.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/loading.png")));
 
@@ -1000,22 +997,16 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 
 	// Đưa dữ liệu vào table SanPham
 	private void updateTableSanPham() {
-		SanPhamDAO ds = new SanPhamDAO();
-		List<SanPham> list = ds.doTuBang();
+		KhuyenMaiDAO ds = new KhuyenMaiDAO();
+		List<SanPham> list = ds.getSanPhamMaKMIsNull();
 		modelSanPham.setRowCount(0);
 		for (SanPham sp : list) {
-			KhuyenMai khuyenMai = sp.getKhuyenMai();
 			String maKM = "Null"; // Mặc định là "null" nếu khuyến mãi là null
 			double phanTramKhuyenMai = 0.0; // Mặc định là 0.0 nếu khuyến mãi là null
 
-			// Nếu khuyến mãi không null thì lấy ra mã khuyến mãi và phần trăm khuyến mãi
-			if (khuyenMai != null) {
-				maKM = khuyenMai.getMaKM().toString();
-				phanTramKhuyenMai = khuyenMai.getPhanTramKhuyenMai();
-			}
 			double giaSauKhuyenMai = sp.tinhGiaBan(sp.getGiaNhap(), sp.getLoi(), phanTramKhuyenMai);
 			String dinhDang = dinhDangTien(String.valueOf(giaSauKhuyenMai));
-			Object data[] = { Boolean.FALSE, sp.getMaSP(), sp.getTenSP(), maKM, dinhDang };
+			Object data[] = { Boolean.FALSE, sp.getMaSP(), sp.getTenSP(), maKM, sp.giaGoc(), dinhDang };
 			modelSanPham.addRow(data);
 		}
 		tblSanPham.setModel(modelSanPham);

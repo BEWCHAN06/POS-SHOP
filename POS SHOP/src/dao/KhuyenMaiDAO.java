@@ -58,6 +58,29 @@ public class KhuyenMaiDAO {
 		}
 		return dskm;
 	}
+	
+	// Lấy danh sách Sản phẩm có maKM = null từ SQL
+		public List<SanPham> getSanPhamMaKMIsNull() {
+			try {
+				KetNoiSQL.getInstance().connect();
+				Connection con = KetNoiSQL.getConnection();
+				String sql = "Select * from SanPham where maKM is NULL";
+				Statement statement = con.createStatement(); // Thực thi câu lệnh SQL trả về ResulSet.
+				ResultSet rs = statement.executeQuery(sql);
+				// Duyệt kết quả trả về
+				while (rs.next()) { // Di chuyển con trỏ xuống bản ghi kế tiếp
+					String ma = rs.getString("maSP");
+					String ten = rs.getString("tenSP");
+					Double giaNhap = rs.getDouble("giaNhap");
+					int loi = rs.getInt("loiTheoPhanTram");
+					SanPham sp = new SanPham(ma, ten, null, giaNhap, loi, null, 0, null, 0, null, null, null, null);
+					dssp.add(sp);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return dssp;
+		}
 
 	// Thêm khuyến mãi
 	public boolean createKhuyenMai(KhuyenMai km) {
@@ -98,9 +121,9 @@ public class KhuyenMaiDAO {
 			} else {
 				maxID = "KM" + (String.valueOf(Integer.parseInt(maxID.substring(2)) + 1));
 			}
-		} catch (SQLException e1) {
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			e.printStackTrace();
 		}
 		return maxID;
 	}
