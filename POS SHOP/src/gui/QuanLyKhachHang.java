@@ -481,7 +481,7 @@ public class QuanLyKhachHang extends JPanel implements ActionListener, MouseList
 					} else {
 						tt = 0;
 					}
-					KhachHang kh = new KhachHang (tenkh, Date.valueOf(ngaysinh),Sdt,email,gt,makh);
+					KhachHang kh = new KhachHang(makh, tenkh, Date.valueOf(ngaysinh),Sdt,email,gt);
 					khdao.updateKhachHang(kh);
 					JOptionPane.showMessageDialog(null, "Cập Nhật Thành Công");
 					//
