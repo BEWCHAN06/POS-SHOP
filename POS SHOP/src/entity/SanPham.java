@@ -281,6 +281,10 @@ public class SanPham {
 	public double giaBan() {
 		return this.giaNhap + this.giaNhap * loi;
 	}
+	
+	public double giaGoc() {
+		return this.giaNhap + this.giaNhap * loi / 100;
+	}
 
 	@Override
 	public String toString() {
