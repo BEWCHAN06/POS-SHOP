@@ -30,21 +30,23 @@ public class test {
 //        NhanVienDAO nvdao = new NhanVienDAO();
 //        NhanVien nv = nvdao.getNhanVienByID("NV01");
 //        System.out.println(nv.toString());
-        NhanVienDAO nvdao = new NhanVienDAO();
-        for (NhanVien nz : nvdao.timnv("NV01", true, true)) {
-			String gt1 = "";
-			if (nz.isGioiTinh() == true) {
-				gt1 = "Nam";
-			} else {
-				gt1 = "Nu";
-			}
-			String cv1 = "";
-			if (nz.isChucVu() == true) {
-				cv1 = "Nhan vien";
-			} else {
-				cv1 = "Quan ly";
-			}
-			System.out.println(nz);
-		}
+//        NhanVienDAO nvdao = new NhanVienDAO();
+//        for (NhanVien nz : nvdao.timnv("NV01", true, true)) {
+//			String gt1 = "";
+//			if (nz.isGioiTinh() == true) {
+//				gt1 = "Nam";
+//			} else {
+//				gt1 = "Nu";
+//			}
+//			String cv1 = "";
+//			if (nz.isChucVu() == true) {
+//				cv1 = "Nhan vien";
+//			} else {
+//				cv1 = "Quan ly";
+//			}
+//			System.out.println(nz);
+//		}
+        HoaDon hd = new HoaDon();
+        System.out.println(hd.getKhachHang().getMaKH());
     }
 }

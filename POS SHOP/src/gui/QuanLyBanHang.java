@@ -122,6 +122,9 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 	private JPanel pnlCamera;
 	private JLabel cameraViewLabel;
 	private String qrCodeValue;
+	private JLabel lblGimGi;
+	private int giamTheoPhanTramChoKhachHang;
+	private double tienThanhToan;
 	/**
 	 * Create the panel.
 	 */
@@ -136,6 +139,7 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 			mahd = tblHoaDonCho.getValueAt(row, 0).toString();
 			 updateTableGioHang(mahd);
 			 lblTongTienpush.setText(chiTietHoaDonDAO.getTongTien(mahd)+"");
+			 setLblGiamGia();
 		}
 
 //		cameraViewLabel.setPreferredSize(new Dimension(170, 110));
@@ -442,10 +446,10 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 		JLabel lblTngTin = new JLabel("Tổng tiền : ");
 		lblTngTin.setFont(new Font("Arial", Font.BOLD, 12));
 		
-		JLabel lblGimGi = new JLabel("Giảm giá : ");
+		lblGimGi = new JLabel("Giảm giá : ");
 		lblGimGi.setFont(new Font("Arial", Font.BOLD, 12));
 		
-		JLabel lblThuVat = new JLabel("Thuế VAT : ");
+		JLabel lblThuVat = new JLabel("Thuế VAT (10%): ");
 		lblThuVat.setFont(new Font("Arial", Font.BOLD, 12));
 		
 		JLabel lblT = new JLabel("Thanh Toán : ");
@@ -567,9 +571,9 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 											.addGroup(gl_lblTienThua.createParallelGroup(Alignment.LEADING)
 												.addComponent(lblMaHD, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE)
 												.addComponent(lblTngTin, GroupLayout.PREFERRED_SIZE, 76, GroupLayout.PREFERRED_SIZE)
-												.addComponent(lblGimGi, GroupLayout.PREFERRED_SIZE, 76, GroupLayout.PREFERRED_SIZE)
 												.addComponent(lblThuVat, GroupLayout.PREFERRED_SIZE, 76, GroupLayout.PREFERRED_SIZE)
-												.addComponent(lblT, GroupLayout.PREFERRED_SIZE, 76, GroupLayout.PREFERRED_SIZE))
+												.addComponent(lblT, GroupLayout.PREFERRED_SIZE, 76, GroupLayout.PREFERRED_SIZE)
+												.addComponent(lblGimGi, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE))
 											.addPreferredGap(ComponentPlacement.RELATED)
 											.addGroup(gl_lblTienThua.createParallelGroup(Alignment.TRAILING)
 												.addGroup(gl_lblTienThua.createSequentialGroup()
@@ -691,8 +695,11 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 			public void actionPerformed(ActionEvent e) {
 				UiTimKhachHang timKhachHangUI = new UiTimKhachHang();
 		        timKhachHangUI.setKhachHangSelectedListener(new UiTimKhachHang.KhachHangSelectedListener() {
-		            @Override
+		            private int giamTheoPhanTramChoKhachHang;
+
+					@Override
 		            public void onKhachHangSelected(String makh, String tenkh) {
+						
 		                lblmakh.setText(makh);
 		                lbltenkh.setText(tenkh);
 		                KhachHang kh = khachHangDAO.getKhachHang(makh);
@@ -700,6 +707,9 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 		                HoaDon hd = new HoaDon(mahd, kh, nv);
 		                HoaDonDAO.editNVTrongHD(hd);
 		                updateTableHoaDonCho();
+		                giamTheoPhanTramChoKhachHang = giamGiaKhachHangThanThiet(makh);
+		                lblGimGi.setText("Giảm giá: ("  + giamTheoPhanTramChoKhachHang + "%)");
+		                
 		            }
 		        });
 		        timKhachHangUI.setVisible(true);
@@ -752,56 +762,47 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 		
 		//su kien hoa don cho va san pham
 		///su kien tim kiếm liên tục (auto find load table)
-		if(txtTienKhachDua.getText().trim().isEmpty()) {
-			lbltienthua.setText("vui lòng nhập tiền khách đưa !!!");
-		}else {
-				txtTienKhachDua.getDocument().addDocumentListener(new DocumentListener() {
-				
-					@Override
-					public void removeUpdate(DocumentEvent e) {
-						// TODO Auto-generated method stub
-						TienKhachDua();
-					}
-					
-					@Override
-					public void insertUpdate(DocumentEvent e) {
-						// TODO Auto-generated method stub
-						TienKhachDua();
-					}
-					
-					@Override
-					public void changedUpdate(DocumentEvent e) {
-						// TODO Auto-generated method stub
-						TienKhachDua();
-					}
-				});
-		}
-		
+		txtTienKhachDua.getDocument().addDocumentListener(new DocumentListener() {
+			
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				TienKhachDua();
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				TienKhachDua();
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				TienKhachDua();
+			}
+		});
+		txtTimKiemSP.getDocument().addDocumentListener(new DocumentListener() {
+			
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				updateTableTimKiemSP();
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				updateTableTimKiemSP();
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				updateTableTimKiemSP();
+			}
+		});
 		///tìm kiếm sản phẩm
-		if(txtTimKiemSP.getText().equalsIgnoreCase("")) {
-			tblDanhSachSanPham();
-		}else {
-			txtTimKiemSP.getDocument().addDocumentListener(new DocumentListener() {
-				
-				@Override
-				public void removeUpdate(DocumentEvent e) {
-					// TODO Auto-generated method stub
-					updateTableTimKiemSP();
-				}
-				
-				@Override
-				public void insertUpdate(DocumentEvent e) {
-					// TODO Auto-generated method stub
-					updateTableTimKiemSP();
-				}
-				
-				@Override
-				public void changedUpdate(DocumentEvent e) {
-					// TODO Auto-generated method stub
-					updateTableTimKiemSP();
-				}
-			});
-		}
 		//them sư kiện
 		btnThemVaoGio.addActionListener(this);
 		btnTaoHD.addActionListener(this);
@@ -887,6 +888,34 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 			}
 		});
 	}
+	private void setLblGiamGia() {
+		lblTongTienpush.setText(chiTietHoaDonDAO.getTongTien(mahd)+"");
+		double tongtien = chiTietHoaDonDAO.getTongTien(mahd);
+		String makh = lblmakh.getText().trim();
+		giamTheoPhanTramChoKhachHang = giamGiaKhachHangThanThiet(makh);
+        lblGimGi.setText("Giảm giá: ("  + giamTheoPhanTramChoKhachHang + "%)");
+        double giamgia = tongtien * giamTheoPhanTramChoKhachHang/100;
+        System.out.println(giamgia);
+        lblGiamGiapush.setText(giamgia+"");
+        double thueVT = tongtien * 10/100;
+        lblThuepush.setText(thueVT+"");
+        tienThanhToan = tongtien - giamgia + thueVT;
+        lblThanhToanpush.setText(tienThanhToan+"");
+	}
+	private int giamGiaKhachHangThanThiet(String maKH) {
+		double tongtien = HoaDonDAO.getTongTienDaMuaCuaKH(maKH);
+		int sale = 0;
+		if(tongtien >= 3000000.0) {
+			sale = 3;
+		}
+		if(tongtien >= 5000000.0) {
+			sale = 5;
+		}
+		if(tongtien >= 10000000.0) {
+			sale = 10;
+		}
+		return sale;
+	}
 	private void updateTableGioHang(String mahd){
 		lblMaHDpush.setText(mahd);
 		sanPhamDAO = new SanPhamDAO();
@@ -927,12 +956,12 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 		if(!input.isEmpty()) {
 			try {
 				double tienkhachdua = Double.parseDouble(input);
-				if(tienkhachdua < chiTietHoaDonDAO.getTongTien(mahd)) {
-					thua = tienkhachdua -chiTietHoaDonDAO.getTongTien(mahd);
+				if(tienkhachdua < tienThanhToan) {
+					thua = tienkhachdua -tienThanhToan;
 					lbltienthua.setText("Cần thêm "+ -thua+"");
 					lbltienthua.setForeground(new Color(255,0,0));
 				}else {
-					thua = tienkhachdua -chiTietHoaDonDAO.getTongTien(mahd);
+					thua = tienkhachdua -tienThanhToan;
 					txtTienKhachDua.setForeground(new Color(0,0,0));
 					lbltienthua.setText(thua+"");
 					lbltienthua.setForeground(new Color(34, 139, 34));
@@ -1032,7 +1061,10 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 		lblTongTienpush.setText(chiTietHoaDonDAO.getTongTien(mahd)+"");
 		updateTableGioHang(mahd);
 		System.out.println(qrCodeValue);
-
+		String tenkh = tblHoaDonCho.getValueAt(rowhdc, 3).toString();
+		lbltenkh.setText(tenkh);
+		lblmakh.setText(khachHangDAO.getKhachHangTheoTen(tenkh).getMaKH());
+		setLblGiamGia();
 		
 	}
 	@Override

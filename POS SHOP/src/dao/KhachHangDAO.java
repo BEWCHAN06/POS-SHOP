@@ -138,4 +138,27 @@ public class KhachHangDAO {
         }
         return -1;
     }
+ 	public KhachHang getKhachHangTheoTen(String name){
+        KetNoiSQL.getInstance().connect();
+        Connection conn = KetNoiSQL.getConnection();
+        try {
+            String sql = "Select * from KhachHang where tenKH like (?)";
+            PreparedStatement stmt = conn.prepareCall(sql);
+            stmt.setString(1, name);
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+                KhachHang kh = new KhachHang();
+                kh.setMaKH(rs.getString(1));
+                kh.setTenKH(rs.getString(2));
+                kh.setNgaySinh(rs.getDate(3));
+                kh.setSDT(rs.getString(4));
+                kh.setEmail(rs.getString(5));
+                kh.setGioiTinh(rs.getBoolean(6));
+                return kh;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(KhachHangDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 }

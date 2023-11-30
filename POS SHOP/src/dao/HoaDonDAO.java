@@ -724,4 +724,22 @@ public class HoaDonDAO {
 		}
 		return -1;
     }
+	public double getTongTienDaMuaCuaKH(String maKH) {
+		try {
+			KetNoiSQL.getInstance().connect();
+			Connection con = KetNoiSQL.getInstance().getConnection();
+			String sql = "Select SUM(tongTien) from HoaDon where trangThai = 1 and maKH = (?) GROUP BY maKH";
+			PreparedStatement stmt = con.prepareCall(sql);
+			stmt.setString(1, maKH);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				double TongTien = rs.getDouble(1);
+				return TongTien;
+			}
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
 }
