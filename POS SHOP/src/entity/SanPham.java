@@ -269,7 +269,7 @@ public class SanPham {
 		return giaBanLucDau;
 	}
 
-	public double tinhGiaBan(double giaNhap, double loiTheoPhanTram, double giamGiaTheoPhanTram) {
+	public double tinhGiaSauKhuyenMai(double giaNhap, double loiTheoPhanTram, double giamGiaTheoPhanTram) {
 		// Tính giá sau lợi
 		double giaSauLoi = giaNhap + giaNhap * loiTheoPhanTram / 100;
 
