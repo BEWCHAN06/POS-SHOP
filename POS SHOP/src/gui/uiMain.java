@@ -76,6 +76,7 @@ public class uiMain {
 	public uiMain() {
 		initialize();
 		km.xoaKhuyenMaiKhiHetHan();
+		
 	}
 
 	/**

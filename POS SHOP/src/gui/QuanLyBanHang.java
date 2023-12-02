@@ -550,17 +550,22 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 					int sl = Integer.parseInt(tblGioHang.getValueAt(i, 5).toString());
 					sanPhamDAO.SuaSlSP(sl, ma);
 				}
-				double tongTien =  Double.parseDouble(lblTongTienpush.getText().trim());
+				double tongTien =  Double.parseDouble(lblTongTienpush.getText());
 				double giamGia = Double.parseDouble(lblGiamGiapush.getText());
 				double thue = Double.parseDouble(lblThuepush.getText());
 				double thanhToan = Double.parseDouble(lblThanhToanpush.getText());
 				double tienKhachDua = 0;
 				if(txtTienKhachDua.getText().equals("")) {
-					tienKhachDua = 0;
+					tienKhachDua = 0.0;
 				}else {
 					tienKhachDua = Double.parseDouble(txtTienKhachDua.getText());
 				}
-				double tienThua = Double.parseDouble(lbltienthua.getText());
+				double tienThua = 0;
+				if(txtTienKhachDua.getText().equals("")) {
+					tienThua = 0.0;
+				}else {
+					tienThua = Double.parseDouble(txtTienKhachDua.getText());
+				}
 				hoaDonPrinter hdprt = new hoaDonPrinter("Trần Chí Bảo", lbltenkh.getText(), tongTien, giamGia, thue, thanhToan, tienKhachDua, tienThua, sanPhamList);
 				System.out.println(hdprt.toString());
 				String path = "printer/"+mahd+".pdf";
