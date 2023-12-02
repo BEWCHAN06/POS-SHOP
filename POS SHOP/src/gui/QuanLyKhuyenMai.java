@@ -433,8 +433,8 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 				.addPreferredGap(ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
 				.addComponent(scrollPane_SanPham, GroupLayout.PREFERRED_SIZE, 155, GroupLayout.PREFERRED_SIZE)));
 
-		modelSanPham = new DefaultTableModel(new Object[][] {},
-				new String[] { "Select", "Mã sản phẩm", "Tên sản phẩm", "Mã khuyến mãi", "Đơn giá", "Giá khuyến mãi" });
+		modelSanPham = new DefaultTableModel(new Object[][] {}, new String[] { "Select", "Mã sản phẩm", "Tên sản phẩm",
+				"Lời (%)", "Mã khuyến mãi", "Đơn giá", "Giá khuyến mãi" });
 		tblSanPham = new JTable(modelSanPham) {
 			/**
 			 * 
@@ -528,17 +528,47 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 
 				// Sự kiện click chuột vào bảng KhuyenMai thì hiển thị danh sách SanPham được
 				// khuyến mãi
-				if (row != -1) {
-					KhuyenMaiDAO ds = new KhuyenMaiDAO();
-					String selectedMaKM = (String) tblKhuyenMai.getValueAt(row, 0);
-					List<SanPham> list = ds.getSanPhanTheoMaKM(selectedMaKM);
+				KhuyenMaiDAO ds = new KhuyenMaiDAO();
+				String selectedMaKM = (String) tblKhuyenMai.getValueAt(row, 0);
+				List<SanPham> list = ds.getSanPhanTheoMaKM(selectedMaKM);
+				if (row != -1 && btnThemKhuyenMai.getText().equals("Thêm") && btnSuaKhuyenMai.getText().equals("Sửa")) {
 					modelSanPham.setRowCount(0);
 					for (SanPham sp : list) {
-						double giaSauKhuyenMai = sp.tinhGiaBan(sp.getGiaNhap(), sp.getLoi(),
-								sp.getKhuyenMai().getPhanTramKhuyenMai());
-						String dinhDang = dinhDangTien(String.valueOf(giaSauKhuyenMai));
-						Object data[] = { Boolean.TRUE, sp.getMaSP(), sp.getTenSP(), sp.getKhuyenMai().getMaKM(),
-								sp.giaGoc(), dinhDang };
+						String giaGoc = dinhDangTien(String.valueOf(sp.giaGoc())); // Định dạng giá gốc, giá khuyến mãi
+						String giaSauKhuyenMai = dinhDangTien(String.valueOf(sp.tinhGiaSauKhuyenMai(sp.getGiaNhap(),
+								sp.getLoi(), sp.getKhuyenMai().getPhanTramKhuyenMai())));
+						Object data[] = { Boolean.TRUE, sp.getMaSP(), sp.getTenSP(), sp.getLoi() + "%",
+								sp.getKhuyenMai().getMaKM(), giaGoc, giaSauKhuyenMai };
+						modelSanPham.addRow(data);
+					}
+					tblSanPham.setModel(modelSanPham);
+				} else if (row != -1 && btnSuaKhuyenMai.getText().equals("Lưu")) { // Đang quá trình sửa, thì hiển thị
+																					// danh sách có KM và không có KM
+					// Danh sách sản phẩm có maKM
+					modelSanPham.setRowCount(0);
+					list.clear();
+					list = ds.getSanPhanTheoMaKM(selectedMaKM);
+					for (SanPham sp : list) {
+						String giaGoc = dinhDangTien(String.valueOf(sp.giaGoc())); // Định dạng giá gốc, giá khuyến mãi
+						String giaSauKhuyenMai = dinhDangTien(String.valueOf(sp.tinhGiaSauKhuyenMai(sp.getGiaNhap(),
+								sp.getLoi(), sp.getKhuyenMai().getPhanTramKhuyenMai())));
+						Object data[] = { Boolean.TRUE, sp.getMaSP(), sp.getTenSP(), sp.getLoi() + "%",
+								sp.getKhuyenMai().getMaKM(), giaGoc, giaSauKhuyenMai };
+						modelSanPham.addRow(data);
+					}
+					tblSanPham.setModel(modelSanPham);
+					list.clear();
+					// Danh sách sản phẩm không có maKM
+					list = ds.getSanPhamMaKMIsNull();
+					for (SanPham sp : list) {
+						String maKM = "Null"; // Mặc định là "null" nếu khuyến mãi là null
+						double phanTramKhuyenMai = 0.0; // Mặc định là 0.0 nếu khuyến mãi là null
+
+						String giaGoc = dinhDangTien(String.valueOf(sp.giaGoc())); // Định dạng giá gốc, giá khuyến mãi
+						String giaSauKhuyenMai = dinhDangTien(String
+								.valueOf(sp.tinhGiaSauKhuyenMai(sp.getGiaNhap(), sp.getLoi(), phanTramKhuyenMai)));
+						Object data[] = { Boolean.FALSE, sp.getMaSP(), sp.getTenSP(), sp.getLoi() + "%", maKM, giaGoc,
+								giaSauKhuyenMai };
 						modelSanPham.addRow(data);
 					}
 					tblSanPham.setModel(modelSanPham);
@@ -574,7 +604,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 		} else if (o.equals(btnTimKiemSanPham)) {
 			String maSPTim = txtTimKiemSanPham.getText().trim();
 			if (maSPTim.equals("")) {
-				updateTableSanPham();
+				JOptionPane.showMessageDialog(null, "Vui lòng nhập mã sản phẩm cần tìm !");
 			} else {
 				boolean find = false; // Kiểm tra xem có tìm thấy hay không
 				for (int i = 0; i < tblSanPham.getRowCount(); i++) {
@@ -605,13 +635,33 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 					// Lấy dữ liệu từ JtexFiled, JDateChooser thêm vào danh sách khuyến mãi
 					KhuyenMaiDAO ds = new KhuyenMaiDAO();
 					KhuyenMai km = reverSPFfromTextFile();
-					int rowSanPham = tblSanPham.getSelectedRow();
+					int row = tblSanPham.getSelectedRow();
 					// Nếu muốn thêm chương trình khuyến mãi mà không chọn sản phẩm thì hỏi người
 					// dùng có chắc chắn không ?
-					if (rowSanPham == -1) {
+					if (row == -1) {
 						JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm để áp khuyến mãi !");
-					} else if (rowSanPham != -1) {
-						if (ds.createKhuyenMai(km)) { // Thêm khuyến mãi vào SQL
+					} else if (row != -1) {
+						List<String> danhSachSanPhamVuotKM = new ArrayList<>(); // Dánh sách sản phẩm vượt quá Lời
+						for (row = 0; row < tblSanPham.getRowCount(); row++) {
+							boolean isChecked = (boolean) tblSanPham.getValueAt(row, 0);
+							if (isChecked) {
+								// Xóa tự phần trăm và kiểm tra mức khuyến mãi có vượt qua lời không
+								Double mucKM = Double.parseDouble(txtMucKhuyenMai.getText().replace("%", ""));
+								Double loi = Double
+										.parseDouble(((String) tblSanPham.getValueAt(row, 3)).replace("%", ""));
+								if (mucKM > loi) {
+									String maSP = (String) tblSanPham.getValueAt(row, 1);
+									danhSachSanPhamVuotKM.add(maSP);
+								}
+							}
+						}
+						if (!danhSachSanPhamVuotKM.isEmpty()) { // Nếu có sản phẩm vượt quá lời
+							JOptionPane.showMessageDialog(null,
+									"Mức khuyến mãi " + txtMucKhuyenMai.getText() + " vượt quá 'Lời' sản phẩm "
+											+ danhSachSanPhamVuotKM
+											+ " vui lòng chọn sản phẩm khác hoặc thay đổi mức khuyến mãi !");
+							txtMucKhuyenMai.requestFocus();
+						} else if (ds.createKhuyenMai(km)) { // Thêm khuyến mãi vào SQL
 							btnThemKhuyenMai.setText("Thêm");
 							btnThemKhuyenMai.setForeground(new Color(255, 255, 255));
 							btnThemKhuyenMai.setBackground(new Color(65, 105, 255));
@@ -631,7 +681,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 							List<String> danhSachMaSPDuocChon = new ArrayList<>();
 							String maKM = txtMaKhuyenMai.getText().toString();
 							// Cập nhật, thêm mã khuyến mãi cho sản phẩm được chọn
-							for (int row = 0; row < tblSanPham.getRowCount(); row++) {
+							for (row = 0; row < tblSanPham.getRowCount(); row++) {
 								// Kiểm tra cột 0 hàng hiện tại có được tick vào ô kiểm hay không
 								boolean isChecked = (boolean) tblSanPham.getValueAt(row, 0);
 								if (isChecked) { // Nếu ô kiểm đã được tick
@@ -723,9 +773,12 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 						String maKM = "Null"; // Mặc định là "null" nếu khuyến mãi là null
 						double phanTramKhuyenMai = 0.0; // Mặc định là 0.0 nếu khuyến mãi là null
 
-						double giaSauKhuyenMai = sp.tinhGiaBan(sp.getGiaNhap(), sp.getLoi(), phanTramKhuyenMai);
-						String dinhDang = dinhDangTien(String.valueOf(giaSauKhuyenMai));
-						Object data[] = { Boolean.FALSE, sp.getMaSP(), sp.getTenSP(), maKM, sp.giaGoc(), dinhDang };
+						String giaGoc = dinhDangTien(String.valueOf(sp.giaGoc()));
+
+						String giaSauKhuyenMai = dinhDangTien(String
+								.valueOf(sp.tinhGiaSauKhuyenMai(sp.getGiaNhap(), sp.getLoi(), phanTramKhuyenMai)));
+						Object data[] = { Boolean.FALSE, sp.getMaSP(), sp.getTenSP(), sp.getLoi() + "%", maKM, giaGoc,
+								giaSauKhuyenMai };
 						modelSanPham.addRow(data);
 					}
 					tblSanPham.setModel(modelSanPham);
@@ -734,40 +787,109 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 				if (validData()) {
 					KhuyenMai km = reverSPFfromTextFile();
 					KhuyenMaiDAO ds = new KhuyenMaiDAO();
+					Boolean isChecked = false;
+					Boolean capNhatThanhCong = false;
 					String maKM = txtMaKhuyenMai.getText().toString(); // Mã khuyến mãi trong textFiled maKM
 					List<String> danhSachMaSPDuocChon = new ArrayList<>(); // Danh sách sản phẩm chưa có maKM (null)
 					List<String> danhSachMaSPHuyMaKM = new ArrayList<>(); // Danh sách sản phẩm đã có maKM nhưng bị hủy
+					List<String> danhSachSanPhamVuotKM = new ArrayList<>(); // Danh sách sản phẩm vướt quá Lời
 					// Cập nhật, thêm mã khuyến mãi cho sản phẩm được chọn
 					for (int row = 0; row < tblSanPham.getRowCount(); row++) {
 						// Kiểm tra cột 0 hàng hiện tại có được tick vào ô kiểm hay không
-						boolean isChecked = (boolean) tblSanPham.getValueAt(row, 0);
+						isChecked = (boolean) tblSanPham.getValueAt(row, 0);
 						String maSP = (String) tblSanPham.getValueAt(row, 1);
-						String maKMSP = (String) tblSanPham.getValueAt(row, 3); // Mã khuyến mãi của sản phẩm
-						// Nếu sản phẩm chưa có khuyến mãi và được chọn ô tick
-						if (isChecked && maKMSP.equals("Null")) {
+						String maKMSP = (String) tblSanPham.getValueAt(row, 4); // Mã khuyến mãi của sản phẩm
+						// Xóa tự phần trăm và kiểm tra mức khuyến mãi có vượt qua lời không
+						Double mucKM = Double.parseDouble(txtMucKhuyenMai.getText().replace("%", ""));
+						Double loi = Double.parseDouble(((String) tblSanPham.getValueAt(row, 3)).replace("%", ""));
+
+						if (isChecked && mucKM > loi) { // Nếu có sản phẩm vượt quá lời
+							danhSachSanPhamVuotKM.add(maSP);
+						} else if (isChecked && maKMSP.equals("Null")) {// Nếu sản phẩm chưa có khuyến mãi và được chọn
 							danhSachMaSPDuocChon.add(maSP);
-						} else if (!isChecked && maKMSP.equals(maKM)) {
+						} else if (!isChecked && maKMSP.equals(maKM)) { // Nếu muốn hủy maKM của sản phẩm đó
 							danhSachMaSPHuyMaKM.add(maSP);
 						}
 					}
-					if (!danhSachMaSPHuyMaKM.isEmpty()) {
-						if (JOptionPane.showConfirmDialog(
-								this, "Bạn có chắc chắn muốn hủy khuyến mãi " + maKM + " của sản phẩm "
-										+ danhSachMaSPHuyMaKM + " ?",
-								"Cảnh Báo !!", JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION) {
-							for (int row = 0; row < modelSanPham.getRowCount(); row++) {
-								for (String maSP : danhSachMaSPHuyMaKM) {
-									String maSP2 = (String) modelSanPham.getValueAt(row, 1);
-									if (maSP.equals(maSP2)) {
-										modelSanPham.setValueAt(Boolean.TRUE, row, 0);
+
+					if (!danhSachSanPhamVuotKM.isEmpty()) {
+						JOptionPane.showMessageDialog(null,
+								"Mức khuyến mãi " + txtMucKhuyenMai.getText() + " vượt quá 'Lời' sản phẩm "
+										+ danhSachSanPhamVuotKM
+										+ " vui lòng chọn sản phẩm khác hoặc thay đổi mức khuyến mãi !");
+						txtMucKhuyenMai.requestFocus();
+					} else {
+						for (int row = 0; row < tblSanPham.getRowCount(); row++) {
+							isChecked = (boolean) tblSanPham.getValueAt(row, 0);
+							if (isChecked) {
+								isChecked = true;
+								break;
+							}
+						}
+						if (!isChecked) { // Nếu hủy KM của tất sản đang được KM và không thêm KM cho sản phẩm nào khác
+							if (JOptionPane.showConfirmDialog(this,
+									"Bạn có chắc chắn muốn xóa khuyến mãi của tất cả sản phẩm của chương trình khuyến mãi "
+											+ maKM + " ?",
+									"Cảnh Báo !!", JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION) {
+								for (int row = 0; row < modelSanPham.getRowCount(); row++) {
+									for (String maSP : danhSachMaSPHuyMaKM) {
+										String maSP2 = (String) modelSanPham.getValueAt(row, 1);
+										if (maSP.equals(maSP2)) {
+											modelSanPham.setValueAt(Boolean.TRUE, row, 0);
+										}
 									}
 								}
+							} else {
+								JOptionPane.showMessageDialog(null, "Cập nhật thành công !");
+								for (String maSP : danhSachMaSPHuyMaKM) {
+									ds.deleteMaKMChoSanPHam(km, maSP);
+								}
+								if (JOptionPane.showConfirmDialog(this,
+										"Không còn sản phẩm nào được áp chương trình khuyến mãi " + maKM
+												+ " bạn có muốn xóa chương trình khuyến mãi này ?",
+										"Cảnh Báo !!", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+									JOptionPane.showMessageDialog(null, "Cập nhật thành công !");
+									ds.deleteKhuyenMai(maKM);
+								}
+								capNhatThanhCong = true;
 							}
-						} else {
+						} else if (!danhSachMaSPHuyMaKM.isEmpty()) {
+							if (JOptionPane.showConfirmDialog(this,
+									"Bạn có chắc chắn muốn hủy khuyến mãi " + maKM + " của sản phẩm "
+											+ danhSachMaSPHuyMaKM + " ?",
+									"Cảnh Báo !!", JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION) {
+								for (int row = 0; row < modelSanPham.getRowCount(); row++) {
+									for (String maSP : danhSachMaSPHuyMaKM) {
+										String maSP2 = (String) modelSanPham.getValueAt(row, 1);
+										if (maSP.equals(maSP2)) {
+											modelSanPham.setValueAt(Boolean.TRUE, row, 0);
+										}
+									}
+								}
+							} else {
+								for (String maSP : danhSachMaSPHuyMaKM) {
+									ds.deleteMaKMChoSanPHam(km, maSP);
+								}
+								capNhatThanhCong = true;
+							}
+						}
+						if (!danhSachMaSPDuocChon.isEmpty()) {
+							if (JOptionPane.showConfirmDialog(this,
+									"Bạn có chắc chắn muốn thêm khuyến mãi " + maKM + " cho sản phẩm "
+											+ danhSachMaSPDuocChon + " ?",
+									"Cảnh Báo !!", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+								for (String maSP : danhSachMaSPDuocChon) {
+									ds.updateMaKMChoSanPHam(km, maKM, maSP);
+								}
+								capNhatThanhCong = true;
+							}
+						}
+						if (isChecked && danhSachMaSPHuyMaKM.isEmpty() && danhSachMaSPDuocChon.isEmpty()) {
+							ds.updateMaKMChoSanPHam(km, "", "");
+							capNhatThanhCong = true;
+						}
+						if (capNhatThanhCong) {
 							JOptionPane.showMessageDialog(null, "Cập nhật thành công !");
-							for (String maSP : danhSachMaSPHuyMaKM) {
-								ds.deleteMaKMChoSanPHam(km, maSP);
-							}
 							xoaRong();
 							updateTableSanPham();
 							updateTableKhuyenMai();
@@ -788,76 +910,12 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 							btnLamMoi.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/loading.png")));
 							btnTimKiemSanPham.setEnabled(false);
 
-							txtTenKhuyenMai.setEditable(false);
-							txtMucKhuyenMai.setEditable(false);
-							txtTimKiemSanPham.setEnabled(false);
-							dateChooserThoiGianBatDauGiamGia.setEnabled(false);
-							dateChooserThoiGianKetThucGiamGia.setEnabled(false);
-						}
-					}
-					if (!danhSachMaSPDuocChon.isEmpty()) {
-						if (JOptionPane.showConfirmDialog(this,
-								"Bạn có chắc chắn muốn thêm khuyến mãi " + maKM + " cho sản phẩm "
-										+ danhSachMaSPDuocChon + " ?",
-								"Cảnh Báo !!", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-							JOptionPane.showMessageDialog(null, "Cập nhật thành công !");
-							for (String maSP : danhSachMaSPDuocChon) {
-								ds.updateMaKMChoSanPHam(km, maKM, maSP);
-							}
-							xoaRong();
-							updateTableSanPham();
-							updateTableKhuyenMai();
-							btnSuaKhuyenMai.setText("Sửa");
-							btnSuaKhuyenMai.setForeground(new Color(0, 0, 0));
-							btnSuaKhuyenMai.setBackground(new Color(255, 255, 0));
-							btnSuaKhuyenMai.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/sua.png")));
-
-							btnThemKhuyenMai.setText("Thêm");
-							btnThemKhuyenMai.setForeground(new Color(255, 255, 255));
-							btnThemKhuyenMai.setBackground(new Color(65, 105, 255));
-							btnThemKhuyenMai.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/add.png")));
-							btnThemKhuyenMai.setEnabled(true);
-
-							btnLamMoi.setText("Làm mới");
-							btnLamMoi.setBackground(new Color(152, 251, 152));
-							btnLamMoi.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/loading.png")));
-							btnTimKiemSanPham.setEnabled(false);
-
 							txtTimKiemSanPham.setEnabled(false);
 							txtTenKhuyenMai.setEditable(false);
 							txtMucKhuyenMai.setEditable(false);
 							dateChooserThoiGianBatDauGiamGia.setEnabled(false);
 							dateChooserThoiGianKetThucGiamGia.setEnabled(false);
 						}
-					} else {
-
-						JOptionPane.showMessageDialog(null, "Cập nhật thành công !");
-						ds.updateMaKMChoSanPHam(km, "", "");
-						xoaRong();
-						updateTableSanPham();
-						updateTableKhuyenMai();
-
-						btnSuaKhuyenMai.setText("Sửa");
-						btnSuaKhuyenMai.setForeground(new Color(0, 0, 0));
-						btnSuaKhuyenMai.setBackground(new Color(255, 255, 0));
-						btnSuaKhuyenMai.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/sua.png")));
-
-						btnThemKhuyenMai.setText("Thêm");
-						btnThemKhuyenMai.setForeground(new Color(255, 255, 255));
-						btnThemKhuyenMai.setBackground(new Color(65, 105, 255));
-						btnThemKhuyenMai.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/add.png")));
-						btnThemKhuyenMai.setEnabled(true);
-
-						btnLamMoi.setText("Làm mới");
-						btnLamMoi.setBackground(new Color(152, 251, 152));
-						btnLamMoi.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/loading.png")));
-						btnTimKiemSanPham.setEnabled(false);
-
-						txtTimKiemSanPham.setEnabled(false);
-						txtTenKhuyenMai.setEditable(false);
-						txtMucKhuyenMai.setEditable(false);
-						dateChooserThoiGianBatDauGiamGia.setEnabled(false);
-						dateChooserThoiGianKetThucGiamGia.setEnabled(false);
 					}
 				}
 			}
@@ -889,6 +947,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 	private boolean validData() {
 		String tenKM = txtTenKhuyenMai.getText().trim();
 		String mucKM = txtMucKhuyenMai.getText().trim();
+		String xoaKiTuPhanTramMucKM = mucKM.replace("%", "");
 		Date nbd = dateChooserThoiGianBatDauGiamGia.getDate();
 		Date nkt = dateChooserThoiGianKetThucGiamGia.getDate();
 
@@ -906,11 +965,11 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 			showMessage("Mức Khuyến Mãi không được để rỗng !", txtMucKhuyenMai);
 			return false;
 		}
-		if (!(mucKM.matches("^-?\\d+(\\.\\d+)?$"))) {
+		if (!(xoaKiTuPhanTramMucKM.matches("^-?\\d+(\\.\\d+)?$"))) {
 			showMessage("Mức Khuyến Mãi phải là số !", txtMucKhuyenMai);
 			return false;
 		}
-		Double soKhuyenMai = Double.parseDouble(mucKM);
+		Double soKhuyenMai = Double.parseDouble(xoaKiTuPhanTramMucKM);
 		if (!(soKhuyenMai > 0 && soKhuyenMai < 100)) {
 			showMessage("Mức khuyến mãi phải lớn hơn 0% và bé hơn 100% !", txtMucKhuyenMai);
 			return false;
@@ -958,6 +1017,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 		String xoaKiTuPhanTram = phanTram.replace("%", ""); // Sử dụng phương thức replace để bỏ ký tự %
 		Double mucKM = Double.parseDouble(xoaKiTuPhanTram);
 
+		// Chuyển ngày bắt đầu và ngày kết thúc thành java.sql.Date để insert vào SQL
 		Date nbd = dateChooserThoiGianBatDauGiamGia.getDate();
 		java.sql.Date ngayBatDau = new java.sql.Date(nbd.getTime());
 		Date nkt = dateChooserThoiGianKetThucGiamGia.getDate();
@@ -981,7 +1041,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 		List<KhuyenMai> list = ds.doTuBang();
 		modelKhuyenMai.setRowCount(0);
 		for (KhuyenMai km : list) {
-			Object data[] = { km.getMaKM(), km.getTenKhuyenMai(), km.getPhanTramKhuyenMai(), km.getNgayBatDau(),
+			Object data[] = { km.getMaKM(), km.getTenKhuyenMai(), km.getPhanTramKhuyenMai() + "%", km.getNgayBatDau(),
 					km.getNgayKetThuc() };
 			modelKhuyenMai.addRow(data);
 		}
@@ -997,9 +1057,11 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 			String maKM = "Null"; // Mặc định là "null" nếu khuyến mãi là null
 			double phanTramKhuyenMai = 0.0; // Mặc định là 0.0 nếu khuyến mãi là null
 
-			double giaSauKhuyenMai = sp.tinhGiaBan(sp.getGiaNhap(), sp.getLoi(), phanTramKhuyenMai);
-			String dinhDang = dinhDangTien(String.valueOf(giaSauKhuyenMai));
-			Object data[] = { Boolean.FALSE, sp.getMaSP(), sp.getTenSP(), maKM, sp.giaGoc(), dinhDang };
+			String giaGoc = dinhDangTien(String.valueOf(sp.giaGoc())); // Định dạng giá gốc, giá khuyến mãi
+			String giaSauKhuyenMai = dinhDangTien(
+					String.valueOf(sp.tinhGiaSauKhuyenMai(sp.getGiaNhap(), sp.getLoi(), phanTramKhuyenMai)));
+			Object data[] = { Boolean.FALSE, sp.getMaSP(), sp.getTenSP(), sp.getLoi() + "%", maKM, giaGoc,
+					giaSauKhuyenMai };
 			modelSanPham.addRow(data);
 		}
 		tblSanPham.setModel(modelSanPham);
@@ -1013,9 +1075,6 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 		// Chuyển đổi tien sang kiểu double trước khi định dạng
 		double amount = Double.parseDouble(tien);
 		String formattedAmount = currencyVN.format(amount);
-
-		// Xóa chữ "đ" từ chuỗi (mục đích sau để tiền Insert dữ liệu vào database)
-		String processedAmount = formattedAmount.replace(" ₫", "");
-		return processedAmount;
+		return formattedAmount;
 	}
 }

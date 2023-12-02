@@ -1,49 +1,31 @@
 package gui;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.awt.BorderLayout;
-import java.awt.Dialog.ModalExclusionType;
-import java.awt.Dimension;
-
-import javax.swing.JPanel;
-import javax.swing.AbstractAction;
-import javax.swing.BoxLayout;
 import java.awt.CardLayout;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import java.awt.Color;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-
-import java.awt.Button;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.ActionEvent;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.LayoutStyle.ComponentPlacement;
+import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import javax.swing.ImageIcon;
-import javax.swing.JTextField;
-import javax.swing.KeyStroke;
-
-import java.awt.ScrollPane;
-import javax.swing.JScrollBar;
-import javax.swing.event.AncestorListener;
-
-import main.Login;
-
-import javax.swing.event.AncestorEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import javax.swing.AbstractAction;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.KeyStroke;
+import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.LineBorder;
+
+import entity.KhuyenMai;
+import main.Login;
 
 public class uiMain {
 
@@ -56,6 +38,7 @@ public class uiMain {
 	private JPanel btnKhachHang;
 	private JPanel btnThongKe;
 	private JPanel btnBanHang;
+	private KhuyenMai km = new KhuyenMai();
 
 	/**
 	 * Launch the application.
@@ -92,7 +75,7 @@ public class uiMain {
 	 */
 	public uiMain() {
 		initialize();
-		
+		km.xoaKhuyenMaiKhiHetHan();
 	}
 
 	/**
