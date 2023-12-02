@@ -257,4 +257,36 @@ public class KhuyenMaiDAO {
 		}
 		return n > 0;
 	}
+	
+	// Xóa khuyến mãi cho sản phẩm
+	public boolean deleteMaKMChoSanPHamHetHanKM(String maSP) {
+		KetNoiSQL.getInstance().connect();
+		Connection con = KetNoiSQL.getInstance().getConnection();
+		PreparedStatement stmt = null;
+		int n = 0;
+		try {
+			stmt = con.prepareStatement("update SanPham set maKM = Null where maSP = ?;");
+			stmt.setString(1, maSP);
+			n = stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return n > 0;
+	}
+	
+	// Xóa chương trình khuyến mãi khi không còn sản phẩm được áp khuyến mãi
+	public boolean deleteKhuyenMai(String maKM) {
+		KetNoiSQL.getInstance().connect();
+		Connection con = KetNoiSQL.getInstance().getConnection();
+		PreparedStatement stmt = null;
+		int n = 0;
+		try {
+			stmt = con.prepareStatement("Delete from KhuyenMai where maKM = ?");
+			stmt.setString(1, maKM);
+			n = stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return n > 0;
+	}
 }

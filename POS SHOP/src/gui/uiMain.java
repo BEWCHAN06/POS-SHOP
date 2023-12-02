@@ -38,6 +38,7 @@ import java.awt.ScrollPane;
 import javax.swing.JScrollBar;
 import javax.swing.event.AncestorListener;
 
+import entity.KhuyenMai;
 import main.Login;
 
 import javax.swing.event.AncestorEvent;
@@ -56,6 +57,7 @@ public class uiMain {
 	private JPanel btnKhachHang;
 	private JPanel btnThongKe;
 	private JPanel btnBanHang;
+	private KhuyenMai km = new KhuyenMai();
 
 	/**
 	 * Launch the application.
@@ -91,6 +93,7 @@ public class uiMain {
 	 */
 	public uiMain() {
 		initialize();
+		km.xoaKhuyenMaiKhiHetHan();
 	}
 
 	/**
