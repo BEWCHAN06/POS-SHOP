@@ -25,5 +25,10 @@
 	<classpathentry kind="lib" path="lib/zxing/jcommander-1.82.jar"/>
 	<classpathentry kind="lib" path="lib/javamail/javax.mail.jar"/>
 	<classpathentry kind="lib" path="lib/javaactivation/activation-1.1.1.jar"/>
+	<classpathentry kind="lib" path="D:/PTUD-Workspace/POS-SHOP/POS SHOP/lib/itext/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="D:/PTUD-Workspace/POS-SHOP/POS SHOP/lib/itext/fontbox-2.0.30.jar"/>
+	<classpathentry kind="lib" path="D:/PTUD-Workspace/POS-SHOP/POS SHOP/lib/itext/itextpdf-5.5.9.jar"/>
+	<classpathentry kind="lib" path="D:/PTUD-Workspace/POS-SHOP/POS SHOP/lib/itext/pdfbox-2.0.30.jar"/>
+	<classpathentry kind="lib" path="D:/PTUD-Workspace/POS-SHOP/POS SHOP/lib/itext/xmlworker-5.5.13.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

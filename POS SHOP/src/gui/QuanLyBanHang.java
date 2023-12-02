@@ -2,6 +2,7 @@ package gui;
 
 import javax.swing.JPanel;
 import javax.imageio.ImageIO;
+import javax.management.StringValueExp;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -27,6 +28,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.HeadlessException;
+
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -45,6 +48,8 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.xml.crypto.Data;
 
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.printing.PDFPrintable;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
@@ -58,6 +63,7 @@ import com.google.zxing.Result;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
 
+import component.PrinterBill;
 import dao.ChiTietHoaDonDAO;
 import dao.HoaDonDAO;
 import dao.KhachHangDAO;
@@ -68,6 +74,8 @@ import entity.HoaDon;
 import entity.KhachHang;
 import entity.NhanVien;
 import entity.SanPham;
+import entity.hoaDonPrinter;
+import entity.sanPhamPrinter;
 import gui.CameraPanel.QRCodeListener;
 
 import javax.swing.JScrollPane;
@@ -75,13 +83,20 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.awt.print.PageFormat;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.time.LocalDate;import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class QuanLyBanHang extends JPanel implements ActionListener, MouseListener, QRCodeListener{
 	private JTextField txtTienKhachDua;
@@ -334,6 +349,7 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 				chiTietHoaDonDAO.updateSoLuongSPTrongGio(cthd);
 				updateTableGioHang(mahd);
 				lblTongTienpush.setText(chiTietHoaDonDAO.getTongTien(mahd)+"");
+				setLblGiamGia();
 			}
 		});
 		btnOk.setForeground(new Color(255, 255, 255));
@@ -355,6 +371,7 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 				chiTietHoaDonDAO.deleteMotSP(cthd);
 				updateTableGioHang(mahd);
 				lblTongTienpush.setText(chiTietHoaDonDAO.getTongTien(mahd)+"");
+				setLblGiamGia();
 			}
 		});
 		btnXoaSP.setBorder(new LineBorder(new Color(0, 0, 0), 2));
@@ -520,22 +537,108 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 				double tt = chiTietHoaDonDAO.getTongTien(mahd);
 				hoaDonDAO.updateHoaDon(mahd,1, tt);
 				int cnt = tblGioHang.getRowCount();
+				List<sanPhamPrinter> sanPhamList = new ArrayList<>();
 				for(int i  = 0; i < cnt; i++) {
+					String tensp =  tblGioHang.getValueAt(i, 1).toString()+"-"+tblGioHang.getValueAt(i, 2).toString();
+					double giaban = Double.parseDouble(tblGioHang.getValueAt(i, 4).toString());
+					int slg = Integer.parseInt(tblGioHang.getValueAt(i, 5).toString());
+					double thanhtien = Double.parseDouble(tblGioHang.getValueAt(i, 6).toString());
+					sanPhamList.add(new sanPhamPrinter(tensp, giaban, slg, thanhtien));
 					System.out.println(tblGioHang.getValueAt(i, 0));
 					System.out.println(tblGioHang.getValueAt(i, 5));
 					String ma = tblGioHang.getValueAt(i, 0).toString();
 					int sl = Integer.parseInt(tblGioHang.getValueAt(i, 5).toString());
 					sanPhamDAO.SuaSlSP(sl, ma);
 				}
+				double tongTien =  Double.parseDouble(lblTongTienpush.getText().trim());
+				double giamGia = Double.parseDouble(lblGiamGiapush.getText());
+				double thue = Double.parseDouble(lblThuepush.getText());
+				double thanhToan = Double.parseDouble(lblThanhToanpush.getText());
+				double tienKhachDua = 0;
+				if(txtTienKhachDua.getText().equals("")) {
+					tienKhachDua = 0;
+				}else {
+					tienKhachDua = Double.parseDouble(txtTienKhachDua.getText());
+				}
+				double tienThua = Double.parseDouble(lbltienthua.getText());
+				hoaDonPrinter hdprt = new hoaDonPrinter("Trần Chí Bảo", lbltenkh.getText(), tongTien, giamGia, thue, thanhToan, tienKhachDua, tienThua, sanPhamList);
+				System.out.println(hdprt.toString());
+				String path = "printer/"+mahd+".pdf";
+				PrinterBill.generatePDF(mahd, hdprt, path);
+				// Đường dẫn đến file PDF cần in
+				try {
+					String pdfFilePath = path;
+
+					// Load document
+					PDDocument document = PDDocument.load(new File(pdfFilePath));
+
+					// Tạo một PDFPrintable từ tài liệu
+					PDFPrintable pdfPrintable = new PDFPrintable(document);
+
+					// Tạo một PrinterJob
+					PrinterJob job = PrinterJob.getPrinterJob();
+
+					// Đặt PageFormat
+					PageFormat pageFormat = job.defaultPage();
+					pageFormat.setOrientation(PageFormat.PORTRAIT);
+
+					// Đặt PDFPrintable cho công việc in
+					job.setPrintable(pdfPrintable, pageFormat);
+
+					// Hiển thị hộp thoại in để người dùng có thể chọn máy in và cấu hình in
+					if (job.printDialog()) {
+					    // Bắt đầu công việc in
+					    job.print();
+					}
+
+					// Đóng tài liệu
+					document.close();
+				} catch (HeadlessException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IllegalArgumentException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (PrinterException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				// In thông tin hóa đơn
+		        System.out.println("Hóa đơn đã được tạo thành công.");
 				updateTableHoaDonCho();
 				updateTableGioHang("");
 				tblDanhSachSanPham();
+				setLblGiamGia();
+				
+				lblTongTienpush.setText("0");
+				lblGimGi.setText("Giảm giá:");
+				lblGiamGiapush.setText("0");
+				lblThanhToanpush.setText("0");
+				txtTienKhachDua.setText("");
+				
+				if(tblHoaDonCho.getRowCount()>0) {
+					tblHoaDonCho.setRowSelectionInterval(0, 0);
+					int row=tblHoaDonCho.getSelectedRow();
+					mahd = tblHoaDonCho.getValueAt(row, 0).toString();
+					 updateTableGioHang(mahd);
+					 lblTongTienpush.setText(chiTietHoaDonDAO.getTongTien(mahd)+"");
+					 setLblGiamGia();
+				}
 				
 			}
 		});
 		btnThanhToan.setFont(new Font("Arial", Font.BOLD, 22));
 		
 		JButton btnLamMoi = new JButton("Làm mới ");
+		btnLamMoi.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setLblGiamGia();
+			}
+		});
 		btnLamMoi.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		btnLamMoi.setIcon(new ImageIcon(QuanLyBanHang.class.getResource("/icon/refesh.png")));
 		btnLamMoi.setBackground(new Color(152, 251, 152));
@@ -700,15 +803,21 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 					@Override
 		            public void onKhachHangSelected(String makh, String tenkh) {
 						
-		                lblmakh.setText(makh);
-		                lbltenkh.setText(tenkh);
-		                KhachHang kh = khachHangDAO.getKhachHang(makh);
-		                NhanVien nv = nhanVienDAO.getNhanVienByID("NV01");
-		                HoaDon hd = new HoaDon(mahd, kh, nv);
-		                HoaDonDAO.editNVTrongHD(hd);
-		                updateTableHoaDonCho();
-		                giamTheoPhanTramChoKhachHang = giamGiaKhachHangThanThiet(makh);
-		                lblGimGi.setText("Giảm giá: ("  + giamTheoPhanTramChoKhachHang + "%)");
+		                try {
+							lblmakh.setText(makh);
+							lbltenkh.setText(tenkh);
+							KhachHang kh = khachHangDAO.getKhachHang(makh);
+							NhanVien nv = nhanVienDAO.getNhanVienByID("NV01");
+							HoaDon hd = new HoaDon(mahd, kh, nv);
+							HoaDonDAO.editNVTrongHD(hd);
+							updateTableHoaDonCho();
+							giamTheoPhanTramChoKhachHang = giamGiaKhachHangThanThiet(makh);
+							lblGimGi.setText("Giảm giá: ("  + giamTheoPhanTramChoKhachHang + "%)");
+							setLblGiamGia();
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							JOptionPane.showMessageDialog(null, "vui lòng chọn đúng thông tin khách hàng");
+						}
 		                
 		            }
 		        });
@@ -888,19 +997,39 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 			}
 		});
 	}
+	private String chuyenDoiTien(double number) {
+		Locale localeVN = new Locale("vi", "VN");
+		NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
+
+		// Chuyển đổi tien sang kiểu double trước khi định dạng
+		String formattedAmount = currencyVN.format(number);
+
+		// Xóa chữ "đ" từ chuỗi (mục đích sau để tiền Insert dữ liệu vào database)
+		String processedAmount = formattedAmount.replace(" ₫", "");
+		return processedAmount;
+	}
+	private static double parseDoubleWithoutCommas(String stringValue) {
+        // Loại bỏ dấu chấm phân cách
+        String stringWithoutCommas = stringValue.replace(".", "");
+
+        // Chuyển đổi thành double
+        return Double.parseDouble(stringWithoutCommas);
+    }
 	private void setLblGiamGia() {
-		lblTongTienpush.setText(chiTietHoaDonDAO.getTongTien(mahd)+"");
+		
+		lblTongTienpush.setText(chuyenDoiTien(chiTietHoaDonDAO.getTongTien(mahd)));
 		double tongtien = chiTietHoaDonDAO.getTongTien(mahd);
 		String makh = lblmakh.getText().trim();
 		giamTheoPhanTramChoKhachHang = giamGiaKhachHangThanThiet(makh);
         lblGimGi.setText("Giảm giá: ("  + giamTheoPhanTramChoKhachHang + "%)");
         double giamgia = tongtien * giamTheoPhanTramChoKhachHang/100;
         System.out.println(giamgia);
-        lblGiamGiapush.setText(giamgia+"");
+        lblGiamGiapush.setText(chuyenDoiTien(giamgia));
         double thueVT = tongtien * 10/100;
-        lblThuepush.setText(thueVT+"");
+        lblThuepush.setText(chuyenDoiTien(thueVT));
         tienThanhToan = tongtien - giamgia + thueVT;
-        lblThanhToanpush.setText(tienThanhToan+"");
+        lblThanhToanpush.setText(chuyenDoiTien(tienThanhToan));
+        tienThanhToan = parseDoubleWithoutCommas(chuyenDoiTien(tienThanhToan));
 	}
 	private int giamGiaKhachHangThanThiet(String maKH) {
 		double tongtien = HoaDonDAO.getTongTienDaMuaCuaKH(maKH);
@@ -958,12 +1087,12 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 				double tienkhachdua = Double.parseDouble(input);
 				if(tienkhachdua < tienThanhToan) {
 					thua = tienkhachdua -tienThanhToan;
-					lbltienthua.setText("Cần thêm "+ -thua+"");
+					lbltienthua.setText(" -"+ chuyenDoiTien(thua)+"");
 					lbltienthua.setForeground(new Color(255,0,0));
 				}else {
 					thua = tienkhachdua -tienThanhToan;
 					txtTienKhachDua.setForeground(new Color(0,0,0));
-					lbltienthua.setText(thua+"");
+					lbltienthua.setText(chuyenDoiTien(thua));
 					lbltienthua.setForeground(new Color(34, 139, 34));
 				}
 			} catch (NumberFormatException e) {
@@ -996,17 +1125,40 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 			int cnt = tblGioHang.getRowCount();
 			for(int i = 0; i < cnt; i++) {
 				if(tblGioHang.getValueAt(i, 0).equals(masp)) {
-					JOptionPane.showMessageDialog(null, "Sản Phẩm đã có trong giỏ hàng !!!");
-					check = false;
+					try {
+						String soluong = tblGioHang.getValueAt(i, 5).toString();
+						System.out.println("so luong cua sp :"+soluong);
+						int sl = Integer.parseInt(tblGioHang.getValueAt(i, 5).toString());
+						SanPham sp = sanPhamDAO.getSanPhanTheoId(masp);
+						HoaDon hd = HoaDonDAO.getHDTheoId(mahd);
+						double phantram = phantramKM;
+						sl++;
+						ChiTietHoaDon cthd = new ChiTietHoaDon();
+						cthd = new ChiTietHoaDon(sp, hd, phantram, sl,Double.parseDouble(sl+"")*dongia);
+						chiTietHoaDonDAO.updateSoLuongSPTrongGio(cthd);
+						updateTableGioHang(mahd);
+						lblTongTienpush.setText(chiTietHoaDonDAO.getTongTien(mahd)+"");
+						check = false;
+						setLblGiamGia();
+					} catch (NumberFormatException e1) {
+						// TODO Auto-generated catch block
+						JOptionPane.showMessageDialog(this, "vui lòng chọn sản phẩm để thêm vào giỏ !!!");
+					}
 				}
 			}
 			if(check) {
-				SanPham sp = sanPhamDAO.getSanPhanTheoId(masp);
-				HoaDon hd = HoaDonDAO.getHDTheoId(mahd);
-				ChiTietHoaDon cthd = new ChiTietHoaDon(sp, hd, 0.0, 1, sp.getGiaBan());
-				chiTietHoaDonDAO.addSanPhamVaoHD(cthd);
-				updateTableGioHang(mahd);
-				lblTongTienpush.setText(chiTietHoaDonDAO.getTongTien(mahd)+"");
+				try {
+					SanPham sp = sanPhamDAO.getSanPhanTheoId(masp);
+					HoaDon hd = HoaDonDAO.getHDTheoId(mahd);
+					ChiTietHoaDon cthd = new ChiTietHoaDon(sp, hd, 0.0, 1, sp.getGiaBan());
+					chiTietHoaDonDAO.addSanPhamVaoHD(cthd);
+					updateTableGioHang(mahd);
+					lblTongTienpush.setText(chiTietHoaDonDAO.getTongTien(mahd)+"");
+					setLblGiamGia();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(this, "vui lòng chọn sản phẩm để thêm vào giỏ !!!");
+				}
 			}
 			
 		}
@@ -1048,6 +1200,7 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 			mahd = tblHoaDonCho.getValueAt(row, 0).toString();
 			updateTableGioHang( mahd);
 			lblTongTienpush.setText(chiTietHoaDonDAO.getTongTien(mahd)+"");
+			setLblGiamGia();
 			
 		}
 
@@ -1116,6 +1269,7 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 					updateTableGioHang(mahd);
 					lblTongTienpush.setText(chiTietHoaDonDAO.getTongTien(mahd)+"");
 					check = false;
+					setLblGiamGia();
 				}
 			}
 			if(check) {
@@ -1127,6 +1281,7 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 				chiTietHoaDonDAO.addSanPhamVaoHD(cthd);
 				updateTableGioHang(mahd);
 				lblTongTienpush.setText(chiTietHoaDonDAO.getTongTien(mahd)+"");
+				setLblGiamGia();
 			}
 		}
 

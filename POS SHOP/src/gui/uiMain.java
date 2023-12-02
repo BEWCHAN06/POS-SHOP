@@ -67,6 +67,7 @@ public class uiMain {
 				try {
 					Login frame = new Login();
 					frame.setVisible(true);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -91,6 +92,7 @@ public class uiMain {
 	 */
 	public uiMain() {
 		initialize();
+		
 	}
 
 	/**

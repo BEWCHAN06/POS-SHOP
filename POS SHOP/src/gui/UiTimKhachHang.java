@@ -75,7 +75,7 @@ public class UiTimKhachHang extends JFrame implements ActionListener, MouseListe
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(152, 251, 152));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
+		setLocationRelativeTo(null);
 		setContentPane(contentPane);
 		
 		JPanel pnlKhachHang = new JPanel();

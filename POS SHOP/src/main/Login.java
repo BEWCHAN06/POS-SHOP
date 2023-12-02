@@ -16,6 +16,7 @@ import javax.swing.border.LineBorder;
 import ConnectDB.KetNoiSQL;
 import dao.loginDAO;
 import gui.FormQuenMatKhau;
+import gui.QuanLyBanHang;
 import gui.QuanLyThongKe;
 import gui.uiMain;
 
@@ -59,6 +60,8 @@ public class Login extends JFrame {
 				try {
 					Login frame = new Login();
 					frame.setVisible(true);
+					
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
