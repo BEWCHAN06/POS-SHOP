@@ -1,5 +1,8 @@
 package entity;
 
+import dao.ChatLieuDAO;
+import dao.NhaCungCapDAO;
+
 public class NhaCungCap {
     private String maNCC;
     private String tenNCC;
@@ -8,6 +11,7 @@ public class NhaCungCap {
     private String email;
     
 	public NhaCungCap(String tenNCC, String diaChi, String sdt, String email) {
+		this.maNCC = getAutoID();
 		this.tenNCC = tenNCC;
 		this.diaChi = diaChi;
 		this.sdt = sdt;
@@ -53,6 +57,13 @@ public class NhaCungCap {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	public String getAutoID() {
+		NhaCungCapDAO cungCapDAO = new NhaCungCapDAO();
+		String idPrefix = "NCC";
+		int length = cungCapDAO.getAllNhaCungCap().size();
+		String finalId = idPrefix + String.format("%02d", length + 1);
+		return finalId;
 	}
 	@Override
 	public String toString() {

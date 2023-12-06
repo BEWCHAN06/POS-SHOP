@@ -171,7 +171,7 @@ public class SanPhamDAO {
 			KetNoiSQL.getInstance().connect();
 			Connection con = KetNoiSQL.getInstance().getConnection();
 			String sql = "select maSP, tenSP, maPL, giaNhap,loiTheoPhanTram, maKM, giaBan, maKT,soLuong,maMS, maCL, maNCC, hinhAnh \r\n"
-					+ "from SanPham where maSP like ? or tenSP like ?";
+					+ "from SanPham where soLuong > 0 and maSP like ? or tenSP like ? ";
 			PreparedStatement stmt = con.prepareCall(sql);
 			stmt.setString(1, "%" + name + "%");
 			stmt.setString(2, "%" + name + "%");

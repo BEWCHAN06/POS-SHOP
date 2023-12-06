@@ -1110,13 +1110,24 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 	}
 	private void updateTableTimKiemSP(){
 		String masp = txtTimKiemSP.getText();
-		sanPhamDAO = new SanPhamDAO();
-		clearTableDSSP();
-		DefaultTableModel dtm = (DefaultTableModel) tblDSSanPham.getModel();
-		List<SanPham> listsp = sanPhamDAO.getDSSPTheoMaSP(masp);
-		for(SanPham sp : listsp) {
-			Object[] rowdata = {sp.getMaSP(),sp.getTenSP(),sp.getPl().getPhanLoai(),sp.getKichThuoc(),sp.getGiaBan(),sp.getSoLuong(),sp.getMauSac().getMauSac(),sp.getKichThuoc().getKichThuoc()};
-			dtm.addRow(rowdata);
+		if(txtTimKiemSP.getText().equals("")) {
+			sanPhamDAO = new SanPhamDAO();
+			clearTableDSSP();
+			DefaultTableModel dtm = (DefaultTableModel) tblDSSanPham.getModel();
+			List<SanPham> listsp = sanPhamDAO.dsSPBanHang();
+			for(SanPham sp : listsp) {
+				Object[] rowdata = {sp.getMaSP(),sp.getTenSP(),sp.getPl().getPhanLoai(),sp.getKichThuoc(),sp.getGiaBan(),sp.getSoLuong(),sp.getMauSac().getMauSac(),sp.getKichThuoc().getKichThuoc()};
+				dtm.addRow(rowdata);
+			}
+		}else {
+			sanPhamDAO = new SanPhamDAO();
+			clearTableDSSP();
+			DefaultTableModel dtm = (DefaultTableModel) tblDSSanPham.getModel();
+			List<SanPham> listsp = sanPhamDAO.getDSSPTheoMaSP(masp);
+			for(SanPham sp : listsp) {
+				Object[] rowdata = {sp.getMaSP(),sp.getTenSP(),sp.getPl().getPhanLoai(),sp.getKichThuoc(),sp.getGiaBan(),sp.getSoLuong(),sp.getMauSac().getMauSac(),sp.getKichThuoc().getKichThuoc()};
+				dtm.addRow(rowdata);
+			}
 		}
 	}
 	@Override
@@ -1187,12 +1198,7 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 				lblTongTienpush.setText(chiTietHoaDonDAO.getTongTien(hd1.getAutoID())+"");
 				HoaDonDAO.addHoaDon(hd);
 				updateTableHoaDonCho();
-//				int dongcuoi=tblHoaDonCho.getRowCount()-1;
-//				tblHoaDonCho.setRowSelectionInterval(dongcuoi,dongcuoi);
-//				int row=tblHoaDonCho.getSelectedRow();
-//				mahd = tblHoaDonCho.getValueAt(row, 0).toString();
-//				updateTableGioHang( mahd);
-//				lblTongTienpush.setText(chiTietHoaDonDAO.getTongTien(mahd)+"");
+
 			}
 			
 		}
