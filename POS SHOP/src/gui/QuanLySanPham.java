@@ -3,6 +3,9 @@ package gui;
 import java.awt.Dimension;
 
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -11,6 +14,8 @@ import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
 import javax.swing.border.CompoundBorder;
@@ -21,6 +26,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -52,6 +58,7 @@ import entity.SanPham;
 import entity.XuatXu;
 
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
@@ -368,18 +375,25 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		btnLuuTatCa = new JButton("Thêm Tất Cả Sản Phẩm");
 		btnLuuTatCa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DefaultTableModel model = (DefaultTableModel) tblXemTruoc.getModel();
-				int rowCount = model.getRowCount();
+				showLoadingDialog(mainPanel);
+
+                // Simulate adding a product (replace this with your actual logic)
+                SwingUtilities.invokeLater(() -> {
+                    DefaultTableModel model = (DefaultTableModel) tblXemTruoc.getModel();
+					int rowCount = model.getRowCount();
+					
+					for (int i = 0; i < rowCount; i++) {
+					    String kichThuoc = model.getValueAt(i, 2).toString(); // Lấy giá trị từ cột kích thước (index 2)
+					    String soLuong = model.getValueAt(i, 4).toString(); // Lấy giá trị từ cột số lượng (index 4)
+					    // Sử dụng kết quả lấy được ở đây (ví dụ: in ra hoặc xử lý tiếp)
+					    sanPhamDAO.addSanPham(addListOjbect(kichThuoc, Integer.parseInt(soLuong)));
+					    System.out.println("Kích thước: " + kichThuoc + ", Số lượng: " + soLuong);
+					    tblDanhSachSanPham();
+					}
+					clearTableXemTruoc();
+                    closeLoadingDialog();
+                });
 				
-				for (int i = 0; i < rowCount; i++) {
-				    String kichThuoc = model.getValueAt(i, 2).toString(); // Lấy giá trị từ cột kích thước (index 2)
-				    String soLuong = model.getValueAt(i, 4).toString(); // Lấy giá trị từ cột số lượng (index 4)
-				    // Sử dụng kết quả lấy được ở đây (ví dụ: in ra hoặc xử lý tiếp)
-				    sanPhamDAO.addSanPham(addListOjbect(kichThuoc, Integer.parseInt(soLuong)));
-				    System.out.println("Kích thước: " + kichThuoc + ", Số lượng: " + soLuong);
-				    tblDanhSachSanPham();
-				}
-				clearTableXemTruoc();
 			}
 		});
 		btnLuuTatCa.setBorder(new LineBorder(new Color(0, 0, 0), 2));
@@ -690,7 +704,29 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+				int row = tblXemTruoc.getSelectedRow();
+				String soluong = tblXemTruoc.getValueAt(row, 4).toString();
+				txtThayDoiSoLuong.setText(soluong);
+				txtThayDoiSoLuong.getDocument().addDocumentListener(new DocumentListener() {
+					
+					@Override
+					public void removeUpdate(DocumentEvent e) {
+						// TODO Auto-generated method stub
+						updataSoLuongXemTruoc(row);
+					}
+					
+					@Override
+					public void insertUpdate(DocumentEvent e) {
+						// TODO Auto-generated method stub
+						updataSoLuongXemTruoc(row);
+					}
+					
+					@Override
+					public void changedUpdate(DocumentEvent e) {
+						// TODO Auto-generated method stub
+						updataSoLuongXemTruoc(row);
+					}
+				});
 			}
 			
 			@Override
@@ -745,6 +781,14 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 			}
 		});
 	}
+	private void updataSoLuongXemTruoc(int row) {
+		if(txtThayDoiSoLuong.getText().equalsIgnoreCase("")) {
+			tblXemTruoc.setValueAt("0", row, 4);
+		}else {
+			String soluong = txtThayDoiSoLuong.getText();
+			tblXemTruoc.setValueAt(soluong, row, 4);
+		}
+	}
 	private void updateTableTimKiemSP(){
 		String masp = txtTimKiemSP.getText();
 		sanPhamDAO = new SanPhamDAO();
@@ -796,7 +840,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
         }
     }
 //
-//
+//	
     public void chonHinhAnh() {
         JFileChooser fileChooser = new JFileChooser("data/hinhAnhSP");
         FileNameExtensionFilter imageFilter = new FileNameExtensionFilter("Hình ảnh", "jpg", "jpeg", "gif", "png");
@@ -1063,6 +1107,38 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		btnLuu.setEnabled(false);
 		btnHuy.setEnabled(false);
 	}
+	//loading
+	private static JDialog loadingDialog;
+
+	private static void showLoadingDialog(JPanel owner) {
+	    // Create a new JDialog with the specified JPanel as the owner
+	    loadingDialog = new JDialog(SwingUtilities.windowForComponent(owner), "Loading...");
+	    
+	    // Create a new JPanel for the loading content
+	    JPanel loadingPanel = new JPanel(new BorderLayout());
+	    JLabel titleLabel = new JLabel("Đang thêm sản phẩm và tạo QR", SwingConstants.CENTER);
+        loadingPanel.add(BorderLayout.NORTH, titleLabel);
+	    // Create a JProgressBar and add it to the loadingPanel
+	    JProgressBar progressBar = new JProgressBar();
+	    progressBar.setIndeterminate(true);
+	    loadingPanel.add(BorderLayout.CENTER, progressBar);
+
+	    // Add the loadingPanel to the JDialog
+	    loadingDialog.add(loadingPanel);
+
+	    loadingDialog.setSize(200, 75);
+	    loadingDialog.setLocationRelativeTo(owner);
+	    loadingDialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+	    
+	    // Make the JDialog visible
+	    loadingDialog.setVisible(true);
+	}
+
+    private static void closeLoadingDialog() {
+        if (loadingDialog != null) {
+            loadingDialog.dispose();
+        }
+    }
 	// sư kiện click vào bảng
 	@Override
 	public void mouseClicked(MouseEvent e) {
