@@ -39,6 +39,15 @@ public class uiMain {
 	private JPanel btnThongKe;
 	private JPanel btnBanHang;
 	private KhuyenMai km = new KhuyenMai();
+	private BanHang qlbh;
+	private uiSanPham qlsp;
+	private QuanLyHoaDon qlhd;
+	private QuanLyKhuyenMai qlkm;
+	private QuanLyNhanVien qlnv;
+	private QuanLyKhachHang qlkh;
+	private QuanLyThongKe qltk;
+	private TabThongKeDoanhThu doanhThu;
+	private TabThongKeSanPham keSanPham;
 
 	/**
 	 * Launch the application.
@@ -76,6 +85,25 @@ public class uiMain {
 	public uiMain() {
 		initialize();
 		km.xoaKhuyenMaiKhiHetHan();
+		qlbh = new BanHang();
+		qlbh.setVisible(true);
+		qlsp = new uiSanPham();
+		qlsp.setVisible(true);
+		qlhd = new QuanLyHoaDon();
+		qlhd.setVisible(true);
+		qlkm = new QuanLyKhuyenMai();
+		qlkm.setVisible(true);
+		qlnv = new QuanLyNhanVien();
+		qlkm.setVisible(true);
+		qlkh = new QuanLyKhachHang();
+		qlkm.setVisible(true);
+		qltk = new QuanLyThongKe();
+//		qltk.setVisible(true);
+//		
+//		doanhThu = new TabThongKeDoanhThu();
+//		doanhThu.setVisible(true);
+//		keSanPham = new TabThongKeSanPham();
+//		keSanPham.setVisible(true);
 		
 	}
 
@@ -160,7 +188,7 @@ public class uiMain {
 		btnBanHang.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				BanHang qlbh = new BanHang();
+				
 				mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
 				mainPanel.add(qlbh, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
 				mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
@@ -198,7 +226,6 @@ public class uiMain {
 		btnSanPham.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				uiSanPham qlsp = new uiSanPham();
 				mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
 				mainPanel.add(qlsp, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
 				mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
@@ -218,7 +245,6 @@ public class uiMain {
 		btnSanPham.getActionMap().put("F2", new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				uiSanPham qlsp = new uiSanPham();
 				mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
 				mainPanel.add(qlsp, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
 				mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
@@ -256,7 +282,7 @@ public class uiMain {
 		btnHoaDon.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				QuanLyHoaDon qlhd = new QuanLyHoaDon();
+
 				mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
 				mainPanel.add(qlhd, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
 				mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
@@ -276,7 +302,6 @@ public class uiMain {
 		btnHoaDon.getActionMap().put("F3", new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				QuanLyHoaDon qlhd = new QuanLyHoaDon();
 				mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
 				mainPanel.add(qlhd, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
 				mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
@@ -316,7 +341,7 @@ public class uiMain {
 		btnKhuyenMai.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				QuanLyKhuyenMai qlkm = new QuanLyKhuyenMai();
+
 				mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
 				mainPanel.add(qlkm, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
 				mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
@@ -337,7 +362,6 @@ public class uiMain {
 		btnKhuyenMai.getActionMap().put("F4", new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				QuanLyKhuyenMai qlkm = new QuanLyKhuyenMai();
 				mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
 				mainPanel.add(qlkm, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
 				mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
@@ -377,7 +401,7 @@ public class uiMain {
 		btnNhanVien.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				QuanLyNhanVien qlnv = new QuanLyNhanVien();
+				
 				mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
 				mainPanel.add(qlnv, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
 				mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
@@ -397,7 +421,6 @@ public class uiMain {
 		btnNhanVien.getActionMap().put("F5", new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				QuanLyNhanVien qlnv = new QuanLyNhanVien();
 				mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
 				mainPanel.add(qlnv, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
 				mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
@@ -437,7 +460,7 @@ public class uiMain {
 		btnKhachHang.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				QuanLyKhachHang qlkh = new QuanLyKhachHang();
+
 				mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
 				mainPanel.add(qlkh, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
 				mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
@@ -458,7 +481,7 @@ public class uiMain {
 		btnKhachHang.getActionMap().put("F6", new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				QuanLyKhachHang qlkh = new QuanLyKhachHang();
+
 				mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
 				mainPanel.add(qlkh, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
 				mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
@@ -496,9 +519,9 @@ public class uiMain {
 		btnThongKe.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				QuanLyThongKe qlsp = new QuanLyThongKe();
+
 				mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
-				mainPanel.add(qlsp, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
+				mainPanel.add(qltk, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
 				mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
 
 				btnBanHang.setBackground(new Color(144, 238, 144));
@@ -516,9 +539,9 @@ public class uiMain {
 		btnThongKe.getActionMap().put("F7", new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				QuanLyThongKe qlsp = new QuanLyThongKe();
+
 				mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
-				mainPanel.add(qlsp, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
+				mainPanel.add(qltk, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
 				mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
 
 				btnBanHang.setBackground(new Color(144, 238, 144));
