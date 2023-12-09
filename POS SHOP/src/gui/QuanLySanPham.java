@@ -113,6 +113,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 	private JButton btnOk;
 	private JButton btnLuuTatCa;
 	private DefaultTableModel dtmxemtruoc;
+	private int dongcuabangxemtruoc;
 	/**
 	 * Create the panel.
 	 */
@@ -701,30 +702,33 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		tbllistSanPham.addMouseListener(this);
 		tblXemTruoc.addMouseListener(new MouseListener() {
 			
+
+
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				// TODO Auto-generated method stub
-				int row = tblXemTruoc.getSelectedRow();
-				String soluong = tblXemTruoc.getValueAt(row, 4).toString();
+				dongcuabangxemtruoc = tblXemTruoc.getSelectedRow();
+				String soluong = tblXemTruoc.getValueAt(dongcuabangxemtruoc, 4).toString();
 				txtThayDoiSoLuong.setText(soluong);
 				txtThayDoiSoLuong.getDocument().addDocumentListener(new DocumentListener() {
 					
 					@Override
 					public void removeUpdate(DocumentEvent e) {
 						// TODO Auto-generated method stub
-						updataSoLuongXemTruoc(row);
+						updataSoLuongXemTruoc();
+						
 					}
 					
 					@Override
 					public void insertUpdate(DocumentEvent e) {
 						// TODO Auto-generated method stub
-						updataSoLuongXemTruoc(row);
+						updataSoLuongXemTruoc();
 					}
 					
 					@Override
 					public void changedUpdate(DocumentEvent e) {
 						// TODO Auto-generated method stub
-						updataSoLuongXemTruoc(row);
+						updataSoLuongXemTruoc();
 					}
 				});
 			}
@@ -781,12 +785,12 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 			}
 		});
 	}
-	private void updataSoLuongXemTruoc(int row) {
+	private void updataSoLuongXemTruoc() {
 		if(txtThayDoiSoLuong.getText().equalsIgnoreCase("")) {
-			tblXemTruoc.setValueAt("0", row, 4);
+			tblXemTruoc.setValueAt("0", dongcuabangxemtruoc, 4);
 		}else {
 			String soluong = txtThayDoiSoLuong.getText();
-			tblXemTruoc.setValueAt(soluong, row, 4);
+			tblXemTruoc.setValueAt(soluong, dongcuabangxemtruoc, 4);
 		}
 	}
 	private void updateTableTimKiemSP(){
@@ -1022,6 +1026,16 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 			if(giaNhap.trim().isEmpty()) {
 				JOptionPane.showMessageDialog(null, "vui long điền giá nhập");
 				check = false;
+			}
+			int gianhap = Integer.parseInt(txtGiaNhap.getText());
+			if(gianhap < 0) {
+				JOptionPane.showMessageDialog(null, "nhập giá > 0");
+				btn = 3;
+			}
+			int sl = Integer.parseInt(txtSoLuongSP.getText());
+			if(sl < 0) {
+				JOptionPane.showMessageDialog(null, "nhâp số lượng > 0");
+				btn = 3;
 			}
 			if (btn == 1) {
 			    if (check) {

@@ -92,7 +92,7 @@ public class uiMain {
 
 		pnlMenu.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		pnlMenu.setBackground(new Color(152, 251, 152));
-
+		
 		JPanel mainPanel = new JPanel();
 		QuanLyBanHang qlbh_1 = new QuanLyBanHang();
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
@@ -555,7 +555,15 @@ public class uiMain {
 		btnDangXuat.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				System.exit(0);
+				int dialogResult = JOptionPane.showConfirmDialog(null, "Bạn có muốn đăng xuất không?",
+						"Xác nhận đăng xuất", JOptionPane.YES_NO_OPTION);
+				if (dialogResult == JOptionPane.YES_OPTION) {
+					Login  lg = new Login();
+					lg.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					lg.setLocationRelativeTo(null);
+					lg.setVisible(true);
+					frame.setVisible(false);
+				}
 			}
 		});
 		btnDangXuat.setBackground(new Color(255, 0, 0));
@@ -571,7 +579,11 @@ public class uiMain {
 				int dialogResult = JOptionPane.showConfirmDialog(null, "Bạn có muốn đăng xuất không?",
 						"Xác nhận đăng xuất", JOptionPane.YES_NO_OPTION);
 				if (dialogResult == JOptionPane.YES_OPTION) {
-					System.exit(0);
+					Login  lg = new Login();
+					lg.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					lg.setLocationRelativeTo(null);
+					lg.setVisible(true);
+					frame.setVisible(false);
 				}
 			}
 		});
