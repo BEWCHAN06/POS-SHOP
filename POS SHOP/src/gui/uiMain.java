@@ -264,24 +264,15 @@ public class uiMain {
 			}
 		});
 
-		JLabel lblSanPham = new JLabel("Sản Phẩm");
+		JLabel lblSanPham = new JLabel("<html>Quản Lý<br>Sản Phẩm</html>");
+		lblSanPham.setBounds(60, 4, 129, 52);
 		lblSanPham.setForeground(Color.WHITE);
 		lblSanPham.setFont(new Font("Arial", Font.BOLD, 22));
 		lblSanPham.setBackground(Color.WHITE);
 
 		JLabel iconSanPham = new JLabel("");
+		iconSanPham.setBounds(10, 12, 40, 40);
 		iconSanPham.setIcon(new ImageIcon(uiMain.class.getResource("/icon/box.png")));
-		GroupLayout gl_btnSanPham = new GroupLayout(btnSanPham);
-		gl_btnSanPham.setHorizontalGroup(gl_btnSanPham.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_btnSanPham.createSequentialGroup().addContainerGap()
-						.addComponent(iconSanPham, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED).addComponent(lblSanPham).addGap(20)));
-		gl_btnSanPham.setVerticalGroup(gl_btnSanPham.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_btnSanPham.createSequentialGroup().addContainerGap(13, Short.MAX_VALUE)
-						.addGroup(gl_btnSanPham.createParallelGroup(Alignment.TRAILING).addComponent(lblSanPham)
-								.addComponent(iconSanPham, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
-						.addContainerGap()));
-		btnSanPham.setLayout(gl_btnSanPham);
 
 		btnHoaDon = new JPanel();
 		btnHoaDon.addMouseListener(new MouseAdapter() {
@@ -321,26 +312,14 @@ public class uiMain {
 			}
 		});
 		JLabel iconSanPham_1 = new JLabel("");
+		iconSanPham_1.setBounds(10, 12, 40, 40);
 		iconSanPham_1.setIcon(new ImageIcon(uiMain.class.getResource("/icon/bill.png")));
 
-		JLabel lblHoaDon = new JLabel("Hóa Đơn");
+		JLabel lblHoaDon = new JLabel("<html>Quản Lý<br>Hóa Đơn</html>");
+		lblHoaDon.setBounds(60, 4, 129, 52);
 		lblHoaDon.setForeground(Color.WHITE);
 		lblHoaDon.setFont(new Font("Arial", Font.BOLD, 22));
 		lblHoaDon.setBackground(Color.WHITE);
-		GroupLayout gl_btnHoaDon = new GroupLayout(btnHoaDon);
-		gl_btnHoaDon
-				.setHorizontalGroup(gl_btnHoaDon.createParallelGroup(Alignment.LEADING).addGap(0, 181, Short.MAX_VALUE)
-						.addGroup(gl_btnHoaDon.createSequentialGroup().addContainerGap()
-								.addComponent(iconSanPham_1, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.RELATED).addComponent(lblHoaDon).addGap(20)));
-		gl_btnHoaDon
-				.setVerticalGroup(gl_btnHoaDon.createParallelGroup(Alignment.TRAILING).addGap(0, 64, Short.MAX_VALUE)
-						.addGroup(gl_btnHoaDon.createSequentialGroup().addContainerGap(13, Short.MAX_VALUE)
-								.addGroup(gl_btnHoaDon.createParallelGroup(Alignment.TRAILING).addComponent(lblHoaDon)
-										.addComponent(iconSanPham_1, GroupLayout.PREFERRED_SIZE, 40,
-												GroupLayout.PREFERRED_SIZE))
-								.addContainerGap()));
-		btnHoaDon.setLayout(gl_btnHoaDon);
 
 		btnKhuyenMai = new JPanel();
 		btnKhuyenMai.addMouseListener(new MouseAdapter() {
@@ -381,26 +360,14 @@ public class uiMain {
 			}
 		});
 		JLabel iconSanPham_1_1 = new JLabel("");
+		iconSanPham_1_1.setBounds(10, 12, 40, 40);
 		iconSanPham_1_1.setIcon(new ImageIcon(uiMain.class.getResource("/icon/sale2.png")));
 
-		JLabel lblKhuyenMai = new JLabel("Khuyến Mãi");
+		JLabel lblKhuyenMai = new JLabel("<html>Quản Lý<br>Khuyến Mãi</html>");
+		lblKhuyenMai.setBounds(60, 4, 129, 52);
 		lblKhuyenMai.setForeground(Color.WHITE);
 		lblKhuyenMai.setFont(new Font("Arial", Font.BOLD, 22));
 		lblKhuyenMai.setBackground(Color.WHITE);
-		GroupLayout gl_btnKhuyenMai = new GroupLayout(btnKhuyenMai);
-		gl_btnKhuyenMai.setHorizontalGroup(gl_btnKhuyenMai.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 181, Short.MAX_VALUE).addGap(0, 181, Short.MAX_VALUE)
-				.addGroup(gl_btnKhuyenMai.createSequentialGroup().addContainerGap()
-						.addComponent(iconSanPham_1_1, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED).addComponent(lblKhuyenMai).addGap(20)));
-		gl_btnKhuyenMai.setVerticalGroup(gl_btnKhuyenMai.createParallelGroup(Alignment.TRAILING)
-				.addGap(0, 64, Short.MAX_VALUE).addGap(0, 64, Short.MAX_VALUE)
-				.addGroup(gl_btnKhuyenMai.createSequentialGroup().addContainerGap(13, Short.MAX_VALUE)
-						.addGroup(gl_btnKhuyenMai.createParallelGroup(Alignment.TRAILING).addComponent(lblKhuyenMai)
-								.addComponent(iconSanPham_1_1, GroupLayout.PREFERRED_SIZE, 40,
-										GroupLayout.PREFERRED_SIZE))
-						.addContainerGap()));
-		btnKhuyenMai.setLayout(gl_btnKhuyenMai);
 
 		btnNhanVien = new JPanel();
 		btnNhanVien.addMouseListener(new MouseAdapter() {
@@ -440,26 +407,14 @@ public class uiMain {
 			}
 		});
 		JLabel iconNhanVien = new JLabel("");
+		iconNhanVien.setBounds(10, 12, 40, 40);
 		iconNhanVien.setIcon(new ImageIcon(uiMain.class.getResource("/icon/emlpyee.png")));
 
-		JLabel lblNhanvien = new JLabel("Nhân Viên");
+		JLabel lblNhanvien = new JLabel("<html>Quản Lý<br>Nhân Viên</html>");
+		lblNhanvien.setBounds(60, 4, 129, 52);
 		lblNhanvien.setForeground(Color.WHITE);
 		lblNhanvien.setFont(new Font("Arial", Font.BOLD, 22));
 		lblNhanvien.setBackground(Color.WHITE);
-		GroupLayout gl_btnNhanVien = new GroupLayout(btnNhanVien);
-		gl_btnNhanVien.setHorizontalGroup(gl_btnNhanVien.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_btnNhanVien.createSequentialGroup().addContainerGap()
-						.addComponent(iconNhanVien, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED).addComponent(lblNhanvien).addGap(20)));
-		gl_btnNhanVien
-				.setVerticalGroup(gl_btnNhanVien.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_btnNhanVien.createSequentialGroup().addContainerGap(13, Short.MAX_VALUE)
-								.addGroup(gl_btnNhanVien.createParallelGroup(Alignment.TRAILING)
-										.addComponent(iconNhanVien, GroupLayout.PREFERRED_SIZE, 40,
-												GroupLayout.PREFERRED_SIZE)
-										.addComponent(lblNhanvien))
-								.addContainerGap()));
-		btnNhanVien.setLayout(gl_btnNhanVien);
 
 		btnKhachHang = new JPanel();
 		btnKhachHang.addMouseListener(new MouseAdapter() {
@@ -501,24 +456,14 @@ public class uiMain {
 			}
 		});
 		JLabel iconKhachHang = new JLabel("");
+		iconKhachHang.setBounds(10, 12, 40, 40);
 		iconKhachHang.setIcon(new ImageIcon(uiMain.class.getResource("/icon/customer.png")));
 
-		JLabel lblKhachHang = new JLabel("Khách Hàng");
+		JLabel lblKhachHang = new JLabel("<html>Quản Lý<br>Khách Hàng</html>");
+		lblKhachHang.setBounds(60, 4, 131, 52);
 		lblKhachHang.setForeground(Color.WHITE);
 		lblKhachHang.setFont(new Font("Arial", Font.BOLD, 22));
 		lblKhachHang.setBackground(Color.WHITE);
-		GroupLayout gl_btnKhachHang = new GroupLayout(btnKhachHang);
-		gl_btnKhachHang.setHorizontalGroup(gl_btnKhachHang.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_btnKhachHang.createSequentialGroup().addGap(6)
-						.addComponent(iconKhachHang, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED).addComponent(lblKhachHang).addGap(45)));
-		gl_btnKhachHang.setVerticalGroup(gl_btnKhachHang.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_btnKhachHang.createSequentialGroup().addContainerGap(13, Short.MAX_VALUE)
-						.addGroup(gl_btnKhachHang.createParallelGroup(Alignment.TRAILING).addComponent(lblKhachHang)
-								.addComponent(iconKhachHang, GroupLayout.PREFERRED_SIZE, 40,
-										GroupLayout.PREFERRED_SIZE))
-						.addContainerGap()));
-		btnKhachHang.setLayout(gl_btnKhachHang);
 
 		btnThongKe = new JPanel();
 		btnThongKe.addMouseListener(new MouseAdapter() {
@@ -559,25 +504,14 @@ public class uiMain {
 			}
 		});
 		JLabel iconThongKe = new JLabel("");
+		iconThongKe.setBounds(10, 12, 40, 40);
 		iconThongKe.setIcon(new ImageIcon(uiMain.class.getResource("/icon/statistical.png")));
 
-		JLabel lblThongKe = new JLabel("Thống Kê");
+		JLabel lblThongKe = new JLabel("<html>Quản Lý<br>Thống Kê</html>");
+		lblThongKe.setBounds(60, 4, 129, 52);
 		lblThongKe.setForeground(Color.WHITE);
 		lblThongKe.setFont(new Font("Arial", Font.BOLD, 22));
 		lblThongKe.setBackground(Color.WHITE);
-		GroupLayout gl_btnThongKe = new GroupLayout(btnThongKe);
-		gl_btnThongKe
-				.setHorizontalGroup(gl_btnThongKe.createParallelGroup(Alignment.LEADING).addGap(0, 181, Short.MAX_VALUE)
-						.addGroup(gl_btnThongKe.createSequentialGroup().addGap(6)
-								.addComponent(iconThongKe, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.RELATED).addComponent(lblThongKe).addGap(45)));
-		gl_btnThongKe.setVerticalGroup(gl_btnThongKe.createParallelGroup(Alignment.TRAILING)
-				.addGap(0, 64, Short.MAX_VALUE)
-				.addGroup(gl_btnThongKe.createSequentialGroup().addContainerGap(13, Short.MAX_VALUE)
-						.addGroup(gl_btnThongKe.createParallelGroup(Alignment.TRAILING).addComponent(lblThongKe)
-								.addComponent(iconThongKe, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
-						.addContainerGap()));
-		btnThongKe.setLayout(gl_btnThongKe);
 
 		JPanel btnDangXuat = new JPanel();
 		btnDangXuat.addMouseListener(new MouseAdapter() {
@@ -597,6 +531,7 @@ public class uiMain {
 		btnDangXuat.setBackground(new Color(255, 0, 0));
 
 		JLabel iconDangXuat = new JLabel("");
+		iconDangXuat.setBounds(12, 4, 36, 40);
 		iconDangXuat.setIcon(new ImageIcon(uiMain.class.getResource("/icon/logout3.png")));
 		// Phím tắt ESC
 		btnDangXuat.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
@@ -616,27 +551,10 @@ public class uiMain {
 			}
 		});
 		JLabel lblDangXuat = new JLabel("Đăng Xuất");
+		lblDangXuat.setBounds(56, 12, 111, 26);
 		lblDangXuat.setForeground(Color.WHITE);
 		lblDangXuat.setFont(new Font("Arial", Font.BOLD, 22));
 		lblDangXuat.setBackground(Color.WHITE);
-		GroupLayout gl_btnDangXuat = new GroupLayout(btnDangXuat);
-		gl_btnDangXuat.setHorizontalGroup(gl_btnDangXuat.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_btnDangXuat.createSequentialGroup().addContainerGap()
-						.addComponent(iconDangXuat, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED).addComponent(lblDangXuat)
-						.addContainerGap(24, Short.MAX_VALUE)));
-		gl_btnDangXuat
-				.setVerticalGroup(
-						gl_btnDangXuat.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_btnDangXuat.createSequentialGroup()
-										.addComponent(iconDangXuat, GroupLayout.PREFERRED_SIZE, 40,
-												GroupLayout.PREFERRED_SIZE)
-										.addContainerGap(25, Short.MAX_VALUE))
-								.addGroup(Alignment.TRAILING,
-										gl_btnDangXuat.createSequentialGroup()
-												.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-												.addComponent(lblDangXuat).addContainerGap()));
-		btnDangXuat.setLayout(gl_btnDangXuat);
 		GroupLayout gl_pnlListMenu = new GroupLayout(pnlListMenu);
 		gl_pnlListMenu.setHorizontalGroup(gl_pnlListMenu.createParallelGroup(Alignment.LEADING).addGroup(gl_pnlListMenu
 				.createSequentialGroup()
@@ -678,23 +596,40 @@ public class uiMain {
 						.addComponent(btnThongKe, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE).addGap(57)
 						.addComponent(btnDangXuat, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
 						.addContainerGap(59, Short.MAX_VALUE)));
+		btnDangXuat.setLayout(null);
+		btnDangXuat.add(iconDangXuat);
+		btnDangXuat.add(lblDangXuat);
+		btnThongKe.setLayout(null);
+		btnThongKe.add(iconThongKe);
+		btnThongKe.add(lblThongKe);
+		btnKhachHang.setLayout(null);
+		btnKhachHang.add(iconKhachHang);
+		btnKhachHang.add(lblKhachHang);
+		btnNhanVien.setLayout(null);
+		btnNhanVien.add(iconNhanVien);
+		btnNhanVien.add(lblNhanvien);
+		btnKhuyenMai.setLayout(null);
+		btnKhuyenMai.add(iconSanPham_1_1);
+		btnKhuyenMai.add(lblKhuyenMai);
+		btnHoaDon.setLayout(null);
+		btnHoaDon.add(iconSanPham_1);
+		btnHoaDon.add(lblHoaDon);
+		btnSanPham.setLayout(null);
+		btnSanPham.add(iconSanPham);
+		btnSanPham.add(lblSanPham);
 
 		JLabel lblIconBanHang = new JLabel("");
+		lblIconBanHang.setBounds(10, 12, 40, 40);
 		lblIconBanHang.setIcon(new ImageIcon(uiMain.class.getResource("/icon/buy.png")));
 
-		JLabel lblBanHang = new JLabel("Bán Hàng");
+		JLabel lblBanHang = new JLabel("<html>Quản Lý<br>Bán Hàng</html>");
+		lblBanHang.setBounds(60, 4, 129, 52);
 		lblBanHang.setForeground(new Color(255, 255, 255));
 		lblBanHang.setBackground(new Color(255, 255, 255));
 		lblBanHang.setFont(new Font("Arial", Font.BOLD, 22));
-		GroupLayout gl_btnBanHang = new GroupLayout(btnBanHang);
-		gl_btnBanHang.setHorizontalGroup(gl_btnBanHang.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_btnBanHang.createSequentialGroup().addContainerGap().addComponent(lblIconBanHang)
-						.addPreferredGap(ComponentPlacement.RELATED).addComponent(lblBanHang).addGap(24)));
-		gl_btnBanHang.setVerticalGroup(gl_btnBanHang.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_btnBanHang.createSequentialGroup().addGap(12)
-						.addGroup(gl_btnBanHang.createParallelGroup(Alignment.TRAILING).addComponent(lblIconBanHang)
-								.addComponent(lblBanHang))));
-		btnBanHang.setLayout(gl_btnBanHang);
+		btnBanHang.setLayout(null);
+		btnBanHang.add(lblIconBanHang);
+		btnBanHang.add(lblBanHang);
 		pnlListMenu.setLayout(gl_pnlListMenu);
 		pnlMenu.setLayout(gl_pnlMenu);
 		frame.getContentPane().setLayout(groupLayout);
