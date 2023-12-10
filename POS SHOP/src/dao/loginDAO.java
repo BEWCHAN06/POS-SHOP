@@ -4,35 +4,45 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import ConnectDB.KetNoiSQL;
 import entity.MauSac;
+import entity.NhanVien;
 import entity.TaiKhoan;
 
 public class loginDAO {
-	
-	public int getTaiKhoan(String tk,String mk){
-        KetNoiSQL.getInstance();
-        Connection conn = KetNoiSQL.getConnection();
-        
-        try {
-            String sql = "select loaiTaiKhoan from TaiKhoan where tenTaiKhoan =(?) and matKhau = (?)";
-            PreparedStatement stmt = conn.prepareCall(sql);
-            stmt.setString(1, tk);
-            stmt.setString(2, mk);
-            ResultSet rs = stmt.executeQuery();
-            while(rs.next()){
-//                MauSac mauSac = new MauSac();
-//                mauSac.setMaMauSac(rs.getString(1));
-//                mauSac.setMauSac(rs.getString(2));
-//                return mauSac;
-            	return rs.getInt(1);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(MauSacDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return 0;
-    }
+	ArrayList<TaiKhoan> dstk = new ArrayList<>();
+	TaiKhoan tk;
+
+	public List<TaiKhoan> getTaiKhoan(String tk, String mk) {
+		KetNoiSQL.getInstance();
+		Connection con = KetNoiSQL.getConnection();
+		try {
+			String sql = "Select tenTaiKhoan, matKhau, tk.maNV, tk.loaiTaiKhoan, nv.tenNV from TaiKhoan tk "
+					+ "join NhanVien nv on tk.maNV = nv.maNV where tk.tenTaiKhoan = ? and matKhau = ?";
+			PreparedStatement stmt = con.prepareCall(sql);
+			stmt.setString(1, tk);
+			stmt.setString(2, mk);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				String tenTK = rs.getString(1);
+				String matKhau = rs.getString(2);
+				String maNV = rs.getString(3);
+				boolean loaiTK = rs.getBoolean(4);
+				String tenNV = rs.getString(5);
+				TaiKhoan tk1 = new TaiKhoan(tenTK, matKhau, loaiTK, new NhanVien(maNV, tenNV));
+				dstk.add(tk1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		if (dstk.isEmpty()) {
+			return null;
+		}
+		return dstk;
+	}
 }

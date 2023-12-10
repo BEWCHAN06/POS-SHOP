@@ -48,6 +48,7 @@ public class uiMain {
 	private QuanLyThongKe qltk;
 	private TabThongKeDoanhThu doanhThu;
 	private TabThongKeSanPham keSanPham;
+	private JLabel tenNV, chucVu;
 
 	/**
 	 * Launch the application.
@@ -84,6 +85,7 @@ public class uiMain {
 	 */
 	public uiMain() {
 		initialize();
+//		layTenChucVu();
 		km.xoaKhuyenMaiKhiHetHan();
 		qlbh = new BanHang();
 		qlbh.setVisible(true);
@@ -163,21 +165,21 @@ public class uiMain {
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon(uiMain.class.getResource("/icon/information-employee.png")));
 
-		JLabel lblNewLabel_1 = new JLabel("Trần Chí Bảo");
-		lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 15));
+		tenNV = new JLabel();
+		tenNV.setFont(new Font("Arial", Font.BOLD, 15));
 
-		JLabel lblNewLabel_2 = new JLabel("Chức Vụ : Quản Lý");
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 11));
+		chucVu = new JLabel();
+		chucVu.setFont(new Font("Tahoma", Font.BOLD, 11));
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING).addGroup(gl_panel
 				.createSequentialGroup().addGap(6).addComponent(lblNewLabel)
 				.addPreferredGap(ComponentPlacement.UNRELATED).addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblNewLabel_1).addComponent(lblNewLabel_2))
+						.addComponent(tenNV).addComponent(chucVu))
 				.addContainerGap(29, Short.MAX_VALUE)));
 		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_panel.createSequentialGroup().addContainerGap().addComponent(lblNewLabel_1)
+				.addGroup(gl_panel.createSequentialGroup().addContainerGap().addComponent(tenNV)
 						.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(lblNewLabel_2).addGap(25))
+						.addComponent(chucVu).addGap(25))
 				.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup().addComponent(lblNewLabel)
 						.addContainerGap(22, Short.MAX_VALUE)));
 		panel.setLayout(gl_panel);
@@ -698,4 +700,9 @@ public class uiMain {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 	}
+	
+	public void layTenChucVu(String ten, String chuc) {
+        tenNV.setText(ten);
+        chucVu.setText("Chức Vụ: "+chuc);
+    }
 }
