@@ -20,6 +20,7 @@ import gui.FormQuenMatKhau;
 import gui.QuanLyBanHang;
 import gui.QuanLyThongKe;
 import gui.uiMain;
+import gui.uiMain2;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -54,6 +55,7 @@ public class Login extends JFrame implements ActionListener {
 	private FormQuenMatKhau lmxn;
 	private uiMain otherUI;
 	private boolean isPasswordVisible = false;
+	private uiMain2 otherUI2;
 	
 	/**
 	 * Launch the application.
@@ -245,13 +247,16 @@ public class Login extends JFrame implements ActionListener {
 							this.chucVu = "Quản lý";
 						}
 					}
-					otherUI = new uiMain();
-					otherUI.layTenChucVu(tenNV, chucVu);
+
 					// Nếu là chức vụ là nhân viên thì mở giao diện role nhân viên ngược lại thì mở
 					// role quản lý
 					if (chucVu.equals("Nhân viên")) {
-						otherUI.frame.setVisible(true);
+						otherUI2 = new uiMain2();
+						otherUI2.layTenChucVu(tenNV, chucVu);
+						otherUI2.frame.setVisible(true);
 					} else {
+						otherUI = new uiMain();
+						otherUI.layTenChucVu(tenNV, chucVu);
 						otherUI.frame.setVisible(true);
 					}
 					dispose();

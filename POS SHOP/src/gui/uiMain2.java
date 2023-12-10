@@ -1,0 +1,538 @@
+package gui;
+
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import javax.swing.AbstractAction;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.KeyStroke;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.LineBorder;
+
+import component.LoadingDialog;
+import entity.KhuyenMai;
+import main.Login;
+
+public class uiMain2 {
+
+	public JFrame frame;
+	public JPanel mainPanel = new JPanel();
+	private JPanel btnSanPham;
+	private JPanel btnHoaDon;
+	private JPanel btnKhuyenMai;
+	private JPanel btnKhachHang;
+	private JPanel btnBanHang;
+	private KhuyenMai km = new KhuyenMai();
+	private BanHang qlbh;
+	private uiSanPham qlsp;
+	private QuanLyHoaDon qlhd;
+	private QuanLyKhuyenMai qlkm;
+	private QuanLyNhanVien qlnv;
+	private QuanLyKhachHang qlkh;
+	private QuanLyThongKe qltk;
+	private TabThongKeDoanhThu doanhThu;
+	private TabThongKeSanPham keSanPham;
+	private JLabel tenNV, chucVu;
+	private LoadingDialog dialog;
+	/**
+	 * Launch the application.
+	 * @wbp.parser.entryPoint
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Login frame = new Login();
+					frame.setVisible(true);
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					uiMain2 window = new uiMain2();
+//					window.frame.setVisible(true);
+//					
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+	}
+
+	/**
+	 * Create the application.
+	 * @wbp.parser.entryPoint
+	 */
+	public uiMain2() {
+		dialog = new LoadingDialog();
+
+		initialize();
+		km.xoaKhuyenMaiKhiHetHan();
+		qlbh = new BanHang();
+		qlbh.setVisible(true);
+		qlsp = new uiSanPham();
+		qlsp.setVisible(true);
+		qlhd = new QuanLyHoaDon();
+		qlhd.setVisible(true);
+		qlkm = new QuanLyKhuyenMai();
+		qlkm.setVisible(true);
+		qlnv = new QuanLyNhanVien();
+		qlkm.setVisible(true);
+		qlkh = new QuanLyKhachHang();
+		qlkm.setVisible(true);
+		qltk = new QuanLyThongKe();
+//		qltk.setVisible(true);
+//		
+//		doanhThu = new TabThongKeDoanhThu();
+//		doanhThu.setVisible(true);
+//		keSanPham = new TabThongKeSanPham();
+//		keSanPham.setVisible(true);
+
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 * @wbp.parser.entryPoint
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.getContentPane().setBackground(new Color(255, 255, 255));
+
+		JPanel pnlMenu = new JPanel();
+		pnlMenu.setPreferredSize(new Dimension(947, 703));
+
+		pnlMenu.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		pnlMenu.setBackground(new Color(152, 251, 152));
+		
+		JPanel mainPanel = new JPanel();
+		QuanLyBanHang qlbh_1 = new QuanLyBanHang();
+		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
+		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+						.addComponent(pnlMenu, GroupLayout.PREFERRED_SIZE, 243, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(mainPanel, GroupLayout.DEFAULT_SIZE, 940, Short.MAX_VALUE).addContainerGap()));
+		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+						.addComponent(mainPanel, GroupLayout.DEFAULT_SIZE, 680, Short.MAX_VALUE).addContainerGap())
+				.addComponent(pnlMenu, GroupLayout.DEFAULT_SIZE, 691, Short.MAX_VALUE));
+		mainPanel.setLayout(new CardLayout(0, 0));
+		
+		JLabel lblNewLabel_3 = new JLabel("");
+		lblNewLabel_3.setIcon(new ImageIcon(uiMain2.class.getResource("/icon/mainscreen.png")));
+		mainPanel.add(lblNewLabel_3, "name_2182919992199");
+
+		JPanel pnlListMenu = new JPanel();
+		pnlListMenu.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		pnlListMenu.setBackground(new Color(255, 255, 255));
+
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(152, 251, 152));
+		GroupLayout gl_pnlMenu = new GroupLayout(pnlMenu);
+		gl_pnlMenu.setHorizontalGroup(gl_pnlMenu.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_pnlMenu.createSequentialGroup()
+						.addGroup(gl_pnlMenu.createParallelGroup(Alignment.TRAILING)
+								.addGroup(Alignment.LEADING,
+										gl_pnlMenu.createSequentialGroup().addContainerGap().addComponent(pnlListMenu,
+												GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE))
+								.addGroup(gl_pnlMenu.createSequentialGroup().addGap(5).addComponent(panel,
+										GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)))
+						.addContainerGap()));
+		gl_pnlMenu.setVerticalGroup(gl_pnlMenu.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pnlMenu.createSequentialGroup()
+						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE).addGap(18)
+						.addComponent(pnlListMenu, GroupLayout.DEFAULT_SIZE, 576, Short.MAX_VALUE).addContainerGap()));
+
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(new ImageIcon(uiMain2.class.getResource("/icon/information-employee.png")));
+
+		tenNV = new JLabel();
+		tenNV.setFont(new Font("Arial", Font.BOLD, 15));
+
+		chucVu = new JLabel();
+		chucVu.setFont(new Font("Tahoma", Font.BOLD, 11));
+		GroupLayout gl_panel = new GroupLayout(panel);
+		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING).addGroup(gl_panel
+				.createSequentialGroup().addGap(6).addComponent(lblNewLabel)
+				.addPreferredGap(ComponentPlacement.UNRELATED).addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addComponent(tenNV).addComponent(chucVu))
+				.addContainerGap(29, Short.MAX_VALUE)));
+		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panel.createSequentialGroup().addContainerGap().addComponent(tenNV)
+						.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(chucVu).addGap(25))
+				.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup().addComponent(lblNewLabel)
+						.addContainerGap(22, Short.MAX_VALUE)));
+		panel.setLayout(gl_panel);
+		mainPanel.removeAll();
+		mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
+		/// chuyển giao diện
+		btnBanHang = new JPanel();
+		btnBanHang.setBounds(12, 13, 195, 59);
+		btnBanHang.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
+				mainPanel.add(qlbh, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
+				mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
+
+				btnBanHang.setBackground(new Color(34, 139, 34));
+				btnSanPham.setBackground(new Color(144, 238, 144));
+				btnHoaDon.setBackground(new Color(144, 238, 144));
+				btnKhuyenMai.setBackground(new Color(144, 238, 144));
+				btnKhachHang.setBackground(new Color(144, 238, 144));
+			}
+		});
+		btnBanHang.setBackground(new Color(144, 238, 144));
+//		btnBanHang.setBackground(new Color(34, 139, 34));
+		// Phím tắt F1
+		btnBanHang.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0), "F1");
+		btnBanHang.getActionMap().put("F1", new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				BanHang qlbh = new BanHang();
+				mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
+				mainPanel.add(qlbh, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
+				mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
+
+				btnBanHang.setBackground(new Color(34, 139, 34));
+				btnSanPham.setBackground(new Color(144, 238, 144));
+				btnHoaDon.setBackground(new Color(144, 238, 144));
+				btnKhuyenMai.setBackground(new Color(144, 238, 144));
+				btnKhachHang.setBackground(new Color(144, 238, 144));
+			}
+		});
+		btnSanPham = new JPanel();
+		btnSanPham.setBounds(12, 78, 195, 59);
+		btnSanPham.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
+				mainPanel.add(qlsp, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
+				mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
+
+				btnBanHang.setBackground(new Color(144, 238, 144));
+				btnSanPham.setBackground(new Color(34, 139, 34));
+				btnHoaDon.setBackground(new Color(144, 238, 144));
+				btnKhuyenMai.setBackground(new Color(144, 238, 144));
+				btnKhachHang.setBackground(new Color(144, 238, 144));
+			}
+		});
+		btnSanPham.setBackground(new Color(144, 238, 144));
+		// Phím tắt F2
+		btnSanPham.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0), "F2");
+		btnSanPham.getActionMap().put("F2", new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
+				mainPanel.add(qlsp, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
+				mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
+
+				btnBanHang.setBackground(new Color(144, 238, 144));
+				btnSanPham.setBackground(new Color(34, 139, 34));
+				btnHoaDon.setBackground(new Color(144, 238, 144));
+				btnKhuyenMai.setBackground(new Color(144, 238, 144));
+				btnKhachHang.setBackground(new Color(144, 238, 144));
+			}
+		});
+
+		JLabel lblSanPham = new JLabel("<html>Quản Lý<br>Sản Phẩm</html>");
+		lblSanPham.setBounds(60, 0, 125, 51);
+		lblSanPham.setForeground(Color.WHITE);
+		lblSanPham.setFont(new Font("Arial", Font.BOLD, 22));
+		lblSanPham.setBackground(Color.WHITE);
+
+		JLabel iconSanPham = new JLabel("");
+		iconSanPham.setBounds(10, 11, 40, 40);
+		iconSanPham.setIcon(new ImageIcon(uiMain2.class.getResource("/icon/box.png")));
+
+		btnHoaDon = new JPanel();
+		btnHoaDon.setBounds(12, 143, 195, 57);
+		btnHoaDon.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
+				mainPanel.add(qlhd, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
+				mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
+
+				btnBanHang.setBackground(new Color(144, 238, 144));
+				btnSanPham.setBackground(new Color(144, 238, 144));
+				btnHoaDon.setBackground(new Color(34, 139, 34));
+				btnKhuyenMai.setBackground(new Color(144, 238, 144));
+				btnKhachHang.setBackground(new Color(144, 238, 144));
+			}
+		});
+		btnHoaDon.setBackground(new Color(144, 238, 144));
+		// Phím tắt F3
+		btnHoaDon.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0), "F3");
+		btnHoaDon.getActionMap().put("F3", new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
+				mainPanel.add(qlhd, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
+				mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
+
+				btnBanHang.setBackground(new Color(144, 238, 144));
+				btnSanPham.setBackground(new Color(144, 238, 144));
+				btnHoaDon.setBackground(new Color(34, 139, 34));
+				btnKhuyenMai.setBackground(new Color(144, 238, 144));
+				btnKhachHang.setBackground(new Color(144, 238, 144));
+			}
+		});
+		JLabel iconSanPham_1 = new JLabel("");
+		iconSanPham_1.setIcon(new ImageIcon(uiMain2.class.getResource("/icon/bill.png")));
+
+		JLabel lblHoaDon = new JLabel("<html>Quản Lý<br>Hóa Đơn</html>");
+		lblHoaDon.setForeground(Color.WHITE);
+		lblHoaDon.setFont(new Font("Arial", Font.BOLD, 22));
+		lblHoaDon.setBackground(Color.WHITE);
+		GroupLayout gl_btnHoaDon = new GroupLayout(btnHoaDon);
+		gl_btnHoaDon.setHorizontalGroup(
+			gl_btnHoaDon.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_btnHoaDon.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(iconSanPham_1, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(lblHoaDon)
+					.addGap(16))
+		);
+		gl_btnHoaDon.setVerticalGroup(
+			gl_btnHoaDon.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_btnHoaDon.createSequentialGroup()
+					.addContainerGap(23, Short.MAX_VALUE)
+					.addComponent(iconSanPham_1, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap())
+				.addGroup(Alignment.LEADING, gl_btnHoaDon.createSequentialGroup()
+					.addComponent(lblHoaDon)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
+		btnHoaDon.setLayout(gl_btnHoaDon);
+
+		btnKhuyenMai = new JPanel();
+		btnKhuyenMai.setBounds(12, 206, 195, 59);
+		btnKhuyenMai.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
+				mainPanel.add(qlkm, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
+				mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
+
+				btnBanHang.setBackground(new Color(144, 238, 144));
+				btnSanPham.setBackground(new Color(144, 238, 144));
+				btnHoaDon.setBackground(new Color(144, 238, 144));
+				btnKhuyenMai.setBackground(new Color(34, 139, 34));
+				btnKhachHang.setBackground(new Color(144, 238, 144));
+			}
+		});
+		btnKhuyenMai.setBackground(new Color(144, 238, 144));
+		// Phím tắt F4
+		btnKhuyenMai.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F4, 0),
+				"F4");
+		btnKhuyenMai.getActionMap().put("F4", new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
+				mainPanel.add(qlkm, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
+				mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
+
+				btnBanHang.setBackground(new Color(144, 238, 144));
+				btnSanPham.setBackground(new Color(144, 238, 144));
+				btnHoaDon.setBackground(new Color(144, 238, 144));
+				btnKhuyenMai.setBackground(new Color(34, 139, 34));
+				btnKhachHang.setBackground(new Color(144, 238, 144));
+			}
+		});
+		JLabel iconSanPham_1_1 = new JLabel("");
+		iconSanPham_1_1.setBounds(10, 11, 40, 40);
+		iconSanPham_1_1.setIcon(new ImageIcon(uiMain2.class.getResource("/icon/sale2.png")));
+
+		JLabel lblKhuyenMai = new JLabel("<html>Quản Lý<br>Khuyến Mãi</html>");
+		lblKhuyenMai.setBounds(56, 0, 129, 51);
+		lblKhuyenMai.setForeground(Color.WHITE);
+		lblKhuyenMai.setFont(new Font("Arial", Font.BOLD, 22));
+		lblKhuyenMai.setBackground(Color.WHITE);
+
+		btnKhachHang = new JPanel();
+		btnKhachHang.setBounds(12, 271, 193, 59);
+		btnKhachHang.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
+				mainPanel.add(qlkh, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
+				mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
+
+				btnBanHang.setBackground(new Color(144, 238, 144));
+				btnSanPham.setBackground(new Color(144, 238, 144));
+				btnHoaDon.setBackground(new Color(144, 238, 144));
+				btnKhuyenMai.setBackground(new Color(144, 238, 144));
+				btnKhachHang.setBackground(new Color(34, 139, 34));
+			}
+		});
+		btnKhachHang.setBackground(new Color(144, 238, 144));
+		// Phím tắt F6
+		btnKhachHang.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0),
+				"F6");
+		btnKhachHang.getActionMap().put("F6", new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
+				mainPanel.add(qlkh, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
+				mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
+
+				btnBanHang.setBackground(new Color(144, 238, 144));
+				btnSanPham.setBackground(new Color(144, 238, 144));
+				btnHoaDon.setBackground(new Color(144, 238, 144));
+				btnKhuyenMai.setBackground(new Color(144, 238, 144));
+				btnKhachHang.setBackground(new Color(34, 139, 34));
+			}
+		});
+		JLabel iconKhachHang = new JLabel("");
+		iconKhachHang.setIcon(new ImageIcon(uiMain2.class.getResource("/icon/customer.png")));
+
+		JLabel lblKhachHang = new JLabel("<html>Quản Lý<br>Khách Hàng</html>");
+		lblKhachHang.setForeground(Color.WHITE);
+		lblKhachHang.setFont(new Font("Arial", Font.BOLD, 22));
+		lblKhachHang.setBackground(Color.WHITE);
+		GroupLayout gl_btnKhachHang = new GroupLayout(btnKhachHang);
+		gl_btnKhachHang.setHorizontalGroup(
+			gl_btnKhachHang.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_btnKhachHang.createSequentialGroup()
+					.addGap(6)
+					.addComponent(iconKhachHang, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(lblKhachHang)
+					.addGap(15))
+		);
+		gl_btnKhachHang.setVerticalGroup(
+			gl_btnKhachHang.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_btnKhachHang.createSequentialGroup()
+					.addContainerGap(23, Short.MAX_VALUE)
+					.addComponent(iconKhachHang, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap())
+				.addGroup(Alignment.LEADING, gl_btnKhachHang.createSequentialGroup()
+					.addComponent(lblKhachHang)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
+		btnKhachHang.setLayout(gl_btnKhachHang);
+
+		JPanel btnDangXuat = new JPanel();
+		btnDangXuat.setBounds(12, 517, 195, 45);
+		btnDangXuat.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int dialogResult = JOptionPane.showConfirmDialog(null, "Bạn có muốn đăng xuất không?",
+						"Xác nhận đăng xuất", JOptionPane.YES_NO_OPTION);
+				if (dialogResult == JOptionPane.YES_OPTION) {
+					Login  lg = new Login();
+					lg.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					lg.setLocationRelativeTo(null);
+					lg.setVisible(true);
+					frame.setVisible(false);
+				}
+			}
+		});
+		btnDangXuat.setBackground(new Color(255, 0, 0));
+
+		JLabel iconDangXuat = new JLabel("");
+		iconDangXuat.setIcon(new ImageIcon(uiMain2.class.getResource("/icon/logout3.png")));
+		// Phím tắt ESC
+		btnDangXuat.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+				"Esc");
+		btnDangXuat.getActionMap().put("Esc", new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int dialogResult = JOptionPane.showConfirmDialog(null, "Bạn có muốn đăng xuất không?",
+						"Xác nhận đăng xuất", JOptionPane.YES_NO_OPTION);
+				if (dialogResult == JOptionPane.YES_OPTION) {
+					Login  lg = new Login();
+					lg.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					lg.setLocationRelativeTo(null);
+					lg.setVisible(true);
+					frame.setVisible(false);
+				}
+			}
+		});
+		JLabel lblDangXuat = new JLabel("Đăng Xuất");
+		lblDangXuat.setForeground(Color.WHITE);
+		lblDangXuat.setFont(new Font("Arial", Font.BOLD, 22));
+		lblDangXuat.setBackground(Color.WHITE);
+		GroupLayout gl_btnDangXuat = new GroupLayout(btnDangXuat);
+		gl_btnDangXuat.setHorizontalGroup(gl_btnDangXuat.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_btnDangXuat.createSequentialGroup().addContainerGap()
+						.addComponent(iconDangXuat, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED).addComponent(lblDangXuat)
+						.addContainerGap(24, Short.MAX_VALUE)));
+		gl_btnDangXuat
+				.setVerticalGroup(
+						gl_btnDangXuat.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_btnDangXuat.createSequentialGroup()
+										.addComponent(iconDangXuat, GroupLayout.PREFERRED_SIZE, 40,
+												GroupLayout.PREFERRED_SIZE)
+										.addContainerGap(25, Short.MAX_VALUE))
+								.addGroup(Alignment.TRAILING,
+										gl_btnDangXuat.createSequentialGroup()
+												.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+												.addComponent(lblDangXuat).addContainerGap()));
+		btnDangXuat.setLayout(gl_btnDangXuat);
+
+		JLabel lblIconBanHang = new JLabel("");
+		lblIconBanHang.setBounds(10, 12, 40, 40);
+		lblIconBanHang.setIcon(new ImageIcon(uiMain2.class.getResource("/icon/buy.png")));
+
+		JLabel lblBanHang = new JLabel("<html>Quản Lý<br>Bán Hàng</html>");
+		lblBanHang.setBounds(66, 0, 129, 52);
+		lblBanHang.setForeground(new Color(255, 255, 255));
+		lblBanHang.setBackground(new Color(255, 255, 255));
+		lblBanHang.setFont(new Font("Arial", Font.BOLD, 22));
+		pnlListMenu.setLayout(null);
+		pnlListMenu.add(btnSanPham);
+		btnSanPham.setLayout(null);
+		btnSanPham.add(iconSanPham);
+		btnSanPham.add(lblSanPham);
+		pnlListMenu.add(btnBanHang);
+		btnBanHang.setLayout(null);
+		btnBanHang.add(lblIconBanHang);
+		btnBanHang.add(lblBanHang);
+		pnlListMenu.add(btnKhachHang);
+		pnlListMenu.add(btnKhuyenMai);
+		btnKhuyenMai.setLayout(null);
+		btnKhuyenMai.add(iconSanPham_1_1);
+		btnKhuyenMai.add(lblKhuyenMai);
+		pnlListMenu.add(btnHoaDon);
+		pnlListMenu.add(btnDangXuat);
+		pnlMenu.setLayout(gl_pnlMenu);
+		frame.getContentPane().setLayout(groupLayout);
+//		frame.setBounds(100, 100, 1215, 777);
+		frame.setSize(new Dimension(1215, 777));
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setLocationRelativeTo(null);
+	}
+	
+	public void layTenChucVu(String ten, String chuc) {
+        tenNV.setText(ten);
+        chucVu.setText("Chức Vụ: "+chuc);
+    }
+}
