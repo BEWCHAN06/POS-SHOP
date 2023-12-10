@@ -24,6 +24,7 @@ import javax.swing.KeyStroke;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.LineBorder;
 
+import component.LoadingDialog;
 import entity.KhuyenMai;
 import main.Login;
 
@@ -48,6 +49,7 @@ public class uiMain {
 	private QuanLyThongKe qltk;
 	private TabThongKeDoanhThu doanhThu;
 	private TabThongKeSanPham keSanPham;
+	private LoadingDialog dialog;
 
 	/**
 	 * Launch the application.
@@ -83,6 +85,8 @@ public class uiMain {
 	 * @wbp.parser.entryPoint
 	 */
 	public uiMain() {
+		dialog = new LoadingDialog();
+
 		initialize();
 		km.xoaKhuyenMaiKhiHetHan();
 		qlbh = new BanHang();
@@ -104,7 +108,7 @@ public class uiMain {
 //		doanhThu.setVisible(true);
 //		keSanPham = new TabThongKeSanPham();
 //		keSanPham.setVisible(true);
-		
+
 	}
 
 	/**
