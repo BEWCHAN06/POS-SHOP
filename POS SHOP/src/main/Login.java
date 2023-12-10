@@ -15,6 +15,7 @@ import javax.swing.border.LineBorder;
 
 import ConnectDB.KetNoiSQL;
 import dao.loginDAO;
+import entity.TaiKhoan;
 import gui.FormQuenMatKhau;
 import gui.QuanLyBanHang;
 import gui.QuanLyThongKe;
@@ -37,20 +38,23 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 
-public class Login extends JFrame {
+public class Login extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txtTenTK;
 	private JPasswordField passwordField;
+	private JButton btnDangNhap, btnXemMatKhau, btnQuenMatKhau;
+	public String tenNV, chucVu;
 	private JFrame frame;
-	public FormQuenMatKhau lmxn;
-	public uiMain otherUI;
+	private FormQuenMatKhau lmxn;
+	private uiMain otherUI;
 	private boolean isPasswordVisible = false;
-
+	
 	/**
 	 * Launch the application.
 	 */
@@ -60,8 +64,7 @@ public class Login extends JFrame {
 				try {
 					Login frame = new Login();
 					frame.setVisible(true);
-					
-					
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -141,39 +144,14 @@ public class Login extends JFrame {
 		lblNewLabel_2_1_1_1.setFont(new Font("Arial", Font.BOLD, 15));
 		lblNewLabel_2_1_1_1.setBackground(Color.BLACK);
 
-		JButton btnDangNhap = new JButton("ĐĂNG NHẬP");
-		btnDangNhap.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				loginDAO daoLoginDAO = new loginDAO();
-				String pass = String.valueOf(passwordField.getPassword());
-				int checklogin = daoLoginDAO.getTaiKhoan(txtTenTK.getText(), pass);
-				if (checklogin == 1) {
-					otherUI = new uiMain(); // Tạo một đối tượng của lớp uiMain
-					otherUI.frame.setVisible(true); // Hiển thị giao diện của uiMain bằng cách set visible cho frame của
-													// uiMain
-					dispose();
-				} else {
-
-				}
-			}
-		});
+		btnDangNhap = new JButton("ĐĂNG NHẬP");
 		// Phím tắt Enter
 		btnDangNhap.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),
 				"Enter");
 		btnDangNhap.getActionMap().put("Enter", new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				loginDAO daoLoginDAO = new loginDAO();
-				String pass = String.valueOf(passwordField.getPassword());
-				int checklogin = daoLoginDAO.getTaiKhoan(txtTenTK.getText(), pass);
-				if (checklogin == 1) {
-					otherUI = new uiMain(); // Tạo một đối tượng của lớp uiMain
-					otherUI.frame.setVisible(true); // Hiển thị giao diện của uiMain bằng cách set visible cho frame của
-													// uiMain
-					dispose();
-				} else {
-
-				}
+				btnDangNhap.doClick();
 			}
 		});
 		btnDangNhap.setIcon(new ImageIcon(Login.class.getResource("/icon/login.png")));
@@ -185,66 +163,13 @@ public class Login extends JFrame {
 		passwordField = new JPasswordField();
 		passwordField.setFont(new Font("Arial", Font.PLAIN, 12));
 
-		JButton btnXemMatKhau = new JButton("");
+		btnXemMatKhau = new JButton("");
 		btnXemMatKhau.setForeground(new Color(255, 255, 255));
 		btnXemMatKhau.setBackground(new Color(144, 238, 144));
 		btnXemMatKhau.setBorder(new LineBorder(new Color(144, 238, 144), 2));
 		btnXemMatKhau.setIcon(new ImageIcon(Login.class.getResource("/icon/conmat.png")));
 
-		JButton btnQuenMatKhau = new JButton("Quên mật khẩu ?");
-		btnQuenMatKhau.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				lmxn = new FormQuenMatKhau();
-				lmxn.setVisible(true);
-				dispose();
-				lmxn.addWindowListener(new WindowListener() {
-
-					@Override
-					public void windowOpened(WindowEvent e) {
-						// TODO Auto-generated method stub
-
-					}
-
-					@Override
-					public void windowIconified(WindowEvent e) {
-						// TODO Auto-generated method stub
-
-					}
-
-					@Override
-					public void windowDeiconified(WindowEvent e) {
-						// TODO Auto-generated method stub
-
-					}
-
-					@Override
-					public void windowDeactivated(WindowEvent e) {
-						// TODO Auto-generated method stub
-
-					}
-
-					@Override
-					public void windowClosing(WindowEvent e) {
-						// TODO Auto-generated method stub
-						// Hiển thị lại giao diện Login khi FormLayMaXacNhan được đóng
-						Login lg = new Login();
-						lg.setVisible(true);
-					}
-
-					@Override
-					public void windowClosed(WindowEvent e) {
-						// TODO Auto-generated method stub
-
-					}
-
-					@Override
-					public void windowActivated(WindowEvent e) {
-						// TODO Auto-generated method stub
-
-					}
-				});
-			}
-		});
+		btnQuenMatKhau = new JButton("Quên mật khẩu ?");
 		btnQuenMatKhau.setBackground(new Color(144, 238, 144));
 		btnQuenMatKhau.setFont(new Font("Arial", Font.BOLD, 14));
 		btnQuenMatKhau.setBorder(new LineBorder(new Color(144, 238, 144), 2));
@@ -285,17 +210,107 @@ public class Login extends JFrame {
 				.addGap(18).addComponent(btnQuenMatKhau, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
 				.addContainerGap(121, Short.MAX_VALUE)));
 		pnlDangNhap.setLayout(gl_pnlDangNhap);
-		btnXemMatKhau.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				isPasswordVisible = !isPasswordVisible;
-				updatePasswordFieldEchoChar();
-			}
-		});
 
 		txtTenTK.setText("TK01");
 		passwordField.setText("123456");
+		btnDangNhap.addActionListener(this);
+		btnXemMatKhau.addActionListener(this);
+		btnQuenMatKhau.addActionListener(this);
+	}
 
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object o = e.getSource();
+		if (o.equals(btnDangNhap)) {
+			String pass = new String(passwordField.getPassword());
+			if (txtTenTK.getText().equals("")) {
+				JOptionPane.showMessageDialog(null, "Tên tài khoản không được để trống !");
+				txtTenTK.requestFocus();
+			} else if (pass.equals("")) {
+				JOptionPane.showMessageDialog(null, "Mật khẩu không được để trống !");
+				txtTenTK.requestFocus();
+			} else {
+				loginDAO ds = new loginDAO();
+				List<TaiKhoan> list = ds.getTaiKhoan(txtTenTK.getText(), pass);
+				if (list == null) {
+					JOptionPane.showMessageDialog(null, "Tên tài khoản hoặc mật khẩu không đúng vui lòng thử lại !");
+					txtTenTK.requestFocus();
+				} else {
+					for (TaiKhoan tk : list) {
+						tenNV = tk.getNhanVien().getTenNV();
+						boolean chucVu = tk.isLoaiTaiKhoan();
+						if (chucVu == false) {
+							this.chucVu = "Nhân viên";
+						} else {
+							this.chucVu = "Quản lý";
+						}
+					}
+					otherUI = new uiMain();
+					otherUI.layTenChucVu(tenNV, chucVu);
+					// Nếu là chức vụ là nhân viên thì mở giao diện role nhân viên ngược lại thì mở
+					// role quản lý
+					if (chucVu.equals("Nhân viên")) {
+						otherUI.frame.setVisible(true);
+					} else {
+						otherUI.frame.setVisible(true);
+					}
+					dispose();
+				}
+			}
+		} else if (o.equals(btnXemMatKhau)) {
+			isPasswordVisible = !isPasswordVisible;
+			updatePasswordFieldEchoChar();
+		} else if (o.equals(btnQuenMatKhau)) {
+			lmxn = new FormQuenMatKhau();
+			lmxn.setVisible(true);
+			dispose();
+			lmxn.addWindowListener(new WindowListener() {
+
+				@Override
+				public void windowOpened(WindowEvent e) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void windowIconified(WindowEvent e) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void windowDeiconified(WindowEvent e) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void windowDeactivated(WindowEvent e) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void windowClosing(WindowEvent e) {
+					// TODO Auto-generated method stub
+					// Hiển thị lại giao diện Login khi FormLayMaXacNhan được đóng
+					Login lg = new Login();
+					lg.setVisible(true);
+				}
+
+				@Override
+				public void windowClosed(WindowEvent e) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void windowActivated(WindowEvent e) {
+					// TODO Auto-generated method stub
+
+				}
+			});
+		}
 	}
 
 	private void updatePasswordFieldEchoChar() {

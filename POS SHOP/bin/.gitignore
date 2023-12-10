@@ -1,4 +1,4 @@
-/gui/
 /dao/
 /entity/
-/component/
+/gui/
+/main/

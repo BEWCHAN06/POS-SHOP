@@ -32,7 +32,6 @@ public class NhanVien {
 		this.trangThai = trangThai;
 	}
 
-
 	public NhanVien(String maNV, String tenNV, Date ngaySinh, String sDT, String email, String cMND, boolean gioiTinh,
 			String diaChi, boolean chucVu, int trangThai) {
 		super();
@@ -48,9 +47,8 @@ public class NhanVien {
 		this.trangThai = trangThai;
 	}
 
-
-	public NhanVien( String tenNV, Date ngaySinh, String sDT, String email, boolean gioiTinh, String diaChi,
-			boolean chucVu,String maNV) {
+	public NhanVien(String tenNV, Date ngaySinh, String sDT, String email, boolean gioiTinh, String diaChi,
+			boolean chucVu, String maNV) {
 		super();
 		this.maNV = maNV;
 		this.tenNV = tenNV;
@@ -62,11 +60,14 @@ public class NhanVien {
 		this.chucVu = chucVu;
 	}
 
+	public NhanVien(String maNV, String tenNV) {
+		this.maNV = maNV;
+		this.tenNV = tenNV;
+	}
 
 	public NhanVien() {
 		// TODO Auto-generated constructor stub
 	}
-
 
 	public String getMaNV() {
 		return maNV;
