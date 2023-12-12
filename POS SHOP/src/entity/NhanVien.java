@@ -60,10 +60,11 @@ public class NhanVien {
 		this.chucVu = chucVu;
 	}
 
-	public NhanVien(String maNV, String tenNV, boolean chucVu) {
+	public NhanVien(String tenNV, boolean chucVu, int trangThai) {
 		this.maNV = maNV;
 		this.tenNV = tenNV;
 		this.chucVu = chucVu;
+		this.trangThai = trangThai;
 	}
 
 	public NhanVien() {

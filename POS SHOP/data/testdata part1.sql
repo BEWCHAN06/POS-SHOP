@@ -115,9 +115,8 @@ hinhAnh varchar(50)
 -- Tạo bảng TaiKhoan
 CREATE TABLE TaiKhoan
 (
-tenTaiKhoan varchar(7) PRIMARY KEY,
+tenTaiKhoan varchar(7) PRIMARY KEY REFERENCES NhanVien(maNV),
 matKhau nvarchar(50) NOT NULL,
-maNV varchar(7) FOREIGN KEY REFERENCES NhanVien(maNV)
 )
 
 -- Tạo bảng HoaDon

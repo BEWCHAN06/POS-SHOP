@@ -25,7 +25,7 @@ public class TaiKhoanDAO {
 			KetNoiSQL.getInstance().connect();
 			PreparedStatement stmt = null;
 			Connection con = KetNoiSQL.getInstance().getConnection();
-			String sql = "Select nv.email from TaiKhoan tk join NhanVien nv on tk.maNV = nv.maNV\r\n"
+			String sql = "Select nv.email from TaiKhoan tk join NhanVien nv on tk.tenTaiKhoan = nv.maNV\r\n"
 					+ "where tk.tenTaiKhoan = ?";
 			stmt = con.prepareStatement(sql); // Thực thi câu lệnh SQL trả về ResulSet.
 			stmt.setString(1, tenTK);
