@@ -50,7 +50,8 @@ public class Login extends JFrame implements ActionListener {
 	private JTextField txtTenTK;
 	private JPasswordField passwordField;
 	private JButton btnDangNhap, btnXemMatKhau, btnQuenMatKhau;
-	public String tenNV, chucVu;
+	private String tenNV, chucVu;
+	private int trangThai;
 	private JFrame frame;
 	private FormQuenMatKhau lmxn;
 	private uiMain otherUI;
@@ -213,7 +214,7 @@ public class Login extends JFrame implements ActionListener {
 				.addContainerGap(121, Short.MAX_VALUE)));
 		pnlDangNhap.setLayout(gl_pnlDangNhap);
 
-		txtTenTK.setText("TK01");
+		txtTenTK.setText("NV01");
 		passwordField.setText("123456");
 		btnDangNhap.addActionListener(this);
 		btnXemMatKhau.addActionListener(this);
@@ -241,25 +242,38 @@ public class Login extends JFrame implements ActionListener {
 					for (TaiKhoan tk : list) {
 						tenNV = tk.getNhanVien().getTenNV();
 						boolean chucVu = tk.getNhanVien().isChucVu();
+						trangThai = tk.getNhanVien().getTrangThai();
 						if (chucVu == false) {
 							this.chucVu = "Nhân viên";
 						} else {
 							this.chucVu = "Quản lý";
 						}
+						if (trangThai == 0) {
+							continue;
+						} else if (trangThai == 1){
+							JOptionPane.showMessageDialog(null, "Tài khoản này đã bị vô hiệu hóa (do nhân viên nghỉ việc) !");
+							txtTenTK.requestFocus();
+							break;
+						} else {
+							JOptionPane.showMessageDialog(null, "Tài khoản này đã được bảo lưu, Vui lòng đăng nhập tài khoản quản lý để thay đổi !");
+							txtTenTK.requestFocus();
+							break;
+						}
 					}
 
 					// Nếu là chức vụ là nhân viên thì mở giao diện role nhân viên ngược lại thì mở
 					// role quản lý
-					if (chucVu.equals("Nhân viên")) {
+					if (chucVu.equals("Nhân viên") && trangThai == 0) {
 						otherUI2 = new uiMain2();
 						otherUI2.layTenChucVu(tenNV, chucVu);
 						otherUI2.frame.setVisible(true);
-					} else {
+						dispose();
+					} else if (chucVu.equals("Quản lý") && trangThai == 0){
 						otherUI = new uiMain();
 						otherUI.layTenChucVu(tenNV, chucVu);
 						otherUI.frame.setVisible(true);
+						dispose();
 					}
-					dispose();
 				}
 			}
 		} else if (o.equals(btnXemMatKhau)) {

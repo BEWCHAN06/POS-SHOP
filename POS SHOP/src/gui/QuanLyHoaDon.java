@@ -34,7 +34,9 @@ import javax.swing.ScrollPaneConstants;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTabbedPane;
@@ -508,13 +510,14 @@ public class QuanLyHoaDon extends JPanel implements ActionListener {
 					for (ChiTietHoaDon cthd : list) {
 //						Double thanhTien = cthd.thanhTien();
 //						Double giaSauKhuyenMai = cthd.tinhGiaSauKhuyenMai(thanhTien);
+						String thanhTien = dinhDangTien(String.valueOf(cthd.getThanhTien()));
 						Object data[] = { cthd.getSanPham().getMaSP(), cthd.getSanPham().getTenSP(),
 								cthd.getSanPham().getPl().getPhanLoai(), cthd.getSanPham().getGiaNhap(),
 								cthd.getSoLuong(), cthd.getPhanTramKhuyenMai() + "%",
 								cthd.getSanPham().getChatLieu().getChatLieu(),
 								cthd.getSanPham().getKieuDang().getKieuDang(),
 								cthd.getSanPham().getMauSac().getMauSac(),
-								cthd.getSanPham().getKichThuoc().getKichThuoc(), cthd.getThanhTien() };
+								cthd.getSanPham().getKichThuoc().getKichThuoc(), thanhTien};
 						modelChiTietHoaDon.addRow(data);
 					}
 					tblChiTietHoaDon.setModel(modelChiTietHoaDon);
@@ -866,10 +869,22 @@ public class QuanLyHoaDon extends JPanel implements ActionListener {
 		HoaDonDAO ds = new HoaDonDAO();
 		List<HoaDon> list = ds.doTuBang();
 		for (HoaDon hd : list) {
+			String tongTien = dinhDangTien(String.valueOf(hd.getTongtien()));
 			Object data[] = { hd.getMaHoaDon(), hd.getNgayLap(), hd.getNhanVien().getMaNV(),
-					hd.getNhanVien().getTenNV(), hd.getKhachHang().getMaKH(), hd.getKhachHang().getTenKH(), hd.getTongtien() };
+					hd.getNhanVien().getTenNV(), hd.getKhachHang().getMaKH(), hd.getKhachHang().getTenKH(), tongTien};
 			modelHoaDon.addRow(data);
 		}
 		tblHoaDon.setModel(modelHoaDon);
 	}
+	
+	// Hàm đinh dạng tiền
+		private String dinhDangTien(String tien) {
+			Locale localeVN = new Locale("vi", "VN");
+			NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
+
+			// Chuyển đổi tien sang kiểu double trước khi định dạng
+			double amount = Double.parseDouble(tien);
+			String formattedAmount = currencyVN.format(amount);
+			return formattedAmount;
+		}
 }
