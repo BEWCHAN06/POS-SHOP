@@ -84,6 +84,17 @@ public class uiMain {
 //				}
 //			}
 //		});
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					uiMain window = new uiMain();
+					window.frame.setVisible(true);
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
 	/**
