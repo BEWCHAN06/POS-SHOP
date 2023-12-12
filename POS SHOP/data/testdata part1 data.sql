@@ -56,37 +56,36 @@ INSERT INTO NhaCungCap VALUES
 
 --Insert data for table KhuyenMai
 INSERT INTO KhuyenMai VALUES
-('KM01', 10, N'Giảm 10%', '2023-10-29', '2024-12-31'),
-('KM02', 15, N'Giảm 15%', '2023-11-29', '2024-02-28'),
-('KM03', 20, N'Giảm 20%', '2023-12-29', '2024-05-15')
+('KM01', 3, N'Giảm 10%', '2023-10-29', '2024-12-31'),
+('KM02', 5, N'Giảm 15%', '2023-11-29', '2024-02-28'),
+('KM03', 7, N'Giảm 20%', '2023-12-29', '2024-05-15')
 
 --Insert data for table SanPham
 INSERT INTO SanPham VALUES
-('SP01', N'Áo thun đỏ S', 100000, 500,'NCC01', 'KM01', 0, 'CL01', 'KD01', 'KT01', 'MC01', 'XX01', 'PL01', 5, 150000,''),
-('SP02', N'Áo thun xanh M', 110000, 550,'NCC01','KM02', 0, 'CL01', 'KD02', 'KT02', 'MC02', 'XX01', 'PL01', 7, 160000,''),
-('SP03', N'Quần jean L', 300000, 600,'NCC02', NULL, 1, 'CL02', 'KD03', 'KT03', 'MC03', 'XX02', 'PL02', 10, 350000,''),
-('SP04', N'Quần jean Z', 300000, 600,'NCC02', NULL, 1, 'CL02', 'KD03', 'KT03', 'MC03', 'XX02', 'PL02', 10, 450000,''),
-('SP05', N'Quần jean X', 300000, 600,'NCC02', NULL, 2, 'CL02', 'KD03', 'KT03', 'MC03', 'XX02', 'PL02', 10, 550000,''),
-('SP06', N'Quần jean XL', 300000, 600,'NCC02', NULL, 2, 'CL02', 'KD03', 'KT03', 'MC03', 'XX02', 'PL02', 10, 650000,'')
+('SP01', N'Áo thun đỏ S', 100000, 500,'NCC01', 'KM01', 0, 'CL01', 'KD01', 'KT01', 'MC01', 'XX01', 'PL01', 5, 105000,''),
+('SP02', N'Áo thun xanh M', 110000, 550,'NCC01','KM02', 0, 'CL01', 'KD02', 'KT02', 'MC02', 'XX01', 'PL01', 7, 117700,''),
+('SP03', N'Quần jean L', 300000, 600,'NCC02', NULL, 1, 'CL02', 'KD03', 'KT03', 'MC03', 'XX02', 'PL02', 10, 330000,''),
+('SP04', N'Quần jean Z', 400000, 600,'NCC02', NULL, 1, 'CL02', 'KD03', 'KT03', 'MC03', 'XX02', 'PL02', 10, 440000,''),
+('SP05', N'Quần jean X', 500000, 600,'NCC02', NULL, 2, 'CL02', 'KD03', 'KT03', 'MC03', 'XX02', 'PL02', 10, 550000,''),
+('SP06', N'Quần jean XL', 600000, 600,'NCC02', NULL, 2, 'CL02', 'KD03', 'KT03', 'MC03', 'XX02', 'PL02', 10, 660000,'')
 
 --Insert data for table TaiKhoan
 INSERT INTO TaiKhoan VALUES
-('TK01', '123456', 'NV01'),
-('TK02', '1234567','NV02'),
-('TK03', '12345678', 'NV03')
-
+('NV01', '123456'),
+('NV02', '1234567'),
+('NV03', '12345678')
 --Insert data for table HoaDon
 INSERT INTO HoaDon VALUES
-('HD01','2022-01-05','KH01','NV01', 1, 0),
-('HD02','2022-02-14','KH02','NV02', 1, 0),
-('HD03','2022-03-30','KH03','NV03', 0, 0)
+('HD01','2022-01-05','KH01','NV01', 1, 640995),
+('HD02','2022-02-14','KH02','NV02', 1, 223630),
+('HD03','2022-03-30','KH03','NV03', 0, 330000)
 
 --Insert data for table ChiTietHoaDon
 INSERT INTO ChiTietHoaDon VALUES
-('SP01','HD01',10, 3, 0),
-('SP02','HD02',15, 2, 0),
-('SP03','HD03',0, 1, 0)
-
+('SP01','HD01',3, 3, 305550),
+('SP02','HD01',5, 3, 335445),
+('SP02','HD02',5, 2, 223630),
+('SP03','HD03',NULL, 1, 330000)
 --Insert data for table HoaDonTraHang
 INSERT INTO HoaDonTraHang VALUES
 ('TH01','2022-01-06',1,'SP01','HD01'),

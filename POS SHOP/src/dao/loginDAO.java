@@ -22,8 +22,8 @@ public class loginDAO {
 		KetNoiSQL.getInstance();
 		Connection con = KetNoiSQL.getConnection();
 		try {
-			String sql = "Select tenTaiKhoan, matKhau, tk.maNV, nv.chucVu, nv.tenNV from TaiKhoan tk "
-					+ "join NhanVien nv on tk.maNV = nv.maNV where tk.tenTaiKhoan = ? and matKhau = ?";
+			String sql = "Select tenTaiKhoan, matKhau, nv.chucVu, nv.tenNV, nv.trangThai from TaiKhoan tk "
+					+ "join NhanVien nv on tk.tenTaiKhoan = nv.maNV where tk.tenTaiKhoan = ? and matKhau = ?";
 			PreparedStatement stmt = con.prepareCall(sql);
 			stmt.setString(1, tk);
 			stmt.setString(2, mk);
@@ -31,10 +31,10 @@ public class loginDAO {
 			while (rs.next()) {
 				String tenTK = rs.getString(1);
 				String matKhau = rs.getString(2);
-				String maNV = rs.getString(3);
-				boolean chucVu = rs.getBoolean(4);
-				String tenNV = rs.getString(5);
-				TaiKhoan tk1 = new TaiKhoan(tenTK, matKhau, new NhanVien(maNV, tenNV, chucVu));
+				boolean chucVu = rs.getBoolean(3);
+				String tenNV = rs.getString(4);
+				int trangThai = rs.getInt(5);
+				TaiKhoan tk1 = new TaiKhoan(tenTK, matKhau, new NhanVien(tenNV, chucVu, trangThai));
 				dstk.add(tk1);
 			}
 		} catch (SQLException e) {
