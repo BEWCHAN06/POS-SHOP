@@ -1,4 +1,4 @@
-﻿CREATE DATABASE Postshop
+CREATE DATABASE Postshop
 
 USE Postshop
 
@@ -14,7 +14,7 @@ CMND varchar(12) NOT NULL,
 gioiTinh bit NOT NULL,
 diaChi nvarchar(50) NOT NULL,
 chucVu bit NOT NULL,
-trangThai int NOT NULL CHECK (trangThai = 1 or trangThai = 2 or trangThai = 3),
+trangThai int NOT NULL
 )
 
 -- Tạo bảng KhachHang
@@ -100,7 +100,7 @@ giaNhap double precision CHECK (giaNhap > 0),
 soLuong int NOT NULL,
 maNCC varchar(7) FOREIGN KEY REFERENCES NhaCungCap(maNCC),
 maKM varchar(7) FOREIGN KEY REFERENCES KhuyenMai(maKM),
-trangThai int CHECK (trangThai = 1 or trangThai = 2 or trangThai = 3),
+trangThai int,
 maCL varchar(7) FOREIGN KEY REFERENCES ChatLieu(maCL),
 maKD varchar(7) FOREIGN KEY REFERENCES KieuDang(maKD),
 maKT varchar(7) FOREIGN KEY REFERENCES KichThuoc(maKT),
@@ -117,8 +117,7 @@ CREATE TABLE TaiKhoan
 (
 tenTaiKhoan varchar(7) PRIMARY KEY,
 matKhau nvarchar(50) NOT NULL,
-maNV varchar(7) FOREIGN KEY REFERENCES NhanVien(maNV),
-loaiTaiKhoan bit NOT NULL
+maNV varchar(7) FOREIGN KEY REFERENCES NhanVien(maNV)
 )
 
 -- Tạo bảng HoaDon

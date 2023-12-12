@@ -2,10 +2,10 @@ use Postshop
 
 --Insert data for table NhanVien
 INSERT INTO NhanVien VALUES
-('NV01', N'Nguyễn Văn A', '1980-01-01', '0912345678','anv@gmail.com', '091234567890',1, N'Hà Nội', 1, 1),
-('NV02', N'Trần Thị B', '1982-04-05', '0909876543','btt@gmail.com', '090987654321',0, N'Hà Nam', 1, 2),
-('NV03', N'Đinh Thị C', '1985-07-07', '0998765432','cdh@gmail.com', '099876543210',1, N'Hà Tĩnh', 0, 1)
-
+('NV01', N'Nguyễn Văn A', '1980-01-01', '0912345678','anv@gmail.com', '091234567890',1, N'Hà Nội', 1, 0),
+('NV02', N'Trần Thị B', '1982-04-05', '0909876543','giah27240@gmail.com', '090987654321',0, N'Hà Nam', 1, 0),
+('NV03', N'Đinh Thị C', '1985-07-07', '0998765432','cdh@gmail.com', '099876543210',1, N'Hà Tĩnh', 0, 2),
+('NV04', N'Đinh Thị D', '1985-07-07', '0998765432','cdh@gmail.com', '099876543210',1, N'Hà Tĩnh', 0, 1)
 --Insert data for table KhachHang
 INSERT INTO KhachHang VALUES
 ('KH01', N'Nguyễn Văn X', '1990-06-06', '0902222222', 'xnv@gmail.com', 1),
@@ -62,15 +62,18 @@ INSERT INTO KhuyenMai VALUES
 
 --Insert data for table SanPham
 INSERT INTO SanPham VALUES
-('SP01', N'Áo thun đỏ S', 100000, 500,'NCC01', 'KM01', 1, 'CL01', 'KD01', 'KT01', 'MC01', 'XX01', 'PL01', 5, 150000,''),
-('SP02', N'Áo thun xanh M', 110000, 550,'NCC01','KM02', 1, 'CL01', 'KD02', 'KT02', 'MC02', 'XX01', 'PL01', 7, 160000,''),
-('SP03', N'Quần jean L', 300000, 600,'NCC02', NULL, 1, 'CL02', 'KD03', 'KT03', 'MC03', 'XX02', 'PL02', 10, 350000,'')
+('SP01', N'Áo thun đỏ S', 100000, 500,'NCC01', 'KM01', 0, 'CL01', 'KD01', 'KT01', 'MC01', 'XX01', 'PL01', 5, 150000,''),
+('SP02', N'Áo thun xanh M', 110000, 550,'NCC01','KM02', 0, 'CL01', 'KD02', 'KT02', 'MC02', 'XX01', 'PL01', 7, 160000,''),
+('SP03', N'Quần jean L', 300000, 600,'NCC02', NULL, 1, 'CL02', 'KD03', 'KT03', 'MC03', 'XX02', 'PL02', 10, 350000,''),
+('SP04', N'Quần jean Z', 300000, 600,'NCC02', NULL, 1, 'CL02', 'KD03', 'KT03', 'MC03', 'XX02', 'PL02', 10, 450000,''),
+('SP05', N'Quần jean X', 300000, 600,'NCC02', NULL, 2, 'CL02', 'KD03', 'KT03', 'MC03', 'XX02', 'PL02', 10, 550000,''),
+('SP06', N'Quần jean XL', 300000, 600,'NCC02', NULL, 2, 'CL02', 'KD03', 'KT03', 'MC03', 'XX02', 'PL02', 10, 650000,'')
 
 --Insert data for table TaiKhoan
 INSERT INTO TaiKhoan VALUES
-('TK01', '123456', 'NV01', 1),
-('TK02', '1234567','NV02', 1),
-('TK03', '12345678', 'NV03', 0)
+('TK01', '123456', 'NV01'),
+('TK02', '1234567','NV02'),
+('TK03', '12345678', 'NV03')
 
 --Insert data for table HoaDon
 INSERT INTO HoaDon VALUES
