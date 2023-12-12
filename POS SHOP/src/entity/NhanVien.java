@@ -60,9 +60,10 @@ public class NhanVien {
 		this.chucVu = chucVu;
 	}
 
-	public NhanVien(String maNV, String tenNV) {
+	public NhanVien(String maNV, String tenNV, boolean chucVu) {
 		this.maNV = maNV;
 		this.tenNV = tenNV;
+		this.chucVu = chucVu;
 	}
 
 	public NhanVien() {

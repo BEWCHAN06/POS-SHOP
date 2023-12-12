@@ -240,7 +240,7 @@ public class Login extends JFrame implements ActionListener {
 				} else {
 					for (TaiKhoan tk : list) {
 						tenNV = tk.getNhanVien().getTenNV();
-						boolean chucVu = tk.isLoaiTaiKhoan();
+						boolean chucVu = tk.getNhanVien().isChucVu();
 						if (chucVu == false) {
 							this.chucVu = "Nhân viên";
 						} else {
