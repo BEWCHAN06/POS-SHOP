@@ -349,56 +349,56 @@ public class NhanVienDAO {
     }
     
     
-    public ArrayList<TaiKhoan> getAlltaikhoan() {
-		ArrayList<TaiKhoan> listtk = new ArrayList<>();
-		KetNoiSQL.getInstance();
-		Connection conn = KetNoiSQL.getConnection();
-
-		try {
-			String sql = "Select * from TaiKhoan";
-			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery(sql);
-			while (rs.next()) {
-				String tentk = rs.getString(1);
-				String mk = rs.getString(2);
-				boolean loaitk= rs.getBoolean(4);
-				String nv = rs.getString(3);
-				 
-				TaiKhoan tk = new  TaiKhoan(tentk, mk, loaitk, new NhanVien(nv));
-				listtk.add(tk);
-			}
-
-		} catch (SQLException ex) {
-			Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
-		}
-		return listtk;
-	}
+//    public ArrayList<TaiKhoan> getAlltaikhoan() {
+//		ArrayList<TaiKhoan> listtk = new ArrayList<>();
+//		KetNoiSQL.getInstance();
+//		Connection conn = KetNoiSQL.getConnection();
+//
+//		try {
+//			String sql = "Select * from TaiKhoan";
+//			Statement stmt = conn.createStatement();
+//			ResultSet rs = stmt.executeQuery(sql);
+//			while (rs.next()) {
+//				String tentk = rs.getString(1);
+//				String mk = rs.getString(2);
+//				boolean loaitk= rs.getBoolean(4);
+//				String nv = rs.getString(3);
+//				 
+//				TaiKhoan tk = new  TaiKhoan(tentk, mk, loaitk, new NhanVien(nv));
+//				listtk.add(tk);
+//			}
+//
+//		} catch (SQLException ex) {
+//			Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
+//		}
+//		return listtk;
+//	}
     
     
-    public ArrayList<TaiKhoan> timtk(String tentk) {
-    	ArrayList<TaiKhoan> listtk = new ArrayList<>();
-		KetNoiSQL.getInstance();
-		Connection conn = KetNoiSQL.getConnection();
-		try {
-
-			String sql = "select * from taikhoan where tenTaiKhoan like ?";
-			PreparedStatement stmt = conn.prepareCall(sql);
-			stmt.setString(1, "%"+tentk+"%");
-			ResultSet rs = stmt.executeQuery();
-			while (rs.next()) {
-				String tentk1 = rs.getString(1);
-				String mk = rs.getString(2);
-				boolean loaitk= rs.getBoolean(4);
-				String nv = rs.getString(3);
-				 
-				TaiKhoan tk = new  TaiKhoan(tentk1, mk, loaitk, new NhanVien(nv));
-				listtk.add(tk);
-			}
-		} catch (SQLException ex) {
-			Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
-		}
-		return listtk;
-	}
+//    public ArrayList<TaiKhoan> timtk(String tentk) {
+//    	ArrayList<TaiKhoan> listtk = new ArrayList<>();
+//		KetNoiSQL.getInstance();
+//		Connection conn = KetNoiSQL.getConnection();
+//		try {
+//
+//			String sql = "select * from taikhoan where tenTaiKhoan like ?";
+//			PreparedStatement stmt = conn.prepareCall(sql);
+//			stmt.setString(1, "%"+tentk+"%");
+//			ResultSet rs = stmt.executeQuery();
+//			while (rs.next()) {
+//				String tentk1 = rs.getString(1);
+//				String mk = rs.getString(2);
+//				boolean loaitk= rs.getBoolean(4);
+//				String nv = rs.getString(3);
+//				 
+//				TaiKhoan tk = new  TaiKhoan(tentk1, mk, loaitk, new NhanVien(nv));
+//				listtk.add(tk);
+//			}
+//		} catch (SQLException ex) {
+//			Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
+//		}
+//		return listtk;
+//	}
     
     
     

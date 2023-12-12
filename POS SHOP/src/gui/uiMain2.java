@@ -478,6 +478,23 @@ public class uiMain2 {
 		btnDangXuat.setLayout(null);
 		btnDangXuat.add(iconDangXuat);
 		btnDangXuat.add(lblDangXuat);
+		
+		JPanel btnKhachHang_1 = new JPanel();
+		btnKhachHang_1.setLayout(null);
+		btnKhachHang_1.setBackground(new Color(144, 238, 144));
+		btnKhachHang_1.setBounds(12, 335, 193, 59);
+		pnlListMenu.add(btnKhachHang_1);
+		
+		JLabel iconKhachHang_1 = new JLabel("");
+		iconKhachHang_1.setBounds(10, 11, 40, 40);
+		btnKhachHang_1.add(iconKhachHang_1);
+		
+		JLabel lblTrGip = new JLabel("Trợ Giúp");
+		lblTrGip.setForeground(Color.WHITE);
+		lblTrGip.setFont(new Font("Arial", Font.BOLD, 22));
+		lblTrGip.setBackground(Color.WHITE);
+		lblTrGip.setBounds(60, 4, 131, 52);
+		btnKhachHang_1.add(lblTrGip);
 		pnlMenu.setLayout(gl_pnlMenu);
 		frame.getContentPane().setLayout(groupLayout);
 //		frame.setBounds(100, 100, 1215, 777);

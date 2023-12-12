@@ -547,47 +547,73 @@ public class uiMain {
 		lblDangXuat.setForeground(Color.WHITE);
 		lblDangXuat.setFont(new Font("Arial", Font.BOLD, 22));
 		lblDangXuat.setBackground(Color.WHITE);
+		
+		JPanel btnThongKe_1 = new JPanel();
+		btnThongKe_1.setLayout(null);
+		btnThongKe_1.setBackground(new Color(144, 238, 144));
+		
+		JLabel iconThongKe_1 = new JLabel("");
+		iconThongKe_1.setBounds(10, 12, 40, 40);
+		btnThongKe_1.add(iconThongKe_1);
+		
+		JLabel lblTrGip = new JLabel("Trợ Giúp");
+		lblTrGip.setForeground(Color.WHITE);
+		lblTrGip.setFont(new Font("Arial", Font.BOLD, 22));
+		lblTrGip.setBackground(Color.WHITE);
+		lblTrGip.setBounds(60, 4, 129, 52);
+		btnThongKe_1.add(lblTrGip);
 		GroupLayout gl_pnlListMenu = new GroupLayout(pnlListMenu);
-		gl_pnlListMenu.setHorizontalGroup(gl_pnlListMenu.createParallelGroup(Alignment.LEADING).addGroup(gl_pnlListMenu
-				.createSequentialGroup()
-				.addGroup(gl_pnlListMenu.createParallelGroup(Alignment.LEADING).addGroup(Alignment.TRAILING,
-						gl_pnlListMenu.createSequentialGroup().addContainerGap()
-								.addGroup(gl_pnlListMenu.createParallelGroup(Alignment.LEADING)
-										.addComponent(btnSanPham, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 195,
-												Short.MAX_VALUE)
-										.addComponent(btnBanHang, GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)))
-						.addGroup(Alignment.TRAILING, gl_pnlListMenu.createSequentialGroup().addGap(12)
-								.addGroup(gl_pnlListMenu.createParallelGroup(Alignment.LEADING)
-										.addComponent(btnKhachHang, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 193,
-												Short.MAX_VALUE)
-										.addComponent(btnNhanVien, GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
-										.addComponent(btnThongKe, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 193,
-												Short.MAX_VALUE)))
-						.addGroup(Alignment.TRAILING, gl_pnlListMenu.createSequentialGroup().addContainerGap()
-								.addGroup(gl_pnlListMenu.createParallelGroup(Alignment.LEADING)
-										.addComponent(btnKhuyenMai, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 195,
-												Short.MAX_VALUE)
-										.addComponent(btnHoaDon, GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)))
-						.addGroup(gl_pnlListMenu.createSequentialGroup().addContainerGap().addComponent(btnDangXuat,
-								GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)))
-				.addContainerGap()));
-		gl_pnlListMenu.setVerticalGroup(gl_pnlListMenu.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pnlListMenu.createSequentialGroup().addContainerGap()
-						.addComponent(btnBanHang, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(btnSanPham, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(btnHoaDon, GroupLayout.PREFERRED_SIZE, 57, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(btnKhuyenMai, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(btnNhanVien, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(btnKhachHang, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(btnThongKe, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE).addGap(57)
-						.addComponent(btnDangXuat, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(59, Short.MAX_VALUE)));
+		gl_pnlListMenu.setHorizontalGroup(
+			gl_pnlListMenu.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pnlListMenu.createSequentialGroup()
+					.addGroup(gl_pnlListMenu.createParallelGroup(Alignment.LEADING)
+						.addGroup(Alignment.TRAILING, gl_pnlListMenu.createSequentialGroup()
+							.addContainerGap()
+							.addGroup(gl_pnlListMenu.createParallelGroup(Alignment.LEADING)
+								.addComponent(btnSanPham, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
+								.addComponent(btnBanHang, GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)))
+						.addGroup(Alignment.TRAILING, gl_pnlListMenu.createSequentialGroup()
+							.addGap(12)
+							.addGroup(gl_pnlListMenu.createParallelGroup(Alignment.LEADING)
+								.addComponent(btnKhachHang, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 193, Short.MAX_VALUE)
+								.addComponent(btnNhanVien, GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
+								.addComponent(btnThongKe, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 193, Short.MAX_VALUE)))
+						.addGroup(Alignment.TRAILING, gl_pnlListMenu.createSequentialGroup()
+							.addContainerGap()
+							.addGroup(gl_pnlListMenu.createParallelGroup(Alignment.LEADING)
+								.addComponent(btnKhuyenMai, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
+								.addComponent(btnHoaDon, GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)))
+						.addGroup(gl_pnlListMenu.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(btnDangXuat, GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE))
+						.addGroup(gl_pnlListMenu.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(btnThongKe_1, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap())
+		);
+		gl_pnlListMenu.setVerticalGroup(
+			gl_pnlListMenu.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pnlListMenu.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(btnBanHang, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnSanPham, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnHoaDon, GroupLayout.PREFERRED_SIZE, 57, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnKhuyenMai, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnNhanVien, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnKhachHang, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnThongKe, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnThongKe_1, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+					.addComponent(btnDangXuat, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap())
+		);
 		btnDangXuat.setLayout(null);
 		btnDangXuat.add(iconDangXuat);
 		btnDangXuat.add(lblDangXuat);
