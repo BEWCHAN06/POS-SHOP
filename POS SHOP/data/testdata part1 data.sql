@@ -1,10 +1,10 @@
-﻿use Postshop
+use Postshop
 
 --Insert data for table NhanVien
 INSERT INTO NhanVien VALUES
 ('NV01', N'Nguyễn Văn A', '1980-01-01', '0912345678','anv@gmail.com', '091234567890',1, N'Hà Nội', 1, 1),
-('NV02', N'Trần Thị B', '1982-04-05', '0909876543','btt@gmail.com', '090987654321',0, N'Hà Nam', 2, 2),
-('NV03', N'Đinh Thị C', '1985-07-07', '0998765432','cdh@gmail.com', '099876543210',1, N'Hà Tĩnh', 1, 1)
+('NV02', N'Trần Thị B', '1982-04-05', '0909876543','btt@gmail.com', '090987654321',0, N'Hà Nam', 1, 2),
+('NV03', N'Đinh Thị C', '1985-07-07', '0998765432','cdh@gmail.com', '099876543210',1, N'Hà Tĩnh', 0, 1)
 
 --Insert data for table KhachHang
 INSERT INTO KhachHang VALUES
@@ -69,8 +69,8 @@ INSERT INTO SanPham VALUES
 --Insert data for table TaiKhoan
 INSERT INTO TaiKhoan VALUES
 ('TK01', '123456', 'NV01', 1),
-('TK02', '1234567','NV02', 2),
-('TK03', '12345678', 'NV03', 1)
+('TK02', '1234567','NV02', 1),
+('TK03', '12345678', 'NV03', 0)
 
 --Insert data for table HoaDon
 INSERT INTO HoaDon VALUES

@@ -118,7 +118,7 @@ CREATE TABLE TaiKhoan
 tenTaiKhoan varchar(7) PRIMARY KEY,
 matKhau nvarchar(50) NOT NULL,
 maNV varchar(7) FOREIGN KEY REFERENCES NhanVien(maNV),
-loaiTaiKhoan bit NOT NULL CHECK (loaiTaiKhoan = 1 or loaiTaiKhoan = 2)
+loaiTaiKhoan bit NOT NULL
 )
 
 -- Tạo bảng HoaDon
