@@ -52,6 +52,10 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public class QuanLyNhaCungCap extends JPanel implements ActionListener, MouseListener{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField txtTenNCC;
 	private JTextField txtTimKiem;
 	private JTable tblNCC;

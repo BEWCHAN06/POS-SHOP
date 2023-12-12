@@ -6,6 +6,8 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -68,6 +70,8 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 	private JRadioButton rdbtnTrangthai;
 	private NhanVienDAO nhanVienDAO;
 	private int trangthainut;
+	private QuanLyTaiKhoan qltk;
+	private JPanel pnTaikhoan;
 
 	/**
 	 * Create the panel.
@@ -468,29 +472,18 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 		pnThietlapTT.add(dateChooserNgaySinh);
 		pnNhanvien.setLayout(gl_pnNhanvien);
 
-		JPanel pnTaikhoan = new JPanel();
+		pnTaikhoan = new JPanel();
 		pnTaikhoan.setBackground(new Color(255, 255, 255));
 		tabbedNVTK.addTab("Tài Khoản", null, pnTaikhoan, null);
-		GroupLayout gl_pnTaikhoan = new GroupLayout(pnTaikhoan);
-		gl_pnTaikhoan.setHorizontalGroup(
-			gl_pnTaikhoan.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 929, Short.MAX_VALUE)
-		);
-		gl_pnTaikhoan.setVerticalGroup(
-			gl_pnTaikhoan.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 659, Short.MAX_VALUE)
-		);
-
-		modeltk = new DefaultTableModel();
-		modeltk.addColumn("Tên Tài Khoản");
-		modeltk.addColumn("matKhau ");
-		modeltk.addColumn("maNV");
-		modeltk.addColumn("loaiTaiKhoan");
-
+		pnTaikhoan.setLayout(new CardLayout(0, 0));
+		qltk = new QuanLyTaiKhoan();
+		pnTaikhoan.removeAll();
+		pnTaikhoan.add(qltk, BorderLayout.CENTER);
+		pnTaikhoan.revalidate();
+	
 		tableDSTK = new JTable(modeltk);
 
 		nvdao = new NhanVienDAO();
-		pnTaikhoan.setLayout(gl_pnTaikhoan);
 		//tim kiem nhan vien
 		txtTimmNV.getDocument().addDocumentListener(new DocumentListener() {
 			

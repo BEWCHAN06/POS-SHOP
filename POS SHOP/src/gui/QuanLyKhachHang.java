@@ -19,6 +19,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.Date;
+import java.util.ArrayList;
 
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JRadioButton;
@@ -31,7 +32,9 @@ import javax.swing.JComboBox;
 import javax.swing.table.DefaultTableModel;
 
 import dao.KhachHangDAO;
+import dao.NhaCungCapDAO;
 import entity.KhachHang;
+import entity.NhaCungCap;
 import entity.NhanVien;
 
 import javax.swing.JTabbedPane;
@@ -41,14 +44,18 @@ import javax.swing.ImageIcon;
 
 public class QuanLyKhachHang extends JPanel implements ActionListener, MouseListener {
 	private JTextField txtMaKH,txtTenKh,txtSdt,txtEmail,txtngaySinh,txtTimkiemGD,txttimcanhan;
-	private JTable tblThongtin,tblgiaodich;
+	private JTable tblgiaodich;
 
 	private KhachHangDAO khdao;
 	private DefaultTableModel modelttkh;
+	private JTable tblKhachHang;
 	/**
 	 * Create the panel.
 	 */
 	public QuanLyKhachHang() {
+//		tblKhachHang();
+		
+		
 		setPreferredSize(new Dimension(934, 687));
 		setLayout(new CardLayout(0, 0));
 
@@ -135,95 +142,49 @@ public class QuanLyKhachHang extends JPanel implements ActionListener, MouseList
 						GroupLayout.PREFERRED_SIZE))
 				.addContainerGap(22, Short.MAX_VALUE)));
 		pnLoc.setLayout(gl_pnLoc);
-		tblThongtin = new JTable(modelttkh);
+		JPanel pnThongtin = new JPanel();
+		pnThongtin.setBackground(new Color(255, 255, 255));
+		tabbedThongtin.addTab("Thông Tin Cá Nhân", null, pnThongtin, null);
+		JLabel lblTimkiem = new JLabel("Tìm kiếm:");
+		lblTimkiem.setFont(new Font("Arial", Font.BOLD, 12));	
+		txttimcanhan = new JTextField();
+		txttimcanhan.setFont(new Font("Arial", Font.PLAIN, 12));
+		txttimcanhan.setColumns(10);
+		JPanel panel_2 = new JPanel();
+		panel_2.setBackground(new Color(255, 255, 255));
+		GroupLayout gl_pnThongtin = new GroupLayout(pnThongtin);
+		gl_pnThongtin.setHorizontalGroup(gl_pnThongtin.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pnThongtin.createSequentialGroup().addContainerGap()
+						.addGroup(gl_pnThongtin.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_pnThongtin.createSequentialGroup().addComponent(lblTimkiem)
+										.addPreferredGap(ComponentPlacement.RELATED)
+										.addComponent(txttimcanhan, GroupLayout.DEFAULT_SIZE, 605, Short.MAX_VALUE))
+								.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 663, GroupLayout.PREFERRED_SIZE))
+						.addContainerGap()));
+		gl_pnThongtin.setVerticalGroup(gl_pnThongtin.createParallelGroup(Alignment.LEADING).addGroup(gl_pnThongtin
+				.createSequentialGroup().addContainerGap()
+				.addGroup(gl_pnThongtin.createParallelGroup(Alignment.BASELINE).addComponent(lblTimkiem).addComponent(
+						txttimcanhan, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+				.addPreferredGap(ComponentPlacement.RELATED)
+				.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 392, GroupLayout.PREFERRED_SIZE)
+				.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+		panel_2.setLayout(new CardLayout(0, 0));
 		
-				JPanel pnThongtin = new JPanel();
-				pnThongtin.setBackground(new Color(255, 255, 255));
-				tabbedThongtin.addTab("Thông Tin Cá Nhân", null, pnThongtin, null);
+				JScrollPane scrollPane = new JScrollPane();
+				panel_2.add(scrollPane, "name_299268527754300");
 				
-						JLabel lblTimkiem = new JLabel("Tìm kiếm:");
-						lblTimkiem.setFont(new Font("Arial", Font.BOLD, 12));
-						
-								txttimcanhan = new JTextField();
-								txttimcanhan.setFont(new Font("Arial", Font.PLAIN, 12));
-								txttimcanhan.setColumns(10);
-								
-										JPanel panel_2 = new JPanel();
-										panel_2.setBackground(new Color(255, 255, 255));
-										GroupLayout gl_pnThongtin = new GroupLayout(pnThongtin);
-										gl_pnThongtin.setHorizontalGroup(gl_pnThongtin.createParallelGroup(Alignment.LEADING)
-												.addGroup(gl_pnThongtin.createSequentialGroup().addContainerGap()
-														.addGroup(gl_pnThongtin.createParallelGroup(Alignment.LEADING)
-																.addGroup(gl_pnThongtin.createSequentialGroup().addComponent(lblTimkiem)
-																		.addPreferredGap(ComponentPlacement.RELATED)
-																		.addComponent(txttimcanhan, GroupLayout.DEFAULT_SIZE, 605, Short.MAX_VALUE))
-																.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 663, GroupLayout.PREFERRED_SIZE))
-														.addContainerGap()));
-										gl_pnThongtin.setVerticalGroup(gl_pnThongtin.createParallelGroup(Alignment.LEADING).addGroup(gl_pnThongtin
-												.createSequentialGroup().addContainerGap()
-												.addGroup(gl_pnThongtin.createParallelGroup(Alignment.BASELINE).addComponent(lblTimkiem).addComponent(
-														txttimcanhan, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-												.addPreferredGap(ComponentPlacement.RELATED)
-												.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 392, GroupLayout.PREFERRED_SIZE)
-												.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
-										panel_2.setLayout(new CardLayout(0, 0));
-										
-												JScrollPane scrollPane = new JScrollPane();
-												panel_2.add(scrollPane, "name_299268527754300");
-												
-												//		tblThongtin = new JTable();
-														tblThongtin.addMouseListener(new MouseListener() {
-												
-															private AbstractButton rdGioitinh;
-												
-															@Override
-															public void mouseReleased(MouseEvent e) {
-																// TODO Auto-generated method stub
-																int row = tblThongtin.getSelectedRow();
-																txtMaKH.setText(modelttkh.getValueAt(row, 0).toString());
-																txtTenKh.setText(modelttkh.getValueAt(row, 1).toString());
-																txtngaySinh.setText(modelttkh.getValueAt(row, 2).toString());
-																txtSdt.setText(modelttkh.getValueAt(row, 3).toString());
-																txtEmail.setText(modelttkh.getValueAt(row, 4).toString());
-																if (modelttkh.getValueAt(row, 5).toString() == "Nam") {
-																	rdGioitinh.setSelected(true);
-																}
-																else {
-																	rdGioitinh.setSelected(false);
-																}
-															}
-												
-															@Override
-															public void mousePressed(MouseEvent e) {
-																// TODO Auto-generated method stub
-												
-															}
-												
-															@Override
-															public void mouseExited(MouseEvent e) {
-																// TODO Auto-generated method stub
-												
-															}
-												
-															@Override
-															public void mouseEntered(MouseEvent e) {
-																// TODO Auto-generated method stub
-												
-															}
-												
-															@Override
-															public void mouseClicked(MouseEvent e) {
-																// TODO Auto-generated method stub
-												
-															}
-														});
-														//		tblThongtin.setModel(new DefaultTableModel(new Object[][] {
-														//
-														//		}, new String[] { "M\u00E3 kh\u00E1ch h\u00E0ng", "H\u1ECD v\u00E0 t\u00EAn", "Email", "S\u0110T",
-														//				"Gi\u1EDBi t\u00EDnh" }));
-																scrollPane.setViewportView(tblThongtin);
-																pnThongtin.setLayout(gl_pnThongtin);
-
+				tblKhachHang = new JTable();
+				tblKhachHang.setModel(new DefaultTableModel(
+					new Object[][] {
+					},
+					new String[] {
+						"M\u00E3 KH", "T\u00EAn Kh\u00E1ch H\u00E0ng", "Ng\u00E0y Sinh", "S\u0110T", "Email", "Gi\u1EDBi t\u00EDnh"
+					}
+				));
+				tblKhachHang.getColumnModel().getColumn(1).setPreferredWidth(123);
+				scrollPane.setViewportView(tblKhachHang);
+		pnThongtin.setLayout(gl_pnThongtin);		
+		
 		JPanel pnGiaodich = new JPanel();
 		pnGiaodich.setBackground(new Color(255, 255, 255));
 		tabbedThongtin.addTab("Lịch Sử Giao Dịch", null, pnGiaodich, null);
@@ -259,25 +220,6 @@ public class QuanLyKhachHang extends JPanel implements ActionListener, MouseList
 		JScrollPane scrollPaneLSGD = new JScrollPane();
 		panel_2_1.add(scrollPaneLSGD, "name_299840614057200");
 		// Đưa dữ liệu xuống bảng
-		modelttkh = new DefaultTableModel();
-		modelttkh.addColumn("Mã KH");
-		modelttkh.addColumn("Họ Tên ");
-		modelttkh.addColumn("ngaySinh");
-		modelttkh.addColumn("SĐT");
-		modelttkh.addColumn("Email");
-		modelttkh.addColumn("gioitinh");
-		tblThongtin = new JTable(modelttkh);
-		khdao = new KhachHangDAO();
-		for (KhachHang kh : khdao.getAllKhachHang()) {
-			String gt = "";
-			if (kh.isGioiTinh() == true) {
-				gt = "Nam";
-			} else {
-				gt = "Nu";
-			}
-			Object[] obj = { kh.getMaKH(), kh.getTenKH(), kh.getNgaySinh(), kh.getEmail(), kh.getSDT(), gt };
-			modelttkh.addRow(obj);
-		}
 		
 		
 		scrollPaneLSGD.setViewportView(tblgiaodich);
@@ -456,54 +398,54 @@ public class QuanLyKhachHang extends JPanel implements ActionListener, MouseList
 		});
 		// nút sửa
 		
-		btnSua.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int row = tblThongtin.getSelectedRow();
-
-				if (row >= 0) {
-					String makh = txtMaKH.getText().trim();
-					String tenkh = txtTenKh.getText().trim();
-					String Sdt = txtSdt.getText().trim();
-					String ngaysinh = txtngaySinh.getText().trim();
-					String email = txtEmail.getText().trim();
-
-					boolean gt = true;
-					if (rdGioitinh.isSelected()) {
-						gt = true;
-					} else {
-						gt = false;
-					}
-
-					int tt = 1;
-
-					if (rdTrangthai.isSelected()) {
-						tt = 1;
-					} else {
-						tt = 0;
-					}
-					KhachHang kh = new KhachHang(makh, tenkh, Date.valueOf(ngaysinh),Sdt,email,gt);
-					khdao.updateKhachHang(kh);
-					JOptionPane.showMessageDialog(null, "Cập Nhật Thành Công");
-					//
-					modelttkh.getDataVector().removeAllElements();
-					for (KhachHang khh : khdao.getAllKhachHang()) {
-						String gt1 = "";
-						if (khh.isGioiTinh() == true) {
-							gt1 = "Nam";
-						} else {
-							gt1 = "Nu";
-						}
-						Object[] obj = { khh.getMaKH(), khh.getTenKH(), khh.getNgaySinh(), khh.getSDT(), khh.getEmail(),
-								  gt1};
-
-						modelttkh.addRow(obj);
-					}
-					tblThongtin.setModel(modelttkh);
-
-					//
-				}
-			}
-		});
+//		btnSua.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				int row = tblThongtin.getSelectedRow();
+//
+//				if (row >= 0) {
+//					String makh = txtMaKH.getText().trim();
+//					String tenkh = txtTenKh.getText().trim();
+//					String Sdt = txtSdt.getText().trim();
+//					String ngaysinh = txtngaySinh.getText().trim();
+//					String email = txtEmail.getText().trim();
+//
+//					boolean gt = true;
+//					if (rdGioitinh.isSelected()) {
+//						gt = true;
+//					} else {
+//						gt = false;
+//					}
+//
+//					int tt = 1;
+//
+//					if (rdTrangthai.isSelected()) {
+//						tt = 1;
+//					} else {
+//						tt = 0;
+//					}
+//					KhachHang kh = new KhachHang(makh, tenkh, Date.valueOf(ngaysinh),Sdt,email,gt);
+//					khdao.updateKhachHang(kh);
+//					JOptionPane.showMessageDialog(null, "Cập Nhật Thành Công");
+//					//
+//					modelttkh.getDataVector().removeAllElements();
+//					for (KhachHang khh : khdao.getAllKhachHang()) {
+//						String gt1 = "";
+//						if (khh.isGioiTinh() == true) {
+//							gt1 = "Nam";
+//						} else {
+//							gt1 = "Nu";
+//						}
+//						Object[] obj = { khh.getMaKH(), khh.getTenKH(), khh.getNgaySinh(), khh.getSDT(), khh.getEmail(),
+//								  gt1};
+//
+//						modelttkh.addRow(obj);
+//					}
+//					tblThongtin.setModel(modelttkh);
+//
+//					//
+//				}
+//			}
+//		});
 		// Nut Luu
 		btnLuu.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
@@ -529,7 +471,20 @@ public class QuanLyKhachHang extends JPanel implements ActionListener, MouseList
 		    }
 		});
 	}
-	
+//	private void clearTable(){
+//        DefaultTableModel dtm = (DefaultTableModel) tblKhachHang.getModel();
+//        dtm.setRowCount(0);
+//    }
+//	private void tblKhachHang() {
+//		KhachHangDAO khachHangDAO = new KhachHangDAO();
+//		ArrayList<KhachHang> list = khachHangDAO.getAllKhachHang();
+//		clearTable();
+//		DefaultTableModel dtm = (DefaultTableModel) tblKhachHang.getModel();
+//		for(KhachHang kh : list) {
+//			Object[] rowData = {kh.getMaKH(), kh.getTenKH(), kh.getNgaySinh(),kh.getSDT(), kh.getEmail(), kh.isGioiTinh() == true ? "Nam" : "Nữ"};
+//            dtm.addRow(rowData);
+//		}
+//	}
 
 	private boolean validData() {
 		String makh = txtMaKH.getText().trim();
