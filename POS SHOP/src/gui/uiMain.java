@@ -46,11 +46,10 @@ public class uiMain {
 	private QuanLyKhuyenMai qlkm;
 	private QuanLyNhanVien qlnv;
 	private QuanLyKhachHang qlkh;
-	private QuanLyThongKe qltk;
-	private TabThongKeDoanhThu doanhThu;
-	private TabThongKeSanPham keSanPham;
+	public QuanLyThongKe qltk;
+	public TabThongKeDoanhThu doanhThu;
+	public TabThongKeSanPham keSanPham;
 	private JLabel tenNV, chucVu;
-	private LoadingDialog dialog;
 	/**
 	 * Launch the application.
 	 * @wbp.parser.entryPoint
@@ -85,8 +84,6 @@ public class uiMain {
 	 * @wbp.parser.entryPoint
 	 */
 	public uiMain() {
-		dialog = new LoadingDialog();
-
 		initialize();
 //		layTenChucVu();
 		km.xoaKhuyenMaiKhiHetHan();
@@ -101,10 +98,13 @@ public class uiMain {
 		qlnv = new QuanLyNhanVien();
 		qlkm.setVisible(true);
 		qlkh = new QuanLyKhachHang();
-		qlkm.setVisible(true);
+//		qlkm.setVisible(true);
 		qltk = new QuanLyThongKe();
-//		qltk.setVisible(true);
-//		
+		qltk.setVisible(true);
+//		doanhThu = new TabThongKeDoanhThu();
+//		doanhThu.setVisible(true);
+//		keSanPham = new TabThongKeSanPham();
+//		keSanPham.setVisible(true);
 //		doanhThu = new TabThongKeDoanhThu();
 //		doanhThu.setVisible(true);
 //		keSanPham = new TabThongKeSanPham();

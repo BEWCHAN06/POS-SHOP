@@ -45,8 +45,8 @@ public class uiMain2 {
 	private QuanLyNhanVien qlnv;
 	private QuanLyKhachHang qlkh;
 	private QuanLyThongKe qltk;
-	private TabThongKeDoanhThu doanhThu;
-	private TabThongKeSanPham keSanPham;
+	public TabThongKeDoanhThu doanhThu;
+	public TabThongKeSanPham keSanPham;
 	private JLabel tenNV, chucVu;
 	private LoadingDialog dialog;
 	/**

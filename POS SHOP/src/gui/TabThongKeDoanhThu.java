@@ -41,6 +41,12 @@ public class TabThongKeDoanhThu extends javax.swing.JPanel {
     private KichThuocDAO kichThuoc_DAO = new KichThuocDAO();
     private MauSacDAO mauSac_DAO = new MauSacDAO();
     private PhanLoaiDAO phanLoai_DAO = new PhanLoaiDAO();
+    private final ArrayList<KichThuoc> listKichThuoc = kichThuoc_DAO.getAllKichThuoc();
+    private final ArrayList<MauSac> listMauSac = mauSac_DAO.getAllMauSac();
+    private final ArrayList<PhanLoai> listPhanLoai = phanLoai_DAO.getAllPhanLoai();
+
+    private final DecimalFormat decimalFormat = new DecimalFormat("#.##");
+    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     /**
      * Creates new form TabThongKeSanPham
      */
@@ -55,17 +61,14 @@ public class TabThongKeDoanhThu extends javax.swing.JPanel {
     private void khoiTaoGiaTri(){
      
         
-        ArrayList<KichThuoc>listKichThuoc = kichThuoc_DAO.getAllKichThuoc();
         for(KichThuoc kt : listKichThuoc){
             cb_KichThuoc.addItem(kt.getKichThuoc());
         }
         
-        ArrayList<MauSac>listMauSac = mauSac_DAO.getAllMauSac();
         for(MauSac ms : listMauSac){
             cb_MauSac.addItem(ms.getMauSac());
         }
         
-        ArrayList<PhanLoai>listPhanLoai = phanLoai_DAO.getAllPhanLoai();
         for(PhanLoai pl : listPhanLoai){
             cb_PhanLoai.addItem(pl.getPhanLoai());
         }
@@ -128,11 +131,11 @@ public class TabThongKeDoanhThu extends javax.swing.JPanel {
         for(SanPham sp : listSanPham){
             tongSoSanPhamBanDuoc += sp.getSoLuong();
             double tiLeDoanhThu = 0;
-            DecimalFormat df = new DecimalFormat("#.##");//rút gọn số thập phân
+
             if (tongDoanhThu != 0) {
                 tiLeDoanhThu = (sp.getGiaNhap() / (double)tongDoanhThu) * 100;
             }           
-            String tldt = df.format(tiLeDoanhThu);//
+            String tldt = decimalFormat.format(tiLeDoanhThu);//
             Object[] rowData = {sp.getMaSP(), sp.getTenSP(), sp.getPl().getPhanLoai(), sp.getKichThuoc().getKichThuoc(),
                                 sp.getMauSac().getMauSac(), sp.getSoLuong(), NumberFormat.getInstance().format( sp.getGiaNhap()), 
                                 tldt};

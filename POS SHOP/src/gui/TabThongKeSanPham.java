@@ -57,6 +57,7 @@ public class TabThongKeSanPham extends JPanel {
     private MauSacDAO mauSac_DAO = new MauSacDAO();
     private PhanLoaiDAO phanLoai_DAO = new PhanLoaiDAO();
 	private SanPhamDAO sanPhamDAO;
+	
    
     public TabThongKeSanPham() {
         initComponents();
