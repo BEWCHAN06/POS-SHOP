@@ -3,6 +3,7 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -10,6 +11,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import javax.swing.AbstractAction;
 import javax.swing.GroupLayout;
@@ -50,17 +55,30 @@ public class uiMain {
 	public TabThongKeDoanhThu doanhThu;
 	public TabThongKeSanPham keSanPham;
 	private JLabel tenNV, chucVu;
+
 	/**
 	 * Launch the application.
+	 * 
 	 * @wbp.parser.entryPoint
 	 */
 	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Login frame = new Login();
+					frame.setVisible(true);
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 //		EventQueue.invokeLater(new Runnable() {
 //			public void run() {
 //				try {
-//					Login frame = new Login();
-//					frame.setVisible(true);
-//					
+//					uiMain window = new uiMain();
+//					window.frame.setVisible(true);
+//
 //				} catch (Exception e) {
 //					e.printStackTrace();
 //				}
@@ -81,6 +99,7 @@ public class uiMain {
 
 	/**
 	 * Create the application.
+	 * 
 	 * @wbp.parser.entryPoint
 	 */
 	public uiMain() {
@@ -106,6 +125,7 @@ public class uiMain {
 
 	/**
 	 * Initialize the contents of the frame.
+	 * 
 	 * @wbp.parser.entryPoint
 	 */
 	private void initialize() {
@@ -117,7 +137,7 @@ public class uiMain {
 
 		pnlMenu.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		pnlMenu.setBackground(new Color(152, 251, 152));
-		
+
 		JPanel mainPanel = new JPanel();
 		QuanLyBanHang qlbh_1 = new QuanLyBanHang();
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
@@ -131,7 +151,7 @@ public class uiMain {
 						.addComponent(mainPanel, GroupLayout.DEFAULT_SIZE, 680, Short.MAX_VALUE).addContainerGap())
 				.addComponent(pnlMenu, GroupLayout.DEFAULT_SIZE, 691, Short.MAX_VALUE));
 		mainPanel.setLayout(new CardLayout(0, 0));
-		
+
 		JLabel lblNewLabel_3 = new JLabel("");
 		lblNewLabel_3.setIcon(new ImageIcon(uiMain.class.getResource("/icon/mainscreen.png")));
 		mainPanel.add(lblNewLabel_3, "name_2182919992199");
@@ -166,11 +186,11 @@ public class uiMain {
 		chucVu = new JLabel();
 		chucVu.setFont(new Font("Tahoma", Font.BOLD, 11));
 		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING).addGroup(gl_panel
-				.createSequentialGroup().addGap(6).addComponent(lblNewLabel)
-				.addPreferredGap(ComponentPlacement.UNRELATED).addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addComponent(tenNV).addComponent(chucVu))
-				.addContainerGap(29, Short.MAX_VALUE)));
+		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup().addGap(6).addComponent(lblNewLabel)
+						.addPreferredGap(ComponentPlacement.UNRELATED).addGroup(gl_panel
+								.createParallelGroup(Alignment.LEADING).addComponent(tenNV).addComponent(chucVu))
+						.addContainerGap(29, Short.MAX_VALUE)));
 		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panel.createSequentialGroup().addContainerGap().addComponent(tenNV)
 						.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -185,7 +205,7 @@ public class uiMain {
 		btnBanHang.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+
 				mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
 				mainPanel.add(qlbh, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
 				mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
@@ -365,7 +385,7 @@ public class uiMain {
 		btnNhanVien.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+
 				mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
 				mainPanel.add(qlnv, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
 				mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
@@ -512,7 +532,7 @@ public class uiMain {
 				int dialogResult = JOptionPane.showConfirmDialog(null, "Bạn có muốn đăng xuất không?",
 						"Xác nhận đăng xuất", JOptionPane.YES_NO_OPTION);
 				if (dialogResult == JOptionPane.YES_OPTION) {
-					Login  lg = new Login();
+					Login lg = new Login();
 					lg.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 					lg.setLocationRelativeTo(null);
 					lg.setVisible(true);
@@ -534,7 +554,7 @@ public class uiMain {
 				int dialogResult = JOptionPane.showConfirmDialog(null, "Bạn có muốn đăng xuất không?",
 						"Xác nhận đăng xuất", JOptionPane.YES_NO_OPTION);
 				if (dialogResult == JOptionPane.YES_OPTION) {
-					Login  lg = new Login();
+					Login lg = new Login();
 					lg.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 					lg.setLocationRelativeTo(null);
 					lg.setVisible(true);
@@ -547,73 +567,88 @@ public class uiMain {
 		lblDangXuat.setForeground(Color.WHITE);
 		lblDangXuat.setFont(new Font("Arial", Font.BOLD, 22));
 		lblDangXuat.setBackground(Color.WHITE);
-		
-		JPanel btnThongKe_1 = new JPanel();
-		btnThongKe_1.setLayout(null);
-		btnThongKe_1.setBackground(new Color(144, 238, 144));
-		
+
+		JPanel btnTroGiup = new JPanel();
+		btnTroGiup.setLayout(null);
+		btnTroGiup.setBackground(new Color(144, 238, 144));
+		btnTroGiup.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// Mở trang web chỉ định khi JPanel được click
+				if (JOptionPane.showConfirmDialog(null,
+						"Bạn sẽ được chuyển hướng đến trang web trợ giúp trên trình duyệt !", "Cảnh Báo !!",
+						JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+					openWebPage("https://giahuyyy.github.io/Tro-Giup-PosShop/");
+			}
+		});
+		// Phím tắt F8
+		btnTroGiup.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F8, 0), "F8");
+		btnTroGiup.getActionMap().put("F8", new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Mở trang web chỉ định khi JPanel được click
+				if (JOptionPane.showConfirmDialog(null,
+						"Bạn sẽ được chuyển hướng đến trang web trợ giúp trên trình duyệt !", "Cảnh Báo !!",
+						JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+					openWebPage("https://giahuyyy.github.io/Tro-Giup-PosShop/");
+			}
+		});
 		JLabel iconThongKe_1 = new JLabel("");
 		iconThongKe_1.setBounds(10, 12, 40, 40);
-		btnThongKe_1.add(iconThongKe_1);
-		
-		JLabel lblTrGip = new JLabel("Trợ Giúp");
-		lblTrGip.setForeground(Color.WHITE);
-		lblTrGip.setFont(new Font("Arial", Font.BOLD, 22));
-		lblTrGip.setBackground(Color.WHITE);
-		lblTrGip.setBounds(60, 4, 129, 52);
-		btnThongKe_1.add(lblTrGip);
+		btnTroGiup.add(iconThongKe_1);
+
+		JLabel lblTroGiup = new JLabel("Trợ Giúp");
+		lblTroGiup.setForeground(Color.WHITE);
+		lblTroGiup.setFont(new Font("Arial", Font.BOLD, 22));
+		lblTroGiup.setBackground(Color.WHITE);
+		lblTroGiup.setBounds(60, 4, 129, 52);
+		btnTroGiup.add(lblTroGiup);
 		GroupLayout gl_pnlListMenu = new GroupLayout(pnlListMenu);
-		gl_pnlListMenu.setHorizontalGroup(
-			gl_pnlListMenu.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pnlListMenu.createSequentialGroup()
-					.addGroup(gl_pnlListMenu.createParallelGroup(Alignment.LEADING)
-						.addGroup(Alignment.TRAILING, gl_pnlListMenu.createSequentialGroup()
-							.addContainerGap()
-							.addGroup(gl_pnlListMenu.createParallelGroup(Alignment.LEADING)
-								.addComponent(btnSanPham, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
-								.addComponent(btnBanHang, GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)))
-						.addGroup(Alignment.TRAILING, gl_pnlListMenu.createSequentialGroup()
-							.addGap(12)
-							.addGroup(gl_pnlListMenu.createParallelGroup(Alignment.LEADING)
-								.addComponent(btnKhachHang, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 193, Short.MAX_VALUE)
-								.addComponent(btnNhanVien, GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
-								.addComponent(btnThongKe, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 193, Short.MAX_VALUE)))
-						.addGroup(Alignment.TRAILING, gl_pnlListMenu.createSequentialGroup()
-							.addContainerGap()
-							.addGroup(gl_pnlListMenu.createParallelGroup(Alignment.LEADING)
-								.addComponent(btnKhuyenMai, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
-								.addComponent(btnHoaDon, GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)))
-						.addGroup(gl_pnlListMenu.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(btnDangXuat, GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE))
-						.addGroup(gl_pnlListMenu.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(btnThongKe_1, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap())
-		);
-		gl_pnlListMenu.setVerticalGroup(
-			gl_pnlListMenu.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pnlListMenu.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(btnBanHang, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnSanPham, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnHoaDon, GroupLayout.PREFERRED_SIZE, 57, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnKhuyenMai, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnNhanVien, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnKhachHang, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnThongKe, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnThongKe_1, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
-					.addComponent(btnDangXuat, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
-		);
+		gl_pnlListMenu.setHorizontalGroup(gl_pnlListMenu.createParallelGroup(Alignment.LEADING).addGroup(gl_pnlListMenu
+				.createSequentialGroup()
+				.addGroup(gl_pnlListMenu.createParallelGroup(Alignment.LEADING).addGroup(Alignment.TRAILING,
+						gl_pnlListMenu.createSequentialGroup().addContainerGap()
+								.addGroup(gl_pnlListMenu.createParallelGroup(Alignment.LEADING)
+										.addComponent(btnSanPham, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 195,
+												Short.MAX_VALUE)
+										.addComponent(btnBanHang, GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)))
+						.addGroup(Alignment.TRAILING, gl_pnlListMenu.createSequentialGroup().addGap(12)
+								.addGroup(gl_pnlListMenu.createParallelGroup(Alignment.LEADING)
+										.addComponent(btnKhachHang, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 193,
+												Short.MAX_VALUE)
+										.addComponent(btnNhanVien, GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
+										.addComponent(btnThongKe, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 193,
+												Short.MAX_VALUE)))
+						.addGroup(Alignment.TRAILING, gl_pnlListMenu.createSequentialGroup().addContainerGap()
+								.addGroup(gl_pnlListMenu.createParallelGroup(Alignment.LEADING)
+										.addComponent(btnKhuyenMai, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 195,
+												Short.MAX_VALUE)
+										.addComponent(btnHoaDon, GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)))
+						.addGroup(gl_pnlListMenu.createSequentialGroup().addContainerGap().addComponent(btnDangXuat,
+								GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE))
+						.addGroup(gl_pnlListMenu.createSequentialGroup().addContainerGap().addComponent(btnTroGiup,
+								GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)))
+				.addContainerGap()));
+		gl_pnlListMenu.setVerticalGroup(gl_pnlListMenu.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pnlListMenu.createSequentialGroup().addContainerGap()
+						.addComponent(btnBanHang, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(btnSanPham, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(btnHoaDon, GroupLayout.PREFERRED_SIZE, 57, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(btnKhuyenMai, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(btnNhanVien, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(btnKhachHang, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(btnThongKe, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(btnTroGiup, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+						.addComponent(btnDangXuat, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+						.addContainerGap()));
 		btnDangXuat.setLayout(null);
 		btnDangXuat.add(iconDangXuat);
 		btnDangXuat.add(lblDangXuat);
@@ -656,9 +691,17 @@ public class uiMain {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 	}
-	
+
 	public void layTenChucVu(String ten, String chuc) {
-        tenNV.setText(ten);
-        chucVu.setText("Chức Vụ: "+chuc);
-    }
+		tenNV.setText(ten);
+		chucVu.setText("Chức Vụ: " + chuc);
+	}
+
+	private static void openWebPage(String url) {
+		try {
+			Desktop.getDesktop().browse(new URI(url));
+		} catch (URISyntaxException | IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
