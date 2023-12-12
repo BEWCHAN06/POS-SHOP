@@ -351,22 +351,22 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 
 		btnThem = new JButton("Thêm");
 		btnThem.setBounds(176, 185, 99, 37);
-		btnThem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-//				tableDangLV.setEnabled(false);
-				btnThem.setEnabled(false);
-				btnSua.setEnabled(false);
-				btnLuu.setEnabled(true);
-				btnHuy.setEnabled(true);
-				NhanVien nv = new NhanVien();
-				txtManhanvien.setText(nv.getAutoID());
-				setEditableTxT(true);
-				setClearTxt();
-				updateTableData();
-				
-			}
-		});
+//		btnThem.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				
+////				tableDangLV.setEnabled(false);
+//				btnThem.setEnabled(false);
+//				btnSua.setEnabled(false);
+//				btnLuu.setEnabled(true);
+//				btnHuy.setEnabled(true);
+//				NhanVien nv = new NhanVien();
+//				txtManhanvien.setText(nv.getAutoID());
+//				setEditableTxT(true);
+//				setClearTxt();
+//				updateTableData();
+//				
+//			}
+//		});
 
 		btnThem.setIcon(new ImageIcon(QuanLyNhanVien.class.getResource("/icon/add.png")));
 		btnThem.setFont(new Font("Arial", Font.BOLD, 12));
@@ -548,16 +548,16 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 
 		nvdao = new NhanVienDAO();
 
-		for (TaiKhoan nz : nvdao.getAlltaikhoan()) {
-
-			int zz = 1;
-			if (nz.isLoaiTaiKhoan() == true) {
-				zz = 1;
-			}
-			Object[] obj = { nz.getTenTaiKhoan(), nz.getMatKhau(), nz.getNhanVien().getMaNV(), zz };
-
-			modeltk.addRow(obj);
-		}
+//		for (TaiKhoan nz : nvdao.getAlltaikhoan()) {
+//
+//			int zz = 1;
+//			if (nz.isLoaiTaiKhoan() == true) {
+//				zz = 1;
+//			}
+//			Object[] obj = { nz.getTenTaiKhoan(), nz.getMatKhau(), nz.getNhanVien().getMaNV(), zz };
+//
+//			modeltk.addRow(obj);
+//		}
 
 		tableDSTK = new JTable(modeltk);
 
@@ -689,9 +689,9 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 				modeltk.getDataVector().removeAllElements();
 				for (TaiKhoan nz : nvdao.timtk(zz11)) {
 					int zz = 1;
-					if (nz.isLoaiTaiKhoan() == true) {
-						zz = 1;
-					}
+//					if (nz.isLoaiTaiKhoan() == true) {
+//						zz = 1;
+//					}
 					Object[] obj = { nz.getTenTaiKhoan(), nz.getMatKhau(), nz.getNhanVien().getMaNV(), zz };
 
 					modeltk.addRow(obj);
@@ -764,9 +764,9 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 					for (TaiKhoan nz : nvdao.getAlltaikhoan()) {
 
 						int zz = 1;
-						if (nz.isLoaiTaiKhoan() == true) {
-							zz = 1;
-						}
+//						if (nz.isLoaiTaiKhoan() == true) {
+//							zz = 1;
+//						}
 						Object[] obj = { nz.getTenTaiKhoan(), nz.getMatKhau(), nz.getNhanVien().getMaNV(), zz };
 
 						modeltk.addRow(obj);

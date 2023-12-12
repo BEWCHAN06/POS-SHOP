@@ -98,17 +98,9 @@ public class uiMain {
 		qlnv = new QuanLyNhanVien();
 		qlkm.setVisible(true);
 		qlkh = new QuanLyKhachHang();
-//		qlkm.setVisible(true);
+		qlkm.setVisible(true);
 		qltk = new QuanLyThongKe();
 		qltk.setVisible(true);
-//		doanhThu = new TabThongKeDoanhThu();
-//		doanhThu.setVisible(true);
-//		keSanPham = new TabThongKeSanPham();
-//		keSanPham.setVisible(true);
-//		doanhThu = new TabThongKeDoanhThu();
-//		doanhThu.setVisible(true);
-//		keSanPham = new TabThongKeSanPham();
-//		keSanPham.setVisible(true);
 
 	}
 

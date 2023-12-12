@@ -135,6 +135,94 @@ public class QuanLyKhachHang extends JPanel implements ActionListener, MouseList
 						GroupLayout.PREFERRED_SIZE))
 				.addContainerGap(22, Short.MAX_VALUE)));
 		pnLoc.setLayout(gl_pnLoc);
+		tblThongtin = new JTable(modelttkh);
+		
+				JPanel pnThongtin = new JPanel();
+				pnThongtin.setBackground(new Color(255, 255, 255));
+				tabbedThongtin.addTab("Thông Tin Cá Nhân", null, pnThongtin, null);
+				
+						JLabel lblTimkiem = new JLabel("Tìm kiếm:");
+						lblTimkiem.setFont(new Font("Arial", Font.BOLD, 12));
+						
+								txttimcanhan = new JTextField();
+								txttimcanhan.setFont(new Font("Arial", Font.PLAIN, 12));
+								txttimcanhan.setColumns(10);
+								
+										JPanel panel_2 = new JPanel();
+										panel_2.setBackground(new Color(255, 255, 255));
+										GroupLayout gl_pnThongtin = new GroupLayout(pnThongtin);
+										gl_pnThongtin.setHorizontalGroup(gl_pnThongtin.createParallelGroup(Alignment.LEADING)
+												.addGroup(gl_pnThongtin.createSequentialGroup().addContainerGap()
+														.addGroup(gl_pnThongtin.createParallelGroup(Alignment.LEADING)
+																.addGroup(gl_pnThongtin.createSequentialGroup().addComponent(lblTimkiem)
+																		.addPreferredGap(ComponentPlacement.RELATED)
+																		.addComponent(txttimcanhan, GroupLayout.DEFAULT_SIZE, 605, Short.MAX_VALUE))
+																.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 663, GroupLayout.PREFERRED_SIZE))
+														.addContainerGap()));
+										gl_pnThongtin.setVerticalGroup(gl_pnThongtin.createParallelGroup(Alignment.LEADING).addGroup(gl_pnThongtin
+												.createSequentialGroup().addContainerGap()
+												.addGroup(gl_pnThongtin.createParallelGroup(Alignment.BASELINE).addComponent(lblTimkiem).addComponent(
+														txttimcanhan, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+												.addPreferredGap(ComponentPlacement.RELATED)
+												.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 392, GroupLayout.PREFERRED_SIZE)
+												.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+										panel_2.setLayout(new CardLayout(0, 0));
+										
+												JScrollPane scrollPane = new JScrollPane();
+												panel_2.add(scrollPane, "name_299268527754300");
+												
+												//		tblThongtin = new JTable();
+														tblThongtin.addMouseListener(new MouseListener() {
+												
+															private AbstractButton rdGioitinh;
+												
+															@Override
+															public void mouseReleased(MouseEvent e) {
+																// TODO Auto-generated method stub
+																int row = tblThongtin.getSelectedRow();
+																txtMaKH.setText(modelttkh.getValueAt(row, 0).toString());
+																txtTenKh.setText(modelttkh.getValueAt(row, 1).toString());
+																txtngaySinh.setText(modelttkh.getValueAt(row, 2).toString());
+																txtSdt.setText(modelttkh.getValueAt(row, 3).toString());
+																txtEmail.setText(modelttkh.getValueAt(row, 4).toString());
+																if (modelttkh.getValueAt(row, 5).toString() == "Nam") {
+																	rdGioitinh.setSelected(true);
+																}
+																else {
+																	rdGioitinh.setSelected(false);
+																}
+															}
+												
+															@Override
+															public void mousePressed(MouseEvent e) {
+																// TODO Auto-generated method stub
+												
+															}
+												
+															@Override
+															public void mouseExited(MouseEvent e) {
+																// TODO Auto-generated method stub
+												
+															}
+												
+															@Override
+															public void mouseEntered(MouseEvent e) {
+																// TODO Auto-generated method stub
+												
+															}
+												
+															@Override
+															public void mouseClicked(MouseEvent e) {
+																// TODO Auto-generated method stub
+												
+															}
+														});
+														//		tblThongtin.setModel(new DefaultTableModel(new Object[][] {
+														//
+														//		}, new String[] { "M\u00E3 kh\u00E1ch h\u00E0ng", "H\u1ECD v\u00E0 t\u00EAn", "Email", "S\u0110T",
+														//				"Gi\u1EDBi t\u00EDnh" }));
+																scrollPane.setViewportView(tblThongtin);
+																pnThongtin.setLayout(gl_pnThongtin);
 
 		JPanel pnGiaodich = new JPanel();
 		pnGiaodich.setBackground(new Color(255, 255, 255));
@@ -190,98 +278,10 @@ public class QuanLyKhachHang extends JPanel implements ActionListener, MouseList
 			Object[] obj = { kh.getMaKH(), kh.getTenKH(), kh.getNgaySinh(), kh.getEmail(), kh.getSDT(), gt };
 			modelttkh.addRow(obj);
 		}
-		tblThongtin = new JTable(modelttkh);
 		
 		
 		scrollPaneLSGD.setViewportView(tblgiaodich);
 		pnLichsu.setLayout(gl_pnLichsu);
-
-		JPanel pnThongtin = new JPanel();
-		pnThongtin.setBackground(new Color(255, 255, 255));
-		tabbedThongtin.addTab("Thông Tin Cá Nhân", null, pnThongtin, null);
-
-		JLabel lblTimkiem = new JLabel("Tìm kiếm:");
-		lblTimkiem.setFont(new Font("Arial", Font.BOLD, 12));
-
-		txttimcanhan = new JTextField();
-		txttimcanhan.setFont(new Font("Arial", Font.PLAIN, 12));
-		txttimcanhan.setColumns(10);
-
-		JPanel panel_2 = new JPanel();
-		panel_2.setBackground(new Color(255, 255, 255));
-		GroupLayout gl_pnThongtin = new GroupLayout(pnThongtin);
-		gl_pnThongtin.setHorizontalGroup(gl_pnThongtin.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pnThongtin.createSequentialGroup().addContainerGap()
-						.addGroup(gl_pnThongtin.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_pnThongtin.createSequentialGroup().addComponent(lblTimkiem)
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addComponent(txttimcanhan, GroupLayout.DEFAULT_SIZE, 605, Short.MAX_VALUE))
-								.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 663, GroupLayout.PREFERRED_SIZE))
-						.addContainerGap()));
-		gl_pnThongtin.setVerticalGroup(gl_pnThongtin.createParallelGroup(Alignment.LEADING).addGroup(gl_pnThongtin
-				.createSequentialGroup().addContainerGap()
-				.addGroup(gl_pnThongtin.createParallelGroup(Alignment.BASELINE).addComponent(lblTimkiem).addComponent(
-						txttimcanhan, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-				.addPreferredGap(ComponentPlacement.RELATED)
-				.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 392, GroupLayout.PREFERRED_SIZE)
-				.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
-		panel_2.setLayout(new CardLayout(0, 0));
-
-		JScrollPane scrollPane = new JScrollPane();
-		panel_2.add(scrollPane, "name_299268527754300");
-
-//		tblThongtin = new JTable();
-		tblThongtin.addMouseListener(new MouseListener() {
-
-			private AbstractButton rdGioitinh;
-
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				int row = tblThongtin.getSelectedRow();
-				txtMaKH.setText(modelttkh.getValueAt(row, 0).toString());
-				txtTenKh.setText(modelttkh.getValueAt(row, 1).toString());
-				txtngaySinh.setText(modelttkh.getValueAt(row, 2).toString());
-				txtSdt.setText(modelttkh.getValueAt(row, 3).toString());
-				txtEmail.setText(modelttkh.getValueAt(row, 4).toString());
-				if (modelttkh.getValueAt(row, 5).toString() == "Nam") {
-					rdGioitinh.setSelected(true);
-				}
-				else {
-					rdGioitinh.setSelected(false);
-				}
-			}
-
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-		});
-//		tblThongtin.setModel(new DefaultTableModel(new Object[][] {
-//
-//		}, new String[] { "M\u00E3 kh\u00E1ch h\u00E0ng", "H\u1ECD v\u00E0 t\u00EAn", "Email", "S\u0110T",
-//				"Gi\u1EDBi t\u00EDnh" }));
-		scrollPane.setViewportView(tblThongtin);
-		pnThongtin.setLayout(gl_pnThongtin);
 		panel_1.setLayout(gl_panel_1);
 
 		txtMaKH = new JTextField();
