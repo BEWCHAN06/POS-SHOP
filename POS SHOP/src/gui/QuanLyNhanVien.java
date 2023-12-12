@@ -24,6 +24,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -678,35 +680,66 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 		String cmnd = txtCMND.getText().trim();
 
 		if (maNv.isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Vui lòng điền tên nhân viên.");
-			return false;
-		}
+	        JOptionPane.showMessageDialog(null, "Vui lòng điền tên nhân viên.");
+	        return false;
+	    }
 
-		if (tenNv.isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Vui lòng điền mã nhân viên.");
-			return false;
-		}
+	    if (tenNv.isEmpty()) {
+	        JOptionPane.showMessageDialog(null, "Vui lòng điền mã nhân viên.");
+	        return false;
+	    }
 
-		if (diachi.isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Vui lòng điền địa chỉ.");
-			return false;
-		}
+	    if (diachi.isEmpty()) {
+	        JOptionPane.showMessageDialog(null, "Vui lòng điền địa chỉ.");
+	        return false;
+	    }
 
-		if (sdt.isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Vui lòng điền số điện thoại.");
-			return false;
-		}
+	    if (sdt.isEmpty()) {
+	        JOptionPane.showMessageDialog(null, "Vui lòng điền số điện thoại.");
+	        return false;
+	    } else if (!isValidPhoneNumber(sdt)) {
+	        JOptionPane.showMessageDialog(null, "Số điện thoại không hợp lệ.");
+	        return false;
+	    }
 
+	    if (email.isEmpty()) {
+	        JOptionPane.showMessageDialog(null, "Vui lòng điền email.");
+	        return false;
+	    } else if (!isValidEmail(email)) {
+	        JOptionPane.showMessageDialog(null, "Email không hợp lệ.");
+	        return false;
+	    }
 
-		if (email.isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Vui lòng điền email.");
-			return false;
-		}
-		if (cmnd.isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Vui lòng điền CMND.");
-			return false;
-		}
-		return true;
+	    if (cmnd.isEmpty()) {
+	        JOptionPane.showMessageDialog(null, "Vui lòng điền CMND hoặc CCCD.");
+	        return false;
+	    } else if (!isValidCMND_CCCD(cmnd)) {
+	        JOptionPane.showMessageDialog(null, "Số CMND hoặc CCCD không hợp lệ.");
+	        return false;
+	    }
+
+	    return true;
+	}
+	private boolean isValidEmail(String email) {
+	    // Regex cho định dạng email cơ bản (đơn giản)
+	    String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+	    Pattern pattern = Pattern.compile(emailRegex);
+	    Matcher matcher = pattern.matcher(email);
+	    return matcher.matches();
+	}
+	private boolean isValidPhoneNumber(String phoneNumber) {
+	    // Regex cho định dạng số điện thoại (đơn giản)
+	    String phoneRegex = "^[0-9]{10}$";
+	    Pattern pattern = Pattern.compile(phoneRegex);
+	    Matcher matcher = pattern.matcher(phoneNumber);
+	    return matcher.matches();
+	}
+	private boolean isValidCMND_CCCD(String cmnd) {
+	    // Regex cho định dạng số CMND hoặc CCCD
+	    String cmndRegex = "^[0-9]{9}$|^[0-9]{12}$";
+	    Pattern pattern = Pattern.compile(cmndRegex);
+	    Matcher matcher = pattern.matcher(cmnd);
+	    return matcher.matches();
 	}
 	private void clearTextfields() {
 		txtManhanvien.setText("");
@@ -775,9 +808,9 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		Object o = e.getSource();
-		trangthainut = 0;
 		if(o.equals(btnThem)) {
 			trangthainut = 1;
+			System.out.println(trangthainut);
 			tableDangLV.setEnabled(false);
 			
 			btnThem.setEnabled(false);
@@ -792,24 +825,38 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 		}
 		if(o.equals(btnSua)) {
 			trangthainut = 2;
+			setEditableTxT(true);
 			btnThem.setEnabled(false);
 			btnSua.setEnabled(false);
 			btnLuu.setEnabled(true);
 			btnHuy.setEnabled(true);
 		}
 		if(o.equals(btnLuu)) {
+			System.out.println(trangthainut);
 			tableDangLV.setEnabled(true);
-			if(validData()) {
-				nhanVienDAO = new NhanVienDAO();
-				nhanVienDAO.addNhanVien(objectNhanVien());
-				updateTableData();
+			if(trangthainut == 1) {
+				if(validData()) {
+					nhanVienDAO = new NhanVienDAO();
+					nhanVienDAO.addNhanVien(objectNhanVien());
+					updateTableData();
+				}
 			}
+			if(trangthainut == 2) {
+				if(validData()) {
+					nhanVienDAO = new NhanVienDAO();
+					nhanVienDAO.updateNhanVien(objectNhanVien());
+					updateTableData();
+				}
+			}
+			
 			btnThem.setEnabled(true);
 			btnSua.setEnabled(true);
 			btnLuu.setEnabled(false);
 			btnHuy.setEnabled(false);
 			
-		}else if(o.equals(btnHuy)) {
+		}
+		if(o.equals(btnHuy)) {
+			setClearTxt();
 			btnThem.setEnabled(true);
 			btnSua.setEnabled(true);
 			btnLuu.setEnabled(false);

@@ -55,28 +55,28 @@ public class uiMain {
 	 * @wbp.parser.entryPoint
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Login frame = new Login();
-					frame.setVisible(true);
-					
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
 //		EventQueue.invokeLater(new Runnable() {
 //			public void run() {
 //				try {
-//					uiMain window = new uiMain();
-//					window.frame.setVisible(true);
+//					Login frame = new Login();
+//					frame.setVisible(true);
 //					
 //				} catch (Exception e) {
 //					e.printStackTrace();
 //				}
 //			}
 //		});
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					uiMain window = new uiMain();
+					window.frame.setVisible(true);
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
 	/**
