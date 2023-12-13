@@ -51,7 +51,6 @@ import java.beans.PropertyChangeListener;
 
 public class QuanLyThuocTinh extends JPanel implements ActionListener, MouseListener{
 	private JTextField txtTenThuocTinh;
-	private JTextField txtTimKiem;
 	private JTable tblThuocTinh;
 	private ButtonGroup rd_group = new ButtonGroup();
     private javax.swing.JRadioButton rb_chatLieu;
@@ -122,58 +121,17 @@ public class QuanLyThuocTinh extends JPanel implements ActionListener, MouseList
 					.addContainerGap())
 		);
 		
-		JLabel lblTmKimThuc = new JLabel("Tìm kiếm thuộc tính");
-		lblTmKimThuc.setFont(new Font("Arial", Font.PLAIN, 12));
-		
-		txtTimKiem = new JTextField();
-		txtTimKiem.setBorder(new LineBorder(new Color(0, 0, 0)));
-		txtTimKiem.setColumns(10);
-		txtTimKiem.getDocument().addDocumentListener(new DocumentListener() {
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-				// TODO Auto-generated method stub
-				updateTable();
-			}
-			
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-				// TODO Auto-generated method stub
-				updateTable();
-			}
-			
-			@Override
-			public void changedUpdate(DocumentEvent e) {
-				// TODO Auto-generated method stub
-				updateTable();
-				
-			}
-			private void updateTable() {
-			}
-		});
-		
 		JPanel panel = new JPanel();
 		panel.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		panel.setBackground(new Color(255, 255, 255));
 		GroupLayout gl_pnlDanhSachThuocTinh = new GroupLayout(pnlDanhSachThuocTinh);
 		gl_pnlDanhSachThuocTinh.setHorizontalGroup(
 			gl_pnlDanhSachThuocTinh.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pnlDanhSachThuocTinh.createSequentialGroup()
-					.addGap(28)
-					.addComponent(lblTmKimThuc, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(txtTimKiem, GroupLayout.PREFERRED_SIZE, 361, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(383, Short.MAX_VALUE))
-				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 887, Short.MAX_VALUE)
+				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 896, Short.MAX_VALUE)
 		);
 		gl_pnlDanhSachThuocTinh.setVerticalGroup(
 			gl_pnlDanhSachThuocTinh.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pnlDanhSachThuocTinh.createSequentialGroup()
-					.addGap(14)
-					.addGroup(gl_pnlDanhSachThuocTinh.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblTmKimThuc)
-						.addComponent(txtTimKiem, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE))
+				.addComponent(panel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE)
 		);
 		panel.setLayout(new CardLayout(0, 0));
 		
@@ -345,7 +303,7 @@ public class QuanLyThuocTinh extends JPanel implements ActionListener, MouseList
 				btnLuu.setEnabled(true);
 				btnHuy.setEnabled(false);
 				btnLuu.setEnabled(false);
-				txtTimKiem.setEnabled(false);
+//				txtTimKiem.setEnabled(false);
 				trangthaibtn = 0;
 			}
 		});
