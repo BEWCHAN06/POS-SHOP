@@ -68,7 +68,7 @@ public class FormQuenMatKhau extends JFrame implements ActionListener {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FormQuenMatKhau frame = new FormQuenMatKhau();
+					Login frame = new Login();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -85,15 +85,13 @@ public class FormQuenMatKhau extends JFrame implements ActionListener {
 	 * Create the frame.
 	 */
 	public void initComponents() {
-		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLocationRelativeTo(null);
 		setBounds(100, 100, 825, 370);
 		mainPanel = new JPanel();
 		mainPanel.setBackground(new Color(255, 255, 255));
 		mainPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(mainPanel);
-
+		setLocationRelativeTo(null);
 		JPanel panelLoGo = new JPanel();
 		panelLoGo.setBounds(0, 0, 328, 341);
 		panelLoGo.setBorder(new LineBorder(new Color(0, 0, 0), 2));

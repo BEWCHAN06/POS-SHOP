@@ -80,6 +80,7 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 		
 		UiNhanvien();
 		updateTableData();
+		updateTableDataNgungLamViec();
 	}
 	private void UiNhanvien() {
 		setPreferredSize(new Dimension(934, 687));
@@ -246,10 +247,14 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 						.addContainerGap(12, Short.MAX_VALUE)));
 
 		tableNgungLV = new JTable();
-		tableNgungLV.setModel(new DefaultTableModel(new Object[][] {},
-				new String[] { "M\u00E3 Nh\u00E2n Vi\u00EAn", "H\u1ECD v\u00E0 T\u00EAn", "Ng\u00E0y Sinh",
-						"\u0110\u1ECBa Ch\u1EC9", "S\u0110T", "Gi\u1EDBi T\u00EDnh", "L\u01B0\u01A1ng ", "Email",
-						"Ch\u1EE9c V\u1EE5" }));
+		tableNgungLV.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null, null, null, null, null, null, null},
+			},
+			new String[] {
+				"M\u00E3 Nh\u00E2n Vi\u00EAn", "H\u1ECD v\u00E0 T\u00EAn", "Ng\u00E0y Sinh", "\u0110\u1ECBa Ch\u1EC9", "CMND", "S\u0110T", "email", "Gi\u1EDBi T\u00EDnh", "Ch\u1EE9c V\u1EE5"
+			}
+		));
 		scrollPaneDanglm.setViewportView(tableNgungLV);
 		pnNgunglamviec.setLayout(gl_pnNgunglamviec);
 
@@ -342,71 +347,6 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 		btnSua = new JButton("Sửa");
 		btnSua.setBounds(365, 185, 100, 37);
 		btnSua.setIcon(new ImageIcon(QuanLyNhanVien.class.getResource("/icon/sua.png")));
-		// Sự kiện sửa
-//		btnSua.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//
-//				int row = tableDangLV.getSelectedRow();
-//
-//				if (row >= 0) {
-//					String manv = txtManhanvien.getText().trim();
-//					String tennv = txtTenNV.getText().trim();
-//					String email = txtEmail.getText().trim();
-////				String ngaysinh = txtNgaysinh.getText().trim();
-//					String sdt = txtSDT.getText().trim();
-//					String diachi = txtDiachi.getText().trim();
-//
-//					boolean gt = true;
-//					if (rdbtnGioitinh.isSelected()) {
-//						gt = true;
-//					} else {
-//						gt = false;
-//					}
-//
-//					int tt = 1;
-//
-//					if (rdbtnTrangthai.isSelected()) {
-//						tt = 1;
-//					} else {
-//						tt = 0;
-//					}
-//					boolean cv = true;
-//					if (cbxcv.getSelectedItem().toString() == "Nhân Viên")
-//						cv = true;
-//					else
-//						cv = false;
-//
-////					NhanVien nv = new NhanVien(tennv, Date.valueOf(ngaysinh), sdt, email, gt, diachi, cv, manv);
-////					nvdao.updateNhanVien(nv);
-//					JOptionPane.showMessageDialog(null, "Cập Nhật Thành Công");
-//
-//					//
-//					modelnv.getDataVector().removeAllElements();
-//					for (NhanVien nz : nvdao.getAllNhanVien()) {
-//						String gt1 = "";
-//						if (nz.isGioiTinh() == true) {
-//							gt1 = "Nam";
-//						} else {
-//							gt1 = "Nu";
-//						}
-//
-//						String cv1 = "";
-//						if (nz.isChucVu() == true) {
-//							cv1 = "Nhan vien";
-//						} else {
-//							cv1 = "Quan ly";
-//						}
-//						Object[] obj = { nz.getMaNV(), nz.getTenNV(), nz.getNgaySinh(), nz.getDiaChi(), nz.getCMND(),
-//								nz.getSDT(), nz.getEmail(), gt1, cv1 };
-//
-//						modelnv.addRow(obj);
-//					}
-//					tableDangLV.setModel(modelnv);
-//
-//					//
-//				}
-//			}
-//		});
 		btnSua.setFont(new Font("Arial", Font.BOLD, 12));
 		btnSua.setBackground(new Color(255, 255, 128));
 
@@ -548,7 +488,61 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 
 			}
 		});
-		tableNgungLV.addMouseListener(this);
+		tableNgungLV.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				int row = tableNgungLV.getSelectedRow();
+				txtManhanvien.setText(modelnv.getValueAt(row, 0).toString());
+				txtTenNV.setText(modelnv.getValueAt(row, 1).toString());
+//				txtNgaysinh.setText(modelnv.getValueAt(row, 2).toString());
+				Date ns = (Date) modelnv.getValueAt(row, 2);
+				dateChooserNgaySinh.setDate(ns);
+				txtDiachi.setText(modelnv.getValueAt(row, 3).toString());
+				txtCMND.setText(modelnv.getValueAt(row, 4).toString());
+				txtSDT.setText(modelnv.getValueAt(row, 5).toString());
+				txtEmail.setText(modelnv.getValueAt(row, 6).toString());
+
+				if (modelnv.getValueAt(row, 7).toString().equals("Nam")) {
+					rdbtnGioitinh.setSelected(true);
+				}else {
+					rdbtnGioitinh.setSelected(false);
+				}
+				if (modelnv.getValueAt(row, 8).toString().equals("Nhan vien")) {
+					cbxChucvu.setSelectedIndex(0);
+				} else {
+					cbxChucvu.setSelectedIndex(1);
+				}
+				nhanVienDAO = new NhanVienDAO();
+				NhanVien nv = nhanVienDAO.getNhanVienByID(modelnv.getValueAt(row, 0).toString());
+				rdbtnTrangthai.setSelected(nv.getTrangThai() == 1 ?  true : false);
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		tableDangLV.addMouseListener(this);
 		
 		btnThem.addActionListener(this);
@@ -619,7 +613,33 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 			}
 
 			String cv = "";
-			if (nz.isChucVu() == true) {
+			if (nz.isChucVu() == false) {
+				cv = "Nhan vien";
+			} else {
+				cv = "Quan ly";
+			}
+			Object[] obj = { nz.getMaNV(), nz.getTenNV(), nz.getNgaySinh(), nz.getDiaChi(), nz.getCMND(), nz.getSDT(),
+					nz.getEmail(), gt, cv };
+
+			dtm.addRow(obj);
+		}
+
+	}
+	private void updateTableDataNgungLamViec() {
+		DefaultTableModel dtm = (DefaultTableModel) tableNgungLV.getModel();
+        dtm.setRowCount(0);
+		// TODO Auto-generated method stub
+		dtm.getDataVector().removeAllElements();
+		for (NhanVien nz : nvdao.getAllNhanVienNgungLam()) {
+			String gt = "";
+			if (nz.isGioiTinh() == true) {
+				gt = "Nam";
+			} else {
+				gt = "Nu";
+			}
+
+			String cv = "";
+			if (nz.isChucVu() == false) {
 				cv = "Nhan vien";
 			} else {
 				cv = "Quan ly";
@@ -771,6 +791,9 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 		} else {
 			cbxChucvu.setSelectedIndex(1);
 		}
+		nhanVienDAO = new NhanVienDAO();
+		NhanVien nv = nhanVienDAO.getNhanVienByID(tableDangLV.getValueAt(row, 0).toString());
+		rdbtnTrangthai.setSelected(nv.getTrangThai() == 0 ?  true : false);
 
 	}
 	

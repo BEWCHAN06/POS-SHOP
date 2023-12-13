@@ -37,7 +37,7 @@ public class NhanVienDAO {
 		Connection conn = KetNoiSQL.getConnection();
 
 		try {
-			String sql = "Select * from nhanvien";
+			String sql = "Select * from nhanvien where trangThai = 0";
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
 			while (rs.next()) {
@@ -67,7 +67,7 @@ public class NhanVienDAO {
 		Connection conn = KetNoiSQL.getConnection();
 
 		try {
-			String sql = "  Select * from nhanvien where isDeleted IS NULL OR isDeleted = 0";
+			String sql = "Select * from nhanvien where trangThai = 0";
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
 			while (rs.next()) {
@@ -77,11 +77,40 @@ public class NhanVienDAO {
 				String sdt = rs.getString(4);
 				String email = rs.getString(5);
 				String cmnd = rs.getString(6);
-				double gioitinh = rs.getDouble(7);
+				boolean gioitinh = rs.getBoolean(7);
 				String dc = rs.getString(8);
 				boolean cv = rs.getBoolean(9);
 				int trangthai = rs.getInt(10);
-				NhanVien nv = new NhanVien();
+				NhanVien nv = new NhanVien(manv ,tennv,ns,sdt,email,cmnd,gioitinh,dc,cv,trangthai);
+				listNhanVien.add(nv);
+			}
+
+		} catch (SQLException ex) {
+			Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		return listNhanVien;
+	}
+	public ArrayList<NhanVien> getAllNhanVienNgungLam() {
+		ArrayList<NhanVien> listNhanVien = new ArrayList<>();
+		KetNoiSQL.getInstance();
+		Connection conn = KetNoiSQL.getConnection();
+
+		try {
+			String sql = "  Select * from nhanvien where trangThai = 1";
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				String manv = rs.getString(1);
+				String tennv = rs.getString(2);
+				Date ns = rs.getDate(3);
+				String sdt = rs.getString(4);
+				String email = rs.getString(5);
+				String cmnd = rs.getString(6);
+				boolean gioitinh = rs.getBoolean(7);
+				String dc = rs.getString(8);
+				boolean cv = rs.getBoolean(9);
+				int trangthai = rs.getInt(10);
+				NhanVien nv = new NhanVien(manv ,tennv,ns,sdt,email,cmnd,gioitinh,dc,cv,trangthai);
 				listNhanVien.add(nv);
 			}
 
@@ -408,7 +437,7 @@ public class NhanVienDAO {
 		Connection conn = KetNoiSQL.getConnection();
 		try {
 
-			String sql = "select * from nhanvien where maNV like (?) or tenNV like (?) or SDT like (?) or (gioitinh =(?) and chucVu=(?))";
+			String sql = "select * from nhanvien where trangThai = 0 and maNV like (?) or tenNV like (?) or SDT like (?) or (gioitinh =(?) and chucVu=(?))";
 			PreparedStatement stmt = conn.prepareCall(sql);
 			stmt.setString(1, "%" +manvtensdt+"%");
 			stmt.setString(2, "%" +manvtensdt+"%");
