@@ -165,6 +165,51 @@ public class SanPhamDAO {
 		}
 		return dssp;
 	}
+	
+	// Tìm sản phẩm theo phân loại và maKM là null
+		public List<SanPham> getSanPhanTheoPhanLoaiNull(String name) {
+			try {
+				KetNoiSQL.getInstance().connect();
+				Connection con = KetNoiSQL.getInstance().getConnection();
+				String sql = "select maSP, tenSP, maPL, giaNhap,loiTheoPhanTram, maKM, giaBan, maKT,soLuong,maMS, maCL, maNCC, hinhAnh \r\n"
+						+ "from SanPham where maPL = (select maPL from PhanLoai where phanLoai = ? and maKM is Null)";
+				PreparedStatement stmt = con.prepareCall(sql);
+				stmt.setString(1, name);
+				ResultSet rs = stmt.executeQuery();
+
+				while (rs.next()) {
+					String masp = rs.getString("maSP");
+					String ten = rs.getString("tenSP");
+					String maloai = rs.getString("maPL");
+					float giaNhap = rs.getFloat("giaNhap");
+					int loi = rs.getInt("loiTheoPhanTram");
+					String maKm = rs.getString("maKM");
+					float giaBan = rs.getFloat("giaBan");
+					String makt = rs.getString("maKT");
+					int sl = rs.getInt("soLuong");
+					String mams = rs.getString("maMS");
+					String macl = rs.getString("maCL");
+					String mancc = rs.getString("maNCC");
+					String hinhAnh = rs.getString("hinhAnh");
+
+					PhanLoai phanloai = phanLoaiDAO.getPhanLoai(maloai);
+					KhuyenMai khuyenmai = khuyenMaiDao.getKhuyenMai(maKm);
+					KichThuoc kt = kichThuocDao.getKichThuoc(makt);
+					MauSac ms = mauSacDAO.getMauSac(mams);
+					ChatLieu cl = chatLieuDao.getChatLieu(macl);
+					NhaCungCap ncc = nhaCungCapDao.getNhaCungCap(mancc);
+
+					SanPham sp = new SanPham(masp, ten, phanloai, giaNhap, loi, khuyenmai, giaBan, kt, sl, ms, cl, ncc,
+							hinhAnh);
+					dssp.add(sp);
+				}
+
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return dssp;
+		}
 
 	public List<SanPham> getDSSPTheoMaSP(String name) {
 		try {
