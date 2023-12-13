@@ -49,33 +49,34 @@ public class uiMain2 {
 	public TabThongKeSanPham keSanPham;
 	private JLabel tenNV, chucVu;
 	private LoadingDialog dialog;
+	private JPanel btnQLNCC;
 	/**
 	 * Launch the application.
 	 * @wbp.parser.entryPoint
 	 */
 	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					Login frame = new Login();
-//					frame.setVisible(true);
-//					
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					uiMain2 window = new uiMain2();
-					window.frame.setVisible(true);
+					Login frame = new Login();
+					frame.setVisible(true);
 					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					uiMain2 window = new uiMain2();
+//					window.frame.setVisible(true);
+//					
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
 	}
 
 	/**
@@ -201,6 +202,7 @@ public class uiMain2 {
 				btnHoaDon.setBackground(new Color(144, 238, 144));
 				btnKhuyenMai.setBackground(new Color(144, 238, 144));
 				btnKhachHang.setBackground(new Color(144, 238, 144));
+				btnQLNCC.setBackground(new Color(144, 238, 144));
 			}
 		});
 		btnBanHang.setBackground(new Color(144, 238, 144));
@@ -219,6 +221,7 @@ public class uiMain2 {
 				btnHoaDon.setBackground(new Color(144, 238, 144));
 				btnKhuyenMai.setBackground(new Color(144, 238, 144));
 				btnKhachHang.setBackground(new Color(144, 238, 144));
+				btnQLNCC.setBackground(new Color(144, 238, 144));
 			}
 		});
 		btnSanPham = new JPanel();
@@ -235,6 +238,7 @@ public class uiMain2 {
 				btnHoaDon.setBackground(new Color(144, 238, 144));
 				btnKhuyenMai.setBackground(new Color(144, 238, 144));
 				btnKhachHang.setBackground(new Color(144, 238, 144));
+				btnQLNCC.setBackground(new Color(144, 238, 144));
 			}
 		});
 		btnSanPham.setBackground(new Color(144, 238, 144));
@@ -252,6 +256,7 @@ public class uiMain2 {
 				btnHoaDon.setBackground(new Color(144, 238, 144));
 				btnKhuyenMai.setBackground(new Color(144, 238, 144));
 				btnKhachHang.setBackground(new Color(144, 238, 144));
+				btnQLNCC.setBackground(new Color(144, 238, 144));
 			}
 		});
 
@@ -280,6 +285,7 @@ public class uiMain2 {
 				btnHoaDon.setBackground(new Color(34, 139, 34));
 				btnKhuyenMai.setBackground(new Color(144, 238, 144));
 				btnKhachHang.setBackground(new Color(144, 238, 144));
+				btnQLNCC.setBackground(new Color(144, 238, 144));
 			}
 		});
 		btnHoaDon.setBackground(new Color(144, 238, 144));
@@ -297,6 +303,7 @@ public class uiMain2 {
 				btnHoaDon.setBackground(new Color(34, 139, 34));
 				btnKhuyenMai.setBackground(new Color(144, 238, 144));
 				btnKhachHang.setBackground(new Color(144, 238, 144));
+				btnQLNCC.setBackground(new Color(144, 238, 144));
 			}
 		});
 		JLabel iconSanPham_1 = new JLabel("");
@@ -324,6 +331,7 @@ public class uiMain2 {
 				btnHoaDon.setBackground(new Color(144, 238, 144));
 				btnKhuyenMai.setBackground(new Color(34, 139, 34));
 				btnKhachHang.setBackground(new Color(144, 238, 144));
+				btnQLNCC.setBackground(new Color(144, 238, 144));
 			}
 		});
 		btnKhuyenMai.setBackground(new Color(144, 238, 144));
@@ -342,6 +350,7 @@ public class uiMain2 {
 				btnHoaDon.setBackground(new Color(144, 238, 144));
 				btnKhuyenMai.setBackground(new Color(34, 139, 34));
 				btnKhachHang.setBackground(new Color(144, 238, 144));
+				btnQLNCC.setBackground(new Color(144, 238, 144));
 			}
 		});
 		JLabel iconSanPham_1_1 = new JLabel("");
@@ -369,6 +378,7 @@ public class uiMain2 {
 				btnHoaDon.setBackground(new Color(144, 238, 144));
 				btnKhuyenMai.setBackground(new Color(144, 238, 144));
 				btnKhachHang.setBackground(new Color(34, 139, 34));
+				btnQLNCC.setBackground(new Color(144, 238, 144));
 			}
 		});
 		btnKhachHang.setBackground(new Color(144, 238, 144));
@@ -388,6 +398,7 @@ public class uiMain2 {
 				btnHoaDon.setBackground(new Color(144, 238, 144));
 				btnKhuyenMai.setBackground(new Color(144, 238, 144));
 				btnKhachHang.setBackground(new Color(34, 139, 34));
+				btnQLNCC.setBackground(new Color(144, 238, 144));
 			}
 		});
 		JLabel iconKhachHang = new JLabel("");
@@ -401,7 +412,7 @@ public class uiMain2 {
 		lblKhachHang.setBackground(Color.WHITE);
 
 		JPanel btnDangXuat = new JPanel();
-		btnDangXuat.setBounds(12, 517, 195, 45);
+		btnDangXuat.setBounds(12, 567, 195, 45);
 		btnDangXuat.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -482,10 +493,11 @@ public class uiMain2 {
 		JPanel btnKhachHang_1 = new JPanel();
 		btnKhachHang_1.setLayout(null);
 		btnKhachHang_1.setBackground(new Color(144, 238, 144));
-		btnKhachHang_1.setBounds(12, 335, 193, 59);
+		btnKhachHang_1.setBounds(12, 499, 193, 59);
 		pnlListMenu.add(btnKhachHang_1);
 		
 		JLabel iconKhachHang_1 = new JLabel("");
+		iconKhachHang_1.setIcon(new ImageIcon(uiMain2.class.getResource("/icon/help.png")));
 		iconKhachHang_1.setBounds(10, 11, 40, 40);
 		btnKhachHang_1.add(iconKhachHang_1);
 		
@@ -495,6 +507,40 @@ public class uiMain2 {
 		lblTrGip.setBackground(Color.WHITE);
 		lblTrGip.setBounds(60, 4, 131, 52);
 		btnKhachHang_1.add(lblTrGip);
+		
+		 btnQLNCC = new JPanel();
+		btnQLNCC.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				QuanLyNhaCungCap qlncc = new QuanLyNhaCungCap();
+				mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
+				mainPanel.add(qlncc, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
+				mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
+
+				btnBanHang.setBackground(new Color(144, 238, 144));
+				btnSanPham.setBackground(new Color(144, 238, 144));
+				btnHoaDon.setBackground(new Color(144, 238, 144));
+				btnKhuyenMai.setBackground(new Color(144, 238, 144));
+				btnKhachHang.setBackground(new Color(144, 238, 144));
+				btnQLNCC.setBackground(new Color(34, 139, 34));
+			}
+		});
+		btnQLNCC.setLayout(null);
+		btnQLNCC.setBackground(new Color(144, 238, 144));
+		btnQLNCC.setBounds(12, 335, 193, 59);
+		pnlListMenu.add(btnQLNCC);
+		
+		JLabel iconKhachHang_2 = new JLabel("");
+		iconKhachHang_2.setIcon(new ImageIcon(uiMain2.class.getResource("/icon/ncc1.png")));
+		iconKhachHang_2.setBounds(10, 11, 40, 40);
+		btnQLNCC.add(iconKhachHang_2);
+		
+		JLabel lblqunLncc = new JLabel("<html>Quản Lý<br>NCC</html>");
+		lblqunLncc.setForeground(Color.WHITE);
+		lblqunLncc.setFont(new Font("Arial", Font.BOLD, 22));
+		lblqunLncc.setBackground(Color.WHITE);
+		lblqunLncc.setBounds(60, 0, 131, 52);
+		btnQLNCC.add(lblqunLncc);
 		pnlMenu.setLayout(gl_pnlMenu);
 		frame.getContentPane().setLayout(groupLayout);
 //		frame.setBounds(100, 100, 1215, 777);

@@ -263,21 +263,15 @@ public class SanPham {
 		return finalId;
 	}
 
-	public double tinhGiaBanLucDau() {
-		double giaBanLucDau = 0;
-		giaBanLucDau = this.giaNhap + this.giaNhap / 10;
-		return giaBanLucDau;
-	}
 
-	public double tinhGiaSauKhuyenMai(double giaSauLoi, double loiTheoPhanTram, double giamGiaTheoPhanTram) {
+
+	public double tinhGiaSauKhuyenMai(double giaSauLoi, double giamGiaTheoPhanTram) {
 		// Áp dụng giảm giá
 		double giaSauGiamGia = giaSauLoi - giaSauLoi * giamGiaTheoPhanTram / 100;
 
 		return giaSauGiamGia;
 	}
-	public double giaBan() {
-		return this.giaNhap + this.giaNhap * loi;
-	}
+
 
 	@Override
 	public String toString() {

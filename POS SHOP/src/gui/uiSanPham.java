@@ -56,12 +56,5 @@ public class uiSanPham extends JPanel {
 		mainPanelQuanLyThuocTinh.removeAll();
 		mainPanelQuanLyThuocTinh.add(qltt, BorderLayout.CENTER);
 		
-		//tab quản lý nhà cung cấp
-		JPanel mainPanelQuanLyNhaCC = new JPanel();
-		tabbedPane.addTab("Quản Lý Nhà Cung Cấp", null, mainPanelQuanLyNhaCC, null);
-		QuanLyNhaCungCap qlncc = new QuanLyNhaCungCap();
-		mainPanelQuanLyNhaCC.removeAll();
-		mainPanelQuanLyNhaCC.add(qlncc, BorderLayout.CENTER);
-		
 	}
 }

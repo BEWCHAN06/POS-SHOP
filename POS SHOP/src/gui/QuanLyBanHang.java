@@ -123,7 +123,7 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 	private String maspGioHang;
 	private double phantramKM;
 	private ChiTietHoaDonDAO chiTietHoaDonDAO = new ChiTietHoaDonDAO();
-	private double dongia;
+	private double dongia, giaSauKhuyenMai;
 	private JButton btnXoaSP;
 	private JLabel lblMaHDpush;
 	private JLabel lblTongTienpush;
@@ -345,7 +345,8 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 				double phantram = phantramKM;
 				int sl = Integer.parseInt(txtSoLuong.getText());
 				ChiTietHoaDon cthd = new ChiTietHoaDon();
-				cthd = new ChiTietHoaDon(sp, hd, phantram, sl, sl*dongia);
+				giaSauKhuyenMai = sp.tinhGiaSauKhuyenMai(dongia, phantram)*sl;
+				cthd = new ChiTietHoaDon(sp, hd, phantram, sl, giaSauKhuyenMai);
 				chiTietHoaDonDAO.updateSoLuongSPTrongGio(cthd);
 				updateTableGioHang(mahd);
 				lblTongTienpush.setText(chiTietHoaDonDAO.getTongTien(mahd)+"");
@@ -367,7 +368,8 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 				double phantram = phantramKM;
 				int sl = Integer.parseInt(txtSoLuong.getText());
 				ChiTietHoaDon cthd = new ChiTietHoaDon();
-				cthd = new ChiTietHoaDon(sp, hd, phantram, sl, sl*dongia);
+				giaSauKhuyenMai = sp.tinhGiaSauKhuyenMai(dongia, phantram)*sl;
+				cthd = new ChiTietHoaDon(sp, hd, phantram, sl, giaSauKhuyenMai);
 				chiTietHoaDonDAO.deleteMotSP(cthd);
 				updateTableGioHang(mahd);
 				lblTongTienpush.setText(chiTietHoaDonDAO.getTongTien(mahd)+"");
@@ -1064,7 +1066,8 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 			}else {
 				khuyenmai = sp.getKhuyenMai().getPhanTramKhuyenMai();
 			}
-			Object[] rowdata = {sp.getMaSP(),sp.getTenSP(),sp.getKichThuoc().getKichThuoc(),khuyenmai,sp.getGiaBan(),sp.getSoLuong(),sp.getGiaBan()*sp.getSoLuong()};
+			giaSauKhuyenMai = sp.tinhGiaSauKhuyenMai(sp.getGiaBan(), khuyenmai);
+			Object[] rowdata = {sp.getMaSP(),sp.getTenSP(),sp.getKichThuoc().getKichThuoc(),khuyenmai,sp.getGiaBan(),sp.getSoLuong(), giaSauKhuyenMai*sp.getSoLuong()};
 			dtm.addRow(rowdata);
 		}
 	}
@@ -1148,9 +1151,12 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 						SanPham sp = sanPhamDAO.getSanPhanTheoId(masp);
 						HoaDon hd = HoaDonDAO.getHDTheoId(mahd);
 						double phantram = phantramKM;
+						System.out.println(phantram);
 						sl++;
 						ChiTietHoaDon cthd = new ChiTietHoaDon();
-						cthd = new ChiTietHoaDon(sp, hd, phantram, sl,Double.parseDouble(sl+"")*dongia);
+						giaSauKhuyenMai = sp.tinhGiaSauKhuyenMai(dongia, phantram)*sl;
+						System.out.println(giaSauKhuyenMai);
+						cthd = new ChiTietHoaDon(sp, hd, phantram, sl, giaSauKhuyenMai);
 						chiTietHoaDonDAO.updateSoLuongSPTrongGio(cthd);
 						updateTableGioHang(mahd);
 						lblTongTienpush.setText(chiTietHoaDonDAO.getTongTien(mahd)+"");
@@ -1275,7 +1281,8 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 					double phantram = phantramKM;
 					sl++;
 					ChiTietHoaDon cthd = new ChiTietHoaDon();
-					cthd = new ChiTietHoaDon(sp, hd, phantram, sl, sl*dongia);
+					giaSauKhuyenMai = sp.tinhGiaSauKhuyenMai(dongia, phantram)*sl;
+					cthd = new ChiTietHoaDon(sp, hd, phantram, sl, giaSauKhuyenMai);
 					chiTietHoaDonDAO.updateSoLuongSPTrongGio(cthd);
 					updateTableGioHang(mahd);
 					lblTongTienpush.setText(chiTietHoaDonDAO.getTongTien(mahd)+"");

@@ -59,6 +59,7 @@ public class uiMain{
 	public TabThongKeDoanhThu doanhThu;
 	public TabThongKeSanPham keSanPham;
 	private JLabel tenNV, chucVu;
+	private JPanel btnNhaCC;
 
 	/**
 	 * Launch the application.
@@ -209,6 +210,7 @@ public class uiMain{
 				btnNhanVien.setBackground(new Color(144, 238, 144));
 				btnKhachHang.setBackground(new Color(144, 238, 144));
 				btnThongKe.setBackground(new Color(144, 238, 144));
+				btnNhaCC.setBackground(new Color(144, 238, 144));
 			}
 		});
 		btnBanHang.setBackground(new Color(144, 238, 144));
@@ -229,6 +231,7 @@ public class uiMain{
 				btnNhanVien.setBackground(new Color(144, 238, 144));
 				btnKhachHang.setBackground(new Color(144, 238, 144));
 				btnThongKe.setBackground(new Color(144, 238, 144));
+				btnNhaCC.setBackground(new Color(144, 238, 144));
 			}
 		});
 		btnSanPham = new JPanel();
@@ -265,6 +268,7 @@ public class uiMain{
 				btnNhanVien.setBackground(new Color(144, 238, 144));
 				btnKhachHang.setBackground(new Color(144, 238, 144));
 				btnThongKe.setBackground(new Color(144, 238, 144));
+				btnNhaCC.setBackground(new Color(144, 238, 144));
 			}
 		});
 
@@ -294,6 +298,7 @@ public class uiMain{
 				btnNhanVien.setBackground(new Color(144, 238, 144));
 				btnKhachHang.setBackground(new Color(144, 238, 144));
 				btnThongKe.setBackground(new Color(144, 238, 144));
+				btnNhaCC.setBackground(new Color(144, 238, 144));
 			}
 		});
 		btnHoaDon.setBackground(new Color(144, 238, 144));
@@ -313,6 +318,7 @@ public class uiMain{
 				btnNhanVien.setBackground(new Color(144, 238, 144));
 				btnKhachHang.setBackground(new Color(144, 238, 144));
 				btnThongKe.setBackground(new Color(144, 238, 144));
+				btnNhaCC.setBackground(new Color(144, 238, 144));
 			}
 		});
 		JLabel iconSanPham_1 = new JLabel("");
@@ -341,6 +347,7 @@ public class uiMain{
 				btnNhanVien.setBackground(new Color(144, 238, 144));
 				btnKhachHang.setBackground(new Color(144, 238, 144));
 				btnThongKe.setBackground(new Color(144, 238, 144));
+				btnNhaCC.setBackground(new Color(144, 238, 144));
 			}
 		});
 		btnKhuyenMai.setBackground(new Color(144, 238, 144));
@@ -361,6 +368,7 @@ public class uiMain{
 				btnNhanVien.setBackground(new Color(144, 238, 144));
 				btnKhachHang.setBackground(new Color(144, 238, 144));
 				btnThongKe.setBackground(new Color(144, 238, 144));
+				btnNhaCC.setBackground(new Color(144, 238, 144));
 			}
 		});
 		JLabel iconSanPham_1_1 = new JLabel("");
@@ -389,6 +397,7 @@ public class uiMain{
 				btnNhanVien.setBackground(new Color(34, 139, 34));
 				btnKhachHang.setBackground(new Color(144, 238, 144));
 				btnThongKe.setBackground(new Color(144, 238, 144));
+				btnNhaCC.setBackground(new Color(144, 238, 144));
 			}
 		});
 		btnNhanVien.setBackground(new Color(144, 238, 144));
@@ -408,6 +417,7 @@ public class uiMain{
 				btnNhanVien.setBackground(new Color(34, 139, 34));
 				btnKhachHang.setBackground(new Color(144, 238, 144));
 				btnThongKe.setBackground(new Color(144, 238, 144));
+				btnNhaCC.setBackground(new Color(144, 238, 144));
 			}
 		});
 		JLabel iconNhanVien = new JLabel("");
@@ -436,6 +446,7 @@ public class uiMain{
 				btnNhanVien.setBackground(new Color(144, 238, 144));
 				btnKhachHang.setBackground(new Color(34, 139, 34));
 				btnThongKe.setBackground(new Color(144, 238, 144));
+				btnNhaCC.setBackground(new Color(144, 238, 144));
 			}
 		});
 		btnKhachHang.setBackground(new Color(144, 238, 144));
@@ -457,6 +468,7 @@ public class uiMain{
 				btnNhanVien.setBackground(new Color(144, 238, 144));
 				btnKhachHang.setBackground(new Color(34, 139, 34));
 				btnThongKe.setBackground(new Color(144, 238, 144));
+				btnNhaCC.setBackground(new Color(144, 238, 144));
 			}
 		});
 		JLabel iconKhachHang = new JLabel("");
@@ -485,6 +497,7 @@ public class uiMain{
 				btnNhanVien.setBackground(new Color(144, 238, 144));
 				btnKhachHang.setBackground(new Color(144, 238, 144));
 				btnThongKe.setBackground(new Color(34, 139, 34));
+				btnNhaCC.setBackground(new Color(144, 238, 144));
 			}
 		});
 		btnThongKe.setBackground(new Color(144, 238, 144));
@@ -505,6 +518,7 @@ public class uiMain{
 				btnNhanVien.setBackground(new Color(144, 238, 144));
 				btnKhachHang.setBackground(new Color(144, 238, 144));
 				btnThongKe.setBackground(new Color(34, 139, 34));
+				btnNhaCC.setBackground(new Color(144, 238, 144));
 			}
 		});
 		JLabel iconThongKe = new JLabel("");
@@ -586,61 +600,104 @@ public class uiMain{
 			}
 		});
 		JLabel iconThongKe_1 = new JLabel("");
-		iconThongKe_1.setBounds(10, 12, 40, 40);
+		iconThongKe_1.setIcon(new ImageIcon(uiMain.class.getResource("/icon/help.png")));
+		iconThongKe_1.setBounds(10, 0, 40, 40);
 		btnTroGiup.add(iconThongKe_1);
 
 		JLabel lblTroGiup = new JLabel("Trợ Giúp");
 		lblTroGiup.setForeground(Color.WHITE);
 		lblTroGiup.setFont(new Font("Arial", Font.BOLD, 22));
 		lblTroGiup.setBackground(Color.WHITE);
-		lblTroGiup.setBounds(60, 4, 129, 52);
+		lblTroGiup.setBounds(60, 4, 129, 32);
 		btnTroGiup.add(lblTroGiup);
+		
+		btnNhaCC = new JPanel();
+		btnNhaCC.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				QuanLyNhaCungCap qlncc = new QuanLyNhaCungCap();
+				mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
+				mainPanel.add(qlncc, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
+				mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
+
+				btnBanHang.setBackground(new Color(144, 238, 144));
+				btnSanPham.setBackground(new Color(144, 238, 144));
+				btnHoaDon.setBackground(new Color(144, 238, 144));
+				btnKhuyenMai.setBackground(new Color(144, 238, 144));
+				btnKhachHang.setBackground(new Color(144, 238, 144));
+				btnNhaCC.setBackground(new Color(34, 139, 34));
+			}
+		});
+		btnNhaCC.setLayout(null);
+		btnNhaCC.setBackground(new Color(144, 238, 144));
+		
+		JLabel iconThongKe_2 = new JLabel("");
+		iconThongKe_2.setIcon(new ImageIcon(uiMain.class.getResource("/icon/ncc1.png")));
+		iconThongKe_2.setBounds(10, 12, 40, 40);
+		btnNhaCC.add(iconThongKe_2);
+		
+		JLabel lblqunLnhCung = new JLabel("<html>Quản Lý<br>NCC</html>");
+		lblqunLnhCung.setForeground(Color.WHITE);
+		lblqunLnhCung.setFont(new Font("Arial", Font.BOLD, 22));
+		lblqunLnhCung.setBackground(Color.WHITE);
+		lblqunLnhCung.setBounds(60, 4, 123, 52);
+		btnNhaCC.add(lblqunLnhCung);
 		GroupLayout gl_pnlListMenu = new GroupLayout(pnlListMenu);
-		gl_pnlListMenu.setHorizontalGroup(gl_pnlListMenu.createParallelGroup(Alignment.LEADING).addGroup(gl_pnlListMenu
-				.createSequentialGroup()
-				.addGroup(gl_pnlListMenu.createParallelGroup(Alignment.LEADING).addGroup(Alignment.TRAILING,
-						gl_pnlListMenu.createSequentialGroup().addContainerGap()
-								.addGroup(gl_pnlListMenu.createParallelGroup(Alignment.LEADING)
-										.addComponent(btnSanPham, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 195,
-												Short.MAX_VALUE)
-										.addComponent(btnBanHang, GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)))
-						.addGroup(Alignment.TRAILING, gl_pnlListMenu.createSequentialGroup().addGap(12)
-								.addGroup(gl_pnlListMenu.createParallelGroup(Alignment.LEADING)
-										.addComponent(btnKhachHang, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 193,
-												Short.MAX_VALUE)
-										.addComponent(btnNhanVien, GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
-										.addComponent(btnThongKe, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 193,
-												Short.MAX_VALUE)))
-						.addGroup(Alignment.TRAILING, gl_pnlListMenu.createSequentialGroup().addContainerGap()
-								.addGroup(gl_pnlListMenu.createParallelGroup(Alignment.LEADING)
-										.addComponent(btnKhuyenMai, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 195,
-												Short.MAX_VALUE)
-										.addComponent(btnHoaDon, GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)))
-						.addGroup(gl_pnlListMenu.createSequentialGroup().addContainerGap().addComponent(btnDangXuat,
-								GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE))
-						.addGroup(gl_pnlListMenu.createSequentialGroup().addContainerGap().addComponent(btnTroGiup,
-								GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)))
-				.addContainerGap()));
-		gl_pnlListMenu.setVerticalGroup(gl_pnlListMenu.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pnlListMenu.createSequentialGroup().addContainerGap()
-						.addComponent(btnBanHang, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(btnSanPham, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(btnHoaDon, GroupLayout.PREFERRED_SIZE, 57, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(btnKhuyenMai, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(btnNhanVien, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(btnKhachHang, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(btnThongKe, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(btnTroGiup, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
-						.addComponent(btnDangXuat, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap()));
+		gl_pnlListMenu.setHorizontalGroup(
+			gl_pnlListMenu.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_pnlListMenu.createSequentialGroup()
+					.addGroup(gl_pnlListMenu.createParallelGroup(Alignment.LEADING)
+						.addGroup(Alignment.TRAILING, gl_pnlListMenu.createSequentialGroup()
+							.addContainerGap()
+							.addGroup(gl_pnlListMenu.createParallelGroup(Alignment.LEADING)
+								.addComponent(btnSanPham, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
+								.addComponent(btnBanHang, GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)))
+						.addGroup(Alignment.TRAILING, gl_pnlListMenu.createSequentialGroup()
+							.addGap(12)
+							.addGroup(gl_pnlListMenu.createParallelGroup(Alignment.LEADING)
+								.addComponent(btnKhachHang, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 193, Short.MAX_VALUE)
+								.addComponent(btnNhanVien, GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
+								.addComponent(btnThongKe, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 193, Short.MAX_VALUE)))
+						.addGroup(Alignment.TRAILING, gl_pnlListMenu.createSequentialGroup()
+							.addContainerGap()
+							.addGroup(gl_pnlListMenu.createParallelGroup(Alignment.LEADING)
+								.addComponent(btnKhuyenMai, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
+								.addComponent(btnHoaDon, GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)))
+						.addGroup(Alignment.TRAILING, gl_pnlListMenu.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(btnDangXuat, GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE))
+						.addGroup(gl_pnlListMenu.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(btnTroGiup, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE))
+						.addGroup(Alignment.TRAILING, gl_pnlListMenu.createSequentialGroup()
+							.addContainerGap(12, Short.MAX_VALUE)
+							.addComponent(btnNhaCC, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap())
+		);
+		gl_pnlListMenu.setVerticalGroup(
+			gl_pnlListMenu.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pnlListMenu.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(btnBanHang, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnSanPham, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnHoaDon, GroupLayout.PREFERRED_SIZE, 57, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnKhuyenMai, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnNhanVien, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnKhachHang, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnThongKe, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnNhaCC, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(btnTroGiup, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnDangXuat, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE))
+		);
 		btnDangXuat.setLayout(null);
 		btnDangXuat.add(iconDangXuat);
 		btnDangXuat.add(lblDangXuat);

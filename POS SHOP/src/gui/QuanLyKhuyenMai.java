@@ -530,9 +530,10 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 				if (row != -1 && btnThemKhuyenMai.getText().equals("Thêm") && btnSuaKhuyenMai.getText().equals("Sửa")) {
 					modelSanPham.setRowCount(0);
 					for (SanPham sp : list) {
-						String giaBan = dinhDangTien(String.valueOf(sp.getGiaBan())); // Định dạng giá gốc, giá khuyến mãi
-						String giaSauKhuyenMai = dinhDangTien(String.valueOf(sp.tinhGiaSauKhuyenMai(sp.getGiaBan(),
-								sp.getLoi(), sp.getKhuyenMai().getPhanTramKhuyenMai())));
+						String giaBan = dinhDangTien(String.valueOf(sp.getGiaBan())); // Định dạng giá gốc, giá khuyến
+																						// mãi
+						String giaSauKhuyenMai = dinhDangTien(String.valueOf(
+								sp.tinhGiaSauKhuyenMai(sp.getGiaBan(), sp.getKhuyenMai().getPhanTramKhuyenMai())));
 						Object data[] = { Boolean.TRUE, sp.getMaSP(), sp.getTenSP(), sp.getLoi() + "%",
 								sp.getKhuyenMai().getMaKM(), giaBan, giaSauKhuyenMai };
 						modelSanPham.addRow(data);
@@ -545,9 +546,10 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 					list.clear();
 					list = ds.getSanPhanTheoMaKM(selectedMaKM);
 					for (SanPham sp : list) {
-						String giaBan = dinhDangTien(String.valueOf(sp.getGiaBan())); // Định dạng giá gốc, giá khuyến mãi
-						String giaSauKhuyenMai = dinhDangTien(String.valueOf(sp.tinhGiaSauKhuyenMai(sp.getGiaBan(),
-								sp.getLoi(), sp.getKhuyenMai().getPhanTramKhuyenMai())));
+						String giaBan = dinhDangTien(String.valueOf(sp.getGiaBan())); // Định dạng giá gốc, giá khuyến
+																						// mãi
+						String giaSauKhuyenMai = dinhDangTien(String.valueOf(
+								sp.tinhGiaSauKhuyenMai(sp.getGiaBan(), sp.getKhuyenMai().getPhanTramKhuyenMai())));
 						Object data[] = { Boolean.TRUE, sp.getMaSP(), sp.getTenSP(), sp.getLoi() + "%",
 								sp.getKhuyenMai().getMaKM(), giaBan, giaSauKhuyenMai };
 						modelSanPham.addRow(data);
@@ -560,9 +562,10 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 						String maKM = "Null"; // Mặc định là "null" nếu khuyến mãi là null
 						double phanTramKhuyenMai = 0.0; // Mặc định là 0.0 nếu khuyến mãi là null
 
-						String giaBan = dinhDangTien(String.valueOf(sp.getGiaBan())); // Định dạng giá gốc, giá khuyến mãi
-						String giaSauKhuyenMai = dinhDangTien(String
-								.valueOf(sp.tinhGiaSauKhuyenMai(sp.getGiaBan(), sp.getLoi(), phanTramKhuyenMai)));
+						String giaBan = dinhDangTien(String.valueOf(sp.getGiaBan())); // Định dạng giá gốc, giá khuyến
+																						// mãi
+						String giaSauKhuyenMai = dinhDangTien(
+								String.valueOf(sp.tinhGiaSauKhuyenMai(sp.getGiaBan(), phanTramKhuyenMai)));
 						Object data[] = { Boolean.FALSE, sp.getMaSP(), sp.getTenSP(), sp.getLoi() + "%", maKM, giaBan,
 								giaSauKhuyenMai };
 						modelSanPham.addRow(data);
@@ -595,9 +598,10 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 						String maKM = "Null"; // Mặc định là "null" nếu khuyến mãi là null
 						double phanTramKhuyenMai = 0.0; // Mặc định là 0.0 nếu khuyến mãi là null
 
-						String giaBan = dinhDangTien(String.valueOf(sp.getGiaBan())); // Định dạng giá gốc, giá khuyến mãi
-						String giaSauKhuyenMai = dinhDangTien(String
-								.valueOf(sp.tinhGiaSauKhuyenMai(sp.getGiaBan(), sp.getLoi(), phanTramKhuyenMai)));
+						String giaBan = dinhDangTien(String.valueOf(sp.getGiaBan())); // Định dạng giá gốc, giá khuyến
+																						// mãi
+						String giaSauKhuyenMai = dinhDangTien(
+								String.valueOf(sp.tinhGiaSauKhuyenMai(sp.getGiaBan(), phanTramKhuyenMai)));
 						Object data[] = { Boolean.FALSE, sp.getMaSP(), sp.getTenSP(), sp.getLoi() + "%", maKM, giaBan,
 								giaSauKhuyenMai };
 						modelSanPham.addRow(data);
@@ -613,9 +617,10 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 					list2.clear();
 					list2 = ds2.getSanPhanTheoMaKM(maKM);
 					for (SanPham sp : list2) {
-						String giaBan = dinhDangTien(String.valueOf(sp.getGiaBan())); // Định dạng giá gốc, giá khuyến mãi
-						String giaSauKhuyenMai = dinhDangTien(String.valueOf(sp.tinhGiaSauKhuyenMai(sp.getGiaBan(),
-								sp.getLoi(), sp.getKhuyenMai().getPhanTramKhuyenMai())));
+						String giaBan = dinhDangTien(String.valueOf(sp.getGiaBan())); // Định dạng giá gốc, giá khuyến
+																						// mãi
+						String giaSauKhuyenMai = dinhDangTien(String.valueOf(
+								sp.tinhGiaSauKhuyenMai(sp.getGiaBan(), sp.getKhuyenMai().getPhanTramKhuyenMai())));
 						Object data[] = { Boolean.TRUE, sp.getMaSP(), sp.getTenSP(), sp.getLoi() + "%",
 								sp.getKhuyenMai().getMaKM(), giaBan, giaSauKhuyenMai };
 						modelSanPham.addRow(data);
@@ -628,9 +633,10 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 						String maKMSP = "Null"; // Mặc định là "null" nếu khuyến mãi là null
 						double phanTramKhuyenMai = 0.0; // Mặc định là 0.0 nếu khuyến mãi là null
 
-						String giaBan = dinhDangTien(String.valueOf(sp.getGiaBan())); // Định dạng giá gốc, giá khuyến mãi
-						String giaSauKhuyenMai = dinhDangTien(String
-								.valueOf(sp.tinhGiaSauKhuyenMai(sp.getGiaBan(), sp.getLoi(), phanTramKhuyenMai)));
+						String giaBan = dinhDangTien(String.valueOf(sp.getGiaBan())); // Định dạng giá gốc, giá khuyến
+																						// mãi
+						String giaSauKhuyenMai = dinhDangTien(
+								String.valueOf(sp.tinhGiaSauKhuyenMai(sp.getGiaBan(), phanTramKhuyenMai)));
 						Object data[] = { Boolean.FALSE, sp.getMaSP(), sp.getTenSP(), sp.getLoi() + "%", maKMSP, giaBan,
 								giaSauKhuyenMai };
 						modelSanPham.addRow(data);
@@ -641,9 +647,10 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 					list2.clear();
 					list2 = ds2.getSanPhanTheoMaKM(maKM);
 					for (SanPham sp : list2) {
-						String giaBan = dinhDangTien(String.valueOf(sp.getGiaBan())); // Định dạng giá gốc, giá khuyến mãi
-						String giaSauKhuyenMai = dinhDangTien(String.valueOf(sp.tinhGiaSauKhuyenMai(sp.getGiaBan(),
-								sp.getLoi(), sp.getKhuyenMai().getPhanTramKhuyenMai())));
+						String giaBan = dinhDangTien(String.valueOf(sp.getGiaBan())); // Định dạng giá gốc, giá khuyến
+																						// mãi
+						String giaSauKhuyenMai = dinhDangTien(String.valueOf(
+								sp.tinhGiaSauKhuyenMai(sp.getGiaBan(), sp.getKhuyenMai().getPhanTramKhuyenMai())));
 						Object data[] = { Boolean.TRUE, sp.getMaSP(), sp.getTenSP(), sp.getLoi() + "%",
 								sp.getKhuyenMai().getMaKM(), giaBan, giaSauKhuyenMai };
 						modelSanPham.addRow(data);
@@ -656,9 +663,10 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 						String maKMSP = "Null"; // Mặc định là "null" nếu khuyến mãi là null
 						double phanTramKhuyenMai = 0.0; // Mặc định là 0.0 nếu khuyến mãi là null
 
-						String giaBan = dinhDangTien(String.valueOf(sp.getGiaBan())); // Định dạng giá gốc, giá khuyến mãi
-						String giaSauKhuyenMai = dinhDangTien(String
-								.valueOf(sp.tinhGiaSauKhuyenMai(sp.getGiaBan(), sp.getLoi(), phanTramKhuyenMai)));
+						String giaBan = dinhDangTien(String.valueOf(sp.getGiaBan())); // Định dạng giá gốc, giá khuyến
+																						// mãi
+						String giaSauKhuyenMai = dinhDangTien(
+								String.valueOf(sp.tinhGiaSauKhuyenMai(sp.getGiaBan(), phanTramKhuyenMai)));
 						Object data[] = { Boolean.FALSE, sp.getMaSP(), sp.getTenSP(), sp.getLoi() + "%", maKMSP, giaBan,
 								giaSauKhuyenMai };
 						modelSanPham.addRow(data);
@@ -830,10 +838,10 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 						String maKM = "Null"; // Mặc định là "null" nếu khuyến mãi là null
 						double phanTramKhuyenMai = 0.0; // Mặc định là 0.0 nếu khuyến mãi là null
 
-						String giaBan = dinhDangTien(String.valueOf(sp.giaBan()));
+						String giaBan = dinhDangTien(String.valueOf(sp.getGiaBan()));
 
-						String giaSauKhuyenMai = dinhDangTien(String
-								.valueOf(sp.tinhGiaSauKhuyenMai(sp.getGiaNhap(), sp.getLoi(), phanTramKhuyenMai)));
+						String giaSauKhuyenMai = dinhDangTien(
+								String.valueOf(sp.tinhGiaSauKhuyenMai(sp.getGiaNhap(), phanTramKhuyenMai)));
 						Object data[] = { Boolean.FALSE, sp.getMaSP(), sp.getTenSP(), sp.getLoi() + "%", maKM, giaBan,
 								giaSauKhuyenMai };
 						modelSanPham.addRow(data);
@@ -1113,7 +1121,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 
 			String giaBan = dinhDangTien(String.valueOf(sp.getGiaBan())); // Định dạng giá gốc, giá khuyến mãi
 			String giaSauKhuyenMai = dinhDangTien(
-					String.valueOf(sp.tinhGiaSauKhuyenMai(sp.getGiaBan(), sp.getLoi(), phanTramKhuyenMai)));
+					String.valueOf(sp.tinhGiaSauKhuyenMai(sp.getGiaBan(), phanTramKhuyenMai)));
 			Object data[] = { Boolean.FALSE, sp.getMaSP(), sp.getTenSP(), sp.getLoi() + "%", maKM, giaBan,
 					giaSauKhuyenMai };
 			modelSanPham.addRow(data);

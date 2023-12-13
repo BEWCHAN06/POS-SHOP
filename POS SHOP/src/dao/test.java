@@ -4,6 +4,7 @@ import java.util.List;
 
 import ConnectDB.KetNoiSQL;
 import entity.HoaDon;
+import entity.MauSac;
 import entity.NhanVien;
 import entity.SanPham;
 
@@ -11,6 +12,7 @@ public class test {
     public static void main(String[] args) {
     	KetNoiSQL.getInstance().connect();
         SanPhamDAO sanPhamDAO = new SanPhamDAO();
+        MauSacDAO  mauSacDAO = new MauSacDAO();
 //        List<SanPham> danhSachSanPham = sanPhamDAO.doTuBang();
 //
 //        if (danhSachSanPham != null) {
@@ -46,7 +48,9 @@ public class test {
 //			}
 //			System.out.println(nz);
 //		}
-        HoaDon hd = new HoaDon();
-        System.out.println(hd.getKhachHang().getMaKH());
+//        HoaDon hd = new HoaDon();
+//        System.out.println(hd.getKhachHang().getMaKH());
+        MauSac ms = mauSacDAO.getMauSacByName("Cam");
+        System.out.println(ms);
     }
 }

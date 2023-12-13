@@ -134,7 +134,7 @@ public class FormDanhSachSanPhamBanCham extends javax.swing.JFrame {
         for(int i = 0; i < listSanPham.size(); i++){
             SanPham sp = listSanPham.get(i);
             Object[] rowData = {i+1, sp.getMaSP(), sp.getTenSP(), sp.getSoLuong(), sp.getPl().getPhanLoai(), sp.getMauSac().getMauSac(),
-            sp.getKichThuoc().getKichThuoc(), NumberFormat.getInstance().format(sp.tinhGiaBanLucDau())};
+            sp.getKichThuoc().getKichThuoc(), NumberFormat.getInstance().format(sp.getGiaBan())};
             dtm.addRow(rowData);
         }
     }

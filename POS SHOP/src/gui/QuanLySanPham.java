@@ -881,7 +881,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 	private SanPham addObject() {
 		// TODO Auto-generated method stub
 		SanPham sp = new SanPham();
-		
+		mauSacDAO = new MauSacDAO();
 		String tensp = txtTenSP.getText().toString();
 		PhanLoai phanLoai = phanLoaiDAO.getPhanLoaiByName(cboLoaiSanPham.getSelectedItem().toString());
 		double gianhap = Double.parseDouble(txtGiaNhap.getText());
@@ -890,7 +890,10 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		double giaban =gianhap + gianhap * loi/100;
 		KichThuoc kichThuoc = kichThuocDAO.getKichThuocByName(cboKichThuocBatDau.getSelectedItem().toString());
 		int sl = Integer.parseInt(txtSoLuongSP.getText());
+		
+		System.out.println(cboMauSac.getSelectedItem().toString());
 		MauSac mauSac = mauSacDAO.getMauSacByName(cboMauSac.getSelectedItem().toString());
+		System.out.println(cboMauSac.getSelectedItem().toString());
 		ChatLieu chatLieu = chatLieuDAO.getChatLieuByName(cboChatLieu.getSelectedItem().toString());
 		NhaCungCap nhaCungCap = nhaCungCapDAO.getNhaCungCapByName(cboNCC.getSelectedItem().toString());
 		KieuDang kieuDang = kieuDangDAO.getKieuDangByName(cboKieuDang.getSelectedItem().toString());
@@ -920,7 +923,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 	private SanPham addListOjbect(String kichthuoc, int soluong) {
 		// TODO Auto-generated method stub
 		SanPham sp = new SanPham();
-		
+		mauSacDAO = new MauSacDAO();
 		String tensp = txtTenSP.getText().toString();
 		PhanLoai phanLoai = phanLoaiDAO.getPhanLoaiByName(cboLoaiSanPham.getSelectedItem().toString());
 		double gianhap = Double.parseDouble(txtGiaNhap.getText());
@@ -929,6 +932,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		double giaban = gianhap + gianhap * loi / 100;
 		KichThuoc kichThuoc = kichThuocDAO.getKichThuocByName(kichthuoc);
 		int sl = soluong;
+		System.out.println(cboMauSac.getSelectedItem().toString());
 		MauSac mauSac = mauSacDAO.getMauSacByName(cboMauSac.getSelectedItem().toString());
 		ChatLieu chatLieu = chatLieuDAO.getChatLieuByName(cboChatLieu.getSelectedItem().toString());
 		NhaCungCap nhaCungCap = nhaCungCapDAO.getNhaCungCapByName(cboNCC.getSelectedItem().toString());
@@ -957,6 +961,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		return sanPham;
 	}
 	private SanPham editObject() {
+		mauSacDAO = new MauSacDAO();
 		// TODO Auto-generated method stub
 		String masp = txtMaSP.getText().toString();
 		SanPham  sp = sanPhamDAO.getSanPhanTheoId(masp);
@@ -969,7 +974,8 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		double giaban = gianhap + gianhap * loi / 100;
 		KichThuoc kichThuoc = kichThuocDAO.getKichThuocByName(cboKichThuocBatDau.getSelectedItem().toString());
 		int sl = Integer.parseInt(txtSoLuongSP.getText());
-		MauSac mauSac = mauSacDAO.getMauSacByName(cboMauSac.getSelectedItem().toString());
+		System.out.println(cboMauSac.getSelectedItem());
+		MauSac mauSac = mauSacDAO.getMauSacByName(cboMauSac.getSelectedItem()+"");
 		ChatLieu chatLieu = chatLieuDAO.getChatLieuByName(cboChatLieu.getSelectedItem().toString());
 		NhaCungCap nhaCungCap = nhaCungCapDAO.getNhaCungCapByName(cboNCC.getSelectedItem().toString());
 		KieuDang kieuDang = kieuDangDAO.getKieuDangByName(cboKieuDang.getSelectedItem().toString());
