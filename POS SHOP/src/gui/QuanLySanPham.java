@@ -134,7 +134,6 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		cboKieuDang.removeAllItems();
 		cboxuatXu.removeAllItems();
 		cboKichThuocBatDau.removeAllItems();
-		cboGiaLoi.removeAllItems();
 		cboNCC.removeAllItems();
 		
 		MauSacDAO mauSacDAO = new MauSacDAO();
@@ -692,6 +691,16 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		mainPanel.setLayout(gl_mainPanel);
 		cboGiaLoi.addItem("10");
 		cboGiaLoi.addItem("20");
+		cboGiaLoi.addItem("30");
+		cboGiaLoi.addItem("40");
+		cboGiaLoi.addItem("50");
+		cboGiaLoi.addItem("60");
+		cboGiaLoi.addItem("70");
+		cboGiaLoi.addItem("80");
+		cboGiaLoi.addItem("90");
+		cboGiaLoi.addItem("100");
+		cboGiaLoi.addItem("110");
+		cboGiaLoi.addItem("120");
 		//them su kien cho nut 
 		btnLuu.setEnabled(false);
 		btnHuy.setEnabled(false);
