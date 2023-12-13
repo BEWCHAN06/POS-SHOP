@@ -442,18 +442,6 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 				updateTableTimkiemNV();
 			}
 		});
-		// nút lưu
-		btnLuu.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-//				System.out.println("1");
-//				btnThem.setEnabled(true);
-//				btnThem.setEnabled(true);
-//				btnLuu.setEnabled(false);
-//				btnHuy.setEnabled(false);
-
-			}
-		});
-
 		tableDangLV.addMouseListener(new MouseListener() {
 
 			@Override
@@ -830,7 +818,6 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 		// TODO Auto-generated method stub
 		Object o = e.getSource();
 		if (o.equals(btnThem)) {
-			System.out.println("2222222");
 			trangthainut = 1;
 			tableDangLV.setEnabled(false);
 
@@ -845,7 +832,6 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 			updateTableData();
 		}
 		if (o.equals(btnSua)) {
-			System.out.println("3");
 			trangthainut = 2;
 			setEditableTxT(true);
 			btnThem.setEnabled(false);
@@ -865,13 +851,11 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 					qltk.upDataTaiKhoan();
 					updateTableDataNgungLamViec();
 					updateTableData();
-					System.out.println("4");
 					btnThem.setEnabled(true);
 					btnSua.setEnabled(true);
 					btnLuu.setEnabled(false);
 					btnHuy.setEnabled(false);
 				} else {
-					System.out.println("5");
 					btnThem.setEnabled(false);
 					btnSua.setEnabled(false);
 					btnLuu.setEnabled(true);
@@ -880,7 +864,6 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 			}
 			if (trangthainut == 2) {
 				if (validData()) {
-					System.out.println("6");
 					nhanVienDAO = new NhanVienDAO();
 					nhanVienDAO.updateNhanVien(objectNhanVien());
 					updateTableDataNgungLamViec();
@@ -889,17 +872,10 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 					btnSua.setEnabled(true);
 					btnLuu.setEnabled(false);
 					btnHuy.setEnabled(false);
-//				} else {
-//					System.out.println("7");
-//					btnThem.setEnabled(true);
-//					btnSua.setEnabled(false);
-//					btnLuu.setEnabled(true);
-//					btnHuy.setEnabled(true);
 				}
 			}
 		}
 		if (o.equals(btnHuy)) {
-			System.out.println("8");
 			setClearTxt();
 			btnThem.setEnabled(true);
 			btnSua.setEnabled(true);

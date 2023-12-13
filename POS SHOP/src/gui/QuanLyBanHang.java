@@ -552,10 +552,10 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 					int sl = Integer.parseInt(tblGioHang.getValueAt(i, 5).toString());
 					sanPhamDAO.SuaSlSP(sl, ma);
 				}
-				double tongTien =  Double.parseDouble(lblTongTienpush.getText());
-				double giamGia = Double.parseDouble(lblGiamGiapush.getText());
-				double thue = Double.parseDouble(lblThuepush.getText());
-				double thanhToan = Double.parseDouble(lblThanhToanpush.getText());
+				double tongTien =  Double.parseDouble(lblTongTienpush.getText().replace(".", ""));
+				double giamGia = Double.parseDouble(lblGiamGiapush.getText().replace(".", ""));
+				double thue = Double.parseDouble(lblThuepush.getText().replace(".", ""));
+				double thanhToan = Double.parseDouble(lblThanhToanpush.getText().replace(".", ""));
 				double tienKhachDua = 0;
 				if(txtTienKhachDua.getText().equals("")) {
 					tienKhachDua = 0.0;
@@ -623,6 +623,7 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 				
 				lblTongTienpush.setText("0");
 				lblGimGi.setText("Giảm giá:");
+				lblThuepush.setText("0");
 				lblGiamGiapush.setText("0");
 				lblThanhToanpush.setText("0");
 				txtTienKhachDua.setText("");

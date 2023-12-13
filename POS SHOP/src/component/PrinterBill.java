@@ -1,6 +1,8 @@
 package component;
 
 import java.io.FileOutputStream;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -57,7 +59,7 @@ public class PrinterBill {
 
             // In ngày giờ đã định dạng
             System.out.println("Ngày giờ hiện tại: " + formattedDateTime);
-
+            NumberFormat currencyFormat = DecimalFormat.getCurrencyInstance(new Locale("vi", "VN"));
             // Định dạng ngày giờ theo kiểu Việt Nam
             DateTimeFormatter vietnamFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss", new Locale("vi", "VN"));
             String vietnamDateTime = now.format(vietnamFormatter);
@@ -71,18 +73,19 @@ public class PrinterBill {
 
             List<sanPhamPrinter> sanPhamList = hoaDon.getFields();
             for (sanPhamPrinter sanPham : sanPhamList) {
-                document.add(new Paragraph(String.format("%-20s \n %50f%20d%40f",
-                        sanPham.getTensp(), sanPham.getGiaban(), sanPham.getSl(), sanPham.getThanhtien()), font));
+                document.add(new Paragraph(String.format("%-20s \n %50s%20d%40s",
+                        sanPham.getTensp(), currencyFormat.format(sanPham.getGiaban()), sanPham.getSl(), currencyFormat.format(sanPham.getThanhtien())), font));
+                
             }
 
             document.add(new Paragraph("------------------------------------------------------------------------------------------------------------------------", font));
 
-            document.add(new Paragraph(String.format("%-40s %70f", "Tổng tiền:", hoaDon.getTongtien()), font));
-            document.add(new Paragraph(String.format("%-40s %70f", "Giảm giá:", hoaDon.getGiamgia()), font));
-            document.add(new Paragraph(String.format("%-40s %70f", "Thuế:", hoaDon.getThue()), font));
-            document.add(new Paragraph(String.format("%-40s %70f", "Tổng thanh toán:", hoaDon.getTienthanhtoan()), font));
-            document.add(new Paragraph(String.format("%-40s %70f", "Khách đưa:", hoaDon.getTienkhachdua()), font));
-            document.add(new Paragraph(String.format("%-40s %70f", "Tiền thừa:", hoaDon.getTienthua()), font));
+            document.add(new Paragraph(String.format("%-40s %70s", "Tổng tiền:",currencyFormat.format( hoaDon.getTongtien())), font));
+            document.add(new Paragraph(String.format("%-40s %70s", "Giảm giá:",currencyFormat.format( hoaDon.getGiamgia())), font));
+            document.add(new Paragraph(String.format("%-40s %70s", "Thuế:",currencyFormat.format( hoaDon.getThue())), font));
+            document.add(new Paragraph(String.format("%-40s %70s", "Tổng thanh toán:",currencyFormat.format( hoaDon.getTienthanhtoan())), font));
+            document.add(new Paragraph(String.format("%-40s %70s", "Khách đưa:",currencyFormat.format( hoaDon.getTienkhachdua())), font));
+            document.add(new Paragraph(String.format("%-40s %70s", "Tiền thừa:",currencyFormat.format( hoaDon.getTienthua())), font));
 
             document.close();
         } catch (Exception e) {
