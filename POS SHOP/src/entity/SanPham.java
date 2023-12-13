@@ -269,10 +269,7 @@ public class SanPham {
 		return giaBanLucDau;
 	}
 
-	public double tinhGiaSauKhuyenMai(double giaNhap, double loiTheoPhanTram, double giamGiaTheoPhanTram) {
-		// Tính giá sau lợi
-		double giaSauLoi = giaNhap + giaNhap * loiTheoPhanTram / 100;
-
+	public double tinhGiaSauKhuyenMai(double giaSauLoi, double loiTheoPhanTram, double giamGiaTheoPhanTram) {
 		// Áp dụng giảm giá
 		double giaSauGiamGia = giaSauLoi - giaSauLoi * giamGiaTheoPhanTram / 100;
 
@@ -280,10 +277,6 @@ public class SanPham {
 	}
 	public double giaBan() {
 		return this.giaNhap + this.giaNhap * loi;
-	}
-	
-	public double giaGoc() {
-		return this.giaNhap + this.giaNhap * loi / 100;
 	}
 
 	@Override

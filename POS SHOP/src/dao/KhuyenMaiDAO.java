@@ -71,9 +71,9 @@ public class KhuyenMaiDAO {
 			while (rs.next()) { // Di chuyển con trỏ xuống bản ghi kế tiếp
 				String ma = rs.getString("maSP");
 				String ten = rs.getString("tenSP");
-				Double giaNhap = rs.getDouble("giaNhap");
+				Double giaBan = rs.getDouble("giaBan");
 				int loi = rs.getInt("loiTheoPhanTram");
-				SanPham sp = new SanPham(ma, ten, null, giaNhap, loi, null, 0, null, 0, null, null, null, null);
+				SanPham sp = new SanPham(ma, ten, null, 0, loi, null, giaBan, null, 0, null, null, null, null);
 				dssp.add(sp);
 			}
 		} catch (SQLException e) {
@@ -184,7 +184,7 @@ public class KhuyenMaiDAO {
 		try {
 			KetNoiSQL.getInstance().connect();
 			Connection con = KetNoiSQL.getInstance().getConnection();
-			String sql = "select sp.maSP, sp.tenSP, sp.maKM, km.phanTramKhuyenMai, sp.giaNhap, sp.loiTheoPhanTram\r\n"
+			String sql = "select sp.maSP, sp.tenSP, sp.maKM, km.phanTramKhuyenMai, sp.giaBan, sp.loiTheoPhanTram\r\n"
 					+ "from SanPham sp  join KhuyenMai km on km.maKM = sp.maKM\r\n" + "where sp.maKM = ?";
 			PreparedStatement stmt = con.prepareCall(sql);
 			stmt.setString(1, maKM);
@@ -194,10 +194,10 @@ public class KhuyenMaiDAO {
 				String ten = rs.getString(2);
 				String makm = rs.getString(3);
 				Double phanTramKhuyenMai = rs.getDouble(4);
-				Double giaNhap = rs.getDouble(5);
+				Double giaBan = rs.getDouble(5);
 				int loi = rs.getInt(6);
-				SanPham sp = new SanPham(masp, ten, null, giaNhap, loi,
-						new KhuyenMai(makm, null, phanTramKhuyenMai, null, null), 0, null, 0, null, null, null, null);
+				SanPham sp = new SanPham(masp, ten, null, 0, loi,
+						new KhuyenMai(makm, null, phanTramKhuyenMai, null, null), giaBan, null, 0, null, null, null, null);
 				dssp.add(sp);
 			}
 
