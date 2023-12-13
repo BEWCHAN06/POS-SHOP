@@ -94,7 +94,7 @@ public class Login extends JFrame implements ActionListener {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		try {
-		    BufferedImage image = ImageIO.read(getClass().getResource("/icon/logofinal.png"));
+		    BufferedImage image = ImageIO.read(getClass().getResource("/icon/logoEntertaiment.png"));
 		    setIconImage(image);
 		} catch (IOException e) {
 		    e.printStackTrace();
@@ -283,7 +283,7 @@ public class Login extends JFrame implements ActionListener {
 						otherUI2.layTenChucVu(tenNV, chucVu);
 						otherUI2.frame.setVisible(true);
 						try {
-						    BufferedImage image = ImageIO.read(getClass().getResource("/icon/logofinal.png"));
+						    BufferedImage image = ImageIO.read(getClass().getResource("/icon/logoEntertaiment.png"));
 						    otherUI2.frame.setIconImage(image);
 						} catch (IOException e1) {
 						    e1.printStackTrace();
@@ -294,7 +294,7 @@ public class Login extends JFrame implements ActionListener {
 						otherUI.layTenChucVu(tenNV, chucVu);
 						otherUI.frame.setVisible(true);
 						try {
-						    BufferedImage image = ImageIO.read(getClass().getResource("/icon/logofinal.png"));
+						    BufferedImage image = ImageIO.read(getClass().getResource("/icon/logoEntertaiment.png"));
 						    otherUI.frame.setIconImage(image);
 						} catch (IOException e1) {
 						    e1.printStackTrace();

@@ -111,7 +111,6 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 	private File file;
 	private JPanel pnlHinhAnh;
 	private JLabel lblHinhAnh;
-	private JButton btnOk;
 	private JButton btnLuuTatCa;
 	private DefaultTableModel dtmxemtruoc;
 	private int dongcuabangxemtruoc;
@@ -374,11 +373,6 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		txtThayDoiSoLuong.setBorder(new LineBorder(new Color(0, 0, 0)));
 		txtThayDoiSoLuong.setColumns(10);
 		
-		btnOk = new JButton("OK");
-		btnOk.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-		btnOk.setBackground(new Color(144, 238, 144));
-		btnOk.setFont(new Font("Arial", Font.BOLD, 12));
-		
 		btnLuuTatCa = new JButton("Thêm Tất Cả Sản Phẩm");
 		btnLuuTatCa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -424,9 +418,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 					.addComponent(lblNewLabel_2)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(txtThayDoiSoLuong, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnOk, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(234, Short.MAX_VALUE))
+					.addContainerGap(276, Short.MAX_VALUE))
 				.addGroup(gl_pnlThongTinSanPham.createSequentialGroup()
 					.addComponent(pnlBangXemTruoc, GroupLayout.PREFERRED_SIZE, 432, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap())
@@ -434,12 +426,11 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		gl_pnlThongTinSanPham.setVerticalGroup(
 			gl_pnlThongTinSanPham.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_pnlThongTinSanPham.createSequentialGroup()
-					.addComponent(pnlBangXemTruoc, GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
+					.addComponent(pnlBangXemTruoc, GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_pnlThongTinSanPham.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblNewLabel_2)
-						.addComponent(txtThayDoiSoLuong, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnOk, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE))
+						.addComponent(txtThayDoiSoLuong, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(btnLuuTatCa, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
 		);
@@ -690,8 +681,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 								.addComponent(lblNewLabel_1_1_1_2_3)
 								.addComponent(cboKichThuocBatDau, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
 					.addGap(24))
-		);
-		pnlHinhAnh.setLayout(null);
+		);	pnlHinhAnh.setLayout(null);
 		
 		lblHinhAnh = new JLabel("");
 		lblHinhAnh.setLocation(2, 2);
@@ -787,7 +777,6 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		
 		tblXemTruoc.setEnabled(checkbox_xuatAllKichThuoc.isSelected());
 		txtThayDoiSoLuong.setEnabled(checkbox_xuatAllKichThuoc.isSelected());
-		btnOk.setEnabled(checkbox_xuatAllKichThuoc.isSelected());
 		btnLuuTatCa.setEnabled(checkbox_xuatAllKichThuoc.isSelected());
 		
 		txtTimKiemSP.getDocument().addDocumentListener(new DocumentListener() {
@@ -920,7 +909,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		}
 		BarcodeGenerator xuatQRcode = new BarcodeGenerator();
 		String tenQrCode = sp.getAutoID()+" - "+ tensp +" - "+cboKichThuocBatDau.getSelectedItem().toString();
-		String file = "printer/hinhanh/"+ sp.getAutoID() +".png";
+		String file = "printer/sanpham/"+ sp.getAutoID() +".png";
 		try {
 			xuatQRcode.generateBarcode(sp.getAutoID(),tenQrCode , giaban+"", file );
 		} catch (WriterException e) {
@@ -960,7 +949,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		}
 		BarcodeGenerator xuatQRcode = new BarcodeGenerator();
 		String tenQrCode = sp.getAutoID()+" - "+ tensp +" - "+cboKichThuocBatDau.getSelectedItem().toString();
-		String file = "printer/hinhanh/"+ sp.getAutoID() +".png";
+		String file = "printer/sanpham/"+ sp.getAutoID() +".png";
 		try {
 			xuatQRcode.generateBarcode(sp.getAutoID(),tenQrCode , giaban+"", file );
 		} catch (WriterException e) {
@@ -1002,7 +991,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		}
 		BarcodeGenerator xuatQRcode = new BarcodeGenerator();
 		String tenQrCode = masp+" - "+ tensp +" - "+cboKichThuocBatDau.getSelectedItem().toString();
-		String file = "printer/hinhanh/"+ masp +".png";
+		String file = "printer/sanpham/"+ masp +".png";
 		try {
 			xuatQRcode.generateBarcode(masp,tenQrCode , giaban+"", file );
 		} catch (WriterException e) {
@@ -1058,7 +1047,6 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 			
 		}
 		if(o.equals(btnLuu)) {
-			
 			boolean check = true;
 			String tenspString =  txtTenSP.getText();
 			if(tenspString.trim().isEmpty()) {
@@ -1088,7 +1076,6 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 			}
 			if (btn == 1) {
 			    if (check) {
-			    	
 			        sanPhamDAO.addSanPham(addObject());
 			        tblDanhSachSanPham();
 			        btnThem.setEnabled(true);
@@ -1133,7 +1120,6 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 			tblXemTruoc.setEnabled(checkbox_xuatAllKichThuoc.isSelected());
 			txtThayDoiSoLuong.setEnabled(checkbox_xuatAllKichThuoc.isSelected());
 			txtThayDoiSoLuong.setEditable(checkbox_xuatAllKichThuoc.isSelected());
-			btnOk.setEnabled(checkbox_xuatAllKichThuoc.isSelected());
 			btnLuuTatCa.setEnabled(checkbox_xuatAllKichThuoc.isSelected());
 			
 		}

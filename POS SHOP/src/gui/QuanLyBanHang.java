@@ -570,7 +570,7 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 				}
 				hoaDonPrinter hdprt = new hoaDonPrinter("Trần Chí Bảo", lbltenkh.getText(), tongTien, giamGia, thue, thanhToan, tienKhachDua, tienThua, sanPhamList);
 				System.out.println(hdprt.toString());
-				String path = "printer/"+mahd+".pdf";
+				String path = "printer/hoadon/"+mahd+".pdf";
 				PrinterBill.generatePDF(mahd, hdprt, path);
 				// Đường dẫn đến file PDF cần in
 				try {
