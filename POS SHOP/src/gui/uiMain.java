@@ -13,6 +13,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -98,7 +99,6 @@ public class uiMain{
 	 */
 	public uiMain() {
 		initialize();
-//		layTenChucVu();
 		km.xoaKhuyenMaiKhiHetHan();
 		qlbh = new BanHang();
 		qlbh.setVisible(true);
@@ -584,7 +584,7 @@ public class uiMain{
 				if (JOptionPane.showConfirmDialog(null,
 						"Bạn sẽ được chuyển hướng đến trang web trợ giúp trên trình duyệt !", "Cảnh Báo !!",
 						JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
-					openWebPage("https://giahuyyy.github.io/Tro-Giup-PosShop/");
+					openHTMLFile();
 			}
 		});
 		// Phím tắt F8
@@ -596,7 +596,7 @@ public class uiMain{
 				if (JOptionPane.showConfirmDialog(null,
 						"Bạn sẽ được chuyển hướng đến trang web trợ giúp trên trình duyệt !", "Cảnh Báo !!",
 						JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
-					openWebPage("https://giahuyyy.github.io/Tro-Giup-PosShop/");
+					openHTMLFile();
 			}
 		});
 		JLabel iconThongKe_1 = new JLabel("");
@@ -746,11 +746,15 @@ public class uiMain{
 		chucVu.setText("Chức Vụ: " + chuc);
 	}
 
-	private static void openWebPage(String url) {
+	private static void openHTMLFile() {
+		String filePath = "troGiup/index.html";
 		try {
-			Desktop.getDesktop().browse(new URI(url));
-		} catch (URISyntaxException | IOException e) {
-			e.printStackTrace();
-		}
+            File file = new File(filePath);
+            URI uri = file.toURI();
+            Desktop desktop = Desktop.getDesktop();
+            desktop.browse(uri);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 	}
 }
