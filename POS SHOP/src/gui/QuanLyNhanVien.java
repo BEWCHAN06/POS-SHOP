@@ -34,6 +34,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import dao.NhanVienDAO;
+import dao.TaiKhoanDAO;
 import entity.ChatLieu;
 import entity.KhachHang;
 import entity.KichThuoc;
@@ -77,11 +78,12 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 	 * Create the panel.
 	 */
 	public QuanLyNhanVien() {
-		
+
 		UiNhanvien();
 		updateTableData();
 		updateTableDataNgungLamViec();
 	}
+
 	private void UiNhanvien() {
 		setPreferredSize(new Dimension(934, 687));
 		setLayout(new CardLayout(0, 0));
@@ -185,8 +187,6 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 
 		nvdao = new NhanVienDAO();
 
-		
-
 		tableDangLV = new JTable(modelnv);
 
 		scrollPaneDangLV.setViewportView(tableDangLV);
@@ -247,14 +247,11 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 						.addContainerGap(12, Short.MAX_VALUE)));
 
 		tableNgungLV = new JTable();
-		tableNgungLV.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null, null, null, null, null},
-			},
-			new String[] {
-				"M\u00E3 Nh\u00E2n Vi\u00EAn", "H\u1ECD v\u00E0 T\u00EAn", "Ng\u00E0y Sinh", "\u0110\u1ECBa Ch\u1EC9", "CMND", "S\u0110T", "email", "Gi\u1EDBi T\u00EDnh", "Ch\u1EE9c V\u1EE5"
-			}
-		));
+		tableNgungLV.setModel(
+				new DefaultTableModel(new Object[][] { { null, null, null, null, null, null, null, null, null }, },
+						new String[] { "M\u00E3 Nh\u00E2n Vi\u00EAn", "H\u1ECD v\u00E0 T\u00EAn", "Ng\u00E0y Sinh",
+								"\u0110\u1ECBa Ch\u1EC9", "CMND", "S\u0110T", "email", "Gi\u1EDBi T\u00EDnh",
+								"Ch\u1EE9c V\u1EE5" }));
 		scrollPaneDanglm.setViewportView(tableNgungLV);
 		pnNgunglamviec.setLayout(gl_pnNgunglamviec);
 
@@ -323,7 +320,7 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 		lbGT.setBounds(485, 157, 70, 14);
 		lbGT.setFont(new Font("Arial", Font.BOLD, 12));
 
-		 rdbtnGioitinh = new JRadioButton("Nam");
+		rdbtnGioitinh = new JRadioButton("Nam");
 		rdbtnGioitinh.setBounds(573, 153, 99, 23);
 		rdbtnGioitinh.setSelected(true);
 		rdbtnGioitinh.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -391,14 +388,14 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 		pnThietlapTT.add(btnThem);
 		pnThietlapTT.add(btnSua);
 		pnThietlapTT.add(btnLuu);
-		
+
 		btnHuy = new JButton("Hủy");
 		btnHuy.setBounds(750, 183, 100, 37);
 		btnHuy.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				setEditableTxT(false);
-				
+
 			}
 		});
 		btnHuy.setEnabled(false);
@@ -406,8 +403,8 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 		btnHuy.setFont(new Font("Arial", Font.BOLD, 12));
 		btnHuy.setBackground(new Color(255, 0, 0));
 		pnThietlapTT.add(btnHuy);
-		
-		 dateChooserNgaySinh = new JDateChooser();
+
+		dateChooserNgaySinh = new JDateChooser();
 		dateChooserNgaySinh.setBounds(578, 58, 299, 20);
 		pnThietlapTT.add(dateChooserNgaySinh);
 		pnNhanvien.setLayout(gl_pnNhanvien);
@@ -420,25 +417,25 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 		pnTaikhoan.removeAll();
 		pnTaikhoan.add(qltk, BorderLayout.CENTER);
 		pnTaikhoan.revalidate();
-	
+
 		tableDSTK = new JTable(modeltk);
 
 		nvdao = new NhanVienDAO();
-		//tim kiem nhan vien
+		// tim kiem nhan vien
 		txtTimmNV.getDocument().addDocumentListener(new DocumentListener() {
-			
+
 			@Override
 			public void removeUpdate(DocumentEvent e) {
 				// TODO Auto-generated method stub
 				updateTableTimkiemNV();
 			}
-			
+
 			@Override
 			public void insertUpdate(DocumentEvent e) {
 				// TODO Auto-generated method stub
 				updateTableTimkiemNV();
 			}
-			
+
 			@Override
 			public void changedUpdate(DocumentEvent e) {
 				// TODO Auto-generated method stub
@@ -448,20 +445,21 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 		// nút lưu
 		btnLuu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				btnThem.setEnabled(true);
-				btnThem.setEnabled(true);
-				btnLuu.setEnabled(false);
-				btnHuy.setEnabled(false);
-				
+//				System.out.println("1");
+//				btnThem.setEnabled(true);
+//				btnThem.setEnabled(true);
+//				btnLuu.setEnabled(false);
+//				btnHuy.setEnabled(false);
+
 			}
 		});
-		
+
 		tableDangLV.addMouseListener(new MouseListener() {
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
@@ -489,24 +487,24 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 			}
 		});
 		tableNgungLV.addMouseListener(new MouseListener() {
-			
+
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				// TODO Auto-generated method stub
 				int row = tableNgungLV.getSelectedRow();
-				txtManhanvien.setText(modelnv.getValueAt(row, 0).toString());
-				txtTenNV.setText(modelnv.getValueAt(row, 1).toString());
+				txtManhanvien.setText(tableNgungLV.getValueAt(row, 0).toString());
+				txtTenNV.setText(tableNgungLV.getValueAt(row, 1).toString());
 //				txtNgaysinh.setText(modelnv.getValueAt(row, 2).toString());
-				Date ns = (Date) modelnv.getValueAt(row, 2);
+				Date ns = (Date) tableNgungLV.getValueAt(row, 2);
 				dateChooserNgaySinh.setDate(ns);
-				txtDiachi.setText(modelnv.getValueAt(row, 3).toString());
-				txtCMND.setText(modelnv.getValueAt(row, 4).toString());
-				txtSDT.setText(modelnv.getValueAt(row, 5).toString());
-				txtEmail.setText(modelnv.getValueAt(row, 6).toString());
+				txtDiachi.setText(tableNgungLV.getValueAt(row, 3).toString());
+				txtCMND.setText(tableNgungLV.getValueAt(row, 4).toString());
+				txtSDT.setText(tableNgungLV.getValueAt(row, 5).toString());
+				txtEmail.setText(tableNgungLV.getValueAt(row, 6).toString());
 
 				if (modelnv.getValueAt(row, 7).toString().equals("Nam")) {
 					rdbtnGioitinh.setSelected(true);
-				}else {
+				} else {
 					rdbtnGioitinh.setSelected(false);
 				}
 				if (modelnv.getValueAt(row, 8).toString().equals("Nhan vien")) {
@@ -515,49 +513,50 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 					cbxChucvu.setSelectedIndex(1);
 				}
 				nhanVienDAO = new NhanVienDAO();
-				NhanVien nv = nhanVienDAO.getNhanVienByID(modelnv.getValueAt(row, 0).toString());
-				rdbtnTrangthai.setSelected(nv.getTrangThai() == 1 ?  true : false);
+				NhanVien nv = nhanVienDAO.getNhanVienByID(tableNgungLV.getValueAt(row, 0).toString());
+				rdbtnTrangthai.setSelected(nv.getTrangThai() == 1 ? false : true);
 			}
-			
+
 			@Override
 			public void mousePressed(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
 		tableDangLV.addMouseListener(this);
-		
+
 		btnThem.addActionListener(this);
 		btnSua.addActionListener(this);
 		btnLuu.addActionListener(this);
 		btnHuy.addActionListener(this);
 	}
-	
+
 	//////////////////////////////////////
-	///các hàm
+	/// các hàm
 	//////////////////////////////////////
 	private void clearTableNhanVien() {
-        DefaultTableModel dtm = (DefaultTableModel) tableDangLV.getModel();
-        dtm.setRowCount(0);
-    }
+		DefaultTableModel dtm = (DefaultTableModel) tableDangLV.getModel();
+		dtm.setRowCount(0);
+	}
+
 	private void updateTableTimkiemNV() {
 		String masptendt = txtTimmNV.getText();
 		String gt = cbxgt.getSelectedItem().toString();
@@ -597,14 +596,12 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 		tableDangLV.setModel(modelnv);
 	}
 
-
-
 	private void updateTableData() {
 		// TODO Auto-generated method stub
 		clearTableNhanVien();
 		DefaultTableModel dtm = (DefaultTableModel) tableDangLV.getModel();
 		dtm.getDataVector().removeAllElements();
-		for (NhanVien nz : nvdao.getAllNhanVien()) {
+		for (NhanVien nz : nvdao.getAllNhanVienConHoatDong()) {
 			String gt = "";
 			if (nz.isGioiTinh() == true) {
 				gt = "Nam";
@@ -625,9 +622,10 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 		}
 
 	}
+
 	private void updateTableDataNgungLamViec() {
 		DefaultTableModel dtm = (DefaultTableModel) tableNgungLV.getModel();
-        dtm.setRowCount(0);
+		dtm.setRowCount(0);
 		// TODO Auto-generated method stub
 		dtm.getDataVector().removeAllElements();
 		for (NhanVien nz : nvdao.getAllNhanVienNgungLam()) {
@@ -651,6 +649,7 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 		}
 
 	}
+
 	private void setEditableTxT(boolean trangthai) {
 		txtTenNV.setEditable(trangthai);
 		txtDiachi.setEditable(trangthai);
@@ -659,6 +658,7 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 		txtEmail.setEditable(trangthai);
 		txtCMND.setEditable(trangthai);
 	}
+
 	private void setClearTxt() {
 		txtTenNV.setText("");
 		txtDiachi.setText("");
@@ -667,6 +667,7 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 		txtEmail.setText("");
 		txtCMND.setText("");
 	}
+
 	private NhanVien objectNhanVien() {
 		String maNv = txtManhanvien.getText().trim();
 		String tenNv = txtTenNV.getText().trim();
@@ -678,82 +679,86 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 		boolean gioiTinh = rdbtnGioitinh.isSelected();
 		String diachi = txtDiachi.getText().trim();
 		boolean chucvu = cbxChucvu.getSelectedItem().equals("Nhan vien") ? true : false;
-		int trangthai = rdbtnTrangthai.isSelected() == true ? 1: 0;
+		int trangthai = rdbtnTrangthai.isSelected() == true ? 0 : 1;
 //		String ngaysinh = txtNgaysinh.getText().trim();
 		NhanVien nv = new NhanVien(maNv, tenNv, ngaysinh, sdt, email, cmnd, gioiTinh, diachi, chucvu, trangthai);
 		return nv;
 	}
+
 	private boolean validData() {
 		String maNv = txtManhanvien.getText().trim();
 		String tenNv = txtTenNV.getText().trim();
 		String diachi = txtDiachi.getText().trim();
 		String email = txtEmail.getText().trim();
-//		String ngaysinh = txtNgaysinh.getText().trim();
 		String sdt = txtSDT.getText().trim();
 		String cmnd = txtCMND.getText().trim();
 
 		if (maNv.isEmpty()) {
-	        JOptionPane.showMessageDialog(null, "Vui lòng điền tên nhân viên.");
-	        return false;
-	    }
+			JOptionPane.showMessageDialog(null, "Vui lòng điền tên nhân viên.");
+			return false;
+		}
 
-	    if (tenNv.isEmpty()) {
-	        JOptionPane.showMessageDialog(null, "Vui lòng điền mã nhân viên.");
-	        return false;
-	    }
+		if (tenNv.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Vui lòng điền mã nhân viên.");
+			return false;
+		}
 
-	    if (diachi.isEmpty()) {
-	        JOptionPane.showMessageDialog(null, "Vui lòng điền địa chỉ.");
-	        return false;
-	    }
+		if (diachi.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Vui lòng điền địa chỉ.");
+			return false;
+		}
 
-	    if (sdt.isEmpty()) {
-	        JOptionPane.showMessageDialog(null, "Vui lòng điền số điện thoại.");
-	        return false;
-	    } else if (!isValidPhoneNumber(sdt)) {
-	        JOptionPane.showMessageDialog(null, "Số điện thoại không hợp lệ.");
-	        return false;
-	    }
+		if (sdt.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Vui lòng điền số điện thoại.");
+			return false;
+		} else if (!isValidPhoneNumber(sdt)) {
+			JOptionPane.showMessageDialog(null, "Số điện thoại không hợp lệ.");
+			return false;
+		}
 
-	    if (email.isEmpty()) {
-	        JOptionPane.showMessageDialog(null, "Vui lòng điền email.");
-	        return false;
-	    } else if (!isValidEmail(email)) {
-	        JOptionPane.showMessageDialog(null, "Email không hợp lệ.");
-	        return false;
-	    }
+		if (email.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Vui lòng điền email.");
+			return false;
+		} else if (!isValidEmail(email)) {
+			JOptionPane.showMessageDialog(null, "Email không hợp lệ.");
+			return false;
+		}
 
-	    if (cmnd.isEmpty()) {
-	        JOptionPane.showMessageDialog(null, "Vui lòng điền CMND hoặc CCCD.");
-	        return false;
-	    } else if (!isValidCMND_CCCD(cmnd)) {
-	        JOptionPane.showMessageDialog(null, "Số CMND hoặc CCCD không hợp lệ.");
-	        return false;
-	    }
+		if (cmnd.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Vui lòng điền CMND hoặc CCCD.");
+			return false;
+		} else if (!isValidCMND_CCCD(cmnd)) {
+			JOptionPane.showMessageDialog(null, "Số CMND hoặc CCCD không hợp lệ.");
+			return false;
+		}
 
-	    return true;
+		return true;
 	}
+
 	private boolean isValidEmail(String email) {
-	    // Regex cho định dạng email cơ bản (đơn giản)
-	    String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
-	    Pattern pattern = Pattern.compile(emailRegex);
-	    Matcher matcher = pattern.matcher(email);
-	    return matcher.matches();
+		// Regex cho định dạng email cơ bản (đơn giản)
+		String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+		Pattern pattern = Pattern.compile(emailRegex);
+		Matcher matcher = pattern.matcher(email);
+		return matcher.matches();
 	}
+
 	private boolean isValidPhoneNumber(String phoneNumber) {
-	    // Regex cho định dạng số điện thoại (đơn giản)
-	    String phoneRegex = "^[0-9]{10}$";
-	    Pattern pattern = Pattern.compile(phoneRegex);
-	    Matcher matcher = pattern.matcher(phoneNumber);
-	    return matcher.matches();
+		// Regex cho định dạng số điện thoại (đơn giản)
+		String phoneRegex = "^[0-9]{10}$";
+		Pattern pattern = Pattern.compile(phoneRegex);
+		Matcher matcher = pattern.matcher(phoneNumber);
+		return matcher.matches();
 	}
+
 	private boolean isValidCMND_CCCD(String cmnd) {
-	    // Regex cho định dạng số CMND hoặc CCCD
-	    String cmndRegex = "^[0-9]{9}$|^[0-9]{12}$";
-	    Pattern pattern = Pattern.compile(cmndRegex);
-	    Matcher matcher = pattern.matcher(cmnd);
-	    return matcher.matches();
+		// Regex cho định dạng số CMND hoặc CCCD
+		String cmndRegex = "^[0-9]{9}$|^[0-9]{12}$";
+		Pattern pattern = Pattern.compile(cmndRegex);
+		Matcher matcher = pattern.matcher(cmnd);
+		return matcher.matches();
 	}
+
 	private void clearTextfields() {
 		txtManhanvien.setText("");
 		txtTenNV.setText("");
@@ -765,7 +770,6 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 		txtManhanvien.requestFocus();
 	}
 	/// nut
-
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -783,7 +787,7 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 
 		if (modelnv.getValueAt(row, 7).toString().equals("Nam")) {
 			rdbtnGioitinh.setSelected(true);
-		}else {
+		} else {
 			rdbtnGioitinh.setSelected(false);
 		}
 		if (modelnv.getValueAt(row, 8).toString().equals("Nhan vien")) {
@@ -793,10 +797,10 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 		}
 		nhanVienDAO = new NhanVienDAO();
 		NhanVien nv = nhanVienDAO.getNhanVienByID(tableDangLV.getValueAt(row, 0).toString());
-		rdbtnTrangthai.setSelected(nv.getTrangThai() == 0 ?  true : false);
+		rdbtnTrangthai.setSelected(nv.getTrangThai() == 0 ? true : false);
 
 	}
-	
+
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
@@ -820,15 +824,16 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 		// TODO Auto-generated method stub
 
 	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		Object o = e.getSource();
-		if(o.equals(btnThem)) {
+		if (o.equals(btnThem)) {
+			System.out.println("2222222");
 			trangthainut = 1;
-			System.out.println(trangthainut);
 			tableDangLV.setEnabled(false);
-			
+
 			btnThem.setEnabled(false);
 			btnSua.setEnabled(false);
 			btnLuu.setEnabled(true);
@@ -839,7 +844,8 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 			setClearTxt();
 			updateTableData();
 		}
-		if(o.equals(btnSua)) {
+		if (o.equals(btnSua)) {
+			System.out.println("3");
 			trangthainut = 2;
 			setEditableTxT(true);
 			btnThem.setEnabled(false);
@@ -847,39 +853,60 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 			btnLuu.setEnabled(true);
 			btnHuy.setEnabled(true);
 		}
-		if(o.equals(btnLuu)) {
-			System.out.println(trangthainut);
+		if (o.equals(btnLuu)) {
 			tableDangLV.setEnabled(true);
-			if(trangthainut == 1) {
-				if(validData()) {
+			if (trangthainut == 1) {
+				if (validData()) {
 					nhanVienDAO = new NhanVienDAO();
 					nhanVienDAO.addNhanVien(objectNhanVien());
+					TaiKhoanDAO taiKhoanDAO = new TaiKhoanDAO();
+					taiKhoanDAO.addTaiKhoan(txtManhanvien.getText(), "1111");
+					QuanLyTaiKhoan qltk = new QuanLyTaiKhoan();
+					qltk.upDataTaiKhoan();
+					updateTableDataNgungLamViec();
 					updateTableData();
+					System.out.println("4");
+					btnThem.setEnabled(true);
+					btnSua.setEnabled(true);
+					btnLuu.setEnabled(false);
+					btnHuy.setEnabled(false);
+				} else {
+					System.out.println("5");
+					btnThem.setEnabled(false);
+					btnSua.setEnabled(false);
+					btnLuu.setEnabled(true);
+					btnHuy.setEnabled(true);
 				}
 			}
-			if(trangthainut == 2) {
-				if(validData()) {
+			if (trangthainut == 2) {
+				if (validData()) {
+					System.out.println("6");
 					nhanVienDAO = new NhanVienDAO();
 					nhanVienDAO.updateNhanVien(objectNhanVien());
+					updateTableDataNgungLamViec();
 					updateTableData();
+					btnThem.setEnabled(true);
+					btnSua.setEnabled(true);
+					btnLuu.setEnabled(false);
+					btnHuy.setEnabled(false);
+//				} else {
+//					System.out.println("7");
+//					btnThem.setEnabled(true);
+//					btnSua.setEnabled(false);
+//					btnLuu.setEnabled(true);
+//					btnHuy.setEnabled(true);
 				}
 			}
-			
-			btnThem.setEnabled(true);
-			btnSua.setEnabled(true);
-			btnLuu.setEnabled(false);
-			btnHuy.setEnabled(false);
-			
 		}
-		if(o.equals(btnHuy)) {
+		if (o.equals(btnHuy)) {
+			System.out.println("8");
 			setClearTxt();
 			btnThem.setEnabled(true);
 			btnSua.setEnabled(true);
 			btnLuu.setEnabled(false);
 			btnHuy.setEnabled(false);
 		}
-		
+
 	}
 
-	
 }

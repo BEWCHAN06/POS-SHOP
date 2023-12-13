@@ -37,7 +37,7 @@ public class NhanVienDAO {
 		Connection conn = KetNoiSQL.getConnection();
 
 		try {
-			String sql = "Select * from nhanvien where trangThai = 0";
+			String sql = "Select * from nhanvien ";
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
 			while (rs.next()) {
@@ -330,7 +330,7 @@ public class NhanVienDAO {
         KetNoiSQL.getInstance();
         Connection conn = KetNoiSQL.getConnection();
         try {
-            String sql = "insert into nhanvien(maNV, tenNV, ngaySinh, diaChi, sdt, gioiTinh,   email, chucVu,trangThai,CMND)"
+            String sql = "insert into nhanvien(maNV, tenNV, ngaySinh, diaChi, sdt, gioiTinh,email, chucVu,trangThai,CMND)"
                 + "                 values(?, ?, ?, ?, ?, ?, ?, ? ,?,?)";
 
             PreparedStatement stmt = conn.prepareCall(sql);
@@ -343,6 +343,7 @@ public class NhanVienDAO {
            
             stmt.setString(7, nhanVien.getEmail());
             stmt.setBoolean(8, nhanVien.isChucVu());
+            System.out.println(nhanVien.getTrangThai());
             stmt.setInt(9, nhanVien.getTrangThai());
             stmt.setString(10, nhanVien.getCMND());
             return stmt.executeUpdate();
@@ -357,19 +358,20 @@ public class NhanVienDAO {
         Connection conn = KetNoiSQL.getConnection();
         System.out.println(nhanVien);
         try {
-            String sql = "update nhanvien set tenNV = ?,ngaySinh = ?,diaChi = ?,sdt = ?, gioiTinh = ?,  email = ?,chucVu = ? where maNV = ?";
+            String sql = "update nhanvien set tenNV = ?,ngaySinh = ?,sdt = ?,  email = ?, CMND = ?, gioiTinh = ?,diaChi = ?,chucVu = ?, trangThai = ? where maNV = ?";
             
             PreparedStatement stmt = conn.prepareCall(sql);
             
             stmt.setString(1, nhanVien.getTenNV());
             stmt.setDate(2, new Date(nhanVien.getNgaySinh().getTime()));
-            stmt.setString(3, nhanVien.getDiaChi());
-            stmt.setString(4, nhanVien.getSDT());
-            stmt.setBoolean(5, nhanVien.isGioiTinh());
-           
-            stmt.setString(6, nhanVien.getEmail());
-            stmt.setBoolean(7, nhanVien.isChucVu());
-            stmt.setString(8, nhanVien.getMaNV());
+            stmt.setString(3, nhanVien.getSDT());
+            stmt.setString(4, nhanVien.getEmail());
+            stmt.setString(5, nhanVien.getCMND());
+            stmt.setBoolean(6, nhanVien.isGioiTinh());
+            stmt.setString(7, nhanVien.getDiaChi());
+            stmt.setBoolean(8, nhanVien.isChucVu());
+            stmt.setInt(9, nhanVien.getTrangThai());
+            stmt.setString(10, nhanVien.getMaNV());
             return stmt.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);

@@ -106,6 +106,22 @@ public class TaiKhoanDAO {
 		}
 		return n > 0;
 	}
+	public int addTaiKhoan(String tk, String mk){
+        KetNoiSQL.getInstance();
+        Connection conn = KetNoiSQL.getConnection();
+        try {
+            String sql = "insert into TaiKhoan(tenTaiKhoan,matKhau)"
+                + "                 values(?, ?)";
+
+            PreparedStatement stmt = conn.prepareCall(sql);
+            stmt.setString(1, tk);
+            stmt.setString(2, mk);
+            return stmt.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
+    }
 
 	// Kiểm tra mật khẩu đã tồn tại
 	public String getTenTaiKhoanTheoMatKhau(String matKhau) {

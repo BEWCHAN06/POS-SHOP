@@ -168,7 +168,7 @@ public class QuanLyTaiKhoan extends JPanel implements ActionListener, MouseListe
 			}
 		});
 	}
-	private void upDataTaiKhoan() {
+	public void upDataTaiKhoan() {
 
 		TaiKhoanDAO taiKhoanDAO  = new TaiKhoanDAO();
 		ArrayList<TaiKhoan> list = taiKhoanDAO.getAllTaiKhoan();
