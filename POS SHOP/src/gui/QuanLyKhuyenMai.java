@@ -265,9 +265,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 
 					txtTenKhuyenMai.setEditable(false);
 					txtMucKhuyenMai.setEditable(false);
-					txtTimKiemSanPham.setEnabled(false);
 
-					btnTimKiemSanPham.setEnabled(false);
 					btnThemKhuyenMai.setEnabled(true);
 					btnSuaKhuyenMai.setEnabled(true);
 					dateChooserThoiGianBatDauGiamGia.setEnabled(false);
@@ -359,12 +357,10 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 		lblTimKiemSanPham.setFont(new Font("Arial", Font.BOLD, 12));
 
 		txtTimKiemSanPham = new JTextField();
-		txtTimKiemSanPham.setEnabled(false);
 		txtTimKiemSanPham.setFont(new Font("Arial", Font.PLAIN, 13));
 		txtTimKiemSanPham.setColumns(10);
 
 		btnTimKiemSanPham = new JButton("Tìm");
-		btnTimKiemSanPham.setEnabled(false);
 		btnTimKiemSanPham.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		btnTimKiemSanPham.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/search.png")));
 		btnTimKiemSanPham.setFont(new Font("Arial", Font.BOLD, 11));
@@ -589,18 +585,87 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 		} else if (o.equals(comboBoxPhanLoai)) {
 			String phanLoai = (String) comboBoxPhanLoai.getSelectedItem();
 			SanPhamDAO ds = new SanPhamDAO();
-			List<SanPham> list = ds.getSanPhanTheoPhanLoai(phanLoai); // Lấy danh sách sản phẩm thêm tên phân loại
-			if (phanLoai == "All") { // Nếu comBoBox phân loại là All thì hiển thị tất cả danh sách sản phẩm
-				updateTableSanPham();
-			} else { // Ngược lại thì tìm kiếm các sản phẩm phân loại tương ứng
-				modelSanPham.setRowCount(0);
-				for (SanPham sp : list) {
-					Object data[] = { Boolean.FALSE, sp.getMaSP(), sp.getTenSP(), sp.getGiaBan() };
-					modelSanPham.addRow(data);
-				}
-				tblSanPham.setModel(modelSanPham);
-			}
+			List<SanPham> list = ds.getSanPhanTheoPhanLoaiNull(phanLoai); // Lấy danh sách sản phẩm thêm tên phân loại
+			if (btnSuaKhuyenMai.getText().equals("Sửa")) {
+				if (phanLoai == "All") { // Nếu comBoBox phân loại là All thì hiển thị tất cả danh sách sản phẩm
+					updateTableSanPham();
+				} else { // Ngược lại thì tìm kiếm các sản phẩm phân loại tương ứng
+					modelSanPham.setRowCount(0);
+					for (SanPham sp : list) {
+						String maKM = "Null"; // Mặc định là "null" nếu khuyến mãi là null
+						double phanTramKhuyenMai = 0.0; // Mặc định là 0.0 nếu khuyến mãi là null
 
+						String giaGoc = dinhDangTien(String.valueOf(sp.giaGoc())); // Định dạng giá gốc, giá khuyến mãi
+						String giaSauKhuyenMai = dinhDangTien(String
+								.valueOf(sp.tinhGiaSauKhuyenMai(sp.getGiaNhap(), sp.getLoi(), phanTramKhuyenMai)));
+						Object data[] = { Boolean.FALSE, sp.getMaSP(), sp.getTenSP(), sp.getLoi() + "%", maKM, giaGoc,
+								giaSauKhuyenMai };
+						modelSanPham.addRow(data);
+					}
+					tblSanPham.setModel(modelSanPham);
+				}
+			} else {
+				String maKM = txtMaKhuyenMai.getText();
+				KhuyenMaiDAO ds2 = new KhuyenMaiDAO();
+				List<SanPham> list2 = ds2.getSanPhamMaKMIsNull();
+				if (phanLoai == "All") {
+					modelSanPham.setRowCount(0);
+					list2.clear();
+					list2 = ds2.getSanPhanTheoMaKM(maKM);
+					for (SanPham sp : list2) {
+						String giaGoc = dinhDangTien(String.valueOf(sp.giaGoc())); // Định dạng giá gốc, giá khuyến mãi
+						String giaSauKhuyenMai = dinhDangTien(String.valueOf(sp.tinhGiaSauKhuyenMai(sp.getGiaNhap(),
+								sp.getLoi(), sp.getKhuyenMai().getPhanTramKhuyenMai())));
+						Object data[] = { Boolean.TRUE, sp.getMaSP(), sp.getTenSP(), sp.getLoi() + "%",
+								sp.getKhuyenMai().getMaKM(), giaGoc, giaSauKhuyenMai };
+						modelSanPham.addRow(data);
+					}
+					tblSanPham.setModel(modelSanPham);
+					list2.clear();
+					// Danh sách sản phẩm không có maKM
+					list2 = ds2.getSanPhamMaKMIsNull();
+					for (SanPham sp : list2) {
+						String maKMSP = "Null"; // Mặc định là "null" nếu khuyến mãi là null
+						double phanTramKhuyenMai = 0.0; // Mặc định là 0.0 nếu khuyến mãi là null
+
+						String giaGoc = dinhDangTien(String.valueOf(sp.giaGoc())); // Định dạng giá gốc, giá khuyến mãi
+						String giaSauKhuyenMai = dinhDangTien(String
+								.valueOf(sp.tinhGiaSauKhuyenMai(sp.getGiaNhap(), sp.getLoi(), phanTramKhuyenMai)));
+						Object data[] = { Boolean.FALSE, sp.getMaSP(), sp.getTenSP(), sp.getLoi() + "%", maKMSP, giaGoc,
+								giaSauKhuyenMai };
+						modelSanPham.addRow(data);
+					}
+					tblSanPham.setModel(modelSanPham);
+				} else {
+					modelSanPham.setRowCount(0);
+					list2.clear();
+					list2 = ds2.getSanPhanTheoMaKM(maKM);
+					for (SanPham sp : list2) {
+						String giaGoc = dinhDangTien(String.valueOf(sp.giaGoc())); // Định dạng giá gốc, giá khuyến mãi
+						String giaSauKhuyenMai = dinhDangTien(String.valueOf(sp.tinhGiaSauKhuyenMai(sp.getGiaNhap(),
+								sp.getLoi(), sp.getKhuyenMai().getPhanTramKhuyenMai())));
+						Object data[] = { Boolean.TRUE, sp.getMaSP(), sp.getTenSP(), sp.getLoi() + "%",
+								sp.getKhuyenMai().getMaKM(), giaGoc, giaSauKhuyenMai };
+						modelSanPham.addRow(data);
+					}
+					tblSanPham.setModel(modelSanPham);
+					list.clear();
+					// Danh sách sản phẩm không có maKM tìm theo phân loại
+					list = ds.getSanPhanTheoPhanLoaiNull(phanLoai);
+					for (SanPham sp : list) {
+						String maKMSP = "Null"; // Mặc định là "null" nếu khuyến mãi là null
+						double phanTramKhuyenMai = 0.0; // Mặc định là 0.0 nếu khuyến mãi là null
+
+						String giaGoc = dinhDangTien(String.valueOf(sp.giaGoc())); // Định dạng giá gốc, giá khuyến mãi
+						String giaSauKhuyenMai = dinhDangTien(String
+								.valueOf(sp.tinhGiaSauKhuyenMai(sp.getGiaNhap(), sp.getLoi(), phanTramKhuyenMai)));
+						Object data[] = { Boolean.FALSE, sp.getMaSP(), sp.getTenSP(), sp.getLoi() + "%", maKMSP, giaGoc,
+								giaSauKhuyenMai };
+						modelSanPham.addRow(data);
+					}
+					tblSanPham.setModel(modelSanPham);
+				}
+			}
 		} else if (o.equals(btnTimKiemSanPham)) {
 			String maSPTim = txtTimKiemSanPham.getText().trim();
 			if (maSPTim.equals("")) {
@@ -671,8 +736,6 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 							btnLamMoi.setBackground(new Color(152, 251, 152));
 							btnLamMoi.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/loading.png")));
 							btnSuaKhuyenMai.setEnabled(true);
-							btnTimKiemSanPham.setEnabled(false);
-							txtTimKiemSanPham.setEnabled(false);
 							txtTenKhuyenMai.setEditable(false);
 							txtMucKhuyenMai.setEditable(false);
 							dateChooserThoiGianBatDauGiamGia.setEnabled(false);
@@ -698,10 +761,8 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 									btnLamMoi.setBackground(new Color(152, 251, 152));
 									btnLamMoi.setIcon(
 											new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/loading.png")));
-									btnTimKiemSanPham.setEnabled(false);
 									txtTenKhuyenMai.setEditable(false);
 									txtMucKhuyenMai.setEditable(false);
-									txtTimKiemSanPham.setEnabled(false);
 									dateChooserThoiGianBatDauGiamGia.setEnabled(false);
 									dateChooserThoiGianKetThucGiamGia.setEnabled(false);
 								}
@@ -737,9 +798,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 
 				txtTenKhuyenMai.setEditable(true);
 				txtMucKhuyenMai.setEditable(true);
-				txtTimKiemSanPham.setEnabled(true);
 				btnSuaKhuyenMai.setEnabled(false);
-				btnTimKiemSanPham.setEnabled(true);
 				dateChooserThoiGianBatDauGiamGia.setEnabled(true);
 				dateChooserThoiGianKetThucGiamGia.setEnabled(true);
 			}
@@ -763,8 +822,6 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 					btnLamMoi.setForeground(new Color(0, 0, 0));
 					btnLamMoi.setBackground(new Color(255, 0, 0));
 					btnLamMoi.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/x.png")));
-					txtTimKiemSanPham.setEnabled(true);
-					btnTimKiemSanPham.setEnabled(true);
 					// Khi bấm vào btnSua thì sẽ hiển thị lại danh sách sản phẩm chưa có mã khuyến
 					// mãi
 					KhuyenMaiDAO ds = new KhuyenMaiDAO();
@@ -908,9 +965,6 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 							btnLamMoi.setText("Làm mới");
 							btnLamMoi.setBackground(new Color(152, 251, 152));
 							btnLamMoi.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/loading.png")));
-							btnTimKiemSanPham.setEnabled(false);
-
-							txtTimKiemSanPham.setEnabled(false);
 							txtTenKhuyenMai.setEditable(false);
 							txtMucKhuyenMai.setEditable(false);
 							dateChooserThoiGianBatDauGiamGia.setEnabled(false);
