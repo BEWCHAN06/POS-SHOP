@@ -64,7 +64,7 @@ public class UiTimKhachHang extends JFrame implements ActionListener, MouseListe
 		DefaultTableModel dtm = (DefaultTableModel) tblKhachHang.getModel();
 		List<KhachHang> listkh = KhachHangDAO.doTuBang();
 		for(KhachHang kh : listkh) {
-			Object[] rowdata = {kh.getMaKH(),kh.getTenKH(),kh.getNgaySinh(),kh.getSDT(), kh.getEmail(),kh.isGioiTinh()};
+			Object[] rowdata = {kh.getMaKH(),kh.getTenKH(),kh.getSDT(), kh.getEmail(),kh.isGioiTinh()};
 			dtm.addRow(rowdata);
 		}
 	}
@@ -176,10 +176,10 @@ public class UiTimKhachHang extends JFrame implements ActionListener, MouseListe
 		tblKhachHang = new JTable();
 		tblKhachHang.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null, null, null, null, null},
+				{null, null, null, null, null},
 			},
 			new String[] {
-				"maKH", "t\u00EAnKH", "Ng\u00E0y Sinh", "SDT", "Email", "Gi\u1EDBi t\u00EDnh"
+				"maKH", "t\u00EAnKH", "SDT", "Email", "Gi\u1EDBi t\u00EDnh"
 			}
 		));
 		scrollPane.setViewportView(tblKhachHang);
@@ -215,6 +215,7 @@ public class UiTimKhachHang extends JFrame implements ActionListener, MouseListe
 		txtMaKH.setText(tblKhachHang.getValueAt(row, 0).toString());
 		txtTenKH.setText(tblKhachHang.getValueAt(row, 1).toString());
 		txtSDT.setText(tblKhachHang.getValueAt(row, 3).toString());
+		
 //		.setText(tblKhachHang.getValueAt(row, 3).toString());
 	}
 

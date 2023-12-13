@@ -383,7 +383,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		btnLuuTatCa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				showLoadingDialog(mainPanel);
-
+				
                 // Simulate adding a product (replace this with your actual logic)
                 SwingUtilities.invokeLater(() -> {
                     DefaultTableModel model = (DefaultTableModel) tblXemTruoc.getModel();
@@ -400,6 +400,11 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 					clearTableXemTruoc();
                     closeLoadingDialog();
                 });
+                btnThem.setEnabled(true);
+    			btnSua.setEnabled(true);
+    			btnLuu.setEnabled(false);
+    			btnHuy.setEnabled(false);
+                setEnibleChooses(false);
 				
 			}
 		});
@@ -460,6 +465,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 11));
 		
 		txtTenSP = new JTextField();
+		txtTenSP.setEditable(false);
 		txtTenSP.setBorder(new LineBorder(new Color(0, 0, 0)));
 		txtTenSP.setColumns(10);
 		
@@ -472,6 +478,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		JLabel lblNewLabel_1 = new JLabel("Số Lượng : ");
 		
 		txtSoLuongSP = new JTextField();
+		txtSoLuongSP.setEditable(false);
 		txtSoLuongSP.setBorder(new LineBorder(new Color(0, 0, 0)));
 		txtSoLuongSP.setBackground(new Color(255, 255, 255));
 		txtSoLuongSP.setColumns(10);
@@ -507,6 +514,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		cboxuatXu.setBackground(new Color(255, 255, 255));
 		
 		btnHinhAnh = new JButton("Chọn");
+		btnHinhAnh.setEnabled(false);
 		btnHinhAnh.setBorder(new LineBorder(new Color(0, 0, 0)));
 		btnHinhAnh.setBackground(new Color(144, 238, 144));
 		
@@ -519,6 +527,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		JLabel lblGiNhp = new JLabel("Giá Nhập : ");
 		
 		txtGiaNhap = new JTextField();
+		txtGiaNhap.setEditable(false);
 		txtGiaNhap.setBorder(new LineBorder(new Color(0, 0, 0)));
 		txtGiaNhap.setColumns(10);
 		
@@ -529,6 +538,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		cboGiaLoi.setBackground(new Color(255, 255, 255));
 		
 		checkbox_xuatAllKichThuoc = new JCheckBox("Xuất tất cả kích thước");
+		checkbox_xuatAllKichThuoc.setEnabled(false);
 		checkbox_xuatAllKichThuoc.setBackground(new Color(255, 255, 255));
 		
 		JLabel lblNewLabel_1_1_1_2_3 = new JLabel("Kích thước :");
@@ -1009,6 +1019,13 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		txtSoLuongSP.setText("");
 		txtGiaNhap.setText("");
 	}
+	private void setEnibleChooses(boolean check) {
+		txtTenSP.setEditable(check);
+		txtSoLuongSP.setEditable(check);
+		btnHinhAnh.setEnabled(check);
+		txtGiaNhap.setEditable(check);
+		checkbox_xuatAllKichThuoc.setEnabled(check);
+	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
@@ -1023,14 +1040,21 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 			xoaRongTextField();
 			SanPham sp = new SanPham();
 			txtMaSP.setText(sp.getAutoID());
+			setEnibleChooses(true);
 			
 		}
 		if(o.equals(btnSua)) {
-			btn = 2; //chuyen trang thai cua nut luu
-			btnThem.setEnabled(false);
-			btnSua.setEnabled(false);
-			btnLuu.setEnabled(true);
-			btnHuy.setEnabled(true);
+			if(!txtTenSP.getText().equals("")) {
+				btn = 2; //chuyen trang thai cua nut luu
+				btnThem.setEnabled(false);
+				btnSua.setEnabled(false);
+				btnLuu.setEnabled(true);
+				btnHuy.setEnabled(true);
+				setEnibleChooses(true);
+				checkbox_xuatAllKichThuoc.setEnabled(false);
+			}else {
+				JOptionPane.showMessageDialog(null, "Vui Lòng Chọn Sản Phẩm Trước Khi Sửa");
+			}
 			
 		}
 		if(o.equals(btnLuu)) {
@@ -1071,6 +1095,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 			        btnSua.setEnabled(true);
 			        btnLuu.setEnabled(false);
 			        btnHuy.setEnabled(false);
+			        setEnibleChooses(false);
 			    }
 			} else if (btn == 2) { // Sửa ở đây
 			    if (check) {
@@ -1080,6 +1105,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 			        btnSua.setEnabled(true);
 			        btnLuu.setEnabled(false);
 			        btnHuy.setEnabled(false);
+			        setEnibleChooses(false);
 			    }
 			}
 		}
@@ -1089,11 +1115,17 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 //			uiSanPhan();
 			tblDanhSachSanPham();
 			loadComboBoxThuocTinh();
+			setEnibleChooses(false);
+			txtTenSP.setText("");
+			txtSoLuongSP.setText("");
+			txtGiaNhap.setText("");
+			
 		}else if(o.equals(btnHuy)) {
 			btnThem.setEnabled(true);
 			btnSua.setEnabled(true);
 			btnLuu.setEnabled(false);
 			btnHuy.setEnabled(false);
+			setEnibleChooses(false);
 			
 		}else if(o.equals(checkbox_xuatAllKichThuoc)) {
 			btnXemTruoc.setEnabled(checkbox_xuatAllKichThuoc.isSelected());

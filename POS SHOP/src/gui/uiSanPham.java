@@ -51,7 +51,7 @@ public class uiSanPham extends JPanel {
 		//tab quản lý thuộc tính
 		JPanel mainPanelQuanLyThuocTinh = new JPanel();
 		mainPanelQuanLyThuocTinh.setBackground(new Color(255, 255, 255));
-		tabbedPane.addTab("Quản Lý Thuộc Tính", null, mainPanelQuanLyThuocTinh, null);
+		tabbedPane.addTab("Thuộc Tính", null, mainPanelQuanLyThuocTinh, null);
 		QuanLyThuocTinh qltt = new QuanLyThuocTinh();
 		mainPanelQuanLyThuocTinh.removeAll();
 		mainPanelQuanLyThuocTinh.add(qltt, BorderLayout.CENTER);

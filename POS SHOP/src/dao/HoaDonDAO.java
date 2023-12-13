@@ -52,7 +52,7 @@ public class HoaDonDAO {
 				String maKH = rs.getString(5);
 				String tenKH = rs.getString(6);
 				Double tongTien = rs.getDouble(7);
-				HoaDon hd = new HoaDon(maHD, ngayLap, new KhachHang(maKH, tenKH, null, null, null, false),
+				HoaDon hd = new HoaDon(maHD, ngayLap, new KhachHang(maKH, tenKH, null, null, false),
 						new NhanVien(maNV, tenNV, null, null, null, null, false, null, false, 0), 0, tongTien);
 				dshd.add(hd);
 			}
@@ -131,7 +131,7 @@ public class HoaDonDAO {
 				String tenNV = rs.getString(4);
 				String maKH = rs.getString(5);
 				String tenKH = rs.getString(6);
-				HoaDon hd = new HoaDon(maHD, ngayLap, new KhachHang(maKH, tenKH, null, null, null, false),
+				HoaDon hd = new HoaDon(maHD, ngayLap, new KhachHang(maKH, tenKH, null, null, false),
 						new NhanVien(maNV, tenNV, null, null, null, null, false, null, false, 0));
 				dshd.add(hd);
 			}
@@ -163,7 +163,7 @@ public class HoaDonDAO {
 				String tenNV = rs.getString(4);
 				String maKH = rs.getString(5);
 				String tenKH = rs.getString(6);
-				HoaDon hd = new HoaDon(maHD, ngayLap, new KhachHang(maKH, tenKH, null, null, null, false),
+				HoaDon hd = new HoaDon(maHD, ngayLap, new KhachHang(maKH, tenKH, null, null, false),
 						new NhanVien(maNV, tenNV, null, null, null, null, false, null, false, 0));
 				dshd.add(hd);
 			}
@@ -236,7 +236,7 @@ public class HoaDonDAO {
 				String tenNV = rs.getString(4);
 				String maKH = rs.getString(5);
 				String tenKH = rs.getString(6);
-				HoaDon hd = new HoaDon(maHD, ngayLap, new KhachHang(maKH, tenKH, null, null, null, false),
+				HoaDon hd = new HoaDon(maHD, ngayLap, new KhachHang(maKH, tenKH, null, null, false),
 						new NhanVien(maNV, tenNV, null, null, null, null, false, null, false, 0));
 				dshd.add(hd);
 			}
@@ -264,7 +264,7 @@ public class HoaDonDAO {
 				String tenNV = rs.getString(4);
 				String maKH = rs.getString(5);
 				String tenKH = rs.getString(6);
-				HoaDon hd = new HoaDon(maHD, ngayLap, new KhachHang(maKH, tenKH, null, null, null, false),
+				HoaDon hd = new HoaDon(maHD, ngayLap, new KhachHang(maKH, tenKH, null, null, false),
 						new NhanVien(maNV, tenNV, null, null, null, null, false, null, false, 0));
 				dshd.add(hd);
 			}
@@ -293,7 +293,7 @@ public class HoaDonDAO {
 				String tenNV = rs.getString(4);
 				String maKH = rs.getString(5);
 				String tenKH = rs.getString(6);
-				HoaDon hd = new HoaDon(maHD, ngayLap, new KhachHang(maKH, tenKH, null, null, null, false),
+				HoaDon hd = new HoaDon(maHD, ngayLap, new KhachHang(maKH, tenKH, null, null, false),
 						new NhanVien(maNV, tenNV, null, null, null, null, false, null, false, 0));
 				dshd.add(hd);
 			}
@@ -326,7 +326,7 @@ public class HoaDonDAO {
 				String tenNV = rs.getString(4);
 				String maKH = rs.getString(5);
 				String tenKH = rs.getString(6);
-				HoaDon hd = new HoaDon(maHD, ngayLap, new KhachHang(maKH, tenKH, null, null, null, false),
+				HoaDon hd = new HoaDon(maHD, ngayLap, new KhachHang(maKH, tenKH, null, null, false),
 						new NhanVien(maNV, tenNV, null, null, null, null, false, null, false, 0));
 				dshd.add(hd);
 			}
@@ -359,7 +359,7 @@ public class HoaDonDAO {
 				String tenNV = rs.getString(4);
 				String maKH = rs.getString(5);
 				String tenKH = rs.getString(6);
-				HoaDon hd = new HoaDon(maHD, ngayLap, new KhachHang(maKH, tenKH, null, null, null, false),
+				HoaDon hd = new HoaDon(maHD, ngayLap, new KhachHang(maKH, tenKH, null, null, false),
 						new NhanVien(maNV, tenNV, null, null, null, null, false, null, false, 0));
 				dshd.add(hd);
 			}
@@ -393,7 +393,7 @@ public class HoaDonDAO {
 				String tenNV = rs.getString(4);
 				String maKH = rs.getString(5);
 				String tenKH = rs.getString(6);
-				HoaDon hd = new HoaDon(maHD, ngayLap, new KhachHang(maKH, tenKH, null, null, null, false),
+				HoaDon hd = new HoaDon(maHD, ngayLap, new KhachHang(maKH, tenKH, null, null, false),
 						new NhanVien(maNV, tenNV, null, null, null, null, false, null, false, 0));
 				dshd.add(hd);
 			}
@@ -427,7 +427,7 @@ public class HoaDonDAO {
 				String tenNV = rs.getString(4);
 				String maKH = rs.getString(5);
 				String tenKH = rs.getString(6);
-				HoaDon hd = new HoaDon(maHD, ngayLap, new KhachHang(maKH, tenKH, null, null, null, false),
+				HoaDon hd = new HoaDon(maHD, ngayLap, new KhachHang(maKH, tenKH, null, null, false),
 						new NhanVien(maNV, tenNV, null, null, null, null, false, null, false, 0));
 				dshd.add(hd);
 			}
@@ -462,7 +462,7 @@ public class HoaDonDAO {
 				String tenNV = rs.getString(4);
 				String maKH = rs.getString(5);
 				String tenKH = rs.getString(6);
-				HoaDon hd = new HoaDon(maHD, ngayLap, new KhachHang(maKH, tenKH, null, null, null, false),
+				HoaDon hd = new HoaDon(maHD, ngayLap, new KhachHang(maKH, tenKH, null, null, false),
 						new NhanVien(maNV, tenNV, null, null, null, null, false, null, false, 0));
 				dshd.add(hd);
 			}
@@ -500,7 +500,7 @@ public class HoaDonDAO {
 				String tenNV = rs.getString(4);
 				String maKH = rs.getString(5);
 				String tenKH = rs.getString(6);
-				HoaDon hd = new HoaDon(maHD, ngayLap, new KhachHang(maKH, tenKH, null, null, null, false),
+				HoaDon hd = new HoaDon(maHD, ngayLap, new KhachHang(maKH, tenKH, null,  null, false),
 						new NhanVien(maNV, tenNV, null, null, null, null, false, null, false, 0));
 				dshd.add(hd);
 			}
@@ -541,7 +541,7 @@ public class HoaDonDAO {
 				String tenNV = rs.getString(4);
 				String maKH = rs.getString(5);
 				String tenKH = rs.getString(6);
-				HoaDon hd = new HoaDon(maHD, ngayLap, new KhachHang(maKH, tenKH, null, null, null, false),
+				HoaDon hd = new HoaDon(maHD, ngayLap, new KhachHang(maKH, tenKH, null, null, false),
 						new NhanVien(maNV, tenNV, null, null, null, null, false, null, false, 0));
 				dshd.add(hd);
 			}
@@ -582,7 +582,7 @@ public class HoaDonDAO {
 				String tenNV = rs.getString(4);
 				String maKH = rs.getString(5);
 				String tenKH = rs.getString(6);
-				HoaDon hd = new HoaDon(maHD, ngayLap, new KhachHang(maKH, tenKH, null, null, null, false),
+				HoaDon hd = new HoaDon(maHD, ngayLap, new KhachHang(maKH, tenKH, null,  null, false),
 						new NhanVien(maNV, tenNV, null, null, null, null, false, null, false, 0));
 				dshd.add(hd);
 			}
@@ -624,7 +624,7 @@ public class HoaDonDAO {
 				String tenNV = rs.getString(4);
 				String maKH = rs.getString(5);
 				String tenKH = rs.getString(6);
-				HoaDon hd = new HoaDon(maHD, ngayLap, new KhachHang(maKH, tenKH, null, null, null, false),
+				HoaDon hd = new HoaDon(maHD, ngayLap, new KhachHang(maKH, tenKH, null, null, false),
 						new NhanVien(maNV, tenNV, null, null, null, null, false, null, false, 0));
 				dshd.add(hd);
 			}
@@ -662,7 +662,7 @@ public class HoaDonDAO {
 				String tenNV = rs.getString(4);
 				String maKH = rs.getString(5);
 				String tenKH = rs.getString(6);
-				HoaDon hd = new HoaDon(maHD, ngayLap, new KhachHang(maKH, tenKH, null, null, null, false),
+				HoaDon hd = new HoaDon(maHD, ngayLap, new KhachHang(maKH, tenKH, null, null, false),
 						new NhanVien(maNV, tenNV, null, null, null, null, false, null, false, 0));
 				dshd.add(hd);
 			}
