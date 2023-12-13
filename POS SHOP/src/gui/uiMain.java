@@ -12,10 +12,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -26,6 +28,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.LineBorder;
 
@@ -33,7 +37,7 @@ import component.LoadingDialog;
 import entity.KhuyenMai;
 import main.Login;
 
-public class uiMain {
+public class uiMain{
 
 	public JFrame frame;
 	public JPanel mainPanel = new JPanel();
@@ -109,7 +113,6 @@ public class uiMain {
 		qlkm.setVisible(true);
 		qltk = new QuanLyThongKe();
 		qltk.setVisible(true);
-
 	}
 
 	/**
@@ -126,7 +129,7 @@ public class uiMain {
 
 		pnlMenu.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		pnlMenu.setBackground(new Color(152, 251, 152));
-
+//		setIconImage(new ImageIcon(uiMain.class.getResource("/icon/logofinal.png")).getImage());
 		JPanel mainPanel = new JPanel();
 		QuanLyBanHang qlbh_1 = new QuanLyBanHang();
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());

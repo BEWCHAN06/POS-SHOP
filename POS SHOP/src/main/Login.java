@@ -7,10 +7,13 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 
 import ConnectDB.KetNoiSQL;
@@ -39,6 +42,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
@@ -62,6 +67,7 @@ public class Login extends JFrame implements ActionListener {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -73,6 +79,7 @@ public class Login extends JFrame implements ActionListener {
 				}
 			}
 		});
+
 	}
 
 	/**
@@ -86,6 +93,14 @@ public class Login extends JFrame implements ActionListener {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
+		try {
+		    BufferedImage image = ImageIO.read(getClass().getResource("/icon/logofinal.png"));
+		    setIconImage(image);
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
+//		setIconImage(new ImageIcon(uiMain.class.getResource("/icon/logofinal.png")).getImage());
+//		setIconImage(new ImageIcon(uiMain2.class.getResource("/icon/logofinal.png")).getImage());
 		setContentPane(contentPane);
 
 		JPanel panelLogo = new JPanel();
@@ -267,11 +282,23 @@ public class Login extends JFrame implements ActionListener {
 						otherUI2 = new uiMain2();
 						otherUI2.layTenChucVu(tenNV, chucVu);
 						otherUI2.frame.setVisible(true);
+						try {
+						    BufferedImage image = ImageIO.read(getClass().getResource("/icon/logofinal.png"));
+						    otherUI2.frame.setIconImage(image);
+						} catch (IOException e1) {
+						    e1.printStackTrace();
+						}
 						dispose();
 					} else if (chucVu.equals("Quản lý") && trangThai == 0){
 						otherUI = new uiMain();
 						otherUI.layTenChucVu(tenNV, chucVu);
 						otherUI.frame.setVisible(true);
+						try {
+						    BufferedImage image = ImageIO.read(getClass().getResource("/icon/logofinal.png"));
+						    otherUI.frame.setIconImage(image);
+						} catch (IOException e1) {
+						    e1.printStackTrace();
+						}
 						dispose();
 					}
 				}

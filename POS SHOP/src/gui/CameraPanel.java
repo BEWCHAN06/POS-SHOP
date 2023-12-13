@@ -53,7 +53,6 @@ public class CameraPanel extends JPanel {
         capture = new VideoCapture(0);
 
         SwingWorker<Void, Mat> worker = new SwingWorker<>() {
-            
 
 			@Override
             protected Void doInBackground() {
@@ -83,12 +82,6 @@ public class CameraPanel extends JPanel {
                             }
                         }
                     }
-//                    while (!isCancelled()) {
-//                        capture.read(frame);
-//                        if (!frame.empty()) {
-//                            publish(frame.clone());
-//                        }
-//                    }
                     capture.release();
                 }
                 return null;
@@ -121,7 +114,9 @@ public class CameraPanel extends JPanel {
     public String getQRCodeValue() {
         return temp;
     }
-    
+    public interface QRCodeListener {
+        void onQRCodeRead(String qrCode);
+    }
     private static void playBeepSound() {
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("data/amThanh/beep.wav").getAbsoluteFile());
@@ -188,9 +183,7 @@ public class CameraPanel extends JPanel {
         // Hiển thị ảnh đã thay đổi kích thước trên cameraViewLabel
         cameraViewLabel.setIcon(imageIcon);
     }
-    public interface QRCodeListener {
-        void onQRCodeRead(String qrCode);
-    }
+    
 //    public static void main(String[] args) {
 //        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 //

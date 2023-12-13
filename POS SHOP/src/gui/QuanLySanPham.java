@@ -1027,7 +1027,8 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 				JOptionPane.showMessageDialog(null, "vui long điền giá nhập");
 				check = false;
 			}
-			int gianhap = Integer.parseInt(txtGiaNhap.getText());
+//			(txtGiaNhap.getText());
+			double gianhap =  Double.parseDouble((txtGiaNhap.getText()));
 			if(gianhap < 0) {
 				JOptionPane.showMessageDialog(null, "nhập giá > 0");
 				btn = 3;

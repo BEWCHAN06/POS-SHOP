@@ -30,5 +30,13 @@
 	<classpathentry kind="lib" path="lib/itext/itextpdf-5.5.9.jar"/>
 	<classpathentry kind="lib" path="lib/itext/pdfbox-2.0.30.jar"/>
 	<classpathentry kind="lib" path="lib/itext/xmlworker-5.5.13.3.jar"/>
+	<classpathentry kind="lib" path="lib/javafx/javafx.base.jar"/>
+	<classpathentry kind="lib" path="lib/javafx/javafx.controls.jar"/>
+	<classpathentry kind="lib" path="lib/javafx/javafx.fxml.jar"/>
+	<classpathentry kind="lib" path="lib/javafx/javafx.graphics.jar"/>
+	<classpathentry kind="lib" path="lib/javafx/javafx.media.jar"/>
+	<classpathentry kind="lib" path="lib/javafx/javafx.swing.jar"/>
+	<classpathentry kind="lib" path="lib/javafx/javafx.web.jar"/>
+	<classpathentry kind="lib" path="lib/javafx/javafx-swt.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
