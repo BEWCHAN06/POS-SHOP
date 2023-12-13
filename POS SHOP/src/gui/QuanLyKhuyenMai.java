@@ -250,6 +250,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				if (btnLamMoi.getText().equals("Hủy")) {
 					btnLamMoi.setText("Làm mới");
+					tblSanPham.setEnabled(false);
 					btnLamMoi.setBackground(new Color(152, 251, 152));
 					btnLamMoi.setIcon(new ImageIcon(QuanLyKhuyenMai.class.getResource("/icon/loading.png")));
 
@@ -446,6 +447,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 										// bản).
 			}
 		};
+		tblSanPham.setEnabled(false);
 
 		// Sử dụng checkbox trong ô kiểm
 		TableCellRenderer checkBoxRenderer = new TableCellRenderer() {
@@ -759,6 +761,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 									// Lấy ra mã sản phẩm ở ô kiểm đã được tick
 									String maSP = (String) tblSanPham.getValueAt(row, 1);
 									danhSachMaSPDuocChon.add(maSP);
+									tblSanPham.setEnabled(false);
 									btnThemKhuyenMai.setText("Thêm");
 									btnThemKhuyenMai.setForeground(new Color(255, 255, 255));
 									btnThemKhuyenMai.setBackground(new Color(65, 105, 255));
@@ -791,6 +794,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 			} else { // Ngược lại khi nhấn vào nút thêm
 				xoaRong();
 				updateTableSanPham();
+				tblSanPham.setEnabled(true);
 				txtTenKhuyenMai.requestFocus();
 				txtMaKhuyenMai.setText(dskm.getAuToID()); // Khi nhấn nút thêm thì tự động phát sinh maKM
 
@@ -816,6 +820,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 				if (rowKhuyenMai == -1) {
 					JOptionPane.showMessageDialog(null, "Hãy một chương trình khuyến mãi muốn sửa !");
 				} else {
+					tblSanPham.setEnabled(true);
 					btnSuaKhuyenMai.setText("Lưu");
 					btnSuaKhuyenMai.setForeground(new Color(0, 0, 0));
 					btnSuaKhuyenMai.setBackground(new Color(210, 105, 30));
@@ -841,7 +846,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 						String giaBan = dinhDangTien(String.valueOf(sp.getGiaBan()));
 
 						String giaSauKhuyenMai = dinhDangTien(
-								String.valueOf(sp.tinhGiaSauKhuyenMai(sp.getGiaNhap(), phanTramKhuyenMai)));
+								String.valueOf(sp.tinhGiaSauKhuyenMai(sp.getGiaBan(), phanTramKhuyenMai)));
 						Object data[] = { Boolean.FALSE, sp.getMaSP(), sp.getTenSP(), sp.getLoi() + "%", maKM, giaBan,
 								giaSauKhuyenMai };
 						modelSanPham.addRow(data);
@@ -958,7 +963,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 							xoaRong();
 							updateTableSanPham();
 							updateTableKhuyenMai();
-
+							tblSanPham.setEnabled(false);
 							btnSuaKhuyenMai.setText("Sửa");
 							btnSuaKhuyenMai.setForeground(new Color(0, 0, 0));
 							btnSuaKhuyenMai.setBackground(new Color(255, 255, 0));
@@ -1033,7 +1038,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 		}
 		Double soKhuyenMai = Double.parseDouble(xoaKiTuPhanTramMucKM);
 		if (!(soKhuyenMai > 0 && soKhuyenMai < 100)) {
-			showMessage("Mức khuyến mãi phải lớn hơn 0% và bé hơn 100% !", txtMucKhuyenMai);
+			showMessage("Mức khuyến mãi phải lớn hơn 0% và bé hơn loi (%) của sản phẩm !", txtMucKhuyenMai);
 			return false;
 		}
 		if (nbd == null) {
