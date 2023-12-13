@@ -70,6 +70,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
+import java.awt.event.MouseAdapter;
 
 public class QuanLySanPham extends JPanel implements ActionListener, MouseListener{
 	private JTextField txtTenSP;
@@ -99,7 +100,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 	private JButton btnThem;
 	private JButton btnSua;
 	private JButton btnLuu;
-	private JButton btnLamMoi;
+	public JButton btnLamMoi;
 	private JButton btnHuy;
 	private JButton btnXemTruoc;
 	private SanPhamDAO listSP;
@@ -126,7 +127,17 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 	}
 	///
 	private void loadComboBoxThuocTinh() {
-        mauSacDAO = new MauSacDAO();
+		
+		cboMauSac.removeAllItems();
+		cboLoaiSanPham.removeAllItems();
+		cboChatLieu.removeAllItems();
+		cboKieuDang.removeAllItems();
+		cboxuatXu.removeAllItems();
+		cboKichThuocBatDau.removeAllItems();
+		cboGiaLoi.removeAllItems();
+		cboNCC.removeAllItems();
+		
+		MauSacDAO mauSacDAO = new MauSacDAO();
         ArrayList<MauSac> listMauSac = mauSacDAO.getAllMauSac();
         listMauSac.forEach(mauSac -> cboMauSac.addItem(mauSac.getMauSac()));
 
@@ -233,10 +244,6 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		
 		btnLamMoi = new JButton("Làm mới");
 		btnLamMoi.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-		btnLamMoi.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		btnLamMoi.setBackground(new Color(144, 238, 144));
 		btnLamMoi.setIcon(new ImageIcon(QuanLySanPham.class.getResource("/icon/refesh.png")));
 		btnLamMoi.setFont(new Font("Arial", Font.BOLD, 12));
@@ -1002,14 +1009,16 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 			SanPham sp = new SanPham();
 			txtMaSP.setText(sp.getAutoID());
 			
-		}else if(o.equals(btnSua)) {
+		}
+		if(o.equals(btnSua)) {
 			btn = 2; //chuyen trang thai cua nut luu
 			btnThem.setEnabled(false);
 			btnSua.setEnabled(false);
 			btnLuu.setEnabled(true);
 			btnHuy.setEnabled(true);
 			
-		}else if(o.equals(btnLuu)) {
+		}
+		if(o.equals(btnLuu)) {
 			
 			boolean check = true;
 			String tenspString =  txtTenSP.getText();
@@ -1058,8 +1067,13 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 			        btnHuy.setEnabled(false);
 			    }
 			}
-		}else if(o.equals(btnLamMoi)) {
-			resetGui();
+		}
+		if(o.equals(btnLamMoi)) {
+			System.out.println("đã làm mới");
+//			resetGui();
+//			uiSanPhan();
+			tblDanhSachSanPham();
+			loadComboBoxThuocTinh();
 		}else if(o.equals(btnHuy)) {
 			btnThem.setEnabled(true);
 			btnSua.setEnabled(true);
@@ -1139,7 +1153,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 	    loadingPanel.add(BorderLayout.CENTER, progressBar);
 
 	    // Add the loadingPanel to the JDialog
-	    loadingDialog.add(loadingPanel);
+	    loadingDialog.getContentPane().add(loadingPanel);
 
 	    loadingDialog.setSize(200, 75);
 	    loadingDialog.setLocationRelativeTo(owner);

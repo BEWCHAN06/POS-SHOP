@@ -10,6 +10,12 @@ import javax.swing.JTabbedPane;
 import java.awt.Color;
 import javax.swing.border.LineBorder;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 public class uiSanPham extends JPanel {
 
 	/**
@@ -28,6 +34,7 @@ public class uiSanPham extends JPanel {
 		mainPanel.setLayout(new CardLayout(0, 0));
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		
 		tabbedPane.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		tabbedPane.setBackground(new Color(255, 255, 255));
 		mainPanel.add(tabbedPane, "name_45187479142700");
@@ -55,5 +62,6 @@ public class uiSanPham extends JPanel {
 		QuanLyNhaCungCap qlncc = new QuanLyNhaCungCap();
 		mainPanelQuanLyNhaCC.removeAll();
 		mainPanelQuanLyNhaCC.add(qlncc, BorderLayout.CENTER);
+		
 	}
 }
