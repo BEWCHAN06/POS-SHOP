@@ -244,4 +244,23 @@ public class ChiTietHoaDonDAO {
         }
         return listSanPham;
     }
+    public double tongTienHoaDon(String maHD){
+        KetNoiSQL.getConnection();
+        Connection conn = KetNoiSQL.getConnection();
+        String sql  = "select ChiTietHoaDon.maHD,  tongTien = sum(ChiTietHoaDon.thanhTien) \n" +
+                        "from ChiTietHoaDon \n" +
+                        "where maHD = ?\n" +
+                        "group by ChiTietHoaDon.maHD";        
+        try {
+            PreparedStatement stmt = conn.prepareCall(sql);
+            stmt.setString(1, maHD);
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+                return rs.getDouble(2);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return -1;
+    }
 }

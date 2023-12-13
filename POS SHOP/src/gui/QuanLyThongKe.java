@@ -12,6 +12,7 @@ import java.awt.CardLayout;
 public class QuanLyThongKe extends JPanel{
 	private TabThongKeSanPham tabTKSP = new TabThongKeSanPham();
 	private TabThongKeDoanhThu tabDT = new TabThongKeDoanhThu();
+	private TabThongKeHoaDon tabHD = new TabThongKeHoaDon();
 	
 
 	public QuanLyThongKe() {
@@ -36,12 +37,20 @@ public class QuanLyThongKe extends JPanel{
 		pnlSanPham.revalidate();
 		
 		JPanel pnlDoanhThu = new JPanel();
-		tabbedPane.addTab("DoanhThu", null, pnlDoanhThu, null);
+		tabbedPane.addTab("Doanh Thu", null, pnlDoanhThu, null);
 		pnlDoanhThu.setLayout(new CardLayout(0, 0));
 		pnlDoanhThu.removeAll();
 		pnlDoanhThu.setVisible(true);
 		pnlDoanhThu.add(tabDT, BorderLayout.CENTER);
 		pnlDoanhThu.revalidate();
+		
+		JPanel pnlHoaDon = new JPanel();
+		tabbedPane.addTab("Hóa đơn", null, pnlHoaDon, null);
+		pnlHoaDon.setLayout(new CardLayout(0, 0));
+		pnlHoaDon.removeAll();
+		pnlHoaDon.setVisible(true);
+		pnlHoaDon.add(tabHD, BorderLayout.CENTER);
+		pnlHoaDon.revalidate();
 	}
 	
 }

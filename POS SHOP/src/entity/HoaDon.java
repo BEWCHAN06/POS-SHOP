@@ -22,6 +22,14 @@ public class HoaDon {
 		// TODO Auto-generated constructor stub
 	}
 	
+	public HoaDon(String maHoaDon, NhanVien nhanVien, KhachHang khachHang, Date ngayLap) {
+		super();
+		this.maHoaDon = maHoaDon;
+		this.ngayLap = ngayLap;
+		this.khachHang = khachHang;
+		this.nhanVien = nhanVien;
+	}
+
 	public HoaDon(String maHoaDon, Date ngayLap, KhachHang khachHang, NhanVien nhanVien, int trangthai,
 			double tongtien) {
 		super();

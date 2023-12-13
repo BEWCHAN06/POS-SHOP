@@ -100,10 +100,10 @@ public class KhachHangDAO {
 			while (rs.next()) {
 				String makh = rs.getString(1);
 				String tenkh= rs.getString(2);
-				String sdt = rs.getString(4);
-				String email = rs.getString(5);
+				String sdt = rs.getString(3);
+				String email = rs.getString(4);
 				
-				boolean gioitinh = rs.getBoolean(6);
+				boolean gioitinh = rs.getBoolean(5);
 				KhachHang kh = new KhachHang(makh ,tenkh,sdt,email,gioitinh);
 				listKhachHang.add(kh);
 			}
@@ -155,4 +155,28 @@ public class KhachHangDAO {
         }
         return null;
     }
+ 	public KhachHang getKhachHangById(String id){
+        KetNoiSQL.getInstance();
+        Connection conn = KetNoiSQL.getConnection();
+        
+        try {
+            String sql = "select * from khachHang where maKH= ?";
+            PreparedStatement stmt = conn.prepareCall(sql);
+            stmt.setString(1, id);
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+                KhachHang khachHang = new KhachHang();
+                khachHang.setMaKH(rs.getString(1));
+                khachHang.setTenKH(rs.getString(2));
+                khachHang.setEmail(rs.getString(3));
+                khachHang.setSDT(rs.getString(4));
+                khachHang.setGioiTinh(rs.getBoolean(5));
+                return khachHang;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(XuatXuDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
 }

@@ -742,4 +742,66 @@ public class HoaDonDAO {
 		}
 		return 0;
 	}
+	public ArrayList<HoaDon> getAllHoaDon(String tenKhachHang, String tenNhanVien) {
+	    ArrayList<HoaDon> listHoaDon = new ArrayList<>();
+	    KetNoiSQL.getInstance();
+	    Connection conn = KetNoiSQL.getConnection();
+	    try {
+	        String sql = "SELECT HoaDon.*\n"
+	        		+ "FROM HoaDon\n"
+	        		+ "INNER JOIN khachHang ON HoaDon.maKH = khachHang.maKH\n"
+	        		+ "INNER JOIN nhanvien ON HoaDon.maNV = nhanvien.maNV\n"
+	        		+ "WHERE nhanvien.tenNV LIKE ? AND khachHang.tenKH LIKE ? AND maHD NOT LIKE 'HDC%'\n"
+	        		+ "";
+	        PreparedStatement stmt = conn.prepareCall(sql);
+            stmt.setString(1, "%" + tenNhanVien + "%");
+            stmt.setString(2, "%" + tenKhachHang + "%");
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+            	nhanVienDAO = new NhanVienDAO();
+            	khachHangDAO = new KhachHangDAO();
+                String maHoaDon = rs.getString(1);
+                Date ngayLap = rs.getDate(2);
+                NhanVien nhanVien = nhanVienDAO.getNhanVienByID(rs.getString(3));
+                KhachHang khachHang = khachHangDAO.getKhachHangById(rs.getString(4));
+                HoaDon hoaDon = new HoaDon(maHoaDon, nhanVien, khachHang, ngayLap);
+                listHoaDon.add(hoaDon);
+           }
+	    } catch (SQLException ex) {
+	        ex.printStackTrace();
+	    }
+	    return listHoaDon;
+	}
+
+	public ArrayList<HoaDon> getAllHoaDon(String tenKhachHang, String tenNhanVien, String tuNgay, String denNgay) {
+        ArrayList<HoaDon> listHoaDon = new ArrayList<>();
+        KetNoiSQL.getInstance();
+        Connection conn = KetNoiSQL.getConnection();
+        try {
+            String sql = "SELECT HoaDon.*\n"
+                    + "FROM HoaDon INNER JOIN\n"
+                    + "          khachHang ON HoaDon.maKH = khachHang.maKH INNER JOIN\n"
+                    + "                         nhanvien ON HoaDon.maNV = nhanvien.maNV\n"
+                    + "where nhanvien.tenNV = ? and khachHang.tenKH = ? and maHD not like 'HDC%' and ngayLap >= ? and ngayLap <= ?";
+            PreparedStatement stmt = conn.prepareCall(sql);
+            stmt.setString(1, "%" + tenNhanVien + "%");
+            stmt.setString(2, "%" + tenKhachHang + "%");
+            stmt.setString(3, tuNgay);
+            stmt.setString(4, denNgay);
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                String maHoaDon = rs.getString(1);
+                Date ngayLap = rs.getDate(2);
+                NhanVien nhanVien = nhanVienDAO.getNhanVienByID(rs.getString(3));
+                KhachHang khachHang = khachHangDAO.getKhachHangById(rs.getString(4));
+                HoaDon hoaDon = new HoaDon(maHoaDon, nhanVien, khachHang, ngayLap);
+                listHoaDon.add(hoaDon);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return listHoaDon;
+    }
 }
