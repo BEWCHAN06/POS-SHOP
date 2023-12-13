@@ -22,7 +22,6 @@ CREATE TABLE KhachHang
 (
 maKH varchar(7) PRIMARY KEY,
 tenKH nvarchar(50) NOT NULL,
-ngaySinh date CHECK (ngaySinh >='1900-01-01'),
 SDT varchar(50) CHECK (SDT like '0%' and LEN(SDT) >= 10),
 email varchar(50),
 gioiTinh bit NOT NULL

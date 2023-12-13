@@ -8,9 +8,9 @@ INSERT INTO NhanVien VALUES
 ('NV04', N'Đinh Thị D', '1985-07-07', '0998765432','cdh@gmail.com', '099876543210',1, N'Hà Tĩnh', 0, 1)
 --Insert data for table KhachHang
 INSERT INTO KhachHang VALUES
-('KH01', N'Nguyễn Văn X', '1990-06-06', '0902222222', 'xnv@gmail.com', 1),
-('KH02', N'Trần Thị Y', '1992-03-03', '0903333333', 'ytt@gmail.com', 0),
-('KH03', N'Đinh Thị Z', '1995-01-01', '0904444444', NULL, 1)
+('KH01', N'Nguyễn Văn X', '0902222222', 'xnv@gmail.com', 1),
+('KH02', N'Trần Thị Y', '0903333333', 'ytt@gmail.com', 0),
+('KH03', N'Đinh Thị Z', '0904444444', NULL, 1)
 
 --Insert data for table XuatXu
 INSERT INTO XuatXu VALUES
