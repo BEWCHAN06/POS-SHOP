@@ -193,8 +193,9 @@ public class uiMain{
 				.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup().addComponent(lblNewLabel)
 						.addContainerGap(22, Short.MAX_VALUE)));
 		panel.setLayout(gl_panel);
-		mainPanel.removeAll();
-		mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
+//		mainPanel.removeAll();
+//		mainPanel.revalidate(); 
+		// Cập nhật lại mainPanel để hiển thị giao diện mới
 		/// chuyển giao diện
 		btnBanHang = new JPanel();
 		btnBanHang.addMouseListener(new MouseAdapter() {
