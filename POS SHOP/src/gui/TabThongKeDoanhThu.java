@@ -454,6 +454,8 @@ public class TabThongKeDoanhThu extends javax.swing.JPanel {
         });
         
         JButton btnXuatBaoCao = new JButton("Xuất báo cáo");
+        btnXuatBaoCao.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+        btnXuatBaoCao.setBackground(new Color(255, 255, 255));
         btnXuatBaoCao.setFont(new Font("Arial", Font.PLAIN, 12));
         btnXuatBaoCao.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
@@ -559,27 +561,27 @@ public class TabThongKeDoanhThu extends javax.swing.JPanel {
             Document document = new Document();
 
             try {
-            	
-                PdfWriter.getInstance(document, new FileOutputStream(fileToSave.getAbsolutePath() + ".pdf"));
+                PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(fileToSave.getAbsolutePath() + ".pdf"));
                 document.open();
                 BaseFont baseFont = BaseFont.createFont("c:/windows/fonts/arial.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
                 com.itextpdf.text.Font font = new com.itextpdf.text.Font(baseFont, 12);
 
                 // Thêm tiêu đề
-                Paragraph title = new Paragraph("Danh sách sản phẩm\n", font);
+                Paragraph title = new Paragraph("BÁO CÁO DOANH THU", font);
                 title.setFont(new com.itextpdf.text.Font(BaseFont.createFont("C:/Windows/Fonts/Arial.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 12, com.itextpdf.text.Font.BOLD));
                 title.setAlignment(Element.ALIGN_CENTER);
                 title.setSpacingAfter(20);
-                
                 document.add(title);
-
+                
+                
+                
                 // Thêm bảng
                 PdfPTable table = new PdfPTable(tbl_DanhSachSanPham.getColumnCount());
                 table.setWidthPercentage(100);
 
                 // Thêm tiêu đề cột
                 for (int col = 0; col < tbl_DanhSachSanPham.getColumnCount(); col++) {
-                	PdfPCell cell = new PdfPCell(new Phrase(String.valueOf(tbl_DanhSachSanPham.getColumnName(col)), font));
+                    PdfPCell cell = new PdfPCell(new Phrase(String.valueOf(tbl_DanhSachSanPham.getColumnName(col)), font));
                     cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                     table.addCell(cell);
                 }
@@ -587,13 +589,31 @@ public class TabThongKeDoanhThu extends javax.swing.JPanel {
                 // Đổ dữ liệu từ bảng vào PDF
                 for (int row = 0; row < tbl_DanhSachSanPham.getRowCount(); row++) {
                     for (int col = 0; col < tbl_DanhSachSanPham.getColumnCount(); col++) {
-                    	PdfPCell cell = new PdfPCell(new Phrase(String.valueOf(tbl_DanhSachSanPham.getValueAt(row, col)), font));
+                        PdfPCell cell = new PdfPCell(new Phrase(String.valueOf(tbl_DanhSachSanPham.getValueAt(row, col)), font));
                         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                         table.addCell(cell);
                     }
                 }
 
                 document.add(table);
+                Paragraph dc = new Paragraph("Tổng doanh thu: " + lbl_SoTongSanPhamConLai.getText(), font);
+                document.add(dc);
+                
+                Paragraph soSanPhamDaBan = new Paragraph("Số sản phẩm đã bán được: " + lbl_SoTongSanPhamDaBan.getText(), font);// Lấy dữ liệu từ bảng hoặc từ dữ liệu khác);
+                document.add(soSanPhamDaBan);
+                
+                if (!cb_TatCa.isSelected() && dc_TuNgay.getDate() != null && dc_DenNgay.getDate() != null) {
+                    Paragraph timeRange = new Paragraph("Thời gian từ Ngày: " +
+                            new SimpleDateFormat("yyyy-MM-dd").format(dc_TuNgay.getDate()) +
+                            " đến Ngày: " +
+                            new SimpleDateFormat("yyyy-MM-dd").format(dc_DenNgay.getDate()), font);
+                    document.add(timeRange);
+                }
+                // Add "Ngày giờ in" to the PDF
+                Paragraph printDateTime = new Paragraph("Ngày giờ in: " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()), font);
+                printDateTime.setAlignment(Element.ALIGN_LEFT);
+                document.add(printDateTime);
+
                 JOptionPane.showMessageDialog(this, "Xuất PDF thành công!");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -603,6 +623,7 @@ public class TabThongKeDoanhThu extends javax.swing.JPanel {
             }
         }
     }
+
 
 
     

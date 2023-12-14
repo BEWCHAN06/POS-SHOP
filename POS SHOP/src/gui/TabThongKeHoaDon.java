@@ -16,6 +16,8 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.time.temporal.ChronoUnit;
@@ -29,6 +31,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -38,9 +41,20 @@ import javax.swing.LayoutStyle;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.tool.xml.html.table.Table;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.JButton;
+import javax.swing.border.LineBorder;
 
 public class TabThongKeHoaDon extends JPanel {
     private KhachHangDAO khachHang_DAO = new KhachHangDAO();
@@ -100,8 +114,7 @@ public class TabThongKeHoaDon extends JPanel {
          String tenKhachHang = cb_TenKhachHang.getSelectedItem().toString();
          if(tenKhachHang.equals("Tất cả")) tenKhachHang = "";
          HoaDonDAO ds = new HoaDonDAO();
-         List<HoaDon> listHoaDon = ds.doTuBang();
-         
+         List<HoaDon> listHoaDon = ds.getAllHoaDon(tenNhanVien,tenKhachHang );
          double tongHoaDon = listHoaDon.size();
          double tongThanhTien = 0;
          DefaultTableModel dtm = (DefaultTableModel) tbl_DanhSachHoaDon.getModel();
@@ -110,10 +123,10 @@ public class TabThongKeHoaDon extends JPanel {
         	        double tongTien = cthd_DAO.tongTienHoaDon(hd.getMaHoaDon());
         	        tongThanhTien += tongTien;
         	        Object[] rowData = {hd.getMaHoaDon(), hd.getNhanVien().getTenNV(), hd.getKhachHang().getTenKH(), 
-        	            new SimpleDateFormat("dd/MM/yyyy").format(hd.getNgayLap()), NumberFormat.getInstance().format(tongTien)};
-        	        dtm.addRow(rowData);   
-        	 }
-        	}
+        	         new SimpleDateFormat("dd/MM/yyyy").format(hd.getNgayLap()), NumberFormat.getInstance().format(tongTien)};
+        	        dtm.addRow(rowData);          	       
+        	 }       
+         }
          
          lbl_KQTongDoanhThu.setText(NumberFormat.getInstance().format(tongThanhTien));
          lbl_KQTongHD.setText(NumberFormat.getInstance().format(tongHoaDon));
@@ -132,7 +145,6 @@ public class TabThongKeHoaDon extends JPanel {
          String denNgay = new SimpleDateFormat("yyyy-MM-dd").format( dc_DenNgay.getDate());
 
          ArrayList<HoaDon> listHoaDon = hoaDon_DAO.getAllHoaDon(tenKhachHang, tenNhanVien, tuNgay, denNgay);
-          
          double tongHoaDon = listHoaDon.size();
          double tongThanhTien = 0;
          
@@ -185,8 +197,10 @@ public class TabThongKeHoaDon extends JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
     	setPreferredSize(new Dimension(932, 685));
-        scr_1 = new JScrollPane();
-        scr_1.setBounds(10, 222, 909, 429);
+        scr_1 = new JScrollPane( );
+        
+        
+        scr_1.setBounds(10, 222, 909, 372);
         tbl_DanhSachHoaDon = new JTable();
         lbl_1 = new JLabel();
         lbl_1.setBounds(455, 46, 72, 38);
@@ -368,9 +382,93 @@ public class TabThongKeHoaDon extends JPanel {
         add(cb_TatCa);
         add(lbl_TenKhachHang);
         add(cb_TenKhachHang);
+        
+        JButton btnXuatBaoCao = new JButton("Xuất Báo Cáo");
+        btnXuatBaoCao.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+        btnXuatBaoCao.setBackground(new Color(255, 255, 255));
+        btnXuatBaoCao.setFont(new Font("Arial", Font.PLAIN, 13));
+        btnXuatBaoCao.setBounds(423, 620, 130, 54);
+        add(btnXuatBaoCao);
+        btnXuatBaoCao.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                xuatBaoCaoPDF();
+            }
+        });
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cb_TenNhanVienItemStateChanged(ItemEvent evt) {//GEN-FIRST:event_cb_TenNhanVienItemStateChanged
+    protected void xuatBaoCaoPDF() {
+		// TODO Auto-generated method stub
+    	JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Chọn nơi lưu file");
+
+        int userSelection = fileChooser.showSaveDialog(this);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            Document document = new Document();
+    	try {
+            // Tạo file PDF mới
+    		PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(fileToSave.getAbsolutePath() + ".pdf"));
+            document.open();
+            BaseFont baseFont = BaseFont.createFont("c:/windows/fonts/arial.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            com.itextpdf.text.Font font = new com.itextpdf.text.Font(baseFont, 12);
+
+            // Thêm tiêu đề
+            Paragraph title = new Paragraph("BẢNG THỐNG KÊ HOÁ ĐƠN", font);
+            title.setFont(new com.itextpdf.text.Font(BaseFont.createFont("C:/Windows/Fonts/Arial.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 12, com.itextpdf.text.Font.BOLD));
+            title.setAlignment(Element.ALIGN_CENTER);
+            title.setSpacingAfter(20);
+            document.add(title);
+
+            // Thêm dữ liệu từ bảng
+            PdfPTable table = new PdfPTable(tbl_DanhSachHoaDon.getColumnCount());
+            table.setWidthPercentage(100);
+            
+            for (int col = 0; col < tbl_DanhSachHoaDon.getColumnCount(); col++) {
+                PdfPCell cell = new PdfPCell(new Phrase(String.valueOf(tbl_DanhSachHoaDon.getColumnName(col)), font));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                table.addCell(cell);
+            }
+            // Thêm dữ liệu từ bảng tbl_DanhSachHoaDon
+            for (int i = 0; i < tbl_DanhSachHoaDon.getRowCount(); i++) {
+                for (int j = 0; j < tbl_DanhSachHoaDon.getColumnCount(); j++) {
+                    table.addCell(new Phrase(tbl_DanhSachHoaDon.getValueAt(i, j).toString(), font));
+                }
+            }
+
+            document.add(table);
+
+            // Thêm thông tin thống kê
+            document.add(new Paragraph("Tổng doanh thu: " + lbl_KQTongDoanhThu.getText(), font));
+            document.add(new Paragraph("Tổng hóa đơn: " + lbl_KQTongHD.getText(),font));
+            if (!cb_TenNhanVien.getSelectedItem().toString().equals("Tất cả")) {
+                document.add(new Paragraph("Tên nhân viên: " + cb_TenNhanVien.getSelectedItem().toString(),font));
+            }
+            if (!cb_TatCa.isSelected() && dc_TuNgay.getDate() != null && dc_DenNgay.getDate() != null) {
+                Paragraph timeRange = new Paragraph("Thời gian từ Ngày: " +
+                        new SimpleDateFormat("yyyy-MM-dd").format(dc_TuNgay.getDate()) +
+                        " đến Ngày: " +
+                        new SimpleDateFormat("yyyy-MM-dd").format(dc_DenNgay.getDate()), font);
+                document.add(timeRange);
+            }
+            
+            Paragraph printDateTime = new Paragraph("Ngày giờ in: " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()), font);
+            printDateTime.setAlignment(Element.ALIGN_LEFT);
+            document.add(printDateTime);
+            
+            // Đóng tài liệu
+            document.close();
+
+            JOptionPane.showMessageDialog(this, "Xuất báo cáo thành công!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Lỗi xuất báo cáo: " + e.getMessage());
+        }
+    }
+	}
+
+	private void cb_TenNhanVienItemStateChanged(ItemEvent evt) {//GEN-FIRST:event_cb_TenNhanVienItemStateChanged
         if(cb_TatCa.isSelected()){
             tableHoaDon();
         }else if(!cb_TatCa.isSelected()){
@@ -441,5 +539,4 @@ public class TabThongKeHoaDon extends JPanel {
     private JLabel lbl_TongDoanhThu;
     private JLabel lbl_TongSoHoaDon;
     private JTable tbl_DanhSachHoaDon;
-    // End of variables declaration//GEN-END:variables
 }

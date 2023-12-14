@@ -743,17 +743,16 @@ public class HoaDonDAO {
 		}
 		return 0;
 	}
-	public ArrayList<HoaDon> getAllHoaDon(String tenKhachHang, String tenNhanVien) {
+	public ArrayList<HoaDon> getAllHoaDon( String tenNhanVien,String tenKhachHang) {
 	    ArrayList<HoaDon> listHoaDon = new ArrayList<>();
 	    KetNoiSQL.getInstance();
 	    Connection conn = KetNoiSQL.getConnection();
 	    try {
-	        String sql = "SELECT HoaDon.*\n"
+	        String sql = "SELECT HoaDon.maHD, HoaDon.ngayLap, KhachHang.tenKH, NhanVien.tenNV\n"
 	        		+ "FROM HoaDon\n"
-	        		+ "INNER JOIN khachHang ON HoaDon.maKH = khachHang.maKH\n"
-	        		+ "INNER JOIN nhanvien ON HoaDon.maNV = nhanvien.maNV\n"
-	        		+ "WHERE nhanvien.tenNV LIKE ? AND khachHang.tenKH LIKE ? AND maHD NOT LIKE 'HDC%'\n"
-	        		+ "";
+	        		+ "INNER JOIN KhachHang ON HoaDon.maKH = KhachHang.maKH\n"
+	        		+ "INNER JOIN NhanVien ON HoaDon.maNV = NhanVien.maNV\n"
+	        		+ "WHERE nhanvien.tenNV LIKE ? AND khachHang.tenKH LIKE ? AND maHD NOT LIKE 'HDC%'";
 	        PreparedStatement stmt = conn.prepareCall(sql);
             stmt.setString(1, "%" + tenNhanVien + "%");
             stmt.setString(2, "%" + tenKhachHang + "%");
@@ -764,8 +763,8 @@ public class HoaDonDAO {
             	khachHangDAO = new KhachHangDAO();
                 String maHoaDon = rs.getString(1);
                 Date ngayLap = rs.getDate(2);
-                NhanVien nhanVien = nhanVienDAO.getNhanVienByID(rs.getString(3));
-                KhachHang khachHang = khachHangDAO.getKhachHangById(rs.getString(4));
+                KhachHang khachHang = khachHangDAO.getKhachHangTheoTen(rs.getString(3));
+                NhanVien nhanVien = nhanVienDAO.getNhanVienTheoTen(rs.getString(4));
                 HoaDon hoaDon = new HoaDon(maHoaDon, nhanVien, khachHang, ngayLap);
                 listHoaDon.add(hoaDon);
            }
@@ -780,11 +779,11 @@ public class HoaDonDAO {
         KetNoiSQL.getInstance();
         Connection conn = KetNoiSQL.getConnection();
         try {
-            String sql = "SELECT HoaDon.*\n"
-                    + "FROM HoaDon INNER JOIN\n"
-                    + "          khachHang ON HoaDon.maKH = khachHang.maKH INNER JOIN\n"
-                    + "                         nhanvien ON HoaDon.maNV = nhanvien.maNV\n"
-                    + "where nhanvien.tenNV = ? and khachHang.tenKH = ? and maHD not like 'HDC%' and ngayLap >= ? and ngayLap <= ?";
+            String sql = "SELECT HoaDon.maHD, HoaDon.ngayLap, KhachHang.tenKH, NhanVien.tenNV\n"
+	        		+ "FROM HoaDon\n"
+	        		+ "INNER JOIN KhachHang ON HoaDon.maKH = KhachHang.maKH\n"
+	        		+ "INNER JOIN NhanVien ON HoaDon.maNV = NhanVien.maNV\n"
+                    + "where nhanvien.tenNV like ? and khachHang.tenKH like ? and maHD not like 'HDC%' and ngayLap >= ? and ngayLap <= ?";
             PreparedStatement stmt = conn.prepareCall(sql);
             stmt.setString(1, "%" + tenNhanVien + "%");
             stmt.setString(2, "%" + tenKhachHang + "%");
@@ -795,8 +794,8 @@ public class HoaDonDAO {
             while (rs.next()) {
                 String maHoaDon = rs.getString(1);
                 Date ngayLap = rs.getDate(2);
-                NhanVien nhanVien = nhanVienDAO.getNhanVienByID(rs.getString(3));
-                KhachHang khachHang = khachHangDAO.getKhachHangById(rs.getString(4));
+                KhachHang khachHang = khachHangDAO.getKhachHangTheoTen(rs.getString(3));
+                NhanVien nhanVien = nhanVienDAO.getNhanVienTheoTen(rs.getString(4)); 
                 HoaDon hoaDon = new HoaDon(maHoaDon, nhanVien, khachHang, ngayLap);
                 listHoaDon.add(hoaDon);
             }

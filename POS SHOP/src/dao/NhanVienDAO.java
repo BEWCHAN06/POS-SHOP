@@ -60,7 +60,34 @@ public class NhanVienDAO {
 		}
 		return listNhanVien;
 	}
+	public NhanVien getNhanVienTheoTen(String name) {
+		KetNoiSQL.getInstance();
+		Connection conn = KetNoiSQL.getConnection();
+		try {
 
+			String sql = "select * from nhanvien where tenNV like (?)";
+			PreparedStatement stmt = conn.prepareCall(sql);
+			stmt.setString(1, name);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				NhanVien nv = new NhanVien();
+				nv.setMaNV(rs.getString(1));
+				nv.setTenNV(rs.getString(2));
+				nv.setNgaySinh(rs.getDate(3));
+				nv.setSDT(rs.getString(4));
+				nv.setEmail(rs.getString(5));
+				nv.setCMND(rs.getString(6));
+				nv.setGioiTinh(rs.getBoolean(7));
+				nv.setDiaChi(rs.getString(8));
+				nv.setChucVu(rs.getBoolean(9));
+				nv.setTrangThai(rs.getInt(10));
+				return nv;
+			}
+		} catch (SQLException ex) {
+			Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		return null;
+	}
 	public ArrayList<NhanVien> getAllNhanVienConHoatDong() {
 		ArrayList<NhanVien> listNhanVien = new ArrayList<>();
 		KetNoiSQL.getInstance();

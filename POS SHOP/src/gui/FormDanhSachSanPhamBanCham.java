@@ -2,9 +2,31 @@ package gui;
 
 import entity.SanPham;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.GroupLayout;
 
 public class FormDanhSachSanPhamBanCham extends javax.swing.JFrame {
     private ArrayList<SanPham>listSanPham = new ArrayList<>();
@@ -39,6 +61,7 @@ public class FormDanhSachSanPhamBanCham extends javax.swing.JFrame {
         scr_1 = new javax.swing.JScrollPane();
         tbl_danhSachSanPham = new javax.swing.JTable();
         lbl_2 = new javax.swing.JLabel();
+        lbl_2.setBounds(1092, 3, 31, 32);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -105,25 +128,93 @@ public class FormDanhSachSanPhamBanCham extends javax.swing.JFrame {
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(container, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+        	layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(layout.createSequentialGroup()
+        			.addComponent(container, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(container, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+        	layout.createParallelGroup(Alignment.LEADING)
+        		.addComponent(container, GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)
         );
-
+        getContentPane().setLayout(layout);
+        JButton btnXuatFile = new JButton("Xuất File");
+        btnXuatFile.setFont(new Font("Arial", Font.BOLD, 13));
+        btnXuatFile.setBackground(new Color(255, 255, 255));
+        btnXuatFile.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+        btnXuatFile.setBounds(494, 432, 117, 49);
+        container.add(btnXuatFile);
+        getContentPane().setLayout(layout);
+        btnXuatFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXuatFileActionPerformed(evt);
+            }
+        });
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void lbl_2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_2MouseClicked
+    protected void btnXuatFileActionPerformed(ActionEvent evt) {
+    	exportToPDF();
+		// TODO Auto-generated method stub
+    	
+	}
+
+	private void exportToPDF() {
+		// TODO Auto-generated method stub
+		JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Chọn nơi lưu file");
+
+        int userSelection = fileChooser.showSaveDialog(this);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            Document document = new Document();
+        try {
+        	PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(fileToSave.getAbsolutePath() + ".pdf"));
+            document.open();
+            BaseFont baseFont = BaseFont.createFont("c:/windows/fonts/arial.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            com.itextpdf.text.Font font = new com.itextpdf.text.Font(baseFont, 12);
+
+            // Open the document for writing
+            document.open();
+
+            // Add a title to the document
+            Paragraph title = new Paragraph("TOP 10 SẢN PHẨM BÁN CHẬM", font);
+            title.setAlignment(Element.ALIGN_CENTER);
+            title.setSpacingAfter(20);
+            document.add(title);
+
+            // Add the table to the document
+            PdfPTable table = new PdfPTable(tbl_danhSachSanPham.getColumnCount());
+            for (int i = 0; i < tbl_danhSachSanPham.getColumnCount(); i++) {
+                table.addCell(new Phrase(tbl_danhSachSanPham.getColumnName(i), font));
+            }
+
+            for (int i = 0; i < tbl_danhSachSanPham.getRowCount(); i++) {
+                for (int j = 0; j < tbl_danhSachSanPham.getColumnCount(); j++) {
+                    table.addCell(new Phrase(tbl_danhSachSanPham.getValueAt(i, j).toString(), font));
+                }
+            }
+
+            document.add(table);
+            Paragraph printDateTime = new Paragraph("Ngày giờ in: " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()), font);
+            printDateTime.setAlignment(Element.ALIGN_LEFT);
+            document.add(printDateTime);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // Close the document
+            if (document != null && document.isOpen()) {
+                document.close();
+            	}
+        	}
+        	JOptionPane.showMessageDialog(this, "Báo cáo đã được xuất ra file PDF.");
+        }       
+	}
+
+	private void lbl_2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_2MouseClicked
         // TODO add your handling code here:
         this.setVisible(false);
     }//GEN-LAST:event_lbl_2MouseClicked

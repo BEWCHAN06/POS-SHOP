@@ -22,7 +22,10 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -36,9 +39,20 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -413,7 +427,16 @@ public class TabThongKeSanPham extends JPanel {
                 btn_topspbanchayMouseClicked(evt);
             }
         });
-
+        
+        btnXuatBaoCao = new JButton("Xuất báo cáo");
+        btnXuatBaoCao.setBackground(new Color(255, 255, 255));
+        btnXuatBaoCao.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+        btnXuatBaoCao.setFont(new Font("Arial", Font.PLAIN, 13));
+        btnXuatBaoCao.addMouseListener(new MouseAdapter() {
+        	public void mouseClicked(MouseEvent evt) {
+                btnXuatBaoCaoMouseClicked(evt);
+            }
+		});
         GroupLayout layout = new GroupLayout(this);
         layout.setHorizontalGroup(
         	layout.createParallelGroup(Alignment.LEADING)
@@ -437,10 +460,15 @@ public class TabThongKeSanPham extends JPanel {
         							.addGroup(layout.createParallelGroup(Alignment.LEADING, false)
         								.addComponent(cb_KichThuoc, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         								.addComponent(cb_PhanLoai, 0, 112, Short.MAX_VALUE))))
-        					.addPreferredGap(ComponentPlacement.UNRELATED, 16, Short.MAX_VALUE)
-        					.addGroup(layout.createParallelGroup(Alignment.TRAILING, false)
-        						.addComponent(btn_topspbanchay, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        						.addComponent(btn_topspbancham, GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE))))
+        					.addGroup(layout.createParallelGroup(Alignment.LEADING)
+        						.addGroup(layout.createSequentialGroup()
+        							.addPreferredGap(ComponentPlacement.UNRELATED, 16, Short.MAX_VALUE)
+        							.addGroup(layout.createParallelGroup(Alignment.TRAILING, false)
+        								.addComponent(btn_topspbanchay, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        								.addComponent(btn_topspbancham, GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)))
+        						.addGroup(layout.createSequentialGroup()
+        							.addGap(18)
+        							.addComponent(btnXuatBaoCao, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE)))))
         			.addContainerGap())
         );
         layout.setVerticalGroup(
@@ -459,10 +487,15 @@ public class TabThongKeSanPham extends JPanel {
         						.addComponent(cb_PhanLoai, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
         						.addComponent(lbl_PhanLoai)
         						.addComponent(btn_topspbancham, GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE))
-        					.addGap(18)
-        					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-        						.addComponent(lbl_KichThuoc, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-        						.addComponent(cb_KichThuoc, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
+        					.addGroup(layout.createParallelGroup(Alignment.LEADING)
+        						.addGroup(layout.createSequentialGroup()
+        							.addGap(18)
+        							.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+        								.addComponent(lbl_KichThuoc, GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+        								.addComponent(cb_KichThuoc, GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)))
+        						.addGroup(layout.createSequentialGroup()
+        							.addGap(18)
+        							.addComponent(btnXuatBaoCao, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         					.addGap(48))
         				.addGroup(layout.createSequentialGroup()
         					.addContainerGap()
@@ -474,7 +507,93 @@ public class TabThongKeSanPham extends JPanel {
         this.setLayout(layout);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cb_KichThuocActionPerformed(ActionEvent evt) {//GEN-FIRST:event_cb_KichThuocActionPerformed
+    protected void btnXuatBaoCaoMouseClicked(MouseEvent evt) {
+		// TODO Auto-generated method stub
+		exportPDF();
+	}
+
+	private void exportPDF() {
+		// TODO Auto-generated method stub
+		JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Chọn nơi lưu file");
+
+        int userSelection = fileChooser.showSaveDialog(this);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            Document document = new Document();
+    	try {
+            // Tạo file PDF mới
+    		PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(fileToSave.getAbsolutePath() + ".pdf"));
+            document.open();
+            BaseFont baseFont = BaseFont.createFont("c:/windows/fonts/arial.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            com.itextpdf.text.Font font = new com.itextpdf.text.Font(baseFont, 12);
+
+            // Thêm tiêu đề
+            if(rbtn_tatCa.isSelected()) {
+            	Paragraph title = new Paragraph("BẢNG THỐNG KÊ SẢN PHẨM TỒN", font);
+                title.setFont(new com.itextpdf.text.Font(BaseFont.createFont("C:/Windows/Fonts/Arial.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 12, com.itextpdf.text.Font.BOLD));
+                title.setAlignment(Element.ALIGN_CENTER);
+                title.setSpacingAfter(20);
+                document.add(title);
+            }else           
+            if(rbtn_duoiDinhMuc.isSelected()) {
+            	Paragraph title1 = new Paragraph("BẢNG THỐNG KÊ SẢN PHẨM DƯỚI ĐỊNH MỨC TỒN", font);
+                title1.setFont(new com.itextpdf.text.Font(BaseFont.createFont("C:/Windows/Fonts/Arial.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 12, com.itextpdf.text.Font.BOLD));
+                title1.setAlignment(Element.ALIGN_CENTER);
+                title1.setSpacingAfter(20);
+                document.add(title1);
+                Paragraph dmt = new Paragraph("Định mức tồn: " + txt_DinhMuc.getText(), font);
+                dmt.setSpacingAfter(10);
+                document.add(dmt);
+            }
+            if(rbtn_vuocDinhMuc.isSelected()) {
+            	Paragraph title1 = new Paragraph("BẢNG THỐNG KÊ SẢN PHẨM VƯỢC ĐỊNH MỨC TỒN", font);
+                title1.setFont(new com.itextpdf.text.Font(BaseFont.createFont("C:/Windows/Fonts/Arial.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 12, com.itextpdf.text.Font.BOLD));
+                title1.setAlignment(Element.ALIGN_CENTER);
+                title1.setSpacingAfter(20);
+                document.add(title1);
+                Paragraph dmt = new Paragraph("Định mức tồn: " + txt_DinhMuc.getText(), font);
+                dmt.setSpacingAfter(10);
+                document.add(dmt);
+            }
+
+            // Thêm dữ liệu từ bảng
+            PdfPTable table = new PdfPTable(tbl_DanhSachSanPham.getColumnCount());
+            table.setWidthPercentage(100);
+            
+            for (int col = 0; col < tbl_DanhSachSanPham.getColumnCount(); col++) {
+                PdfPCell cell = new PdfPCell(new Phrase(String.valueOf(tbl_DanhSachSanPham.getColumnName(col)), font));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                table.addCell(cell);
+            }
+
+            for (int i = 0; i < tbl_DanhSachSanPham.getRowCount(); i++) {
+                for (int j = 0; j < tbl_DanhSachSanPham.getColumnCount(); j++) {
+                    table.addCell(new Phrase(tbl_DanhSachSanPham.getValueAt(i, j).toString(), font));
+                }
+            }
+
+            document.add(table);
+
+            // Thêm thông tin thống kê
+            
+            Paragraph printDateTime = new Paragraph("Ngày giờ in: " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()), font);
+            printDateTime.setAlignment(Element.ALIGN_LEFT);
+            document.add(printDateTime);
+
+            // Đóng tài liệu
+            document.close();
+
+            JOptionPane.showMessageDialog(this, "Xuất báo cáo thành công!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Lỗi xuất báo cáo: " + e.getMessage());
+        }
+        }
+	}
+
+	private void cb_KichThuocActionPerformed(ActionEvent evt) {//GEN-FIRST:event_cb_KichThuocActionPerformed
         // TODO add your handling code here:
     	
 //    	if(rbtn_tatCa.isSelected()) {
@@ -611,4 +730,5 @@ public class TabThongKeSanPham extends JPanel {
     private javax.swing.JRadioButton rbtn_vuocDinhMuc;
     private javax.swing.JTable tbl_DanhSachSanPham;
     private javax.swing.JTextField txt_DinhMuc;
+    private JButton btnXuatBaoCao;
 }
