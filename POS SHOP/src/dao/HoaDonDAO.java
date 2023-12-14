@@ -39,7 +39,7 @@ public class HoaDonDAO {
 	public List<HoaDon> doTuBang() {
 		try {
 			Connection con = KetNoiSQL.getInstance().getConnection();
-			String sql = "select hd.maHD, hd.ngayLap, hd.maNV, nv.tenNV, hd.maKH, kh.tenKH, hd.tongTien\r\n"
+			String sql = "select hd.maHD, hd.ngayLap, hd.maNV, nv.tenNV, hd.maKH, kh.tenKH, hd.trangThai, hd.tongTien\r\n"
 					+ "from HoaDon hd join NhanVien nv on hd.maNV = nv.maNV\r\n"
 					+ "join KhachHang kh on hd.maKH = kh.maKH ";
 			Statement statement = con.createStatement(); // Thực thi câu lệnh SQL trả về ResulSet.
@@ -51,9 +51,10 @@ public class HoaDonDAO {
 				String tenNV = rs.getString(4);
 				String maKH = rs.getString(5);
 				String tenKH = rs.getString(6);
-				Double tongTien = rs.getDouble(7);
+				int trangThai = rs.getInt(7);
+				Double tongTien = rs.getDouble(8);
 				HoaDon hd = new HoaDon(maHD, ngayLap, new KhachHang(maKH, tenKH, null, null, false),
-						new NhanVien(maNV, tenNV, null, null, null, null, false, null, false, 0), 0, tongTien);
+						new NhanVien(maNV, tenNV, null, null, null, null, false, null, false, 0), trangThai, tongTien);
 				dshd.add(hd);
 			}
 		} catch (SQLException e) {
@@ -116,7 +117,7 @@ public class HoaDonDAO {
 			Connection con = KetNoiSQL.getInstance().getConnection();
 			String sql = "select hd.maHD, hd.ngayLap, hd.maNV, nv.tenNV, hd.maKH, kh.tenKH\r\n"
 					+ "from HoaDon hd join NhanVien nv on hd.maNV = nv.maNV\r\n"
-					+ "join KhachHang kh on hd.maKH = kh.maKH where hd.maHD like ? or hd.maNV like ? or nv.tenNV like ? or hd.maKH like ? or kh.tenKH like ?";
+					+ "join KhachHang kh on hd.maKH = kh.maKH where hd.trangThai = 1 and hd.maHD like ? or hd.maNV like ? or nv.tenNV like ? or hd.maKH like ? or kh.tenKH like ?";
 			PreparedStatement stmt = con.prepareCall(sql);
 			stmt.setString(1, "%" + tukhoa + "%");
 			stmt.setString(2, "%" + tukhoa + "%");
@@ -150,7 +151,7 @@ public class HoaDonDAO {
 			String sql = "select hd.maHD, hd.ngayLap, hd.maNV, nv.tenNV, hd.maKH, kh.tenKH\r\n"
 					+ "From HoaDon hd join ChiTietHoaDon cthd on cthd.maHD = hd.maHD join SanPham sp on cthd.maSP = sp.maSP \r\n"
 					+ "join NhanVien nv on hd.maNV = nv.maNV join KhachHang kh on hd.maKH = kh.maKH\r\n"
-					+ "WHERE ((sp.giaNhap + sp.giaNhap * sp.loiTheoPhanTram / 100) * cthd.soLuong * (1 - cthd.phanTramKhuyenMai / 100)) \r\n"
+					+ "WHERE hd.trangThai = 1 and ((sp.giaNhap + sp.giaNhap * sp.loiTheoPhanTram / 100) * cthd.soLuong * (1 - cthd.phanTramKhuyenMai / 100)) \r\n"
 					+ "BETWEEN ? AND ? GROUP BY hd.maHD, hd.ngayLap, hd.maNV, nv.tenNV, hd.maKH, kh.tenKH";
 			PreparedStatement stmt = con.prepareCall(sql);
 			stmt.setInt(1, giaMin);
@@ -225,7 +226,7 @@ public class HoaDonDAO {
 			Connection con = KetNoiSQL.getInstance().getConnection();
 			String sql = "select hd.maHD, hd.ngayLap, hd.maNV, nv.tenNV, hd.maKH, kh.tenKH\r\n"
 					+ "from HoaDon hd join NhanVien nv on hd.maNV = nv.maNV\r\n"
-					+ "join KhachHang kh on hd.maKH = kh.maKH where MONTH(ngayLap) = ?";
+					+ "join KhachHang kh on hd.maKH = kh.maKH where hd.trangThai = 1 and MONTH(ngayLap) = ?";
 			PreparedStatement stmt = con.prepareCall(sql);
 			stmt.setInt(1, thang);
 			ResultSet rs = stmt.executeQuery();
@@ -253,7 +254,7 @@ public class HoaDonDAO {
 			Connection con = KetNoiSQL.getInstance().getConnection();
 			String sql = "select hd.maHD, hd.ngayLap, hd.maNV, nv.tenNV, hd.maKH, kh.tenKH\r\n"
 					+ "from HoaDon hd join NhanVien nv on hd.maNV = nv.maNV\r\n"
-					+ "join KhachHang kh on hd.maKH = kh.maKH where YEAR(ngayLap) = ?;";
+					+ "join KhachHang kh on hd.maKH = kh.maKH where hd.trangThai = 1 and YEAR(ngayLap) = ?;";
 			PreparedStatement stmt = con.prepareCall(sql);
 			stmt.setInt(1, nam);
 			ResultSet rs = stmt.executeQuery();
@@ -281,7 +282,7 @@ public class HoaDonDAO {
 			Connection con = KetNoiSQL.getInstance().getConnection();
 			String sql = "select hd.maHD, hd.ngayLap, hd.maNV, nv.tenNV, hd.maKH, kh.tenKH\r\n"
 					+ "from HoaDon hd join NhanVien nv on hd.maNV = nv.maNV\r\n"
-					+ "join KhachHang kh on hd.maKH = kh.maKH where MONTH(hd.ngayLap) = ? and YEAR(ngayLap) = ?;";
+					+ "join KhachHang kh on hd.maKH = kh.maKH where hd.trangThai = 1 and MONTH(hd.ngayLap) = ? and YEAR(ngayLap) = ?;";
 			PreparedStatement stmt = con.prepareCall(sql);
 			stmt.setInt(1, thang);
 			stmt.setInt(2, nam);
@@ -311,7 +312,7 @@ public class HoaDonDAO {
 			String sql = "select hd.maHD, hd.ngayLap, hd.maNV, nv.tenNV, hd.maKH, kh.tenKH\r\n"
 					+ "From HoaDon hd join ChiTietHoaDon cthd on cthd.maHD = hd.maHD join SanPham sp on cthd.maSP = sp.maSP \r\n"
 					+ "join NhanVien nv on hd.maNV = nv.maNV join KhachHang kh on hd.maKH = kh.maKH\r\n"
-					+ "Where MONTH(hd.ngayLap) = ? AND \r\n"
+					+ "Where hd.trangThai = 1 and MONTH(hd.ngayLap) = ? AND \r\n"
 					+ "((sp.giaNhap + sp.giaNhap * sp.loiTheoPhanTram / 100) * cthd.soLuong * (1 - cthd.phanTramKhuyenMai / 100)) \r\n"
 					+ "BETWEEN ? AND ? GROUP BY hd.maHD, hd.ngayLap, hd.maNV, nv.tenNV, hd.maKH, kh.tenKH";
 			PreparedStatement stmt = con.prepareCall(sql);
@@ -344,7 +345,7 @@ public class HoaDonDAO {
 			String sql = "select hd.maHD, hd.ngayLap, hd.maNV, nv.tenNV, hd.maKH, kh.tenKH\r\n"
 					+ "From HoaDon hd join ChiTietHoaDon cthd on cthd.maHD = hd.maHD join SanPham sp on cthd.maSP = sp.maSP \r\n"
 					+ "join NhanVien nv on hd.maNV = nv.maNV join KhachHang kh on hd.maKH = kh.maKH\r\n"
-					+ "Where YEAR(hd.ngayLap) = ? AND \r\n"
+					+ "Where hd.trangThai = 1 and YEAR(hd.ngayLap) = ? AND \r\n"
 					+ "((sp.giaNhap + sp.giaNhap * sp.loiTheoPhanTram / 100) * cthd.soLuong * (1 - cthd.phanTramKhuyenMai / 100)) \r\n"
 					+ "BETWEEN ? AND ? GROUP BY hd.maHD, hd.ngayLap, hd.maNV, nv.tenNV, hd.maKH, kh.tenKH";
 			PreparedStatement stmt = con.prepareCall(sql);
@@ -377,7 +378,7 @@ public class HoaDonDAO {
 			String sql = "select hd.maHD, hd.ngayLap, hd.maNV, nv.tenNV, hd.maKH, kh.tenKH\r\n"
 					+ "From HoaDon hd join ChiTietHoaDon cthd on cthd.maHD = hd.maHD join SanPham sp on cthd.maSP = sp.maSP \r\n"
 					+ "join NhanVien nv on hd.maNV = nv.maNV join KhachHang kh on hd.maKH = kh.maKH\r\n"
-					+ "Where MONTH(hd.ngayLap) = ? AND YEAR(hd.ngayLap) = ? AND\r\n"
+					+ "Where hd.trangThai = 1 and MONTH(hd.ngayLap) = ? AND YEAR(hd.ngayLap) = ? AND\r\n"
 					+ "((sp.giaNhap + sp.giaNhap * sp.loiTheoPhanTram / 100) * cthd.soLuong * (1 - cthd.phanTramKhuyenMai / 100)) \r\n"
 					+ "BETWEEN ? AND ? GROUP BY hd.maHD, hd.ngayLap, hd.maNV, nv.tenNV, hd.maKH, kh.tenKH";
 			PreparedStatement stmt = con.prepareCall(sql);
@@ -410,7 +411,7 @@ public class HoaDonDAO {
 			Connection con = KetNoiSQL.getInstance().getConnection();
 			String sql = "select hd.maHD, hd.ngayLap, hd.maNV, nv.tenNV, hd.maKH, kh.tenKH\r\n"
 					+ "from HoaDon hd join NhanVien nv on hd.maNV = nv.maNV\r\n"
-					+ "join KhachHang kh on hd.maKH = kh.maKH where (hd.maHD like ? or hd.maNV like ? or nv.tenNV like ? or hd.maKH like ? or kh.tenKH like ?) "
+					+ "join KhachHang kh on hd.maKH = kh.maKH where hd.trangThai = 1 and (hd.maHD like ? or hd.maNV like ? or nv.tenNV like ? or hd.maKH like ? or kh.tenKH like ?) "
 					+ "AND MONTH(hd.ngayLap) = ?";
 			PreparedStatement stmt = con.prepareCall(sql);
 			stmt.setString(1, "%" + tukhoa + "%");
@@ -445,7 +446,7 @@ public class HoaDonDAO {
 			Connection con = KetNoiSQL.getInstance().getConnection();
 			String sql = "select hd.maHD, hd.ngayLap, hd.maNV, nv.tenNV, hd.maKH, kh.tenKH\r\n"
 					+ "from HoaDon hd join NhanVien nv on hd.maNV = nv.maNV\r\n"
-					+ "join KhachHang kh on hd.maKH = kh.maKH where (hd.maHD like ? or hd.maNV like ? or nv.tenNV like ? or hd.maKH like ? or kh.tenKH like ?) "
+					+ "join KhachHang kh on hd.maKH = kh.maKH where hd.trangThai = 1 and (hd.maHD like ? or hd.maNV like ? or nv.tenNV like ? or hd.maKH like ? or kh.tenKH like ?) "
 					+ "AND YEAR(hd.ngayLap) = ?";
 			PreparedStatement stmt = con.prepareCall(sql);
 			stmt.setString(1, "%" + tukhoa + "%");
@@ -481,7 +482,7 @@ public class HoaDonDAO {
 			String sql = "select hd.maHD, hd.ngayLap, hd.maNV, nv.tenNV, hd.maKH, kh.tenKH\r\n"
 					+ "From HoaDon hd join ChiTietHoaDon cthd on cthd.maHD = hd.maHD join SanPham sp on cthd.maSP = sp.maSP \r\n"
 					+ "join NhanVien nv on hd.maNV = nv.maNV join KhachHang kh on hd.maKH = kh.maKH\r\n"
-					+ "Where (hd.maHD LIKE ? or hd.maNV LIKE ? or nv.tenNV LIKE ? or hd.maKH LIKE ? OR kh.tenKH LIKE ?) \r\n"
+					+ "Where hd.trangThai = 1 and (hd.maHD LIKE ? or hd.maNV LIKE ? or nv.tenNV LIKE ? or hd.maKH LIKE ? OR kh.tenKH LIKE ?) \r\n"
 					+ "AND ((sp.giaNhap + sp.giaNhap * sp.loiTheoPhanTram / 100) * cthd.soLuong * (1 - cthd.phanTramKhuyenMai / 100)) \r\n"
 					+ "BETWEEN ? AND ? GROUP BY hd.maHD, hd.ngayLap, hd.maNV, nv.tenNV, hd.maKH, kh.tenKH";
 			PreparedStatement stmt = con.prepareCall(sql);
@@ -520,7 +521,7 @@ public class HoaDonDAO {
 			String sql = "select hd.maHD, hd.ngayLap, hd.maNV, nv.tenNV, hd.maKH, kh.tenKH\r\n"
 					+ "From HoaDon hd join ChiTietHoaDon cthd on cthd.maHD = hd.maHD join SanPham sp on cthd.maSP = sp.maSP \r\n"
 					+ "join NhanVien nv on hd.maNV = nv.maNV join KhachHang kh on hd.maKH = kh.maKH\r\n"
-					+ "Where (hd.maHD LIKE ? or hd.maNV LIKE ? or nv.tenNV LIKE ? or hd.maKH LIKE ? OR kh.tenKH LIKE ?) \r\n"
+					+ "Where hd.trangThai = 1 and (hd.maHD LIKE ? or hd.maNV LIKE ? or nv.tenNV LIKE ? or hd.maKH LIKE ? OR kh.tenKH LIKE ?) \r\n"
 					+ "AND MONTH(hd.ngayLap) = ? AND\r\n"
 					+ "((sp.giaNhap + sp.giaNhap * sp.loiTheoPhanTram / 100) * cthd.soLuong * (1 - cthd.phanTramKhuyenMai / 100)) \r\n"
 					+ "BETWEEN ? AND ? GROUP BY hd.maHD, hd.ngayLap, hd.maNV, nv.tenNV, hd.maKH, kh.tenKH";
@@ -561,7 +562,7 @@ public class HoaDonDAO {
 			String sql = "select hd.maHD, hd.ngayLap, hd.maNV, nv.tenNV, hd.maKH, kh.tenKH\r\n"
 					+ "From HoaDon hd join ChiTietHoaDon cthd on cthd.maHD = hd.maHD join SanPham sp on cthd.maSP = sp.maSP \r\n"
 					+ "join NhanVien nv on hd.maNV = nv.maNV join KhachHang kh on hd.maKH = kh.maKH\r\n"
-					+ "Where (hd.maHD LIKE ? or hd.maNV LIKE ? or nv.tenNV LIKE ? or hd.maKH LIKE ? OR kh.tenKH LIKE ?) \r\n"
+					+ "Where hd.trangThai = 1 and (hd.maHD LIKE ? or hd.maNV LIKE ? or nv.tenNV LIKE ? or hd.maKH LIKE ? OR kh.tenKH LIKE ?) \r\n"
 					+ "AND YEAR(hd.ngayLap) = ? AND\r\n"
 					+ "((sp.giaNhap + sp.giaNhap * sp.loiTheoPhanTram / 100) * cthd.soLuong * (1 - cthd.phanTramKhuyenMai / 100)) \r\n"
 					+ "BETWEEN ? AND ? GROUP BY hd.maHD, hd.ngayLap, hd.maNV, nv.tenNV, hd.maKH, kh.tenKH";
@@ -602,7 +603,7 @@ public class HoaDonDAO {
 			String sql = "select hd.maHD, hd.ngayLap, hd.maNV, nv.tenNV, hd.maKH, kh.tenKH\r\n"
 					+ "From HoaDon hd join ChiTietHoaDon cthd on cthd.maHD = hd.maHD join SanPham sp on cthd.maSP = sp.maSP \r\n"
 					+ "join NhanVien nv on hd.maNV = nv.maNV join KhachHang kh on hd.maKH = kh.maKH\r\n"
-					+ "Where (hd.maHD LIKE ? or hd.maNV LIKE ? or nv.tenNV LIKE ? or hd.maKH LIKE ? OR kh.tenKH LIKE ?) \r\n"
+					+ "Where hd.trangThai = 1 and (hd.maHD LIKE ? or hd.maNV LIKE ? or nv.tenNV LIKE ? or hd.maKH LIKE ? OR kh.tenKH LIKE ?) \r\n"
 					+ "AND MONTH(hd.ngayLap) = ? AND YEAR(hd.ngayLap) = ? AND\r\n"
 					+ "((sp.giaNhap + sp.giaNhap * sp.loiTheoPhanTram / 100) * cthd.soLuong * (1 - cthd.phanTramKhuyenMai / 100)) \r\n"
 					+ "BETWEEN ? AND ? GROUP BY hd.maHD, hd.ngayLap, hd.maNV, nv.tenNV, hd.maKH, kh.tenKH";
@@ -643,7 +644,7 @@ public class HoaDonDAO {
 			String sql = "select hd.maHD, hd.ngayLap, hd.maNV, nv.tenNV, hd.maKH, kh.tenKH\r\n"
 					+ "From HoaDon hd join ChiTietHoaDon cthd on cthd.maHD = hd.maHD join SanPham sp on cthd.maSP = sp.maSP \r\n"
 					+ "join NhanVien nv on hd.maNV = nv.maNV join KhachHang kh on hd.maKH = kh.maKH\r\n"
-					+ "Where (hd.maHD LIKE ? or hd.maNV LIKE ? or nv.tenNV LIKE ? or hd.maKH LIKE ? OR kh.tenKH LIKE ?) \r\n"
+					+ "Where hd.trangThai = 1 and (hd.maHD LIKE ? or hd.maNV LIKE ? or nv.tenNV LIKE ? or hd.maKH LIKE ? OR kh.tenKH LIKE ?) \r\n"
 					+ "AND MONTH(hd.ngayLap) = ? AND YEAR(hd.ngayLap) = ? \r\n"
 					+ "GROUP BY hd.maHD, hd.ngayLap, hd.maNV, nv.tenNV, hd.maKH, kh.tenKH";
 			PreparedStatement stmt = con.prepareCall(sql);
