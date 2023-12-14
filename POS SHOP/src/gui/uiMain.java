@@ -148,7 +148,7 @@ public class uiMain{
 		mainPanel.setLayout(new CardLayout(0, 0));
 
 		JLabel lblNewLabel_3 = new JLabel("");
-		lblNewLabel_3.setIcon(new ImageIcon(uiMain.class.getResource("/icon/mainscreen.png")));
+		lblNewLabel_3.setIcon(new ImageIcon(uiMain.class.getResource("/icon/mainScreen.jpg")));
 		mainPanel.add(lblNewLabel_3, "name_2182919992199");
 
 		JPanel pnlListMenu = new JPanel();
