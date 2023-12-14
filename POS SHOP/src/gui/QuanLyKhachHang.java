@@ -8,6 +8,8 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
 import javax.swing.JTextPane;
@@ -159,116 +161,24 @@ public class QuanLyKhachHang extends JPanel implements ActionListener, MouseList
 		);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		
-		JPanel pnloc = new JPanel();
-		pnloc.setBackground(new Color(255, 255, 255));
-		pnloc.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2), "L\u1ECDc", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		GroupLayout gl_pnttinKH = new GroupLayout(pnttinKH);
-		gl_pnttinKH.setHorizontalGroup(
-			gl_pnttinKH.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pnttinKH.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(tabbedPane, GroupLayout.PREFERRED_SIZE, 662, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(pnloc, GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
-					.addContainerGap())
-		);
-		gl_pnttinKH.setVerticalGroup(
-			gl_pnttinKH.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pnttinKH.createSequentialGroup()
-					.addGroup(gl_pnttinKH.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_pnttinKH.createSequentialGroup()
-							.addGap(21)
-							.addComponent(tabbedPane, GroupLayout.PREFERRED_SIZE, 448, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_pnttinKH.createSequentialGroup()
-							.addGap(80)
-							.addComponent(pnloc, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
-		
-		JLabel lblgt_1 = new JLabel("Giới Tính:");
-		lblgt_1.setFont(new Font("Arial", Font.BOLD, 12));
-		
-		JComboBox cbxGT = new JComboBox();
-		cbxGT.setBackground(new Color(255, 255, 255));
-		cbxGT.setModel(new DefaultComboBoxModel(new String[] {"Nam ", "Nữ"}));
-		cbxGT.setFont(new Font("Arial", Font.PLAIN, 12));
-		
-		JLabel lblgt_1_1 = new JLabel("Trạng Thái:");
-		lblgt_1_1.setFont(new Font("Arial", Font.BOLD, 12));
-		
-		JComboBox cbxTT = new JComboBox();
-		cbxTT.setBackground(new Color(255, 255, 255));
-		cbxTT.setModel(new DefaultComboBoxModel(new String[] {"Còn hoạt động", "Ngưng hoạt động"}));
-		cbxTT.setFont(new Font("Arial", Font.PLAIN, 12));
-		GroupLayout gl_pnloc = new GroupLayout(pnloc);
-		gl_pnloc.setHorizontalGroup(
-			gl_pnloc.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pnloc.createSequentialGroup()
-					.addGroup(gl_pnloc.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_pnloc.createSequentialGroup()
-							.addComponent(lblgt_1)
-							.addGap(18)
-							.addComponent(cbxGT, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE))
-						.addGroup(Alignment.TRAILING, gl_pnloc.createSequentialGroup()
-							.addComponent(lblgt_1_1, GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(cbxTT, GroupLayout.PREFERRED_SIZE, 112, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap())
-		);
-		gl_pnloc.setVerticalGroup(
-			gl_pnloc.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pnloc.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_pnloc.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblgt_1)
-						.addComponent(cbxGT, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_pnloc.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblgt_1_1)
-						.addComponent(cbxTT, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(19, Short.MAX_VALUE))
-		);
-		pnloc.setLayout(gl_pnloc);
+		tabbedPane.setBounds(16, 37, 884, 448);
 		
 		JPanel pntTinCN = new JPanel();
 		pntTinCN.setBackground(new Color(255, 255, 255));
 		tabbedPane.addTab("Thông Tin Cá Nhân", null, pntTinCN, null);
 		
 		JLabel lblTim = new JLabel("Tìm Kiếm:");
+		lblTim.setBounds(10, 14, 65, 14);
 		lblTim.setFont(new Font("Arial", Font.BOLD, 12));
 		
 		txtTimkiem = new JTextField();
+		txtTimkiem.setBounds(79, 11, 801, 20);
 		txtTimkiem.setBackground(new Color(255, 255, 255));
 		txtTimkiem.setFont(new Font("Arial", Font.PLAIN, 12));
-		txtTimkiem.setEditable(false);
 		txtTimkiem.setColumns(10);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		GroupLayout gl_pntTinCN = new GroupLayout(pntTinCN);
-		gl_pntTinCN.setHorizontalGroup(
-			gl_pntTinCN.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pntTinCN.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_pntTinCN.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_pntTinCN.createSequentialGroup()
-							.addComponent(lblTim, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(txtTimkiem, GroupLayout.DEFAULT_SIZE, 568, Short.MAX_VALUE))
-						.addComponent(scrollPane, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 638, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap())
-		);
-		gl_pntTinCN.setVerticalGroup(
-			gl_pntTinCN.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pntTinCN.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_pntTinCN.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblTim)
-						.addComponent(txtTimkiem, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 366, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(17, Short.MAX_VALUE))
-		);
+		scrollPane.setBounds(10, 37, 859, 366);
 		
 		tblKH = new JTable();
 		tblKH.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -281,13 +191,13 @@ public class QuanLyKhachHang extends JPanel implements ActionListener, MouseList
 			}
 		));
 		tblKH.getColumnModel().getColumn(1).setPreferredWidth(118);
+		pnttinKH.setLayout(null);
 		scrollPane.setViewportView(tblKH);
-		pntTinCN.setLayout(gl_pntTinCN);
-		
-		JPanel pnlsuGD = new JPanel();
-		pnlsuGD.setBackground(new Color(255, 255, 255));
-		tabbedPane.addTab("Lịch Sử Giao Dịch", null, pnlsuGD, null);
-		pnttinKH.setLayout(gl_pnttinKH);
+		pntTinCN.setLayout(null);
+		pntTinCN.add(lblTim);
+		pntTinCN.add(txtTimkiem);
+		pntTinCN.add(scrollPane);
+		pnttinKH.add(tabbedPane);
 		
 		btnThem = new JButton("Thêm");
 		btnThem.setIcon(new ImageIcon(QuanLyKhachHang.class.getResource("/icon/add.png")));
@@ -328,11 +238,52 @@ public class QuanLyKhachHang extends JPanel implements ActionListener, MouseList
 		btnSua.addActionListener(this);
 		btnHuy.addActionListener(this);
 		btnLuu.addActionListener(this);
+		txtTimkiem.getDocument().addDocumentListener(new DocumentListener() {
+			
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				upLoadDataKHTimKiem();
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				upLoadDataKHTimKiem();
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				upLoadDataKHTimKiem();
+			}
+		});
 	}
 	private void clearTableDSSP() {
         DefaultTableModel dtm = (DefaultTableModel) tblKH.getModel();
         dtm.setRowCount(0);
     }
+	private void upLoadDataKHTimKiem() {
+		if(txtTimkiem.equals("")) {
+			upLoadDataKH();
+		}else {
+			KhachHangDAO khachHangDAO = new KhachHangDAO();
+			clearTableDSSP();
+			DefaultTableModel dtm = (DefaultTableModel) tblKH.getModel();
+			List<KhachHang> listkh = khachHangDAO.timkh(txtTimkiem.getText().trim());
+			for(KhachHang kh : listkh) {
+				String mail = "";
+				if(kh.getEmail() == null) {
+					mail = "";
+				}else {
+					mail = kh.getEmail();
+				}
+				Object[] rowdata = {kh.getMaKH(),kh.getTenKH(),kh.getSDT(), mail,kh.isGioiTinh() == true ? "Nam":"Nữ"};
+				dtm.addRow(rowdata);
+			}
+		}
+		
+	}
 	private void upLoadDataKH() {
 		KhachHangDAO khachHangDAO = new KhachHangDAO();
 		clearTableDSSP();

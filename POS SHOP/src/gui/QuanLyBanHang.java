@@ -109,7 +109,6 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 	private JTextField txtSoLuong;
 	private JTable tblDSSanPham;
 	private JTextField txtTimKiemSP;
-	public JButton btnTraHang = new JButton("Trả Hàng");
 	private SanPhamDAO sanPhamDAO;
 	private JButton btnThemVaoGio;
 	private String masp;
@@ -223,11 +222,6 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 		JPanel pnlDanhSachSanPham = new JPanel();
 		pnlDanhSachSanPham.setBackground(new Color(255, 255, 255));
 		pnlDanhSachSanPham.setBorder(new CompoundBorder(new CompoundBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2), "Danh S\u00E1ch S\u1EA3n Ph\u1EA9m", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)), null), null));
-
-		btnTraHang.setIcon(new ImageIcon(QuanLyBanHang.class.getResource("/icon/doitra2.png")));
-		btnTraHang.setForeground(new Color(255, 255, 255));
-		btnTraHang.setBackground(new Color(50, 205, 50));
-		btnTraHang.setFont(new Font("Arial", Font.BOLD, 14));
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -241,9 +235,7 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(pnlCamera, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE)))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(pnlHoaDon, GroupLayout.PREFERRED_SIZE, 330, Short.MAX_VALUE)
-						.addComponent(btnTraHang))
+					.addComponent(pnlHoaDon, GroupLayout.PREFERRED_SIZE, 330, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		groupLayout.setVerticalGroup(
@@ -262,9 +254,7 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(pnlDanhSachSanPham, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE))
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(12)
-							.addComponent(btnTraHang)
-							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGap(47)
 							.addComponent(pnlHoaDon, GroupLayout.DEFAULT_SIZE, 639, Short.MAX_VALUE)))
 					.addContainerGap())
 		);

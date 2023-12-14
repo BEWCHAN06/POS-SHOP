@@ -38,7 +38,6 @@ public class uiMain2 {
 	private JPanel btnKhachHang;
 	private JPanel btnBanHang;
 	private KhuyenMai km = new KhuyenMai();
-	private BanHang qlbh;
 	private uiSanPham qlsp;
 	private QuanLyHoaDon qlhd;
 	private QuanLyKhuyenMai qlkm;
@@ -50,6 +49,7 @@ public class uiMain2 {
 	private JLabel tenNV, chucVu;
 	private LoadingDialog dialog;
 	private JPanel btnQLNCC;
+	private QuanLyBanHang qlbh;
 	/**
 	 * Launch the application.
 	 * @wbp.parser.entryPoint
@@ -88,7 +88,7 @@ public class uiMain2 {
 
 		initialize();
 		km.xoaKhuyenMaiKhiHetHan();
-		qlbh = new BanHang();
+		qlbh = new QuanLyBanHang();
 		qlbh.setVisible(true);
 		qlsp = new uiSanPham();
 		qlsp.setVisible(true);
@@ -211,7 +211,6 @@ public class uiMain2 {
 		btnBanHang.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0), "F1");
 		btnBanHang.getActionMap().put("F1", new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				BanHang qlbh = new BanHang();
 				mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
 				mainPanel.add(qlbh, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
 				mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới

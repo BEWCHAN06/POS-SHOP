@@ -178,5 +178,33 @@ public class KhachHangDAO {
         }
         return null;
     }
+ 	public ArrayList<KhachHang> timkh(String kh) {
+    	ArrayList<KhachHang> listKH = new ArrayList<>();
+		KetNoiSQL.getInstance().connect();
+		Connection conn = KetNoiSQL.getConnection();
+		try {
 
+			String sql = "select * from khachHang where maKH like ? or tenKH like (?) or email like (?) or SDT like (?)";
+			PreparedStatement stmt = conn.prepareCall(sql);
+			stmt.setString(1, "%" +kh+"%");
+			stmt.setString(2, "%" +kh+"%");
+			stmt.setString(3, "%" +kh+"%");
+			stmt.setString(4, "%" +kh+"%");
+			ResultSet rs = stmt.executeQuery();
+			
+			while(rs.next()) {
+				String makh = rs.getString(1);
+				String tenkh = rs.getString(2);
+				String sdt = rs.getString(3);
+				String email = rs.getString(4);
+				boolean gioitinh = rs.getBoolean(5);
+				KhachHang kh1 = new KhachHang(makh, tenkh, email, sdt, gioitinh);
+				listKH.add(kh1);
+			}
+			 
+		} catch (SQLException ex) {
+			Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		return listKH;
+	}
 }

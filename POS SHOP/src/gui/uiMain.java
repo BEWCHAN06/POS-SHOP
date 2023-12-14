@@ -113,7 +113,7 @@ public class uiMain{
 		qlkm.setVisible(true);
 		qlkh = new QuanLyKhachHang();
 		qlkm.setVisible(true);
-//		qltk = new QuanLyThongKe();
+		qltk = new QuanLyThongKe();
 //		qltk.setVisible(true);
 		initialize();
 	}
