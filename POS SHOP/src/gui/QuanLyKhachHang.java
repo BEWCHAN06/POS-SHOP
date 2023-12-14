@@ -200,17 +200,19 @@ public class QuanLyKhachHang extends JPanel implements ActionListener, MouseList
 		pnttinKH.add(tabbedPane);
 		
 		btnThem = new JButton("Thêm");
+		btnThem.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		btnThem.setIcon(new ImageIcon(QuanLyKhachHang.class.getResource("/icon/add.png")));
 		btnThem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
 		btnThem.setFont(new Font("Arial", Font.BOLD, 12));
-		btnThem.setBackground(new Color(0, 128, 255));
+		btnThem.setBackground(new Color(0, 0, 255));
 		btnThem.setBounds(540, 30, 98, 37);
 		pnThietlapTT.add(btnThem);
 		
 		btnSua = new JButton("Sửa");
+		btnSua.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		btnSua.setIcon(new ImageIcon(QuanLyKhachHang.class.getResource("/icon/sua.png")));
 		btnSua.setFont(new Font("Arial", Font.BOLD, 12));
 		btnSua.setBackground(new Color(255, 255, 0));
@@ -218,14 +220,17 @@ public class QuanLyKhachHang extends JPanel implements ActionListener, MouseList
 		pnThietlapTT.add(btnSua);
 		
 		btnLuu = new JButton("Lưu");
+		btnLuu.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		btnLuu.setForeground(new Color(255, 255, 255));
 		btnLuu.setEnabled(false);
 		btnLuu.setIcon(new ImageIcon(QuanLyKhachHang.class.getResource("/icon/save.png")));
 		btnLuu.setFont(new Font("Arial", Font.BOLD, 12));
-		btnLuu.setBackground(new Color(0, 0, 255));
+		btnLuu.setBackground(new Color(255, 128, 64));
 		btnLuu.setBounds(780, 30, 97, 37);
 		pnThietlapTT.add(btnLuu);
 		
 		btnHuy = new JButton("Hủy");
+		btnHuy.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		btnHuy.setEnabled(false);
 		btnHuy.setIcon(new ImageIcon(QuanLyKhachHang.class.getResource("/icon/x.png")));
 		btnHuy.setFont(new Font("Arial", Font.BOLD, 12));

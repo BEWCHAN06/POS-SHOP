@@ -276,6 +276,7 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 		txtTimKiemSP.setColumns(10);
 		
 		btnThemVaoGio = new JButton("Thêm Sản Phẩm");
+		btnThemVaoGio.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		btnThemVaoGio.setIcon(new ImageIcon(QuanLyBanHang.class.getResource("/icon/add.png")));
 		btnThemVaoGio.setForeground(new Color(255, 255, 255));
 		btnThemVaoGio.setFont(new Font("Arial", Font.BOLD, 11));

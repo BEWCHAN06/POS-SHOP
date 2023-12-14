@@ -260,6 +260,7 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 		lbMaNV.setFont(new Font("Arial", Font.BOLD, 12));
 
 		txtManhanvien = new JTextField();
+		txtManhanvien.setBackground(new Color(255, 255, 255));
 		txtManhanvien.setBounds(123, 27, 299, 20);
 		txtManhanvien.setEditable(false);
 		txtManhanvien.setColumns(10);
@@ -269,6 +270,7 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 		lbTenNV.setFont(new Font("Arial", Font.BOLD, 12));
 
 		txtTenNV = new JTextField();
+		txtTenNV.setBackground(new Color(255, 255, 255));
 		txtTenNV.setBounds(123, 61, 299, 20);
 		txtTenNV.setEditable(false);
 		txtTenNV.setColumns(10);
@@ -287,6 +289,7 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 		lbDiachi.setFont(new Font("Arial", Font.BOLD, 12));
 
 		txtDiachi = new JTextField();
+		txtDiachi.setBackground(new Color(255, 255, 255));
 		txtDiachi.setBounds(123, 120, 299, 20);
 		txtDiachi.setEditable(false);
 		txtDiachi.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -297,6 +300,7 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 		lbSĐT.setFont(new Font("Arial", Font.BOLD, 12));
 
 		txtSDT = new JTextField();
+		txtSDT.setBackground(new Color(255, 255, 255));
 		txtSDT.setBounds(578, 27, 299, 20);
 		txtSDT.setEditable(false);
 		txtSDT.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -311,6 +315,7 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 		lbEmail.setFont(new Font("Arial", Font.BOLD, 12));
 
 		txtEmail = new JTextField();
+		txtEmail.setBackground(new Color(255, 255, 255));
 		txtEmail.setBounds(578, 92, 299, 20);
 		txtEmail.setEditable(false);
 		txtEmail.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -335,6 +340,7 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 		rdbtnTrangthai.setFont(new Font("Arial", Font.PLAIN, 12));
 
 		btnThem = new JButton("Thêm");
+		btnThem.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		btnThem.setBounds(176, 185, 99, 37);
 
 		btnThem.setIcon(new ImageIcon(QuanLyNhanVien.class.getResource("/icon/add.png")));
@@ -342,12 +348,14 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 		btnThem.setBackground(new Color(0, 128, 255));
 
 		btnSua = new JButton("Sửa");
+		btnSua.setBorder(new LineBorder(new Color(0, 0, 0)));
 		btnSua.setBounds(365, 185, 100, 37);
 		btnSua.setIcon(new ImageIcon(QuanLyNhanVien.class.getResource("/icon/sua.png")));
 		btnSua.setFont(new Font("Arial", Font.BOLD, 12));
 		btnSua.setBackground(new Color(255, 255, 128));
 
 		btnLuu = new JButton("Lưu");
+		btnLuu.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		btnLuu.setBounds(559, 185, 100, 37);
 		btnLuu.setEnabled(false);
 		btnLuu.setIcon(new ImageIcon(QuanLyNhanVien.class.getResource("/icon/luulienket.png")));
@@ -361,6 +369,7 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 		lbCMND.setFont(new Font("Arial", Font.BOLD, 12));
 
 		txtCMND = new JTextField();
+		txtCMND.setBackground(new Color(255, 255, 255));
 		txtCMND.setBounds(578, 123, 299, 20);
 		txtCMND.setEditable(false);
 		txtCMND.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -390,6 +399,7 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 		pnThietlapTT.add(btnLuu);
 
 		btnHuy = new JButton("Hủy");
+		btnHuy.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		btnHuy.setBounds(750, 183, 100, 37);
 		btnHuy.addMouseListener(new MouseAdapter() {
 			@Override
@@ -414,6 +424,7 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 		tabbedNVTK.addTab("Tài Khoản", null, pnTaikhoan, null);
 		pnTaikhoan.setLayout(new CardLayout(0, 0));
 		qltk = new QuanLyTaiKhoan();
+		qltk.setBackground(new Color(255, 255, 255));
 		pnTaikhoan.removeAll();
 		pnTaikhoan.add(qltk, BorderLayout.CENTER);
 		pnTaikhoan.revalidate();

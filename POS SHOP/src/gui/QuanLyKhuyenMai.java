@@ -275,8 +275,10 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 			}
 		});
 		dateChooserThoiGianBatDauGiamGia = new JDateChooser();
+		dateChooserThoiGianBatDauGiamGia.setBackground(new Color(255, 255, 255));
 		dateChooserThoiGianBatDauGiamGia.setEnabled(false);
 		dateChooserThoiGianKetThucGiamGia = new JDateChooser();
+		dateChooserThoiGianKetThucGiamGia.setBackground(new Color(255, 255, 255));
 		dateChooserThoiGianKetThucGiamGia.setEnabled(false);
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(gl_panel_1.createParallelGroup(Alignment.LEADING).addGroup(gl_panel_1
@@ -324,6 +326,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 		lblMaKhuyenMai.setFont(new Font("Arial", Font.BOLD, 12));
 
 		txtMaKhuyenMai = new JTextField();
+		txtMaKhuyenMai.setBackground(new Color(255, 255, 255));
 		txtMaKhuyenMai.setEditable(false);
 		txtMaKhuyenMai.setFont(new Font("Arial", Font.PLAIN, 12));
 		txtMaKhuyenMai.setColumns(10);
@@ -332,6 +335,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 		lblTenKhuyenMai.setFont(new Font("Arial", Font.BOLD, 12));
 
 		txtTenKhuyenMai = new JTextField();
+		txtTenKhuyenMai.setBackground(new Color(255, 255, 255));
 		txtTenKhuyenMai.setEditable(false);
 		txtTenKhuyenMai.setFont(new Font("Arial", Font.PLAIN, 12));
 		txtTenKhuyenMai.setColumns(10);
@@ -340,6 +344,7 @@ public class QuanLyKhuyenMai extends JPanel implements ActionListener {
 		lblMucKhuyenMai.setFont(new Font("Arial", Font.BOLD, 12));
 
 		txtMucKhuyenMai = new JTextField();
+		txtMucKhuyenMai.setBackground(new Color(255, 255, 255));
 		txtMucKhuyenMai.setEditable(false);
 		txtMucKhuyenMai.setFont(new Font("Arial", Font.PLAIN, 12));
 		txtMucKhuyenMai.setColumns(10);

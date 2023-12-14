@@ -307,6 +307,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		txtTimKiemSP.setColumns(10);
 		
 		txtMaSP = new JTextField();
+		txtMaSP.setBackground(new Color(255, 255, 255));
 		txtMaSP.setEditable(false);
 		txtMaSP.setColumns(10);
 		
@@ -370,6 +371,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		JLabel lblNewLabel_2 = new JLabel("Thay đổi số lượng : ");
 		
 		txtThayDoiSoLuong = new JTextField();
+		txtThayDoiSoLuong.setBackground(new Color(255, 255, 255));
 		txtThayDoiSoLuong.setEditable(false);
 		txtThayDoiSoLuong.setBorder(new LineBorder(new Color(0, 0, 0)));
 		txtThayDoiSoLuong.setColumns(10);
@@ -457,6 +459,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 11));
 		
 		txtTenSP = new JTextField();
+		txtTenSP.setBackground(new Color(255, 255, 255));
 		txtTenSP.setEditable(false);
 		txtTenSP.setBorder(new LineBorder(new Color(0, 0, 0)));
 		txtTenSP.setColumns(10);
@@ -519,6 +522,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		JLabel lblGiNhp = new JLabel("Giá Nhập : ");
 		
 		txtGiaNhap = new JTextField();
+		txtGiaNhap.setBackground(new Color(255, 255, 255));
 		txtGiaNhap.setEditable(false);
 		txtGiaNhap.setBorder(new LineBorder(new Color(0, 0, 0)));
 		txtGiaNhap.setColumns(10);
