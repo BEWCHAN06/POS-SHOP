@@ -539,111 +539,117 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 		btnThanhToan.setBackground(new Color(50, 205, 50));
 		btnThanhToan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				showLoadingDialog(pnlHoaDon);
-				HoaDonDAO hoaDonDAO = new HoaDonDAO();
-				double tt = chiTietHoaDonDAO.getTongTien(mahd);
-				hoaDonDAO.updateHoaDon(mahd,1, tt);
-				int cnt = tblGioHang.getRowCount();
-				List<sanPhamPrinter> sanPhamList = new ArrayList<>();
-				for(int i  = 0; i < cnt; i++) {
-					String tensp =  tblGioHang.getValueAt(i, 1).toString()+"-"+tblGioHang.getValueAt(i, 2).toString();
-					double giaban = Double.parseDouble(tblGioHang.getValueAt(i, 4).toString());
-					int slg = Integer.parseInt(tblGioHang.getValueAt(i, 5).toString());
-					double thanhtien = Double.parseDouble(tblGioHang.getValueAt(i, 6).toString());
-					sanPhamList.add(new sanPhamPrinter(tensp, giaban, slg, thanhtien));
-					System.out.println(tblGioHang.getValueAt(i, 0));
-					System.out.println(tblGioHang.getValueAt(i, 5));
-					String ma = tblGioHang.getValueAt(i, 0).toString();
-					int sl = Integer.parseInt(tblGioHang.getValueAt(i, 5).toString());
-					sanPhamDAO.SuaSlSP(sl, ma);
-				}
-				double tongTien =  Double.parseDouble(lblTongTienpush.getText().replace(".", ""));
-				double giamGia = Double.parseDouble(lblGiamGiapush.getText().replace(".", ""));
-				double thue = Double.parseDouble(lblThuepush.getText().replace(".", ""));
-				double thanhToan = Double.parseDouble(lblThanhToanpush.getText().replace(".", ""));
-				double tienKhachDua = 0;
-				if(txtTienKhachDua.getText().equals("")) {
-					tienKhachDua = 0.0;
+//				System.out.println(lbltienthua.getText().startsWith("-"));
+				if(!lbltienthua.getText().startsWith("-")) {
+					JOptionPane.showMessageDialog(null, "vui lòng nhập số tiền khách hàng lớn hơn số tiền thanh toán");
 				}else {
-					tienKhachDua = Double.parseDouble(txtTienKhachDua.getText());
-				}
-				double tienThua = 0;
-				if(txtTienKhachDua.getText().equals("")) {
-					tienThua = 0.0;
-				}else {
-					tienThua = Double.parseDouble(txtTienKhachDua.getText());
-				}
-				
-				hoaDonPrinter hdprt = new hoaDonPrinter("Trần Chí Bảo", lbltenkh.getText(), tongTien, giamGia, thue, thanhToan, tienKhachDua, tienThua, sanPhamList);
-				System.out.println(hdprt.toString());
-				String path = "printer/hoadon/"+mahd+".pdf";
-				PrinterBill.generatePDF(mahd, hdprt, path);
-				// Đường dẫn đến file PDF cần in
-				try {
-					String pdfFilePath = path;
-
-					// Load document
-					PDDocument document = PDDocument.load(new File(pdfFilePath));
-
-					// Tạo một PDFPrintable từ tài liệu
-					PDFPrintable pdfPrintable = new PDFPrintable(document);
-
-					// Tạo một PrinterJob
-					PrinterJob job = PrinterJob.getPrinterJob();
-
-					// Đặt PageFormat
-					PageFormat pageFormat = job.defaultPage();
-					pageFormat.setOrientation(PageFormat.PORTRAIT);
-
-					// Đặt PDFPrintable cho công việc in
-					job.setPrintable(pdfPrintable, pageFormat);
-
-					// Hiển thị hộp thoại in để người dùng có thể chọn máy in và cấu hình in
-					if (job.printDialog()) {
-					    // Bắt đầu công việc in
-					    job.print();
+					showLoadingDialog(pnlHoaDon);
+					HoaDonDAO hoaDonDAO = new HoaDonDAO();
+					double tt = chiTietHoaDonDAO.getTongTien(mahd);
+					hoaDonDAO.updateHoaDon(mahd,1, tt);
+					int cnt = tblGioHang.getRowCount();
+					List<sanPhamPrinter> sanPhamList = new ArrayList<>();
+					for(int i  = 0; i < cnt; i++) {
+						String tensp =  tblGioHang.getValueAt(i, 1).toString()+"-"+tblGioHang.getValueAt(i, 2).toString();
+						double giaban = Double.parseDouble(tblGioHang.getValueAt(i, 4).toString());
+						int slg = Integer.parseInt(tblGioHang.getValueAt(i, 5).toString());
+						double thanhtien = Double.parseDouble(tblGioHang.getValueAt(i, 6).toString());
+						sanPhamList.add(new sanPhamPrinter(tensp, giaban, slg, thanhtien));
+						System.out.println(tblGioHang.getValueAt(i, 0));
+						System.out.println(tblGioHang.getValueAt(i, 5));
+						String ma = tblGioHang.getValueAt(i, 0).toString();
+						int sl = Integer.parseInt(tblGioHang.getValueAt(i, 5).toString());
+						sanPhamDAO.SuaSlSP(sl, ma);
 					}
+					double tongTien =  Double.parseDouble(lblTongTienpush.getText().replace(".", ""));
+					double giamGia = Double.parseDouble(lblGiamGiapush.getText().replace(".", ""));
+					double thue = Double.parseDouble(lblThuepush.getText().replace(".", ""));
+					double thanhToan = Double.parseDouble(lblThanhToanpush.getText().replace(".", ""));
+					double tienKhachDua = 0;
+					if(txtTienKhachDua.getText().equals("")) {
+						tienKhachDua = 0.0;
+					}else {
+						tienKhachDua = Double.parseDouble(txtTienKhachDua.getText());
+					}
+					double tienThua = 0;
+					if(txtTienKhachDua.getText().equals("")) {
+						tienThua = 0.0;
+					}else {
+						tienThua = Double.parseDouble(txtTienKhachDua.getText());
+					}
+					NhanVien nv = nhanVienDAO.getNhanVienByName(lbltennv.getText());
+					hoaDonPrinter hdprt = new hoaDonPrinter(nv.getTenNV(), lbltenkh.getText(), tongTien, giamGia, thue, thanhToan, tienKhachDua, tienThua, sanPhamList);
+					System.out.println(hdprt.toString());
+					String path = "printer/hoadon/"+mahd+".pdf";
+					PrinterBill.generatePDF(mahd, hdprt, path);
+					// Đường dẫn đến file PDF cần in
+					try {
+						String pdfFilePath = path;
 
-					// Đóng tài liệu
-					document.close();
-				} catch (HeadlessException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (IllegalArgumentException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (PrinterException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+						// Load document
+						PDDocument document = PDDocument.load(new File(pdfFilePath));
+
+						// Tạo một PDFPrintable từ tài liệu
+						PDFPrintable pdfPrintable = new PDFPrintable(document);
+
+						// Tạo một PrinterJob
+						PrinterJob job = PrinterJob.getPrinterJob();
+
+						// Đặt PageFormat
+						PageFormat pageFormat = job.defaultPage();
+						pageFormat.setOrientation(PageFormat.PORTRAIT);
+
+						// Đặt PDFPrintable cho công việc in
+						job.setPrintable(pdfPrintable, pageFormat);
+
+						// Hiển thị hộp thoại in để người dùng có thể chọn máy in và cấu hình in
+						if (job.printDialog()) {
+						    // Bắt đầu công việc in
+						    job.print();
+						}
+
+						// Đóng tài liệu
+						document.close();
+					} catch (HeadlessException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (IllegalArgumentException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (PrinterException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					mahd = "";
+					// In thông tin hóa đơn
+			        System.out.println("Hóa đơn đã được tạo thành công.");
+					updateTableHoaDonCho();
+					updateTableGioHang("");
+					tblDanhSachSanPham();
+					setLblGiamGia();
+					
+					lblTongTienpush.setText("0");
+					lblGimGi.setText("Giảm giá:");
+					lblThuepush.setText("0");
+					lblGiamGiapush.setText("0");
+					lblThanhToanpush.setText("0");
+					txtTienKhachDua.setText("");
+					
+					if(tblHoaDonCho.getRowCount()>0) {
+						tblHoaDonCho.setRowSelectionInterval(0, 0);
+						int row=tblHoaDonCho.getSelectedRow();
+						mahd = tblHoaDonCho.getValueAt(row, 0).toString();
+						 updateTableGioHang(mahd);
+						 lblTongTienpush.setText(chiTietHoaDonDAO.getTongTien(mahd)+"");
+						 setLblGiamGia();
+					}
+					closeLoadingDialog();
+					JOptionPane.showMessageDialog(null, "Đã thanh toán thành công");
 				}
-				mahd = "";
-				// In thông tin hóa đơn
-		        System.out.println("Hóa đơn đã được tạo thành công.");
-				updateTableHoaDonCho();
-				updateTableGioHang("");
-				tblDanhSachSanPham();
-				setLblGiamGia();
 				
-				lblTongTienpush.setText("0");
-				lblGimGi.setText("Giảm giá:");
-				lblThuepush.setText("0");
-				lblGiamGiapush.setText("0");
-				lblThanhToanpush.setText("0");
-				txtTienKhachDua.setText("");
-				
-				if(tblHoaDonCho.getRowCount()>0) {
-					tblHoaDonCho.setRowSelectionInterval(0, 0);
-					int row=tblHoaDonCho.getSelectedRow();
-					mahd = tblHoaDonCho.getValueAt(row, 0).toString();
-					 updateTableGioHang(mahd);
-					 lblTongTienpush.setText(chiTietHoaDonDAO.getTongTien(mahd)+"");
-					 setLblGiamGia();
-				}
-				closeLoadingDialog();
-				JOptionPane.showMessageDialog(null, "Đã thanh toán thành công");
 			}
 		});
 		btnThanhToan.setFont(new Font("Arial", Font.BOLD, 22));
@@ -1087,6 +1093,9 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 	private int giamGiaKhachHangThanThiet(String maKH) {
 		double tongtien = HoaDonDAO.getTongTienDaMuaCuaKH(maKH);
 		int sale = 0;
+		if(maKH.equals("KH01")) {
+			return sale;
+		}
 		if(tongtien >= 3000000.0) {
 			sale = 3;
 		}
