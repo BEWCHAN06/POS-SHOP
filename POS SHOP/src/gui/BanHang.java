@@ -42,6 +42,7 @@ public class BanHang extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
+		
         mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
         mainPanel.setLayout(new CardLayout(0, 0));
         mainPanel.add(qlbh, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel

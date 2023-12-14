@@ -114,6 +114,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 	private JButton btnLuuTatCa;
 	private DefaultTableModel dtmxemtruoc;
 	private int dongcuabangxemtruoc;
+	private JPanel mainPanel;
 	/**
 	 * Create the panel.
 	 */
@@ -204,7 +205,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		setPreferredSize(new Dimension(934, 687));
 		setLayout(new CardLayout(0, 0));
 		
-		JPanel mainPanel = new JPanel();
+		mainPanel = new JPanel();
 		mainPanel.setBackground(new Color(255, 255, 255));
 		mainPanel.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		add(mainPanel, "name_13998316339700");
@@ -1076,6 +1077,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 			}
 			if (btn == 1) {
 			    if (check) {
+			    	showLoadingDialog(mainPanel);
 			        sanPhamDAO.addSanPham(addObject());
 			        tblDanhSachSanPham();
 			        btnThem.setEnabled(true);
@@ -1083,9 +1085,11 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 			        btnLuu.setEnabled(false);
 			        btnHuy.setEnabled(false);
 			        setEnibleChooses(false);
+			        closeLoadingDialog();
 			    }
 			} else if (btn == 2) { // Sửa ở đây
 			    if (check) {
+			    	showLoadingDialog(mainPanel);
 			        sanPhamDAO.updateSanPham(editObject());
 			        tblDanhSachSanPham();
 			        btnThem.setEnabled(true);
@@ -1093,6 +1097,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 			        btnLuu.setEnabled(false);
 			        btnHuy.setEnabled(false);
 			        setEnibleChooses(false);
+			        closeLoadingDialog();
 			    }
 			}
 		}

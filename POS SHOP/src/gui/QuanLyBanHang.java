@@ -1,6 +1,7 @@
 package gui;
 
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.imageio.ImageIO;
 import javax.management.StringValueExp;
 import javax.sound.sampled.AudioInputStream;
@@ -32,11 +33,14 @@ import java.awt.HeadlessException;
 
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
+import javax.swing.JDialog;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.JTextArea;
 
@@ -120,7 +124,7 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 	private JLabel lblmakh;
 	private JLabel lbltenkh;
 	private String mahd;
-	private String maspGioHang;
+	private String maspGioHang, tenNV;
 	private double phantramKM;
 	private ChiTietHoaDonDAO chiTietHoaDonDAO = new ChiTietHoaDonDAO();
 	private double dongia, giaSauKhuyenMai;
@@ -140,10 +144,15 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 	private JLabel lblGimGi;
 	private int giamTheoPhanTramChoKhachHang;
 	private double tienThanhToan;
+	private String tenString;
+	public JLabel lbltennv;
+	private JPanel pnlHoaDon;
+	
 	/**
 	 * Create the panel.
 	 */
 	public QuanLyBanHang() {
+		
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 		UiBanHang();
 		tblDanhSachSanPham();
@@ -187,14 +196,18 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 			dtm.addRow(rowdata);
 		}
 	}
+	public void layTenChucVu(String ten) {
+		tenNV = ten;
+		lbltennv.setText(tenNV);
+	}
 	private void UiBanHang() {
 		setPreferredSize(new Dimension(934, 701));
 		setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		setBackground(new Color(255, 255, 255));
 		
-		JPanel lblTienThua = new JPanel();
-		lblTienThua.setBackground(new Color(255, 255, 255));
-		lblTienThua.setBorder(new CompoundBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2), "\u0110\u01A1n H\u00E0ng", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)), null));
+		pnlHoaDon = new JPanel();
+		pnlHoaDon.setBackground(new Color(255, 255, 255));
+		pnlHoaDon.setBorder(new CompoundBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2), "\u0110\u01A1n H\u00E0ng", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)), null));
 		
 		JPanel pnlHoaDonCho = new JPanel();
 		pnlHoaDonCho.setBackground(new Color(255, 255, 255));
@@ -229,7 +242,7 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 							.addComponent(pnlCamera, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE)))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(lblTienThua, GroupLayout.PREFERRED_SIZE, 330, Short.MAX_VALUE)
+						.addComponent(pnlHoaDon, GroupLayout.PREFERRED_SIZE, 330, Short.MAX_VALUE)
 						.addComponent(btnTraHang))
 					.addContainerGap())
 		);
@@ -252,7 +265,7 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 							.addGap(12)
 							.addComponent(btnTraHang)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(lblTienThua, GroupLayout.DEFAULT_SIZE, 639, Short.MAX_VALUE)))
+							.addComponent(pnlHoaDon, GroupLayout.DEFAULT_SIZE, 639, Short.MAX_VALUE)))
 					.addContainerGap())
 		);
 		pnlCamera.setLayout(new CardLayout(0, 0));
@@ -535,6 +548,7 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 		btnThanhToan.setBackground(new Color(50, 205, 50));
 		btnThanhToan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				showLoadingDialog(pnlHoaDon);
 				HoaDonDAO hoaDonDAO = new HoaDonDAO();
 				double tt = chiTietHoaDonDAO.getTongTien(mahd);
 				hoaDonDAO.updateHoaDon(mahd,1, tt);
@@ -568,6 +582,7 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 				}else {
 					tienThua = Double.parseDouble(txtTienKhachDua.getText());
 				}
+				
 				hoaDonPrinter hdprt = new hoaDonPrinter("Trần Chí Bảo", lbltenkh.getText(), tongTien, giamGia, thue, thanhToan, tienKhachDua, tienThua, sanPhamList);
 				System.out.println(hdprt.toString());
 				String path = "printer/hoadon/"+mahd+".pdf";
@@ -613,7 +628,7 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				
+				mahd = "";
 				// In thông tin hóa đơn
 		        System.out.println("Hóa đơn đã được tạo thành công.");
 				updateTableHoaDonCho();
@@ -636,7 +651,8 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 					 lblTongTienpush.setText(chiTietHoaDonDAO.getTongTien(mahd)+"");
 					 setLblGiamGia();
 				}
-				
+				closeLoadingDialog();
+				JOptionPane.showMessageDialog(null, "Đã thanh toán thành công");
 			}
 		});
 		btnThanhToan.setFont(new Font("Arial", Font.BOLD, 22));
@@ -651,114 +667,120 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 		btnLamMoi.setIcon(new ImageIcon(QuanLyBanHang.class.getResource("/icon/refesh.png")));
 		btnLamMoi.setBackground(new Color(152, 251, 152));
 		btnLamMoi.setFont(new Font("Arial", Font.BOLD, 12));
-		GroupLayout gl_lblTienThua = new GroupLayout(lblTienThua);
-		gl_lblTienThua.setHorizontalGroup(
-			gl_lblTienThua.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_lblTienThua.createSequentialGroup()
-					.addGroup(gl_lblTienThua.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_lblTienThua.createSequentialGroup()
+		
+		lbltennv = new JLabel("...");
+		lbltennv.setForeground(new Color(255, 255, 255));
+		GroupLayout gl_pnlHoaDon = new GroupLayout(pnlHoaDon);
+		gl_pnlHoaDon.setHorizontalGroup(
+			gl_pnlHoaDon.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pnlHoaDon.createSequentialGroup()
+					.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_pnlHoaDon.createSequentialGroup()
 							.addGap(4)
-							.addGroup(gl_lblTienThua.createParallelGroup(Alignment.LEADING)
+							.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.LEADING)
 								.addComponent(pnlKhachHang, GroupLayout.PREFERRED_SIZE, 311, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_lblTienThua.createSequentialGroup()
+								.addGroup(gl_pnlHoaDon.createSequentialGroup()
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addGroup(gl_lblTienThua.createParallelGroup(Alignment.TRAILING)
-										.addGroup(gl_lblTienThua.createSequentialGroup()
-											.addGroup(gl_lblTienThua.createParallelGroup(Alignment.LEADING)
-												.addGroup(gl_lblTienThua.createSequentialGroup()
-													.addGroup(gl_lblTienThua.createParallelGroup(Alignment.LEADING)
+									.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.TRAILING)
+										.addGroup(gl_pnlHoaDon.createSequentialGroup()
+											.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.LEADING)
+												.addGroup(gl_pnlHoaDon.createSequentialGroup()
+													.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.LEADING)
 														.addComponent(lblTinKhcha)
 														.addComponent(lblTinKhcha_1, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE))
 													.addGap(18)
-													.addGroup(gl_lblTienThua.createParallelGroup(Alignment.LEADING)
+													.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.LEADING)
 														.addComponent(txtTienKhachDua, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE)
-														.addGroup(gl_lblTienThua.createSequentialGroup()
+														.addGroup(gl_pnlHoaDon.createSequentialGroup()
 															.addComponent(lbltienthua, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
 															.addGap(41)
 															.addComponent(lblTien_5))))
 												.addComponent(lblTinKhcha_1_1, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE))
 											.addGap(18))
-										.addGroup(gl_lblTienThua.createSequentialGroup()
-											.addGroup(gl_lblTienThua.createParallelGroup(Alignment.LEADING)
+										.addGroup(gl_pnlHoaDon.createSequentialGroup()
+											.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.LEADING)
 												.addComponent(lblMaHD, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE)
 												.addComponent(lblTngTin, GroupLayout.PREFERRED_SIZE, 76, GroupLayout.PREFERRED_SIZE)
 												.addComponent(lblThuVat, GroupLayout.PREFERRED_SIZE, 76, GroupLayout.PREFERRED_SIZE)
 												.addComponent(lblT, GroupLayout.PREFERRED_SIZE, 76, GroupLayout.PREFERRED_SIZE)
 												.addComponent(lblGimGi, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE))
 											.addPreferredGap(ComponentPlacement.RELATED)
-											.addGroup(gl_lblTienThua.createParallelGroup(Alignment.TRAILING)
-												.addGroup(gl_lblTienThua.createSequentialGroup()
+											.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.TRAILING)
+												.addGroup(gl_pnlHoaDon.createSequentialGroup()
 													.addComponent(lblTongTienpush, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE)
 													.addPreferredGap(ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
 													.addComponent(lblTien, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE))
-												.addGroup(gl_lblTienThua.createSequentialGroup()
+												.addGroup(gl_pnlHoaDon.createSequentialGroup()
 													.addComponent(lblThuepush, GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
 													.addPreferredGap(ComponentPlacement.RELATED)
 													.addComponent(lblTien_2, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE))
-												.addGroup(gl_lblTienThua.createSequentialGroup()
+												.addGroup(gl_pnlHoaDon.createSequentialGroup()
 													.addComponent(lblGiamGiapush, GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
 													.addPreferredGap(ComponentPlacement.RELATED)
 													.addComponent(lblTien_1, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE))
-												.addGroup(gl_lblTienThua.createSequentialGroup()
+												.addGroup(gl_pnlHoaDon.createSequentialGroup()
 													.addComponent(lblMaHDpush, GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
 													.addGap(18)
 													.addComponent(btnTaoHD, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
 													.addGap(18))
-												.addGroup(gl_lblTienThua.createSequentialGroup()
+												.addGroup(gl_pnlHoaDon.createSequentialGroup()
 													.addComponent(lblThanhToanpush, GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
 													.addPreferredGap(ComponentPlacement.RELATED)
-													.addGroup(gl_lblTienThua.createParallelGroup(Alignment.LEADING)
+													.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.LEADING)
 														.addComponent(lblTien_4, GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
 														.addComponent(lblTien_3, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE))))))
 									.addGap(19))))
-						.addGroup(gl_lblTienThua.createSequentialGroup()
+						.addGroup(gl_pnlHoaDon.createSequentialGroup()
 							.addGap(23)
-							.addGroup(gl_lblTienThua.createParallelGroup(Alignment.LEADING, false)
+							.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.LEADING, false)
 								.addComponent(btnThanhToan, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 								.addComponent(pnlGhiChu, GroupLayout.PREFERRED_SIZE, 281, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_lblTienThua.createSequentialGroup()
+								.addGroup(gl_pnlHoaDon.createSequentialGroup()
 									.addComponent(btnHuyHoaDon, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(btnLamMoi, GroupLayout.PREFERRED_SIZE, 132, GroupLayout.PREFERRED_SIZE)))))
+									.addComponent(btnLamMoi, GroupLayout.PREFERRED_SIZE, 132, GroupLayout.PREFERRED_SIZE))))
+						.addGroup(gl_pnlHoaDon.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(lbltennv)))
 					.addContainerGap())
 		);
-		gl_lblTienThua.setVerticalGroup(
-			gl_lblTienThua.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_lblTienThua.createSequentialGroup()
+		gl_pnlHoaDon.setVerticalGroup(
+			gl_pnlHoaDon.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pnlHoaDon.createSequentialGroup()
 					.addComponent(pnlKhachHang, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_lblTienThua.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_lblTienThua.createParallelGroup(Alignment.BASELINE)
+					.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.BASELINE)
 							.addComponent(lblMaHD)
 							.addComponent(lblMaHDpush))
 						.addComponent(btnTaoHD, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
-					.addGroup(gl_lblTienThua.createParallelGroup(Alignment.BASELINE)
+					.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblTngTin)
 						.addComponent(lblTongTienpush)
 						.addComponent(lblTien))
 					.addGap(18)
-					.addGroup(gl_lblTienThua.createParallelGroup(Alignment.BASELINE)
+					.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblGimGi)
 						.addComponent(lblGiamGiapush)
 						.addComponent(lblTien_1))
 					.addGap(18)
-					.addGroup(gl_lblTienThua.createParallelGroup(Alignment.BASELINE)
+					.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblThuVat)
 						.addComponent(lblThuepush)
 						.addComponent(lblTien_2))
 					.addGap(18)
-					.addGroup(gl_lblTienThua.createParallelGroup(Alignment.BASELINE)
+					.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblT)
 						.addComponent(lblThanhToanpush)
 						.addComponent(lblTien_3))
 					.addGap(18)
-					.addGroup(gl_lblTienThua.createParallelGroup(Alignment.BASELINE)
+					.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblTinKhcha)
 						.addComponent(txtTienKhachDua, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblTien_4))
 					.addGap(28)
-					.addGroup(gl_lblTienThua.createParallelGroup(Alignment.BASELINE)
+					.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblTinKhcha_1)
 						.addComponent(lbltienthua)
 						.addComponent(lblTien_5))
@@ -767,12 +789,14 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(pnlGhiChu, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
 					.addGap(11)
-					.addGroup(gl_lblTienThua.createParallelGroup(Alignment.BASELINE)
+					.addGroup(gl_pnlHoaDon.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnHuyHoaDon, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnLamMoi, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(btnThanhToan, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(37, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+					.addComponent(lbltennv)
+					.addContainerGap())
 		);
 		GroupLayout gl_pnlGhiChu = new GroupLayout(pnlGhiChu);
 		gl_pnlGhiChu.setHorizontalGroup(
@@ -872,7 +896,7 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 					.addContainerGap())
 		);
 		pnlKhachHang.setLayout(gl_pnlKhachHang);
-		lblTienThua.setLayout(gl_lblTienThua);
+		pnlHoaDon.setLayout(gl_pnlHoaDon);
 		setLayout(groupLayout);
 		
 		//vong lập lbl
@@ -1005,6 +1029,36 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 			}
 		});
 	}
+	private static JDialog loadingDialog;
+
+	private static void showLoadingDialog(JPanel owner) {
+	    // Create a new JDialog with the specified JPanel as the owner
+	    loadingDialog = new JDialog(SwingUtilities.windowForComponent(owner), "Loading...");
+	    
+	    // Create a new JPanel for the loading content
+	    JPanel loadingPanel = new JPanel(new BorderLayout());
+	    JLabel titleLabel = new JLabel("đang tiến trình lưu dữ liệu và hóa đơn", SwingConstants.CENTER);
+        loadingPanel.add(BorderLayout.NORTH, titleLabel);
+	    // Create a JProgressBar and add it to the loadingPanel
+	    JProgressBar progressBar = new JProgressBar();
+	    progressBar.setIndeterminate(true);
+	    loadingPanel.add(BorderLayout.CENTER, progressBar);
+
+	    // Add the loadingPanel to the JDialog
+	    loadingDialog.getContentPane().add(loadingPanel);
+
+	    loadingDialog.setSize(200, 75);
+	    loadingDialog.setLocationRelativeTo(owner);
+	    loadingDialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+	    
+	    // Make the JDialog visible
+	    loadingDialog.setVisible(true);
+	}
+	private static void closeLoadingDialog() {
+        if (loadingDialog != null) {
+            loadingDialog.dispose();
+        }
+    }
 	private String chuyenDoiTien(double number) {
 		Locale localeVN = new Locale("vi", "VN");
 		NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
@@ -1197,7 +1251,9 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 				if(!lblmakh.getText().equals("")) {
 					kh = khachHangDAO.getKhachHang(lblmakh.getText()) ;
 				}else kh = null;
-				NhanVien nv = nhanVienDAO.getNhanVienByID("NV01");
+				
+				NhanVien nv = nhanVienDAO.getNhanVienByName(lbltennv.getText());
+				System.out.println(lbltennv.getText());
 		        // Chuyển đổi LocalDate sang Date
 		        Date date = Date.valueOf(localDate);
 		        HoaDon hd1 = new HoaDon();
@@ -1303,8 +1359,5 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 				setLblGiamGia();
 			}
 		}
-
-		
 	}
-	
 }

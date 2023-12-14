@@ -154,10 +154,9 @@ public class NhanVienDAO {
 		KetNoiSQL.getInstance();
 		Connection conn = KetNoiSQL.getConnection();
 		try {
-
-			String sql = "select * from nhanvien where hoVaTen = ?";
+			String sql = "SELECT * FROM nhanvien WHERE tenNV COLLATE Vietnamese_CI_AI = ?";
 			PreparedStatement stmt = conn.prepareCall(sql);
-			stmt.setString(1, name);
+			stmt.setString(1,name);
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
 				String manv = rs.getString(1);
@@ -166,11 +165,11 @@ public class NhanVienDAO {
 				String sdt = rs.getString(4);
 				String email = rs.getString(5);
 				String cmnd = rs.getString(6);
-				double gioitinh = rs.getDouble(7);
+				boolean gioitinh = rs.getBoolean(7);
 				String dc = rs.getString(8);
 				boolean cv = rs.getBoolean(9);
 				int trangthai = rs.getInt(10);
-				NhanVien nv = new NhanVien();
+				NhanVien nv = new NhanVien(manv, tennv, ns, sdt, email, cmnd, gioitinh, dc, cv, trangthai);
 				return nv;
 			}
 		} catch (SQLException ex) {
@@ -237,35 +236,6 @@ public class NhanVienDAO {
 		return null;
 	}
 
-	
-//	public NhanVien gettktheoma(String tentk) {
-//		KetNoiSQL.getInstance();
-//		Connection conn = KetNoiSQL.getConnection();
-//		try {
-//
-//			String sql = "select * from nhanvien where email = ?";
-//			PreparedStatement stmt = conn.prepareCall(sql);
-//			stmt.setString(1, gmail);
-//			ResultSet rs = stmt.executeQuery();
-//			while (rs.next()) {
-//				String manv = rs.getString(1);
-//				String tennv = rs.getString(2);
-//				Date ns = rs.getDate(3);
-//				String sdt = rs.getString(4);
-//				String email = rs.getString(5);
-//				String cmnd = rs.getString(6);
-//				double gioitinh = rs.getDouble(7);
-//				String dc = rs.getString(8);
-//				boolean cv = rs.getBoolean(9);
-//				int trangthai = rs.getInt(10);
-//				NhanVien nv = new NhanVien();
-//				return nv;
-//			}
-//		} catch (SQLException ex) {
-//			Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
-//		}
-//		return null;
-//	}
 	
 	public static boolean themnhanvien(NhanVien nv) {
 		// TODO Auto-generated method stub
@@ -379,57 +349,6 @@ public class NhanVienDAO {
         return -1;
     }
     
-    
-//    public ArrayList<TaiKhoan> getAlltaikhoan() {
-//		ArrayList<TaiKhoan> listtk = new ArrayList<>();
-//		KetNoiSQL.getInstance();
-//		Connection conn = KetNoiSQL.getConnection();
-//
-//		try {
-//			String sql = "Select * from TaiKhoan";
-//			Statement stmt = conn.createStatement();
-//			ResultSet rs = stmt.executeQuery(sql);
-//			while (rs.next()) {
-//				String tentk = rs.getString(1);
-//				String mk = rs.getString(2);
-//				boolean loaitk= rs.getBoolean(4);
-//				String nv = rs.getString(3);
-//				 
-//				TaiKhoan tk = new  TaiKhoan(tentk, mk, loaitk, new NhanVien(nv));
-//				listtk.add(tk);
-//			}
-//
-//		} catch (SQLException ex) {
-//			Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
-//		}
-//		return listtk;
-//	}
-    
-    
-//    public ArrayList<TaiKhoan> timtk(String tentk) {
-//    	ArrayList<TaiKhoan> listtk = new ArrayList<>();
-//		KetNoiSQL.getInstance();
-//		Connection conn = KetNoiSQL.getConnection();
-//		try {
-//
-//			String sql = "select * from taikhoan where tenTaiKhoan like ?";
-//			PreparedStatement stmt = conn.prepareCall(sql);
-//			stmt.setString(1, "%"+tentk+"%");
-//			ResultSet rs = stmt.executeQuery();
-//			while (rs.next()) {
-//				String tentk1 = rs.getString(1);
-//				String mk = rs.getString(2);
-//				boolean loaitk= rs.getBoolean(4);
-//				String nv = rs.getString(3);
-//				 
-//				TaiKhoan tk = new  TaiKhoan(tentk1, mk, loaitk, new NhanVien(nv));
-//				listtk.add(tk);
-//			}
-//		} catch (SQLException ex) {
-//			Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
-//		}
-//		return listtk;
-//	}
     
     
     

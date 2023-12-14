@@ -50,7 +50,8 @@ public class uiMain{
 	private JPanel btnThongKe;
 	private JPanel btnBanHang;
 	private KhuyenMai km = new KhuyenMai();
-	private BanHang qlbh;
+	private QuanLyBanHang qlbh;
+	private QuanLyBanHang qlbhang = new QuanLyBanHang();
 	private uiSanPham qlsp;
 	private QuanLyHoaDon qlhd;
 	private QuanLyKhuyenMai qlkm;
@@ -59,7 +60,7 @@ public class uiMain{
 	public QuanLyThongKe qltk;
 	public TabThongKeDoanhThu doanhThu;
 	public TabThongKeSanPham keSanPham;
-	private JLabel tenNV, chucVu;
+	public JLabel tenNV, chucVu;
 	private JPanel btnNhaCC;
 
 	/**
@@ -98,9 +99,9 @@ public class uiMain{
 	 * @wbp.parser.entryPoint
 	 */
 	public uiMain() {
-		initialize();
+
 		km.xoaKhuyenMaiKhiHetHan();
-		qlbh = new BanHang();
+		qlbh = new QuanLyBanHang();
 		qlbh.setVisible(true);
 		qlsp = new uiSanPham();
 		qlsp.setVisible(true);
@@ -112,8 +113,9 @@ public class uiMain{
 		qlkm.setVisible(true);
 		qlkh = new QuanLyKhachHang();
 		qlkm.setVisible(true);
-		qltk = new QuanLyThongKe();
-		qltk.setVisible(true);
+//		qltk = new QuanLyThongKe();
+//		qltk.setVisible(true);
+		initialize();
 	}
 
 	/**
@@ -198,7 +200,7 @@ public class uiMain{
 		btnBanHang.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-
+				qlbh.lbltennv.setText(tenNV.getText());
 				mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
 				mainPanel.add(qlbh, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
 				mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
@@ -219,7 +221,7 @@ public class uiMain{
 		btnBanHang.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0), "F1");
 		btnBanHang.getActionMap().put("F1", new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				BanHang qlbh = new BanHang();
+				qlbh.lbltennv.setText(tenNV.getText());
 				mainPanel.removeAll(); // Xóa tất cả các thành phần con khỏi mainPanel
 				mainPanel.add(qlbh, BorderLayout.CENTER); // Đặt giao diện quản lý nhân viên vào mainPanel
 				mainPanel.revalidate(); // Cập nhật lại mainPanel để hiển thị giao diện mới
@@ -744,6 +746,7 @@ public class uiMain{
 	public void layTenChucVu(String ten, String chuc) {
 		tenNV.setText(ten);
 		chucVu.setText("Chức Vụ: " + chuc);
+		qlbhang.layTenChucVu(ten);
 	}
 
 	private static void openHTMLFile() {
