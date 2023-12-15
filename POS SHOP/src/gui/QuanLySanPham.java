@@ -1157,6 +1157,7 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 			chonHinhAnh();
 		}
 		if(o.equals(btnXemTruoc)) {
+			btnXemTruoc.setEnabled(false);
 			boolean check = true;
 			String tenspString =  txtTenSP.getText();
 			if(tenspString.trim().isEmpty()) {
