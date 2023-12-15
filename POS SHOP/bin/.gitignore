@@ -1,2 +1,6 @@
 /gui/
+/ConnectDB/
+/component/
+/dao/
+/entity/
 /main/

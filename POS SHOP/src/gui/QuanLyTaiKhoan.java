@@ -79,6 +79,7 @@ public class QuanLyTaiKhoan extends JPanel implements ActionListener, MouseListe
 		txtTimKiem.setColumns(10);
 		
 		btnDoiMK = new JButton("Đổi Tài Khoản");
+		btnDoiMK.setBackground(new Color(152, 251, 152));
 		btnDoiMK.setIcon(new ImageIcon(QuanLyTaiKhoan.class.getResource("/icon/refesh.png")));
 		btnDoiMK.setBounds(703, 18, 154, 29);
 		panel.add(btnDoiMK);
