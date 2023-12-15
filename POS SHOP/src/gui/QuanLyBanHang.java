@@ -166,12 +166,12 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 		}
 
 //		cameraViewLabel.setPreferredSize(new Dimension(170, 110));
-//		cam.removeAll();
-//		cam.setLayout(new BorderLayout());
-//		CameraPanel cameraPanel = new CameraPanel();
-//		cam.add(cameraPanel);
-//		cameraPanel.addQRCodeListener(this);
-//		cameraPanel.startCamera();
+		cam.removeAll();
+		cam.setLayout(new BorderLayout());
+		CameraPanel cameraPanel = new CameraPanel();
+		cam.add(cameraPanel);
+		cameraPanel.addQRCodeListener(this);
+		cameraPanel.startCamera();
 	}
     private void clearTableDSSP() {
         DefaultTableModel dtm = (DefaultTableModel) tblDSSanPham.getModel();
