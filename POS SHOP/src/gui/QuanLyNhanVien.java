@@ -540,7 +540,61 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 
 			}
 		});
-		tableDangLV.addMouseListener(this);
+		tableDangLV.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int row = tableDangLV.getSelectedRow();
+				txtManhanvien.setText(modelnv.getValueAt(row, 0).toString());
+				txtTenNV.setText(modelnv.getValueAt(row, 1).toString());
+//				txtNgaysinh.setText(modelnv.getValueAt(row, 2).toString());
+				Date ns = (Date) modelnv.getValueAt(row, 2);
+				dateChooserNgaySinh.setDate(ns);
+				txtDiachi.setText(modelnv.getValueAt(row, 3).toString());
+				txtCMND.setText(modelnv.getValueAt(row, 4).toString());
+				txtSDT.setText(modelnv.getValueAt(row, 5).toString());
+				txtEmail.setText(modelnv.getValueAt(row, 6).toString());
+
+				if (modelnv.getValueAt(row, 7).toString().equals("Nam")) {
+					rdbtnGioitinh.setSelected(true);
+				} else {
+					rdbtnGioitinh.setSelected(false);
+				}
+				if (modelnv.getValueAt(row, 8).toString().equals("Nhan vien")) {
+					cbxChucvu.setSelectedIndex(0);
+				} else {
+					cbxChucvu.setSelectedIndex(1);
+				}
+				nhanVienDAO = new NhanVienDAO();
+				NhanVien nv = nhanVienDAO.getNhanVienByID(tableDangLV.getValueAt(row, 0).toString());
+				rdbtnTrangthai.setSelected(nv.getTrangThai() == 0 ? true : false);
+				
+			}
+		});
 
 		btnThem.addActionListener(this);
 		btnSua.addActionListener(this);
@@ -773,30 +827,6 @@ public class QuanLyNhanVien extends JPanel implements ActionListener, MouseListe
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		int row = tableDangLV.getSelectedRow();
-		txtManhanvien.setText(modelnv.getValueAt(row, 0).toString());
-		txtTenNV.setText(modelnv.getValueAt(row, 1).toString());
-//		txtNgaysinh.setText(modelnv.getValueAt(row, 2).toString());
-		Date ns = (Date) modelnv.getValueAt(row, 2);
-		dateChooserNgaySinh.setDate(ns);
-		txtDiachi.setText(modelnv.getValueAt(row, 3).toString());
-		txtCMND.setText(modelnv.getValueAt(row, 4).toString());
-		txtSDT.setText(modelnv.getValueAt(row, 5).toString());
-		txtEmail.setText(modelnv.getValueAt(row, 6).toString());
-
-		if (modelnv.getValueAt(row, 7).toString().equals("Nam")) {
-			rdbtnGioitinh.setSelected(true);
-		} else {
-			rdbtnGioitinh.setSelected(false);
-		}
-		if (modelnv.getValueAt(row, 8).toString().equals("Nhan vien")) {
-			cbxChucvu.setSelectedIndex(0);
-		} else {
-			cbxChucvu.setSelectedIndex(1);
-		}
-		nhanVienDAO = new NhanVienDAO();
-		NhanVien nv = nhanVienDAO.getNhanVienByID(tableDangLV.getValueAt(row, 0).toString());
-		rdbtnTrangthai.setSelected(nv.getTrangThai() == 0 ? true : false);
 
 	}
 
