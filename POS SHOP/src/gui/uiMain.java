@@ -586,8 +586,17 @@ public class uiMain{
 				// Mở trang web chỉ định khi JPanel được click
 				if (JOptionPane.showConfirmDialog(null,
 						"Bạn sẽ được chuyển hướng đến trang web trợ giúp trên trình duyệt !", "Cảnh Báo !!",
-						JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
-					openHTMLFile();
+						JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+						String filePath = "troGiup/troGiup.pdf";
+						try {
+				            File file = new File(filePath);
+				            URI uri = file.toURI();
+				            Desktop desktop = Desktop.getDesktop();
+				            desktop.browse(uri);
+				        } catch (IOException e1) {
+				            e1.printStackTrace();
+				        }
+					}
 			}
 		});
 		// Phím tắt F8
@@ -598,8 +607,17 @@ public class uiMain{
 				// Mở trang web chỉ định khi JPanel được click
 				if (JOptionPane.showConfirmDialog(null,
 						"Bạn sẽ được chuyển hướng đến trang web trợ giúp trên trình duyệt !", "Cảnh Báo !!",
-						JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
-					openHTMLFile();
+						JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+						String filePath = "troGiup/troGiup.pdf";
+						try {
+				            File file = new File(filePath);
+				            URI uri = file.toURI();
+				            Desktop desktop = Desktop.getDesktop();
+				            desktop.browse(uri);
+				        } catch (IOException e2) {
+				            e2.printStackTrace();
+				        }
+					}		
 			}
 		});
 		JLabel iconThongKe_1 = new JLabel("");
@@ -751,15 +769,4 @@ public class uiMain{
 		qlbhang.layTenChucVu(ten);
 	}
 
-	private static void openHTMLFile() {
-		String filePath = "troGiup/index.html";
-		try {
-            File file = new File(filePath);
-            URI uri = file.toURI();
-            Desktop desktop = Desktop.getDesktop();
-            desktop.browse(uri);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-	}
 }
