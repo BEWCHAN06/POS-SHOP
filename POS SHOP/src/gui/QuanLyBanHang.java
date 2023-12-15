@@ -540,7 +540,7 @@ public class QuanLyBanHang extends JPanel implements ActionListener, MouseListen
 		btnThanhToan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 //				System.out.println(lbltienthua.getText().startsWith("-"));
-				if(!lbltienthua.getText().startsWith("-")) {
+				if(lbltienthua.getText().startsWith("-")) {
 					JOptionPane.showMessageDialog(null, "vui lòng nhập số tiền khách hàng lớn hơn số tiền thanh toán");
 				}else {
 					showLoadingDialog(pnlHoaDon);

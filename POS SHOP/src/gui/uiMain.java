@@ -628,6 +628,7 @@ public class uiMain{
 				btnHoaDon.setBackground(new Color(144, 238, 144));
 				btnKhuyenMai.setBackground(new Color(144, 238, 144));
 				btnKhachHang.setBackground(new Color(144, 238, 144));
+				btnThongKe.setBackground(new Color(144, 238, 144));
 				btnNhaCC.setBackground(new Color(34, 139, 34));
 			}
 		});

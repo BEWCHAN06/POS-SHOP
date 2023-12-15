@@ -68,6 +68,8 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
 import java.awt.event.MouseAdapter;
@@ -179,15 +181,27 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
     	SanPham sp = new SanPham();
     	SanPhamDAO sanPham_DAO = new SanPhamDAO();
         String idPrefix = "SP";
-       int length = sanPham_DAO.doTuBang().size();
+        int length = sanPham_DAO.doTuBang().size();
 		int cnt = 1;
     	double dongia = Double.parseDouble(txtGiaNhap.getText()) + Double.parseDouble(txtGiaNhap.getText())*Integer.parseInt(cboGiaLoi.getSelectedItem().toString()) /100;
     	for(KichThuoc kt : listkt) {
-    		Object[] rowdata = {idPrefix + String.format("%02d", length + cnt),txtTenSP.getText().toString(), kt.getKichThuoc(),dongia,txtSoLuongSP.getText()};
-    		cnt++;
-//    		Object[] rowdata = {sp.getAutoID(),txtTenSP, kt.getKichThuoc(),dongia,txtSoLuongSP};
-    		dtmxemtruoc.addRow(rowdata);
+    		if(kiemTraChuoi(kt.getKichThuoc())) {
+    			Object[] rowdata = {idPrefix + String.format("%02d", length + cnt),txtTenSP.getText().toString(), kt.getKichThuoc(),dongia,txtSoLuongSP.getText()};
+        		cnt++;
+//        		Object[] rowdata = {sp.getAutoID(),txtTenSP, kt.getKichThuoc(),dongia,txtSoLuongSP};
+        		dtmxemtruoc.addRow(rowdata);
+    		}
     	}
+    }
+    public static boolean kiemTraChuoi(String input) {
+        // Biểu thức chính quy: Chứa chữ cái và không chứa số
+        String regex = "^[a-zA-Z]*$";
+
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(input);
+
+        // Kiểm tra xem chuỗi có khớp với biểu thức chính quy hay không
+        return matcher.matches();
     }
 	private void tblDanhSachSanPham() {
 		sanPhamDAO = new SanPhamDAO();
@@ -784,30 +798,37 @@ public class QuanLySanPham extends JPanel implements ActionListener, MouseListen
 		txtThayDoiSoLuong.setEnabled(checkbox_xuatAllKichThuoc.isSelected());
 		btnLuuTatCa.setEnabled(checkbox_xuatAllKichThuoc.isSelected());
 		
-		txtTimKiemSP.getDocument().addDocumentListener(new DocumentListener() {
-			
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-				// TODO Auto-generated method stub
-				updateTableTimKiemSP();
-			}
-			
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-				// TODO Auto-generated method stub
-				updateTableTimKiemSP();
-			}
-			
-			@Override
-			public void changedUpdate(DocumentEvent e) {
-				// TODO Auto-generated method stub
-				updateTableTimKiemSP();
-			}
-		});
+		try {
+			txtTimKiemSP.getDocument().addDocumentListener(new DocumentListener() {
+				
+				@Override
+				public void removeUpdate(DocumentEvent e) {
+					// TODO Auto-generated method stub
+					updateTableTimKiemSP();
+				}
+				
+				@Override
+				public void insertUpdate(DocumentEvent e) {
+					// TODO Auto-generated method stub
+					updateTableTimKiemSP();
+				}
+				
+				@Override
+				public void changedUpdate(DocumentEvent e) {
+					// TODO Auto-generated method stub
+					updateTableTimKiemSP();
+				}
+			});
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(null, "nhập đúng dữ liệu số");
+			e1.printStackTrace();
+		}
 	}
 	private void updataSoLuongXemTruoc() {
-		if(txtThayDoiSoLuong.getText().equalsIgnoreCase("")) {
+		if(txtThayDoiSoLuong.getText().equalsIgnoreCase("") || Integer.parseInt(txtThayDoiSoLuong.getText()) < 0 ) {
 			tblXemTruoc.setValueAt("0", dongcuabangxemtruoc, 4);
+			txtThayDoiSoLuong.addFocusListener(null);
 		}else {
 			String soluong = txtThayDoiSoLuong.getText();
 			tblXemTruoc.setValueAt(soluong, dongcuabangxemtruoc, 4);
